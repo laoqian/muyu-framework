@@ -1,0 +1,36 @@
+server:
+    address: 192.168.2.222
+    port: 9999
+
+
+logging:
+    file:
+        devilyu.log
+    level:
+        mybatis:INFO
+
+spring:
+    datasource:
+
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@localhost:1521:orcl
+        username: xmgl
+        password: js1
+
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+
+        filters: stat
+        maxActive: 100
+        initialSize: 10
+        maxWait: 100
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+
