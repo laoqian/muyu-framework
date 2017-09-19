@@ -25,17 +25,6 @@ public class ControllerAOP {
     @Pointcut("execution(public * muyu.controller..*.*(..))")
     public void resultAOP(){}
 
-    @Before("resultAOP()")
-    public void before() {
-        System.out.println("1111111111111");
-        System.out.println  ("已经记录下操作日志@Before 方法执行前");
-    }
-
-    @After("resultAOP()")
-    public void after() {
-        System.out.println("已经记录下操作日志@After 方法执行后");
-    }
-
     @Around("resultAOP()")
     public Object handlerControllerMethod(ProceedingJoinPoint pjp){
         long startTime = System.currentTimeMillis();

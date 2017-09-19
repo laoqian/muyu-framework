@@ -1,5 +1,6 @@
 package muyu.service;
 
+import muyu.common.beans.ResultBean;
 import muyu.dao.UserDao;
 import muyu.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,10 @@ public class UserService {
     @Autowired
     UserDao dao;
 
-    public User get(){
-        return dao.getUser();
+    public ResultBean<User> get(){
+
+        User user =  dao.getUser();
+        ResultBean<User> bean = new ResultBean<>(user);
+        return bean;
     }
 }

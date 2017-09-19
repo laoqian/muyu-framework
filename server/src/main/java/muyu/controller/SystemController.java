@@ -1,5 +1,6 @@
 package muyu.controller;
 
+import muyu.common.beans.ResultBean;
 import muyu.model.User;
 import muyu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class SystemController{
     UserService userService;
 
     @RequestMapping("login")
-    public User login(){
+    public ResultBean<User> login(){
         return userService.get();
     }
 }
