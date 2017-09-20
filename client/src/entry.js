@@ -42,15 +42,15 @@ const article_get = (nextState, replace) => {
 
 
 class MainPage extends Component {
+
     render() {
         return (
             <div className="flex flex-center">
                 <Header/>
-                <div className="content-container ">
-                    <div className="left">
-
+                <div>
+                    <div className="left-wrapper">
                     </div>
-                    <div className="right">
+                    <div className="right-wrapper">
                         <ContentHeader/>
                         {this.props.children}
                     </div>

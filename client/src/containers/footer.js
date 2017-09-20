@@ -6,7 +6,7 @@ class Footer extends Component {
 
     render() {
         return (
-            <div className="flex media-item footer">
+            <div className="footer flex-hvm">
                 <div>
                     {this.props.time}|联系我:858385135@qq.com
                 </div>

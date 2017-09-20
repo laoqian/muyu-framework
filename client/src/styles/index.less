@@ -79,7 +79,6 @@ input, select, button {
   }
 
   .header-wrapper{
-    border-bottom: solid 1px #fafafa;
     box-sizing: content-box;
     height: @header-height;
     background: @main-color;
@@ -129,7 +128,32 @@ input, select, button {
 }
 
 
+.left-wrapper{
+  width: @left-width;
+  position: absolute;
+  top:@header-height;
+  bottom: @footer-height;
+  left: 0;
+  background: red;
+}
 
+.right-wrapper{
+  position: absolute;
+  top:@header-height;
+  bottom: @footer-height;
+  left: @left-width;
+  right:0;
+  background: green;
+}
 
+.footer{
+  width: 100%;
+  height: @footer-height;
+  position: absolute;
+  bottom: 0;
+  background: @main-color;
+  color: white;
+  font-size: 11px;
+}
 
 
