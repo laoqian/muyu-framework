@@ -4,6 +4,8 @@ import {Link} from 'react-router'
 import {reduxForm} from 'redux-form'
 import * as action_type from '../action_type'
 import $ from 'jquery'
+import config from '../config'
+
 
 export const fields = ['username', 'password', 'remember'];
 
@@ -92,30 +94,28 @@ var LogoutBar = connect(
 
 class Header extends Component {
     render() {
-        let index = 0, log_bar;
-        if (!$.isEmptyObject(this.props.user)) {
-            log_bar = <LogoutBar user={this.props.user}/>
-        } else {
-            log_bar = <LoginForm/>
-        }
-
-        //header样式计算
-        let style = this.props.style;
-        let obj = {height: style.height + 'px'};
-        let str = "flex header flex-center ";
-        if (style.class) {
-            str += style.class;
-        }
-
+        let menus = config.header_menu;
+        console.log(menus)
         return (
-            <div style={obj} className={str}>
-                <div className="flex media-item flex-between-row">
-                    <div>
-                        欢迎光临莲花湖畔
-                    </div>
-                    <div>
-                        {log_bar}
-                    </div>
+            <div className="header">
+                <div  className="notice-bar">
+                    通知栏
+                </div>
+                <div className="header-wrapper" >
+                    <img src="./images/64.png" alt=""/>
+                    <span>工程项目管理系统</span>
+                    <ul className="ul list-inline  pull-right flex-vm">
+                        {
+                        menus.map(menu=>(
+                            <li className="flex-hvm">
+                                <Link to={menu.url} className="flex flex-center">
+                                    <i className={menu.icon}></i>
+                                    {menu.name}
+                                </Link>
+                            </li>
+                        ))
+                        }
+                    </ul>
                 </div>
             </div>
         )

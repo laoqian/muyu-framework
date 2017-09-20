@@ -1,4 +1,4 @@
-import './index.less'
+import './styles/index.less'
 import React from 'react'
 import ReactDom, {Component, PropTypes} from 'react'
 import {render} from 'react-dom'
@@ -44,11 +44,16 @@ const article_get = (nextState, replace) => {
 class MainPage extends Component {
     render() {
         return (
-            <div className="flex wrapper">
+            <div className="flex flex-center">
                 <Header/>
                 <div className="content-container ">
-                    <ContentHeader/>
-                    {this.props.children}
+                    <div className="left">
+
+                    </div>
+                    <div className="right">
+                        <ContentHeader/>
+                        {this.props.children}
+                    </div>
                 </div>
                 <Footer/>
             </div>
