@@ -55,6 +55,11 @@
             <version>1.5.7.RELEASE</version>
             <classifier>sources</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>1.5.7.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.session</groupId>

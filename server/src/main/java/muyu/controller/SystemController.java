@@ -1,6 +1,7 @@
 package muyu.controller;
 
 import muyu.common.beans.ResultBean;
+import muyu.common.security.SecurityUser;
 import muyu.model.User;
 import muyu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ public class SystemController{
     UserService userService;
 
     @RequestMapping("login")
-    public ResultBean<User> login(HttpSession httpSession){
+    public ResultBean<SecurityUser> login(HttpSession httpSession){
 
         httpSession.setAttribute("11","2222222222");
-        return userService.get();
+        return userService.get("111");
     }
 
 

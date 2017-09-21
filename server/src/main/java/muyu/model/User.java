@@ -3,6 +3,7 @@
  */
 package muyu.model;
 
+import lombok.Data;
 import muyu.common.persistence.DataEntity;
 import org.assertj.core.util.Lists;
 
@@ -17,6 +18,8 @@ import java.util.List;
  * @date: 2017年9月20日
  * @version: 1.0.0
  */
+
+@Data
 public class User extends DataEntity<User> {
 
 	private static final long serialVersionUID = 1L;
@@ -51,15 +54,6 @@ public class User extends DataEntity<User> {
 		super(id);
 	}
 
-	public User(String id, String loginName){
-		super(id);
-		this.loginName = loginName;
-	}
-	
-	public User(Role role){
-		super();
-		this.role = role;
-	}
-	
+
 
 }

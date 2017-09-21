@@ -2,7 +2,6 @@ server:
     address: 192.168.2.222
     port: 9999
 
-
 logging:
     file:
         devilyu.log
@@ -38,6 +37,7 @@ spring:
     ## Redis数据库索引（默认为0）
     session:
         store-type: redis
+        timeout: 10
     redis:
         database: 0
         host: 127.0.0.1
