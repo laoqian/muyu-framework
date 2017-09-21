@@ -10,7 +10,7 @@ body {
 
 * {
   font-size: 13px;
-  font-family: '微软雅黑';
+  font-family: "Segoe UI",Arial,sans-serif,'微软雅黑';
 }
 
 input {
@@ -84,7 +84,8 @@ input, select, button {
     background: @main-color;
 
      span{
-       font-size: 20px;
+       font-size: 18px;
+       font-weight: bold;
        color: whitesmoke;
        vertical-align: middle;
      }
@@ -114,6 +115,9 @@ input, select, button {
 
       &:hover{
         text-decoration:none;
+        i::before{
+          font-size: 20px;
+        }
       }
 
 
@@ -134,7 +138,7 @@ input, select, button {
   top:@header-height;
   bottom: @footer-height;
   left: 0;
-  background: red;
+  background: @back-color;
 }
 
 .right-wrapper{

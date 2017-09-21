@@ -25,7 +25,8 @@ public class UserService {
 
     public ResultBean<User> get(){
 
-        User user =  dao.getUser();
+//        User user =  dao.getUser();
+        User user = new User("11");
         ResultBean<User> bean = new ResultBean<>(user);
         return bean;
     }

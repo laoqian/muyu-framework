@@ -7,7 +7,7 @@ logging:
     file:
         devilyu.log
     level:
-        mybatis:INFO
+        mybatis: INFO
 
 spring:
     datasource:
@@ -34,3 +34,17 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
 
+    ## Redis 配置
+    ## Redis数据库索引（默认为0）
+    session:
+        store-type: redis
+    redis:
+        database: 0
+        host: 127.0.0.1
+        port: 6379
+        timeout: 0
+        pool:
+            max-active: 8
+            max-wait: -1
+            max-idle: 8
+            min-idle: 0

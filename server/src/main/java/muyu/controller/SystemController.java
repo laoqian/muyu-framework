@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 千山鸟飞绝，万径人踪灭。
  * 孤舟蓑笠翁，独钓寒江雪。
@@ -23,7 +25,19 @@ public class SystemController{
     UserService userService;
 
     @RequestMapping("login")
-    public ResultBean<User> login(){
+    public ResultBean<User> login(HttpSession httpSession){
+
+        httpSession.setAttribute("11","2222222222");
         return userService.get();
     }
+
+
+    @RequestMapping("get")
+    public ResultBean<String> get(HttpSession httpSession){
+
+       String value =(String)  httpSession.getAttribute("11");
+
+       return new ResultBean<String>(value);
+    }
+
 }
