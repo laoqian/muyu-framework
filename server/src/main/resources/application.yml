@@ -7,6 +7,7 @@ logging:
         devilyu.log
     level:
         mybatis: INFO
+        spring: DEBUG
 
 spring:
     datasource:
@@ -37,7 +38,7 @@ spring:
     ## Redis数据库索引（默认为0）
     session:
         store-type: redis
-        timeout: 10
+        timeout: 1000
     redis:
         database: 0
         host: 127.0.0.1

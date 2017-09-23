@@ -5,6 +5,7 @@ import {render} from 'react-dom'
 import {Router, Route, IndexRoute, Link} from 'react-router'
 import {Provider} from 'react-redux';
 import configureStore from './store/configureStore'
+import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
 import BlogList from './containers/bloglist'
@@ -77,7 +78,7 @@ class App extends Component {
         return (
             <div>
                 <Router history={history}>
-                    <Route path="/" component={MainPage}>
+                    <Route path="/" component={Login}>
                         <IndexRoute component={BlogList}/>
                         <Route path="/art-post"
                                onEnter={enter_art_post}
@@ -94,10 +95,13 @@ class App extends Component {
 
 
 if (__DEV__) {
-    // var DevTools = require('../componets/DevTools')
+    let DevTools = require('./components/DevTools')
     render(
         <Provider store={store}>
-            <App/>
+            <div>
+                <App/>
+                <DevTools/>
+            </div>
         </Provider>,
         document.getElementById('root')
     );

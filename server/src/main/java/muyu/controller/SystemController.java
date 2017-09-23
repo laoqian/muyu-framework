@@ -19,13 +19,12 @@ import javax.servlet.http.HttpSession;
  * @version: 1.0.0
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/")
 public class SystemController{
 
     @Autowired
     UserService userService;
 
-    @RequestMapping("login")
     public ResultBean<SecurityUser> login(HttpSession httpSession){
 
         httpSession.setAttribute("11","2222222222");

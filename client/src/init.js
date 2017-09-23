@@ -14,7 +14,7 @@ function timer_init(store) {
 
 
 var app_init = function (store) {
-    timer_init(store);
+    // timer_init(store);
 
 
     window.onscroll = function () {

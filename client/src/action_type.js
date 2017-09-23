@@ -4,6 +4,7 @@
 
 //常量定义.....
 
+export const USER_AUTH = '用户认证';
 export const UPDATE_TIME = '获取时间';
 export const LOAD_ARTICLE = '加载文章列表';
 export const LOAD_HOTS = '加载最热文章列表';

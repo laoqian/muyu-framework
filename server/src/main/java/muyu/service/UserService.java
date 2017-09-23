@@ -28,6 +28,8 @@ public class UserService {
 
 //        User user =  dao.getUser();
         SecurityUser user = new SecurityUser("11");
+        user.setPassword("123");
+
         ResultBean<SecurityUser> bean = new ResultBean<>(user);
         return bean;
     }

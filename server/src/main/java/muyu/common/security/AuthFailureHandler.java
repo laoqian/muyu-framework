@@ -19,6 +19,6 @@ import java.io.IOException;
 public class AuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-
+        System.out.println("认证失败");
     }
 }
