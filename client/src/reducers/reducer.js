@@ -1,6 +1,6 @@
 import immutable from 'immutable'
 import moment from 'moment'
-import * as action_type from '../action_type'
+import * as action_type from '../actions/type-def'
 import {browserHistory} from 'react-router'
 
 

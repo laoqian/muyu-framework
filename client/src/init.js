@@ -1,7 +1,7 @@
 /**
  * Created by gg on 2016/1/20.
  */
-import {UPDATE_TIME} from './action_type'
+import {UPDATE_TIME} from './actions/type-def'
 
 
 function timer_init(store) {

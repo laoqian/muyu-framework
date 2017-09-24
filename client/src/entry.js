@@ -2,31 +2,27 @@ import './styles/index.less'
 import React from 'react'
 import ReactDom, {Component, PropTypes} from 'react'
 import {render} from 'react-dom'
-import {Router, Route, IndexRoute, Link} from 'react-router'
-import {Provider} from 'react-redux';
-import configureStore from './store/configureStore'
+import {Provider,connect} from 'react-redux';
+import store from './store/configure-store'
 import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
-import BlogList from './containers/bloglist'
 import NewTheme from './containers/newth'
 import Reading from './containers/reading'
 import ContentHeader from './containers/content-header'
-import {GET_ARTICLE} from './action_type'
+import {GET_ARTICLE} from './actions/type-def'
 import app_init from './init'
-import {createHistory, createHashHistory, useBasename} from 'history'
+import createHistory from 'history/createBrowserHistory'
+
+import {
+    Router,
+    Route,
+    Link
+} from 'react-router-dom'
 
 
-const store = configureStore();
 app_init(store);
 
-
-/**
- * 获取文章根据id
- * @param nextState
- * @param replace
- * @returns {boolean}
- */
 const article_get = (nextState, replace) => {
     let id = nextState.params.articleid;
 
@@ -52,7 +48,7 @@ class MainPage extends Component {
                     <div className="left-wrapper">
                     </div>
                     <div className="right-wrapper">
-                        <ContentHeader/>
+                        {/*<ContentHeader/>*/}
                         {this.props.children}
                     </div>
                 </div>
@@ -62,36 +58,43 @@ class MainPage extends Component {
     }
 }
 
-const history = useBasename(createHashHistory)({
-    queryKey: '_key',
-    basename: '/lotuses-side'
-});
+const history = createHistory();
 
-
-function enter_art_post(state, rep) {
+function enter_art_post(state, req) {
     console.log(state);
-    console.log(rep);
+    console.log(req);
 }
 
 class App extends Component {
     render() {
-        return (
-            <div>
-                <Router history={history}>
-                    <Route path="/" component={Login}>
-                        <IndexRoute component={MainPage}/>
-                        <Route path="/art-post"
-                               onEnter={enter_art_post}
-                               component={NewTheme}/>
-                        <Route path="/reading/:articleid"
-                               onEnter={article_get}
-                               component={Reading}/>
-                    </Route>
-                </Router>
-            </div>
-        )
+        if(!this.props.user.enabled){
+            return <Login/>
+        }else{
+            return (
+                <div>
+                    <Router history={history}>
+                        <Route path="/" component={MainPage}>
+                        </Route>
+                    </Router>
+                </div>
+            )
+        }
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+function mapActionToProps(dispatch) {
+    return {
+    }
+}
+
+App =  connect(mapStateToProps, mapActionToProps)(App);
+
 
 
 if (__DEV__) {

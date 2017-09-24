@@ -1,6 +1,6 @@
 
 let user ={};
-import * as action_type from '../action_type'
+import * as action_type from '../actions/type-def'
 
 function auth_reducer(state=user,action) {
 

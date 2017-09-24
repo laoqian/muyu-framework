@@ -10,7 +10,7 @@ const rootReducer = combineReducers(reducers);
 
 
 if (__DEV__) {
-    var DevTools = require('../components/DevTools')
+    let DevTools = require('../components/DevTools')
     var createStoreWithMiddleware = compose(
         applyMiddleware(thunk),
         applyMiddleware(fetchMiddleware),
@@ -24,8 +24,7 @@ if (__DEV__) {
     )(createStore);
 }
 
-
-export default function configureStore(initialState) {
+function configureStore(initialState) {
     const store = createStoreWithMiddleware(rootReducer, initialState);
 
     if (module.hot) {
@@ -35,3 +34,7 @@ export default function configureStore(initialState) {
 
     return store;
 }
+
+const store = configureStore();
+
+export default store;
