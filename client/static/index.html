@@ -12,9 +12,9 @@
 
     <script >
         (function($){
-            let percent = 0;
-            let step =1;
-            let max =90;
+            let percent = 0,step =1,max =90;
+            let tick=10,timeout =1000;
+
             let timer = setInterval(function () {
 
                 let cur = percent>=max?max:percent+step;
@@ -22,20 +22,20 @@
                     $('.loading').css({'width':percent+'%'});
                     percent = cur;
                 }
-            },10);
+            },tick);
 
 
             $(document).ready(function(){
                 //code
 
-                step = (100 - percent)/30;
+                step = (100 - percent)/(timeout/tick);
                 max=100;
                 setTimeout(()=>{
 
                     $('.loading').css({'width':'100%'});
                     clearInterval(timer);
                     $('#preloader').fadeOut('slow');
-                },300);
+                },timeout);
             })
         })(jQuery);
     </script>
@@ -56,8 +56,8 @@
 
         #preloader .wrapper{
             display: flex;
-            width: 200px;
-            height: 207px;
+            width: 150px;
+            height: 157px;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
@@ -79,7 +79,7 @@
 <div id="preloader">
     <div class="wrapper">
         <div id="status"></div>
-        <div style="width: 200px;height: 2px;background: #f0f0f0;">
+        <div style="width: 150px;height: 2px;background: #f0f0f0;">
             <div class="loading"></div>
         </div>
     </div>
