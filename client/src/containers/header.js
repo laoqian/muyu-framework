@@ -3,11 +3,6 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import config from '../config'
 
-
-export const fields = ['username', 'password', 'remember'];
-
-
-
 class Header extends Component {
     render() {
         let menus = config.header_menu;
