@@ -79,7 +79,7 @@ class App extends Component {
             <div>
                 <Router history={history}>
                     <Route path="/" component={Login}>
-                        <IndexRoute component={BlogList}/>
+                        <IndexRoute component={MainPage}/>
                         <Route path="/art-post"
                                onEnter={enter_art_post}
                                component={NewTheme}/>

@@ -6,20 +6,98 @@
     <link rel="shortcut icon" type="image/ico" href="/favicon.ico">
     <link rel="stylesheet" href="./font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
-    <!--<link rel="stylesheet" href="./AdminLTE/css/AdminLTE.css">-->
-    <!--<link rel="stylesheet" href="./iCheck/square/blue.css">-->
     <link id="skin" rel="stylesheet" href="./jBox/Skins/ShareBlue/jbox.css"/>
     <!--<link rel="stylesheet" href="index.bundle.css">-->
     <script type="text/javascript" src="./jQuery/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="./jBox/jquery.jBox-2.3.min.js"></script>
-    <script type="text/javascript" src="./jBox/i18n/jquery.jBox-zh-CN.js"></script>
 
+    <script >
+        (function($){
+            let percent = 0;
+            let step =1;
+            let max =90;
+            let timer = setInterval(function () {
+
+                let cur = percent>=max?max:percent+step;
+                if(cur!==percent){
+                    $('.loading').css({'width':percent+'%'});
+                    percent = cur;
+                }
+            },10);
+
+
+            $(document).ready(function(){
+                //code
+
+                step = (100 - percent)/30;
+                max=100;
+                setTimeout(()=>{
+
+                    $('.loading').css({'width':'100%'});
+                    clearInterval(timer);
+                    $('#preloader').fadeOut('slow');
+                },300);
+            })
+        })(jQuery);
+    </script>
+    <style type="text/css">
+
+        #preloader{
+            position: fixed;
+            bottom:0;
+            left:0;
+            right:0;
+            top:0;
+            z-index:199999999;
+            background:#2095f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #preloader .wrapper{
+            display: flex;
+            width: 200px;
+            height: 207px;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .loading{
+            height:5px;
+            background: orange;
+            border-radius: 3px;
+        }
+
+        #status{
+            background: url(../images/timg.gif) center center no-repeat;
+            height:200px;
+            width:200px;
+        }
+    </style>
 </head>
-<body class="hold-transition login-page">
+<body >
+<div id="preloader">
+    <div class="wrapper">
+        <div id="status"></div>
+        <div style="width: 200px;height: 5px;background: #f0f0f0;border-radius: 3px;">
+            <div class="loading"></div>
+        </div>
+    </div>
+
+</div>
+
+
 <div id="root"></div>
+
+
+</body>
+
+
 <script type="text/javascript" src="./ckeditor/ckeditor.js"></script>
 <!--<script type="text/javascript" src="react.js"></script>-->
 <!--<script type="text/javascript" src="vender.js"></script>-->
 <script type="text/javascript" src="index.bundle.js"></script>
-</body>
+<script type="text/javascript" src="./jBox/jquery.jBox-2.3.min.js"></script>
+<script type="text/javascript" src="./jBox/i18n/jquery.jBox-zh-CN.js"></script>
 </html>

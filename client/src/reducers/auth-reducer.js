@@ -8,14 +8,18 @@ function auth_reducer(state=user,action) {
         case action_type.USER_AUTH:
             if(action.result.code ===0){
                 state = action.result.data;
+                $.jBox.tip("登陆成功");
+
+            }else{
+                $.jBox.tip("登陆失败",'error');
             }
+
             break;
         case action_type.USER_LOGOUT:
             state ={};
             break;
     }
 
-    console.log(state);
     return state;
 }
 

@@ -1,5 +1,6 @@
 package muyu.common.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import muyu.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,7 @@ public class SecurityUser extends User implements UserDetails {
         return null;
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return super.getPassword();

@@ -1,6 +1,5 @@
 package muyu.common.security;
 
-import com.alibaba.fastjson.JSON;
 import muyu.common.beans.ResultBean;
 import muyu.common.utils.HttpUtils;
 import org.springframework.security.core.Authentication;
@@ -10,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
