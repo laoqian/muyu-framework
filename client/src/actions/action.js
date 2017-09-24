@@ -1,8 +1,4 @@
-/*
-*
-* action
-*
-* */
+
 import * as action_type from '../action_type'
 
 export function art_post_action(title, content) {
@@ -18,6 +14,7 @@ export function user_auth_action(username, password) {
     return {
         type: action_type.USER_AUTH,
         ajax_type: 'post',
+        submit_type:'url',
         data: {username, password},
         uri: 'login'
     }

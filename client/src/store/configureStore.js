@@ -1,46 +1,11 @@
-/*
-*
-*
-*
-*
-**/
 
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
-import reducers from '../reducers/reducer.js';
-import config from '../config.js';
+import reducers from '../reducers/main-reducer.js';
+import fetchMiddleware from '../middlewares/fetch-middleware.js';
 
 
 const rootReducer = combineReducers(reducers);
-
-
-//异步ajax中间件
-const fetchMiddleware = store => next => action => {
-
-    if (action.ajax_type === undefined) {
-        return next(action);
-    }
-
-    let url = config.base_url + '/' + action.uri;
-
-    url = url+'?'+$.param(action.data);
-    $.ajax({
-        url,
-        data:action.data,
-        dataType:'json',
-        type:action.ajax_type,
-        timeout:2000,
-        error:function (error) {
-            console.log(error);
-        },
-        success:function (data) {
-            action.data = data;
-
-            console.log(action);
-            next(action);
-        }
-    });
-}
 
 
 

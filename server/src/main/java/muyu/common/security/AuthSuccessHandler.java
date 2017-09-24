@@ -1,6 +1,8 @@
 package muyu.common.security;
 
+import com.alibaba.fastjson.JSON;
 import muyu.common.beans.ResultBean;
+import muyu.common.utils.HttpUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -8,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -21,8 +24,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler{
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ResultBean<SecurityUser> resultBean = new ResultBean<>();
-
         resultBean.setData((SecurityUser)authentication.getPrincipal());
-
+        HttpUtils.sendResponse(response,resultBean);
     }
 }

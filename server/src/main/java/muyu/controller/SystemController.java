@@ -32,12 +32,10 @@ public class SystemController{
     }
 
 
-    @RequestMapping("get")
+    @RequestMapping("admin")
     public ResultBean<String> get(HttpSession httpSession){
 
-       String value =(String)  httpSession.getAttribute("11");
-
-       return new ResultBean<String>(value);
+       return new ResultBean<String>("2122");
     }
 
 }
