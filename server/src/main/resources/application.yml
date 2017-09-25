@@ -49,3 +49,10 @@ spring:
             max-wait: -1
             max-idle: 8
             min-idle: 0
+    security:
+        messages:
+                ConcurrentSessionControlAuthenticationStrategy:
+                    exceededAllowed: 已经在别处登陆
+
+prefixPath: /api
+

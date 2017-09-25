@@ -16,7 +16,7 @@ function auth_reducer(state=user,action) {
                 $.jBox.tip("登陆成功");
 
             }else{
-                $.jBox.tip("登陆失败",'error');
+                $.jBox.tip("登陆失败,信息："+action.result.msg,'error');
             }
 
             break;

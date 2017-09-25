@@ -1,13 +1,12 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package muyu.model;
+package muyu.entity;
 
 
 import muyu.common.persistence.DataEntity;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * 日志Entity

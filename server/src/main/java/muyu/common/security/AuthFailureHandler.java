@@ -22,6 +22,8 @@ public class AuthFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         ResultBean<String> resultBean = new ResultBean<>(exception);
+
+        resultBean.setMsg(exception.getMessage());
         HttpUtils.sendResponse(response,resultBean);
     }
 }

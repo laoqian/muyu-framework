@@ -33,7 +33,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         }
         //
         if(userDetails == null) {
-            throw new UsernameNotFoundException("用户名/密码无效");
+            throw new UsernameNotFoundException("用户不存在");
         }else if (!userDetails.isEnabled()){
             throw new DisabledException("用户已被禁用");
         }else if (!userDetails.isAccountNonExpired()) {
@@ -45,9 +45,10 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         }
         //数据库用户的密码
         String password = userDetails.getPassword();
+
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
-            throw new BadCredentialsException("Invalid username/password");
+            throw new BadCredentialsException("用户名/密码无效");
         }
         //授权
         return new UsernamePasswordAuthenticationToken(userDetails, password,userDetails.getAuthorities());

@@ -1,6 +1,8 @@
 package muyu.common.utils;
 
 import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.io.PrintWriter;
  * @version: 1.0.0
  */
 public class HttpUtils {
+    protected  static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
     public static void sendResponse(HttpServletResponse response,Object body){
 
@@ -25,7 +28,7 @@ public class HttpUtils {
         try {
             out = response.getWriter();
             out.append(json.toString());
-            System.out.println("认证成功");
+            logger.debug("认证完成");
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 import config from '../config.js';
 
-
 //异步ajax中间件
 const fetchMiddleware = store => next => action => {
 
@@ -17,6 +16,8 @@ const fetchMiddleware = store => next => action => {
         data = action.data;
     }
 
+    console.log('--->',action);
+
     $.ajax({
         url,
         data,
@@ -24,7 +25,8 @@ const fetchMiddleware = store => next => action => {
         type:action.ajax_type,
         timeout:2000,
         error:function (error) {
-            console.log(error);
+            let errorText = '错误代码:'+error.status+',信息：'+error.statusText;
+            $.jBox.tip(errorText);
         },
         success:function (data) {
             action.result = data;

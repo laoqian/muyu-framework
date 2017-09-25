@@ -1,5 +1,5 @@
 
-package muyu.model;
+package muyu.entity;
 
 import muyu.common.persistence.DataEntity;
 

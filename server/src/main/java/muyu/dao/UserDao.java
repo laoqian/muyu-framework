@@ -1,6 +1,6 @@
 package muyu.dao;
 
-import muyu.model.User;
+import muyu.entity.User;
 import org.springframework.stereotype.Component;
 
 /**

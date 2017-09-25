@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import muyu.common.utils.IdUtils;
 import muyu.common.utils.UserUtils;
-import muyu.model.User;
+import muyu.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
@@ -30,6 +30,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     @JsonIgnore
     protected User createBy;    // 创建者
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date createDate;    // 创建日期
 

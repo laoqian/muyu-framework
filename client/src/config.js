@@ -1,3 +1,6 @@
+
+
+
 let config = {
     server_ip: '192.168.2.222',
     server_port: 9999,
@@ -14,7 +17,7 @@ config.base_url = '/api';
 
 /*header栏右侧菜单列表*/
 config.header_menu =[
-    {name:'系统首页',url:'',icon:'glyphicon glyphicon-home'},
+    {name:'系统首页',url:'admin',icon:'glyphicon glyphicon-home'},
     {name:'个人信息',url:'',icon:'glyphicon glyphicon-file'},
     {name:'我的通知',url:'',icon:'glyphicon glyphicon-refresh'},
     {name:'退出登录',url:'',icon:'glyphicon glyphicon-remove'}

@@ -3,7 +3,6 @@ package muyu.service;
 import muyu.common.beans.ResultBean;
 import muyu.common.security.SecurityUser;
 import muyu.dao.UserDao;
-import muyu.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +28,7 @@ public class UserService {
 //        User user =  dao.getUser();
         SecurityUser user = new SecurityUser("11");
         user.setPassword("123");
+
 
         ResultBean<SecurityUser> bean = new ResultBean<>(user);
         return bean;

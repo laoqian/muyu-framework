@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package muyu.model;
+package muyu.entity;
 
 import lombok.Data;
 import muyu.common.persistence.DataEntity;
@@ -35,8 +35,8 @@ public class User extends DataEntity<User> {
 	private String userType;// 用户类型
 	private String loginIp;	// 最后登陆IP
 	private Date loginDate;	// 最后登陆日期
-	private String loginFlag;	// 是否允许登陆
-	private String photo;	// 头像
+	private String loginFlag;  // 是否允许登陆
+	private String photo;	   // 头像
 
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码

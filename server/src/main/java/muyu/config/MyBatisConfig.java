@@ -66,7 +66,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setTypeAliasesPackage("muyu.model");
+        bean.setTypeAliasesPackage("muyu.entity");
 
         //分页插件
         PageHelper pageHelper = new PageHelper();

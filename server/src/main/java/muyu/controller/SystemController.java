@@ -2,7 +2,6 @@ package muyu.controller;
 
 import muyu.common.beans.ResultBean;
 import muyu.common.security.SecurityUser;
-import muyu.model.User;
 import muyu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpSession;
  * @version: 1.0.0
  */
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("${prefixPath}/")
 public class SystemController{
 
     @Autowired
@@ -30,7 +29,6 @@ public class SystemController{
         httpSession.setAttribute("11","2222222222");
         return userService.get("111");
     }
-
 
     @RequestMapping("admin")
     public ResultBean<String> get(HttpSession httpSession){

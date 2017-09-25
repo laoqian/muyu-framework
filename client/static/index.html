@@ -13,7 +13,7 @@
     <script >
         (function($){
             let percent = 0,step =1,max =90;
-            let tick=10,timeout =1000;
+            let tick=10,timeout =200;
 
             let timer = setInterval(function () {
 
@@ -32,9 +32,10 @@
                     $('.loading').css({'width':'100%'});
                     clearInterval(timer);
 //                    $('#preloader').fadeOut('slow');
-                    $('.loader-left').animate({'right':'100%'},1000);
-                    $('.loader-right').animate({'left':'100%'},1000);
+                    $('.loader-left').animate({'right':'100%'},timeout);
+                    $('.loader-right').animate({'left':'100%'},timeout);
                     $('.wrapper').hide();
+                    $('#preloader').delay(timeout).fadeOut();
                 },timeout);
             })
         })(jQuery);

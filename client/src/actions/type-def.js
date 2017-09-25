@@ -14,6 +14,7 @@ export const GET_ARTICLE = '获取文章';
 export const PAGE_SCROLL = '页面滚动事件';
 export const LOAD_HOME_PAGE_DATA = '加载首页数据';
 export const USER_LOGIN = '用户登录';
+export const GET_ADMIN = '获取admin';
 
 
 

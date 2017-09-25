@@ -4,7 +4,7 @@
 package muyu.common.utils;
 
 
-import muyu.model.User;
+import muyu.entity.User;
 
 
 /**

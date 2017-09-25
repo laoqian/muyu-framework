@@ -5,7 +5,7 @@ package muyu.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import muyu.common.utils.UserUtils;
-import muyu.model.User;
+import muyu.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import com.google.common.collect.Maps;
@@ -36,7 +36,7 @@ public abstract class BaseEntity<T> implements Serializable {
     /**
      * 是否超级管理员
      */
-    protected String superAdmin;
+    protected boolean isSuperAdmin;
 	/**
 	 * 当前实体分页对象
 	 */
