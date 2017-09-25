@@ -24,17 +24,17 @@
                 }
             },tick);
 
-
             $(document).ready(function(){
-                //code
 
                 step = (100 - percent)/(timeout/tick);
                 max=100;
                 setTimeout(()=>{
-
                     $('.loading').css({'width':'100%'});
                     clearInterval(timer);
-                    $('#preloader').fadeOut('slow');
+//                    $('#preloader').fadeOut('slow');
+                    $('.loader-left').animate({'right':'100%'},1000);
+                    $('.loader-right').animate({'left':'100%'},1000);
+                    $('.wrapper').hide();
                 },timeout);
             })
         })(jQuery);
@@ -48,10 +48,30 @@
             right:0;
             top:0;
             z-index:199999999;
-            background:#2095f2;
+            /*background:#2095f2;*/
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        .loader-left{
+            position: fixed;
+            bottom:0;
+            left:0;
+            right:50%;
+            top:0;
+            z-index:199999999;
+            background:#2095f2;
+        }
+
+        .loader-right{
+            position: fixed;
+            bottom:0;
+            left:50%;
+            right:0;
+            top:0;
+            z-index:199999999;
+            background:#2095f2;
         }
 
         #preloader .wrapper{
@@ -61,6 +81,7 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
+            z-index:299999999;
         }
 
         .loading{
@@ -70,13 +91,15 @@
 
         #status{
             background: url(../images/timg.gif) center center no-repeat;
-            height:200px;
-            width:200px;
+            height:150px;
+            width:150px;
         }
     </style>
 </head>
 <body >
 <div id="preloader">
+    <div class="loader-left"></div>
+    <div class="loader-right"></div>
     <div class="wrapper">
         <div id="status"></div>
         <div style="width: 150px;height: 2px;background: #f0f0f0;">
