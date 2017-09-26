@@ -13,10 +13,16 @@ function auth_reducer(state=user,action) {
                 Cookies.set('username',action.data.username);
                 Cookies.set('password',action.data.password);
 
-                $.jBox.tip("登陆成功");
+                // $.jBox.tip("登陆成功");
 
             }else{
-                $.jBox.tip("登陆失败,信息："+action.result.msg,'error');
+
+                new jBox('Confirm', {
+                    content: 'Do you really want to do this?',
+                    cancelButton: 'Nope',
+                    confirmButton: 'Sure do!'
+                });
+                // $.jBox.tip("登陆失败,信息："+action.result.msg,'error');
             }
 
             break;

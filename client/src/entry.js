@@ -7,15 +7,11 @@ import store from './store/configure-store'
 import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
+import JqgridWrapper from './containers/jqgrid-wrapper'
 import {GET_ARTICLE} from './actions/type-def'
 import app_init from './init'
 import createHistory from 'history/createBrowserHistory'
-
-import {
-    Router,
-    Route,
-    Link
-} from 'react-router-dom'
+import {Router, Route, Link} from 'react-router-dom'
 
 
 app_init(store);
@@ -45,8 +41,8 @@ class MainPage extends Component {
                     <div className="left-wrapper">
                     </div>
                     <div className="right-wrapper">
-                        {/*<ContentHeader/>*/}
-                        {this.props.children}
+                        <JqgridWrapper/>
+                        {/*{this.props.children}*/}
                     </div>
                 </div>
                 <Footer/>
@@ -100,7 +96,7 @@ if (__DEV__) {
         <Provider store={store}>
             <div>
                 <App/>
-                <DevTools/>
+                {/*<DevTools/>*/}
             </div>
         </Provider>,
         document.getElementById('root')

@@ -49,7 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .sessionManagement()
                 .maximumSessions(1)
-                .maxSessionsPreventsLogin(true);
+//                .maxSessionsPreventsLogin(true)
+        ;
     }
 
     @Override

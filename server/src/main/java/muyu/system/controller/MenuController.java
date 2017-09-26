@@ -1,5 +1,6 @@
 package muyu.system.controller;
 
+import muyu.system.common.beans.ResultBean;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class MenuController  extends BaseController{
     MenuService menuService;
 
     @RequestMapping("findList")
-    List<Menu> findList(){
-        return menuService.findList(null);
+    public ResultBean<List> findList(){
+        List<Menu> list = menuService.findList(null);
+        return new ResultBean<>(list);
     }
 }

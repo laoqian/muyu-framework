@@ -32,7 +32,9 @@ public class ControllerAOP {
 
         try {
             result = (ResultBean<?>) pjp.proceed();
-            System.out.println(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
+            long useTime = System.currentTimeMillis() - startTime;
+            result.setUseTime(useTime);
+            logger.debug(pjp.getSignature() + "控制器执行时间:" + useTime);
         } catch (Throwable e) {
             result = handlerException(pjp, e);
         }

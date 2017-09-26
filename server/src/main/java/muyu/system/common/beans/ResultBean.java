@@ -30,6 +30,8 @@ public class ResultBean<T> implements Serializable {
 
     private int code = SUCCESS;
 
+    private long useTime=0;
+
     private T data;
 
     public ResultBean() {
