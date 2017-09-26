@@ -4,6 +4,7 @@
 package muyu.system.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,9 @@ import org.springframework.stereotype.Service;
 public class SequenceUtils {
     private static final String DEDAULT_SEQ_ID = "SEQ_COMMID";
 
-//    @Autowired
-    public OracleSequenceMaxValueIncrementer oracleSequenceMaxValueIncrementer;
+    public static OracleSequenceMaxValueIncrementer oracleSequenceMaxValueIncrementer = new OracleSequenceMaxValueIncrementer();
    
-    public String getNextVal(String seqId){
+    public static String getNextVal(String seqId){
     	if (StringUtils.isBlank(seqId)) {
     		oracleSequenceMaxValueIncrementer.setIncrementerName(DEDAULT_SEQ_ID);
 		}else {

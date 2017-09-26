@@ -81,12 +81,4 @@ public interface CrudDao<T> extends BaseDao {
 	 */
 	public int delete(T entity);
 
-	/**
-	 * 根据ID查询记录数
-	 * 		项目删除前检查是否存在子级目录
-	 * @param id
-	 * @return
-	 */
-	public Integer getCount(String id);
-	
 }

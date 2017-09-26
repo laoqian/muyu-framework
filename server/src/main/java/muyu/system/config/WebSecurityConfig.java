@@ -37,7 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/").permitAll()
+                .authorizeRequests()
+                .antMatchers("/api/db/*").permitAll()
+                .antMatchers("/api/menu/*").permitAll()
                 .and()
                 .formLogin().loginPage("/api/login")
                 .successHandler(loginSuccessHandler())
@@ -48,8 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(true);
-                //单点登陆控制
-
     }
 
     @Override
@@ -71,12 +71,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthFailureHandler authFailureHandler() {
         return new AuthFailureHandler();
     }
-
-
-//    @Bean(name = "messageSource")
-//    public ReloadableResourceBundleMessageSource messageSourceBean() {
-//        ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
-//        bean.setBasename("classpath:messages.properties");
-//        return bean;
-//    }
 }
