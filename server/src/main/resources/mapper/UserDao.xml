@@ -25,7 +25,7 @@
 
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="muyu.dao.UserDao">
+<mapper namespace="muyu.system.dao.UserDao">
     <select id="getUser" resultType="User">
         select * from sys_user where ROWNUM = 1
     </select>
