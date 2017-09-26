@@ -78,11 +78,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthFailureHandler();
     }
 
+
 //    @Bean(name = "messageSource")
-//    public ReloadableResourceBundleMessageSource messageSource() {
+//    public ReloadableResourceBundleMessageSource messageSourceBean() {
 //        ReloadableResourceBundleMessageSource bean = new ReloadableResourceBundleMessageSource();
-//        ResourceLoader loader = new DefaultResourceLoader();
-//        loader.getResource("classpath:messages.properties");
-//        bean.setResourceLoader(loader);
+//        bean.setBasename("classpath:messages.properties");
+//        return bean;
 //    }
 }

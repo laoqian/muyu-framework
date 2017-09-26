@@ -6,7 +6,7 @@ logging:
     file:
         devilyu.log
     level:
-        mybatis: INFO
+        mybatis: DEBUG
         spring: DEBUG
 
 spring:
@@ -38,21 +38,25 @@ spring:
     ## Redis数据库索引（默认为0）
     session:
         store-type: redis
-        timeout: 1000
+        cache-seconds: 100
+        cookie:
+              name: MUYU-SESSIONID
     redis:
         database: 0
         host: 127.0.0.1
         port: 6379
-        timeout: 0
+        timeout: 100
         pool:
             max-active: 8
             max-wait: -1
             max-idle: 8
             min-idle: 0
+    messages:
+        basename: messages
+
+management:
     security:
-        messages:
-                ConcurrentSessionControlAuthenticationStrategy:
-                    exceededAllowed: 已经在别处登陆
+        enabled: false
 
 prefixPath: /api
 
