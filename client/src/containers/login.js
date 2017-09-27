@@ -12,28 +12,39 @@ class Login extends Component {
         this.auth = this.auth.bind(this);
     }
 
-    auth(){
-       let refs = this.refs;
-       this.props.auth(refs.username.value,refs.password.value);
+    auth(e){
+     console.log(e);
+        e.preventDefault();
+        let form;
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log('Received values of form: ', values);
+                form = values;
+            }
+        });
+
+        if(form!==undefined){
+            this.props.auth(form.username,form.password);
+        }
     }
     render() {
 
         const { getFieldDecorator } = this.props.form;
         return (
             <div  className="full-screen flex-hvm login-bg">
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={this.auth} className="login-form">
                     <FormItem>
-                        {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
+                        {getFieldDecorator('username', {
+                            rules: [{ required: true, message: '请输入有效的用户名!' }],
                         })(
-                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="用户名" />
                         )}
                     </FormItem>
                     <FormItem>
                         {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
+                            rules: [{ required: true, message: '请输入有效的密码!' }],
                         })(
-                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
                         )}
                     </FormItem>
                     <FormItem>
@@ -41,13 +52,13 @@ class Login extends Component {
                             valuePropName: 'checked',
                             initialValue: true,
                         })(
-                            <Checkbox>Remember me</Checkbox>
+                            <Checkbox>记住密码</Checkbox>
                         )}
-                        <a className="login-form-forgot" href="">Forgot password</a>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
-                            Log in
+                        <a className="login-form-forgot" href="">忘记密码</a>
+                        <Button type="primary" htmlType="submit" className="login-form-button" >
+                            登  陆
                         </Button>
-                        Or <a href="">register now!</a>
+                        Or <a href="">注册!</a>
                     </FormItem>
                 </Form>
             </div>
