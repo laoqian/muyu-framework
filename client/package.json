@@ -53,6 +53,7 @@
   "author": "qixian yu <858385135@qq.com> (http://github.com/laoqian)",
   "license": "CC0-1.0",
   "dependencies": {
+    "antd": "^2.13.3",
     "autoprefixer": "^6.3.1",
     "better-npm-run": "0.0.5",
     "body-parser": "^1.14.2",

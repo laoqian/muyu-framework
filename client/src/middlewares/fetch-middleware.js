@@ -1,4 +1,5 @@
 import config from '../config.js';
+import { message } from 'antd';
 
 //异步ajax中间件
 const fetchMiddleware = store => next => action => {
@@ -26,7 +27,7 @@ const fetchMiddleware = store => next => action => {
         timeout:2000,
         error:function (error) {
             let errorText = '错误代码:'+error.status+',信息：'+error.statusText;
-            $.jBox.tip(errorText);
+            message.error(errorText);
         },
         success:function (data) {
             action.result = data;

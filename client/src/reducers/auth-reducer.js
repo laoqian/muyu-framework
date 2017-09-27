@@ -2,6 +2,8 @@
 let user ={};
 import * as action_type from '../actions/type-def'
 import Cookies from 'js-cookie';
+import { notification } from 'antd';
+
 
 function auth_reducer(state=user,action) {
 
@@ -13,16 +15,10 @@ function auth_reducer(state=user,action) {
                 Cookies.set('username',action.data.username);
                 Cookies.set('password',action.data.password);
 
-                // $.jBox.tip("登陆成功");
+                notification['success']({message:'认证成功'});
 
             }else{
-
-                new jBox('Confirm', {
-                    content: 'Do you really want to do this?',
-                    cancelButton: 'Nope',
-                    confirmButton: 'Sure do!'
-                });
-                // $.jBox.tip("登陆失败,信息："+action.result.msg,'error');
+                notification['error']({message:'认证失败'});
             }
 
             break;
