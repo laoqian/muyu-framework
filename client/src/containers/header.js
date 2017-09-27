@@ -4,18 +4,39 @@ import {Link} from 'react-router-dom'
 import config from '../config'
 import store from '../store/configure-store'
 import * as type from '../actions/type-def'
+import { message ,Modal} from 'antd';
+const confirm = Modal.confirm;
+
+
 
 class Header extends Component {
-    click(){
-        store.dispatch({
-            type: type.GET_ADMIN,
-            uri:'admin',
-            ajax_type:'get'
-        });
-
-        return false;
+    constructor(props){
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
     }
 
+    handleClick(menu) {
+        switch(menu.url){
+            case 'logout':
+                return this.handleLogout(menu.url);
+        }
+        message.info(menu.name);
+    }
+
+    handleLogout(uri) {
+        confirm({
+            title: '请确认是否要退出?',
+            content: 'When clicked the OK button, this dialog will be closed after 1 second',
+            onOk() {
+                store.dispatch({
+                    type: type.USER_LOGOUT,
+                    uri,
+                    ajax_type:'get'
+                });
+            },
+            onCancel() {},
+        });
+    }
     render() {
         let menus = config.header_menu;
         let key =0;
@@ -31,10 +52,10 @@ class Header extends Component {
                         {
                         menus.map(m=>(
                             <li className="flex-hvm" key={key++}>
-                                <Link to="#" className="flex flex-center" onClick={this.click}>
+                                <a href="#" className="flex flex-center" onClick={()=>this.handleClick(m)}>
                                     <i className={m.icon}></i>
                                     {m.name}
-                                </Link>
+                                </a>
                             </li>
                         ))
                         }

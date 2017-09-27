@@ -15,10 +15,10 @@ function auth_reducer(state=user,action) {
                 Cookies.set('username',action.data.username);
                 Cookies.set('password',action.data.password);
 
-                notification['success']({message:'认证成功'});
+                notification.success({message:'认证成功'});
 
             }else{
-                notification['error']({message:'认证失败'});
+                notification.error({message:'认证失败'});
             }
 
             break;
