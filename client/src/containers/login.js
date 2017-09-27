@@ -14,8 +14,9 @@ class Login extends Component {
 
     auth(e){
      console.log(e);
-        e.preventDefault();
         let form;
+
+        e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
@@ -27,6 +28,7 @@ class Login extends Component {
             this.props.auth(form.username,form.password);
         }
     }
+
     render() {
 
         const { getFieldDecorator } = this.props.form;
@@ -58,7 +60,7 @@ class Login extends Component {
                         <Button type="primary" htmlType="submit" className="login-form-button" >
                             登  陆
                         </Button>
-                        Or <a href="">注册!</a>
+                        <a href="">注册!</a>
                     </FormItem>
                 </Form>
             </div>
