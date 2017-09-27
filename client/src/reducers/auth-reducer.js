@@ -9,7 +9,7 @@ function auth_reducer(state=user,action) {
 
     switch (action.type){
         case action_type.USER_AUTH:
-            if(action.result.code ===0){
+            if(action.result.code === 0){
                 state = action.result.data;
 
                 Cookies.set('username',action.data.username);
@@ -18,12 +18,13 @@ function auth_reducer(state=user,action) {
                 notification.success({message:'认证成功'});
 
             }else{
-                notification.error({message:'认证失败'});
+                notification.error({message:action.result.data.message});
             }
 
             break;
         case action_type.USER_LOGOUT:
             state ={};
+            notification.success({message:'退出成功'});
             break;
     }
 

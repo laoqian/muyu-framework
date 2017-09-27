@@ -17,7 +17,7 @@ let app_init = function (store) {
     let username = Cookies.get('username');
     let password = Cookies.get('password');
 
-    store.dispatch(user_auth_action(username,password));
+    // store.dispatch(user_auth_action(username,password));
 
     window.onscroll = function () {
         store.dispatch({

@@ -59,6 +59,14 @@ input, select, button {
   .flex-vm;
 }
 
+.full-screen{
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right:0;
+}
+
 .flex-between-row {
   justify-content: space-between;
   flex-direction: row;
@@ -69,7 +77,28 @@ input, select, button {
   align-items: center;
 }
 
+.login-bg{
+  background: url(../images/login-bg.jpg) center center no-repeat;
+}
 
+.login-form{
+  max-width: 340px;
+  background: rgba(222,222,2222,22);
+  padding: 20px;
+  border-radius: 5px;
+  opacity:0.8;
+
+  &:hover{
+    opacity: 0.95;
+  }
+  
+  .login-form-forgot {
+    float: right;
+  }
+   .login-form-button {
+    width: 100%;
+  }
+}
 
 .header {
   width: 100%;
