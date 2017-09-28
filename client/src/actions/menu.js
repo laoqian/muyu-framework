@@ -1,5 +1,5 @@
 
-import {MENU_GET_LIST,MENU_ADD,MENU_DELETE} from 'src/actions/def'
+import {MENU_GET_LIST,MENU_ADD,MENU_DELETE} from './def'
 
 export function get_user_menu_list() {
     return {

@@ -7,6 +7,7 @@ import store from './store/configure'
 import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
+import MenuList from './containers/menu-list'
 import JqgridWrapper from './containers/jqgrid-wrapper'
 import {GET_ARTICLE} from './actions/def'
 import app_init from './init'
@@ -39,6 +40,7 @@ class MainPage extends Component {
                 <Header/>
                 <div>
                     <div className="left-wrapper">
+                        <MenuList/>
                     </div>
                     <div className="right-wrapper">
                         <JqgridWrapper/>
@@ -56,7 +58,7 @@ const history = createHistory();
 class App extends Component {
 
     render() {
-        if(!this.props.user.enabled){
+        if(!this.props.user.authed.enabled){
             return <Login/>
         }else{
             return (
@@ -72,7 +74,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state);
 
     return {
         user: state.user

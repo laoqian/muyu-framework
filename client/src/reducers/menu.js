@@ -1,10 +1,17 @@
 
-import {MENU_GET_LIST,MENU_ADD,MENU_DELETE} from '../actions/def'
+import {MENU_GET_LIST,MENU_GET,MENU_ADD,MENU_DELETE} from '../actions/def'
+import immutable from 'immutable'
 
-function menu_reducer(state={},action) {
+let menu = immutable.Map({list: [], data: {}});
+
+function menu_reducer(state=menu.toJS(),action) {
 
     switch (action.type){
         case MENU_GET_LIST:
+            menu = menu.merge({list:action.result.data})
+            state  =menu.toJS();
+            break;
+        case MENU_GET:
             break;
         case MENU_ADD:
             break;

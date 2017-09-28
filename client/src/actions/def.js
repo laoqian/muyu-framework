@@ -16,7 +16,7 @@ export const LOAD_HOME_PAGE_DATA    = '加载首页数据';
 
 /*菜单操作*/
 export const MENU_GET_LIST          = '加载用户菜单列表';
-export const MENU_GET               = '加载菜单';
+export const MENU_GET               = '获取菜单';
 export const MENU_ADD               = '添加菜单';
 export const MENU_DELETE            = '删除菜单';
 
