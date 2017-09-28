@@ -9,7 +9,7 @@ function menu_reducer(state=menu.toJS(),action) {
     switch (action.type){
         case MENU_GET_LIST:
             menu = menu.merge({list:action.result.data})
-            state  =menu.toJS();
+            state  = menu.toJS();
             break;
         case MENU_GET:
             break;

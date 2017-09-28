@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {art_post_action} from '../actions/action'
+import {art_post_action} from '../actions/user'
 import {bindActionCreators} from 'redux';
 
 class NewTheme extends Component {

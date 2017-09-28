@@ -1,5 +1,5 @@
 
-import {MENU_GET_LIST,MENU_ADD,MENU_DELETE} from './def'
+import {MENU_GET_LIST,MENU_ADD,MENU_DELETE } from './def'
 
 export function get_user_menu_list() {
     return {
@@ -8,7 +8,6 @@ export function get_user_menu_list() {
         ajax_type:'get'
     }
 }
-
 
 export function menu_add(menu) {
     return {

@@ -2,7 +2,7 @@
  * Created by gg on 2016/1/20.
  */
 import {UPDATE_TIME} from './actions/def'
-import {user_auth_action} from './actions/action'
+import {user_auth_action} from './actions/user'
 import Cookies from 'js-cookie';
 
 function timer_init(store) {

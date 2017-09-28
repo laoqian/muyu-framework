@@ -1,6 +1,4 @@
-/**
- * Created by yu on 2016/7/2.
- */
+
 
 //常量定义.....
 
@@ -26,3 +24,9 @@ export const USER_AUTH              = '用户认证';
 export const USER_LOGOUT            = '用户退出';
 export const USER_ADD               = '用户添加';
 export const USER_DELETE            = '用户删除';
+
+
+
+/*标签管理*/
+export const TAB_ADD                = '标签添加';
+export const TAB_DELETE             = '标签删除';

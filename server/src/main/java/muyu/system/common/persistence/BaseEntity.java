@@ -125,7 +125,6 @@ public abstract class BaseEntity<T> implements Serializable {
 		this.isNewRecord = isNewRecord;
 	}
 
-	
     @Override
     public boolean equals(Object obj) {
         if (null == obj) {

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Menu, Icon} from 'antd';
 import {get_user_menu_list} from '../actions/menu'
+import {tab_add} from '../actions/tabs'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 import _ from 'lodash'
@@ -11,7 +12,12 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class MenuList extends Component {
 
-    componentDidMount(prevProps, prevState) {
+    constructor(){
+        super();
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    componentDidMount() {
         this.props.get_user_menu_list();
     }
 
@@ -19,6 +25,14 @@ class MenuList extends Component {
         return _.filter(this.props.menuList, function (m) {
             return m.parentId === id;
         }) ;
+    }
+
+    handleClick(menu){
+        let selected = _.find(this.props.menuList, function(chr){
+            return chr.id === menu.key;
+        });
+
+        this.props.tab_add({title:selected.name,content:selected.name,key:selected.id,closable:true});
     }
 
     render() {
@@ -40,7 +54,7 @@ class MenuList extends Component {
                             <SubMenu key={menu.id} title={<span><Icon type="mail" /><span>{menu.name}</span></span>}>
                                     {
                                         this.getSubMenuList(menu.id).map((sub)=>(
-                                            <Menu.Item key={'it'+sub.id}>{sub.name}</Menu.Item>
+                                            <Menu.Item key={sub.id}>{sub.name}</Menu.Item>
                                         ))
                                     }
                             </SubMenu>
@@ -66,7 +80,8 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        get_user_menu_list: bindActionCreators(get_user_menu_list, dispatch)
+        get_user_menu_list: bindActionCreators(get_user_menu_list, dispatch),
+        tab_add: bindActionCreators(tab_add, dispatch)
     }
 }
 

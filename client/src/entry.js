@@ -8,7 +8,7 @@ import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
 import MenuList from './containers/menu-list'
-import JqgridWrapper from './containers/jqgrid-wrapper'
+import ContentWrapper from './containers/content-wrapper'
 import {GET_ARTICLE} from './actions/def'
 import app_init from './init'
 import createHistory from 'history/createBrowserHistory'
@@ -43,8 +43,7 @@ class MainPage extends Component {
                         <MenuList/>
                     </div>
                     <div className="right-wrapper">
-                        <JqgridWrapper/>
-                        {/*{this.props.children}*/}
+                        <ContentWrapper/>
                     </div>
                 </div>
                 <Footer/>
