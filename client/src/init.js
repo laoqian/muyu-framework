@@ -1,7 +1,7 @@
 /**
  * Created by gg on 2016/1/20.
  */
-import {UPDATE_TIME} from './actions/type-def'
+import {UPDATE_TIME} from './actions/def'
 import {user_auth_action} from './actions/action'
 import Cookies from 'js-cookie';
 

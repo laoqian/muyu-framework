@@ -1,6 +1,6 @@
 
 let user ={};
-import * as action_type from '../actions/type-def'
+import * as action_type from '../actions/def'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 

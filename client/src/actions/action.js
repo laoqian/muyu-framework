@@ -1,5 +1,5 @@
 
-import * as action_type from './type-def'
+import * as action_type from './def'
 
 export function art_post_action(title, content) {
     return {

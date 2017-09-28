@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import Article from '../components/article'
-import * as action_type from '../actions/type-def'
+import * as action_type from '../actions/def'
 
 
 class ArticleList extends Component {

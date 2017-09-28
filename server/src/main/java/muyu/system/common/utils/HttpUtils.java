@@ -17,7 +17,7 @@ import java.io.PrintWriter;
  * @version: 1.0.0
  */
 public class HttpUtils {
-    protected  static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
     public static void sendResponse(HttpServletResponse response,Object body){
 

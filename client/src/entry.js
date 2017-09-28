@@ -3,12 +3,12 @@ import React from 'react'
 import ReactDom, {Component, PropTypes} from 'react'
 import {render} from 'react-dom'
 import {Provider,connect} from 'react-redux';
-import store from './store/configure-store'
+import store from './store/configure'
 import Login from './containers/login'
 import Header from './containers/header'
 import Footer from './containers/footer'
 import JqgridWrapper from './containers/jqgrid-wrapper'
-import {GET_ARTICLE} from './actions/type-def'
+import {GET_ARTICLE} from './actions/def'
 import app_init from './init'
 import createHistory from 'history/createBrowserHistory'
 import {Router, Route, Link} from 'react-router-dom'
@@ -53,12 +53,8 @@ class MainPage extends Component {
 
 const history = createHistory();
 
-function enter_art_post(state, req) {
-    console.log(state);
-    console.log(req);
-}
-
 class App extends Component {
+
     render() {
         if(!this.props.user.enabled){
             return <Login/>
@@ -76,6 +72,8 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log(state);
+
     return {
         user: state.user
     }
@@ -87,8 +85,6 @@ function mapActionToProps(dispatch) {
 }
 
 App =  connect(mapStateToProps, mapActionToProps)(App);
-
-
 
 if (__DEV__) {
     let DevTools = require('./components/DevTools')

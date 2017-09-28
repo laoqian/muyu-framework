@@ -2,8 +2,8 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import config from '../config'
-import store from '../store/configure-store'
-import * as type from '../actions/type-def'
+import store from '../store/configure'
+import * as type from '../actions/def'
 import { message ,Modal} from 'antd';
 const confirm = Modal.confirm;
 

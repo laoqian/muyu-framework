@@ -1,13 +1,11 @@
 
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
-import reducers from '../reducers/main-reducer.js';
+import reducers from '../reducers/main.js';
 import fetchMiddleware from '../middlewares/fetch-middleware.js';
 
 
 const rootReducer = combineReducers(reducers);
-
-
 
 if (__DEV__) {
     let DevTools = require('../components/DevTools')
