@@ -1,6 +1,6 @@
 import auth_reducer from './user'
 import menu_reducer from './menu'
-import tab_reducer from './tab'
+import tab_reducer from './tabs'
 
 let reducers = {
     user:auth_reducer,

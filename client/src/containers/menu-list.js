@@ -32,7 +32,7 @@ class MenuList extends Component {
             return chr.id === menu.key;
         });
 
-        this.props.tab_add({title:selected.name,content:selected.name,key:selected.id,closable:true});
+        this.props.tab_add({title:selected.name,content:selected.name,key:selected.name,closable:true});
     }
 
     render() {
