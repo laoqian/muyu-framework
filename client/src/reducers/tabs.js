@@ -6,39 +6,34 @@ import _ from 'lodash'
 let tabs = immutable.Map({penes: []});
 
 
-let update_node = function (pene,type) {
+
+
+function tab_reducer(state=tabs.toJS(),action) {
     let penes = tabs.toJS().penes;
+    let pene = action.data;
     let __i =-1;
 
-    for(let i in penes){
-        if(penes[i].key === pene.key){
-            __i = i;
-            break;
-        }
-    }
-
-    switch (type){
+    switch (action.type){
         case TAB_ADD:
-            if(__i === -1 ){
-                penes.push(pene);
-            }
+            __i = _.findIndex(penes,chr=>{
+                return chr.key === pene.key
+            });
+
+            __i===-1?penes.push(pene):0;
+            tabs.merge(penes);
 
             break;
         case TAB_DELETE:
+            _.remove(penes,chr=>{
+                return chr.key === pene.key
+            });
 
-            if(__i !== -1){
-                penes.delete(__i);
-            }
+            tabs.merge(penes);
             break;
+
     }
 
-    tabs.merge(penes);
     return tabs.toJS();
-}
-
-function tab_reducer(state=tabs.toJS(),action) {
-    state = update_node(action.data,action.type);
-    return state;
 }
 
 
