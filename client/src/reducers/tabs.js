@@ -20,7 +20,6 @@ function tab_reducer(state=tabs.toJS(),action) {
             });
 
             __i===-1?penes.push(pene):0;
-            tabs.merge(penes);
 
             break;
         case TAB_DELETE:
@@ -28,11 +27,11 @@ function tab_reducer(state=tabs.toJS(),action) {
                 return chr.key === pene.key
             });
 
-            tabs.merge(penes);
             break;
 
     }
 
+    tabs.merge(penes);
     return tabs.toJS();
 }
 

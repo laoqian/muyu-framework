@@ -32,13 +32,14 @@
                 setTimeout(()=>{
                     $('.loading').css({'width':'100%'});
                     clearInterval(timer);
-//                    $('#preloader').fadeOut('slow');
-                    $('.loader-left').animate({'right':'100%'},timeout);
-                    $('.loader-right').animate({'left':'100%'},timeout);
-                    $('.wrapper').hide();
-                    $('#preloader').delay(timeout).fadeOut();
                 },timeout);
 
+                setTimeout(()=>{
+                    $('.wrapper').hide();
+                    $('#preloader').delay(timeout).fadeOut();
+                    $('.loader-left').animate({'right':'100%'},timeout);
+                    $('.loader-right').animate({'left':'100%'},timeout);
+                },timeout+300);
             })
         })(jQuery);
     </script>
