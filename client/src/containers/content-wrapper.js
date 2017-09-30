@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Tabs} from 'antd';
 import {tab_delete} from '../actions/tabs'
 import {bindActionCreators} from 'redux';
+import SysUser from "./sys-user"
 
 const TabPane = Tabs.TabPane;
 
@@ -22,18 +23,23 @@ class ContentWrapper extends Component {
     render() {
         let penes = this.props.tabs.penes;
         return (
+            <SysUser/>
+        )
+    }
+}
+/*
+*
+
             <Tabs
                 type="editable-card"
                 tabBarStyle={{'padding':'10px 10px 0 10px'}}
                 hideAdd={true}
                 onEdit={this.onEdit}
+                animated={true}
             >
                 {penes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>{pane.content}</TabPane>)}
             </Tabs>
-        )
-    }
-}
-
+* */
 
 ContentWrapper.propTypes = {
 
