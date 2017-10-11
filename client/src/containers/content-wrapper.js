@@ -23,13 +23,6 @@ class ContentWrapper extends Component {
     render() {
         let penes = this.props.tabs.penes;
         return (
-            <SysUser/>
-        )
-    }
-}
-/*
-*
-
             <Tabs
                 type="editable-card"
                 tabBarStyle={{'padding':'10px 10px 0 10px'}}
@@ -37,9 +30,16 @@ class ContentWrapper extends Component {
                 onEdit={this.onEdit}
                 animated={true}
             >
-                {penes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>{pane.content}</TabPane>)}
+                {penes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+                    <div className="my-ct-wrapper">
+                        <SysUser/>
+                    </div>
+                </TabPane>)}
             </Tabs>
-* */
+        )
+    }
+}
+
 
 ContentWrapper.propTypes = {
 

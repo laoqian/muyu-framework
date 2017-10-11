@@ -1,5 +1,6 @@
 
-@import "variables.less";
+@import "variables";
+@import "antd-config";
 //@import "~antd/dist/antd.less";
 
 
@@ -179,7 +180,8 @@ input, select, button {
   bottom: @footer-height;
   left: @left-width;
   right:0;
-  //background: green;
+  background: white;
+
 }
 
 .footer{
@@ -193,43 +195,15 @@ input, select, button {
 }
 
 
-.muyu-tool-bar{
-  list-style: none;
-  width: 100%;
-  height: 48px;
-  padding-top:3px;
-  background: #f0f0f0;
-  border-bottom: solid  1px #ccc;
-  li{
-    display: inline-block;
-    margin-right: 2px;
-    padding: 3px 9px;
-    box-sizing: border-box;
-    border-radius: 3px;
-    border: solid 1px #f0f0f0;
 
-    &:hover{
-      background: #fff;
-      border-color: #ccc;
-      cursor:pointer
-    }
-
-    .muyu-tool-bar-wrapper{
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-
-
-      img{
-        width: 14px;
-        height:14px;
-      }
-      .muyu-tool-bar-name{
-        font-size: 12px !important;
-      }
-    }
-  }
+.my-tb{
+  padding: 12px 40px 12px 10px;
+  border-bottom: solid 1px #ccc;
+  .flex-vm;
+  .flex-between-row;
 }
+
+
+
+
+//

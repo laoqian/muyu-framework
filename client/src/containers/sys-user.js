@@ -5,11 +5,25 @@ import ToolBar from '../components/tool-bar'
 import {Router, Route, Link} from 'react-router-dom'
 
 
-let tools = [
-    {name:'添加',img:'add.png',isSplit:true},
-    {name:'删除',img:'user_edit.png',isSplit:false},
-    {name:'修改',img:'chart_pie.png',isSplit:false}
-];
+let toolBarConfig = {
+    leftTools:{
+        items:[
+        {type:'input',},
+        {type:'select',}
+    ],
+        searchBtn:{
+            text:'查询',
+            icon:'search'
+        }
+    },
+    rightTools:{
+        isReload:true,
+        items:[
+        {name:'添加',icon:'plus'},
+        {name:'删除',icon:'delete'},
+        {name:'修改',icon:'edit'}
+    ]}
+};
 
 
 class SysUser extends Component {
@@ -26,8 +40,7 @@ class SysUser extends Component {
 
         return (
             <div>
-                <ToolBar tools={tools} toolClick={this.toolClick}/>
-                <div> 333333 </div>
+                <ToolBar config={toolBarConfig} toolClick={this.toolClick}/>
             </div>
         )
     }

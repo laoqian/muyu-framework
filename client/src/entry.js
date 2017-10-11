@@ -92,7 +92,7 @@ if (__DEV__) {
         <Provider store={store}>
             <div>
                 <App/>
-                <DevTools/>
+                {/*<DevTools/>*/}
             </div>
         </Provider>,
         document.getElementById('root')

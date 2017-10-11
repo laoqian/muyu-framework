@@ -4,6 +4,7 @@
 import {UPDATE_TIME} from './actions/def'
 import {user_auth_action} from './actions/user'
 import Cookies from 'js-cookie';
+import { notification } from 'antd';
 
 function timer_init(store) {
     setInterval(() => {
@@ -14,6 +15,14 @@ function timer_init(store) {
 }
 
 let app_init = function (store) {
+
+    /*通知框初始化*/
+    notification.config({
+        placement: 'bottomRight',
+        bottom: 50,
+        duration: 3,
+    });
+
     let username = Cookies.get('username');
     let password = Cookies.get('password');
 

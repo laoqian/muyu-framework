@@ -1,5 +1,6 @@
 import React ,{Component} from  'react'
-
+import { Button, Icon } from 'antd';
+const ButtonGroup = Button.Group;
 
 class ToolBar extends Component {
 
@@ -8,23 +9,25 @@ class ToolBar extends Component {
     }
 
     render() {
-        let tools = this.props.tools;
+        let config = this.props.config;
+        let rightTool = config.rightTools;
 
         return (
-            <ul className="muyu-tool-bar">
-                {
-                    tools.map(tool=>(
-                        <li key={tool.name} className={tool.isSplit?'muyu-tool-bar-split-line':''} onClick={this.props.toolClick(tool)}>
-                            <div className="muyu-tool-bar-wrapper">
-                                    <img src={'./images/'+tool.img} alt=""/>
-                                    <div className='muyu-tool-bar-name'>
-                                        {tool.name}
-                                    </div>
-                            </div>
-                        </li>
-                    ))
-                }
-            </ul>
+            <div className="my-tb">
+                <div className="my-tb-left">
+
+                </div>
+                <div className="my-tb-right">
+                    <ButtonGroup>
+                        {
+                            rightTool.items.map(btn=>(
+                                <Button icon={btn.icon} key={btn.name}>{btn.name}</Button>
+                            ))
+                        }
+                    </ButtonGroup>
+                </div>
+            </div>
+
         )
     }
 }
