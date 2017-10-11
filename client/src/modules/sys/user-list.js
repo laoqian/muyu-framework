@@ -1,7 +1,7 @@
 import React ,{Component} from  'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
-import ToolBar from '../components/tool-bar'
+import ToolBar from '../../components/tool-bar'
 import {Router, Route, Link} from 'react-router-dom'
 import { Row, Col } from 'antd';
 

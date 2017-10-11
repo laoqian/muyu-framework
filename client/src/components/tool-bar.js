@@ -74,16 +74,20 @@ class ToolBar extends Component {
         super(props);
     }
 
-
-
     render() {
         let config = this.props.config;
         let rightTool = config.rightTools;
+        let reload ='';
+        if(rightTool.isReload){
+            reload =(<Button icon="reload"></Button>)
+        }
 
         return (
             <div className="my-tb">
                 <SearchToolBarForm tools={config.leftTools}/>
                 <div className="my-tb-right">
+                    {reload}
+
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
