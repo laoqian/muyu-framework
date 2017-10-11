@@ -1,7 +1,7 @@
 import React ,{Component} from  'react'
 import {connect} from 'react-redux'
 import {Tabs} from 'antd';
-import {tab_delete} from '../actions/tabs'
+import {tab_delete,tab_sel} from '../actions/tabs'
 import {bindActionCreators} from 'redux';
 import SysUser from "./sys-user"
 
@@ -18,6 +18,12 @@ class ContentWrapper extends Component {
         if(action ==='remove'){
             this.props.tab_delete({key})
         }
+
+        console.log(key)
+    }
+
+    onTabClick = (key) => {
+        this.props.tab_sel({key})
     }
 
     render() {
@@ -26,8 +32,10 @@ class ContentWrapper extends Component {
             <Tabs
                 type="editable-card"
                 tabBarStyle={{'padding':'10px 10px 0 10px'}}
+                activeKey={this.props.tabs.activeKey}
                 hideAdd={true}
                 onEdit={this.onEdit}
+                onTabClick={this.onTabClick}
                 animated={true}
             >
                 {penes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
@@ -54,7 +62,8 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        tab_delete: bindActionCreators(tab_delete, dispatch)
+        tab_delete: bindActionCreators(tab_delete, dispatch),
+        tab_sel: bindActionCreators(tab_sel, dispatch)
     }
 }
 

@@ -30,3 +30,4 @@ export const USER_DELETE            = '用户删除';
 /*标签管理*/
 export const TAB_ADD                = '标签添加';
 export const TAB_DELETE             = '标签删除';
+export const TAB_SEL                = '标签选择';
