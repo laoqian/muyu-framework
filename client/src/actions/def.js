@@ -31,3 +31,7 @@ export const USER_DELETE            = '用户删除';
 export const TAB_ADD                = '标签添加';
 export const TAB_DELETE             = '标签删除';
 export const TAB_SEL                = '标签选择';
+
+
+/*后台获取资源定义*/
+export const USER_TYPE_GET                = '用户类型获取';

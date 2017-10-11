@@ -18,8 +18,6 @@ class ContentWrapper extends Component {
         if(action ==='remove'){
             this.props.tab_delete({key})
         }
-
-        console.log(key)
     }
 
     onTabClick = (key) => {
@@ -39,9 +37,7 @@ class ContentWrapper extends Component {
                 animated={true}
             >
                 {penes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
-                    <div className="my-ct-wrapper">
                         <SysUser/>
-                    </div>
                 </TabPane>)}
             </Tabs>
         )

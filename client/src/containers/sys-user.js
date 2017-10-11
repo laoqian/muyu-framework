@@ -3,14 +3,19 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import ToolBar from '../components/tool-bar'
 import {Router, Route, Link} from 'react-router-dom'
-
+import { Row, Col } from 'antd';
 
 let toolBarConfig = {
+    sync:false,
     leftTools:{
         items:[
-        {type:'input',},
-        {type:'select',}
-    ],
+            {   name:'username',type:'input' ,text:'登录名:',palaceHolder:'登录名',
+                rules: [{
+                required: true, message: '登录名不能为空!',
+            }],
+            },
+            {type:'select',options:{11:111,22:333},default:'',text:'类型:'}
+        ],
         searchBtn:{
             text:'查询',
             icon:'search'
@@ -39,7 +44,7 @@ class SysUser extends Component {
     render() {
 
         return (
-            <div>
+            <div className="my-col-full">
                 <ToolBar config={toolBarConfig} toolClick={this.toolClick}/>
             </div>
         )
