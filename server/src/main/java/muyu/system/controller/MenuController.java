@@ -1,12 +1,16 @@
 package muyu.system.controller;
 
+import com.github.pagehelper.Page;
 import muyu.system.common.beans.ResultBean;
+import muyu.system.common.beans.ResultPageBean;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -29,5 +33,10 @@ public class MenuController  extends BaseController{
     public ResultBean<List> findList(){
         List<Menu> list = menuService.findList(null);
         return new ResultBean<>(list);
+    }
+
+    @RequestMapping("findPage")
+    public ResultPageBean<Menu> findPage(Menu menu, HttpServletRequest request, HttpServletResponse response){
+        return menuService.findPage(request,menu);
     }
 }

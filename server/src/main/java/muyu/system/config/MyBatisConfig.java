@@ -24,7 +24,7 @@
 
 package muyu.system.config;
 
-import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -41,7 +41,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 
 /**
@@ -67,18 +66,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         bean.setTypeAliasesPackage("muyu.system.entity");
-
-        //分页插件
-        PageHelper pageHelper = new PageHelper();
-        Properties properties = new Properties();
-        properties.setProperty("reasonable", "true");
-        properties.setProperty("supportMethodsArguments", "true");
-        properties.setProperty("returnPageInfo", "check");
-        properties.setProperty("params", "count=countSql");
-        pageHelper.setProperties(properties);
-
-        //添加插件
-        bean.setPlugins(new Interceptor[]{pageHelper});
 
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

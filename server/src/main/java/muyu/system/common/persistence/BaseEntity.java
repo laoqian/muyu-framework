@@ -4,6 +4,7 @@
 package muyu.system.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.pagehelper.Page;
 import muyu.system.common.utils.UserUtils;
 import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +41,7 @@ public abstract class BaseEntity<T> implements Serializable {
 	/**
 	 * 当前实体分页对象
 	 */
-//	protected Page<T> page;
+	protected Page<T> page;
 	
 	/**
 	 * 自定义SQL（SQL标识，SQL内容）
@@ -144,6 +145,13 @@ public abstract class BaseEntity<T> implements Serializable {
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-    
 
+
+	public Page<T> getPage() {
+		return page;
+	}
+
+	public void setPage(Page<T> page) {
+		this.page = page;
+	}
 }

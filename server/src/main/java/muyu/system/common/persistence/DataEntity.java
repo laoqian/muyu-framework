@@ -26,8 +26,6 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     private static final long serialVersionUID = 1L;
 
-    protected String remarks;    // 备注
-
     @JsonIgnore
     protected User createBy;    // 创建者
 
@@ -43,7 +41,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     @JsonIgnore
     @Length(min = 1, max = 1)
-    protected String delFlag;    // 删除标记（0：正常；1：删除；2：审核）
+    protected String delFlag;    //删除标记（0：正常；1：删除；2：审核）
 
     public DataEntity() {
         super();

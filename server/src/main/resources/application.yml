@@ -59,5 +59,9 @@ management:
     security:
         enabled: false
 
+#
 prefixPath: /api
+
+#分页参数
+pageSize  : 50
 

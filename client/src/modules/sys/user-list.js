@@ -31,6 +31,9 @@ let toolBarConfig = {
     ]}
 };
 
+let options= {
+    // url:'/api/menu/findList'
+};
 
 class SysUser extends Component {
 
@@ -39,7 +42,6 @@ class SysUser extends Component {
     }
 
     toolClick(tool){
-        console.log(tool)
     }
 
     render() {
@@ -47,7 +49,7 @@ class SysUser extends Component {
         return (
             <div className="my-col-full">
                 <ToolBar config={toolBarConfig} toolClick={this.toolClick}/>
-                {/*<JqgridWrapper/>*/}
+                <JqgridWrapper options={options}/>
             </div>
         )
     }

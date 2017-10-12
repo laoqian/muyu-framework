@@ -25,13 +25,13 @@ let defaultOptions ={
 class JqgridWrapper extends Component {
     constructor(){
         super();
-        this.props.curOptions = $.extends(defaultOptions,this.props.options);
     }
     componentDidMount(prevProps, prevState) {
-        $("#dataGrid").jqGrid(this.props.curOptions);
+        $("#dataGrid").jqGrid(this.curOptions);
     }
 
     render() {
+        this.curOptions = Object.assign(defaultOptions,this.props.options);
 
         return (
             <div className='my-grid-wrapper'>

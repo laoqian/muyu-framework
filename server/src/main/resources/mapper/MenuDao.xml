@@ -29,5 +29,4 @@
     <select id="findList" resultType="Menu">
         select id AS "id",parent_id AS "parentId",name AS "name",href AS "href" from sys_menu where del_flag='0' order BY sort
     </select>
-
 </mapper>

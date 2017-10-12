@@ -50,21 +50,21 @@ public interface CrudDao<T> extends BaseDao {
 	 */
 	@Deprecated
 	public List<T> findAllList();
-	
+
 	/**
 	 * 插入数据
 	 * @param entity
 	 * @return
 	 */
 	public int insert(T entity);
-	
+
 	/**
 	 * 更新数据
 	 * @param entity
 	 * @return
 	 */
 	public int update(T entity);
-	
+
 	/**
 	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
 	 * @param id
@@ -73,7 +73,7 @@ public interface CrudDao<T> extends BaseDao {
 	 */
 	@Deprecated
 	public int delete(String id);
-	
+
 	/**
 	 * 删除数据（一般为逻辑删除，更新del_flag字段为1）
 	 * @param entity

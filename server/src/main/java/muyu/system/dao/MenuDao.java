@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  * @date: 2017/9/15
  * @version: 1.0.0
  */
-@Component
 public interface MenuDao extends CrudDao<Menu>{
 
 }

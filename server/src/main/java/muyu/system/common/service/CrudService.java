@@ -1,18 +1,18 @@
 package muyu.system.common.service;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.utils.SequenceUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -57,19 +57,24 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @return
 	 */
 	public List<T> findList(T entity) {
+
 		return dao.findList(entity);
 	}
 	
 	/**
 	 * 查询分页数据
-	 * @param page 分页对象
+	 * @param request 分页对象
 	 * @param entity
 	 * @return
 	 */
-	public Page<T> findPage(Page<T> page, T entity) {
-//		entity.setPage(page);
-//		page.setList(dao.findList(entity));
-		return page;
+	public ResultPageBean<T> findPage(HttpServletRequest request, T entity) {
+		ResultPageBean<T> bean = new ResultPageBean(request);
+
+		Page page = PageHelper.startPage(bean.getPageNum(),bean.getPageSize(),bean.getOrderBy());
+		bean.setList(findList(entity));
+		bean.setPageCount(page.getPages());
+		bean.setTotal(page.getTotal());
+		return bean;
 	}
 
 
