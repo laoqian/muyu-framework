@@ -3,8 +3,6 @@
  */
 package muyu.system.common.persistence;
 
-import muyu.system.common.utils.MyMapper;
-
 /**
  * DAO支持类实现
  * @author ThinkGem
