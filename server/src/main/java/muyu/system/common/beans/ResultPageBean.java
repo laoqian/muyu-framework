@@ -25,7 +25,7 @@ public class ResultPageBean<T> extends BaseResultBean implements Serializable {
     private int pageNum; //当前页码
     private int pageSize; //页面大小
     private int pageCount; //总页数
-    private long total;     //总记录数
+    private long total;    //总记录数
 
     private boolean firstPage; //是否第一页
     private boolean lastPage;  //是否最后一页

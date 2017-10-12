@@ -70,10 +70,12 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	public ResultPageBean<T> findPage(HttpServletRequest request, T entity) {
 		ResultPageBean<T> bean = new ResultPageBean(request);
 
-		Page page = PageHelper.startPage(bean.getPageNum(),bean.getPageSize(),bean.getOrderBy());
+		Page page = PageHelper.startPage(bean.getPageNum(),bean.getPageSize(),true,true,true);
+		page.setOrderBy(bean.getOrderBy());
 		bean.setList(findList(entity));
 		bean.setPageCount(page.getPages());
 		bean.setTotal(page.getTotal());
+
 		return bean;
 	}
 
