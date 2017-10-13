@@ -1,11 +1,11 @@
 import React ,{Component} from  'react'
-import { Button, Icon, Form, Input, Tooltip,  Cascader, Select, Row, Col, Checkbox,  AutoComplete } from 'antd';
+import { Button, Form, Input, Select} from 'antd';
 import _ from 'lodash';
+import store from '../store/configure'
+import {JGGRID_RELOAD} from '../actions/def'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 
 class SearchToolBarForm_ extends Component{
@@ -68,24 +68,15 @@ const SearchToolBarForm = Form.create()(SearchToolBarForm_);
 
 class ToolBar extends Component {
 
-    constructor(props){
-        super(props);
-    }
-
     render() {
         let config = this.props.config;
         let rightTool = config.rightTools;
-        let reload ='';
-        if(rightTool.isReload){
-            reload =(<Button icon="reload"></Button>)
-        }
 
         return (
             <div className="my-tb">
                 <SearchToolBarForm tools={config.leftTools}/>
                 <div className="my-tb-right">
-                    {reload}
-
+                    {rightTool.isReload?<Button icon="reload" onClick={()=>{$("#dataGrid").trigger('reloadGrid')}}/>:''}
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(

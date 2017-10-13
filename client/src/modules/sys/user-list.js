@@ -49,7 +49,7 @@ class SysUser extends Component {
         return (
             <div className="my-col-full">
                 <ToolBar config={toolBarConfig} toolClick={this.toolClick}/>
-                <JqgridWrapper options={options}/>
+                <JqgridWrapper options={options} />
             </div>
         )
     }
@@ -69,6 +69,7 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
+
     }
 }
 

@@ -245,3 +245,34 @@ input, select, button {
   left: 0;
   right: 0;
 }
+.my-loading-wrapper{
+  width: 100%;
+  top:-54px;
+  bottom: 0;
+  position: absolute;
+  background: rgba(99, 99, 99, 0.6);
+  z-index: 998;
+  border-radius: 3px;
+}
+.my-loading{
+  width: 260px;
+  height: 56px;
+  position: absolute;
+  z-index: 999;
+  left: 50%;
+  top:50%;
+  margin-top: -28px;
+  margin-left: -130px;
+  border-radius: 8px;
+  border: solid 1px darken(@border-color,10%);
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  background: #f9f9f9;
+
+  &>span{
+    margin-left: 25px;
+    font-size: 18px;
+    color: #777;
+  }
+}

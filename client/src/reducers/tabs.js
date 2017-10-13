@@ -17,9 +17,11 @@ function tab_reducer(state=tabs.toJS(),action) {
     let pene = action.data;
     let __i ;
 
-    __i = _.findIndex(penes,chr=>{
-        return chr.key === pene.key
-    });
+    if(_.isObject(pene)){
+        __i = _.findIndex(penes,chr=>{
+            return chr.key === pene.key
+        });
+    }
 
     switch (action.type){
         case TAB_ADD:

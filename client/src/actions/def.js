@@ -34,4 +34,10 @@ export const TAB_SEL                = '标签选择';
 
 
 /*后台获取资源定义*/
-export const USER_TYPE_GET                = '用户类型获取';
+export const USER_TYPE_GET          = '用户类型获取';
+
+
+
+/*jqGrid操作定义*/
+export const JGGRID_LOAD_STATE         = 'jgGrid加载状态变化';
+export const JGGRID_RELOAD             = 'jgGrid重新加载';
