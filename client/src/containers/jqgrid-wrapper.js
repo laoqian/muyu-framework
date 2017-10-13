@@ -5,13 +5,18 @@ import {Link} from 'react-router'
 
 let defaultOptions ={
     url: 'http://trirand.com/blog/phpjqgrid/examples/jsonp/getjsonp.php?callback=?&qwery=longorders',
-    mtype: "GET",
     styleUI: 'Bootstrap',
     datatype: "jsonp",
+    mtype: "GET",
+    autowidth:true,
+    // jsonReader: {
+    //     id: 'id', root: "list", page: "pageNum", userdata: "otherData",
+    //     total: "pageCount", records: "totals", subgrid: {root:"list"}
+    // },
     colModel: [
-        {label: 'OrderID', name: 'OrderID', key: true, width: 75},
-        {label: 'Customer ID', name: 'CustomerID', width: 150},
-        {label: 'Order Date', name: 'OrderDate', width: 150},
+        {label: '排序号', name: 'OrderID', key: true, width: 75},
+        {label: '商品名称', name: 'CustomerID', width: 150},
+        {label: '排序时间', name: 'OrderDate', width: 150},
         {label: 'Freight', name: 'Freight', width: 150},
         {label: 'Ship Name', name: 'ShipName', width: 150}
     ],
@@ -19,8 +24,31 @@ let defaultOptions ={
     height: 250,
     rowNum: 20,
     pager: "#jqGridPager",
+    shrinkToFit :false,
+    beforeRequest:function (data) {
+
+    },
+    loadComplete:function (data) {
+
+    },
+    gridComplete:function(){
+        resizeDataGrid();
+    },
+    loadError:function (data) {
+        
+    },
 
 };
+
+function resizeDataGrid() {
+    let width =$('.my-grid-wrapper').width()-2;
+    let height = $('.my-grid-wrapper').height()-58;
+
+    $('#dataGrid').jqGrid('setGridWidth',width);
+    $('#dataGrid').jqGrid('setGridHeight',height);
+
+    $('.ui-jqgrid-hdiv').css('width',width);
+}
 
 class JqgridWrapper extends Component {
     constructor(){

@@ -37,7 +37,7 @@ public class ResultPageBean<T> extends BaseResultBean implements Serializable {
 
     private List<T> list = new ArrayList<>();
 
-    private String orderBy = ""; // 标准查询有效， 实例： updatedate desc, name asc
+    private String orderBy = "";  // 标准查询有效， 实例： updatedate desc, name asc
 
     public ResultPageBean(HttpServletRequest request) {
         super();

@@ -1,8 +1,7 @@
 
 @import "variables";
 @import "antd-config";
-//@import "~antd/dist/antd.less";
-
+@import "jqGrid-config";
 
 ::-webkit-scrollbar{width: 7px; height: 7px;}
 ::-webkit-scrollbar-track{/*border-radius: 10px;*/ -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);}
@@ -22,7 +21,7 @@ body {
 
 * {
   font-size: 13px;
-  font-family: "Segoe UI",Arial,sans-serif,'微软雅黑';
+  font-family: '微软雅黑','宋体',Arial,Helvetica,Verdana,'sans-serif';
 }
 
 input {
@@ -228,11 +227,10 @@ input, select, button {
   margin-right: 5px;
 }
 
-.my-grid-table{
+.my-grid-wrapper{
   position: absolute;
-  top:0;
+  top: 54px;
   bottom: 0;
   left: 0;
   right: 0;
-  background: red;
 }

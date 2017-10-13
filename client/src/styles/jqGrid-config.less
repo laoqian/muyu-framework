@@ -1,0 +1,56 @@
+
+@border-color:rgb(221, 221, 221);
+
+.ui-jqgrid-hdiv{
+  border: solid 1px @border-color;
+  background: #f8f8f8;
+}
+
+#dataGrid:hover{
+  cursor:pointer;
+}
+
+tr.active > td {
+  background-color: #FFF6E5!important;
+}
+
+tr.success>td{
+  background-color: #3498DB!important;
+  color: #fff;
+}
+
+tr.jqgrow{
+  height: 27px;
+}
+
+tr.jqgrow>td{
+  line-height:24px!important;
+  vertical-align: middle;
+}
+
+.ui-jqgrid tr.jqgrow td{
+  padding: 1px 5px;
+}
+
+tr.jqgrow>td{
+  color:#000;
+  border-right: none!important;
+  border-bottom-style: dashed!important;
+  letter-spacing:normal;
+  font-size: 12px!important;
+}
+
+tr.jqgrow>td:first-child,tr.jqgrow>td:last-child{
+  border-right: solid 1px @border-color!important;
+}
+
+.ui-jqgrid .ui-jqgrid-htable th{
+  padding-bottom: 5px;
+}
+.ui-jqgrid .ui-jqgrid-htable .ui-th-div{
+  margin-top:0;
+  color:#000;
+  font-size: 12px!important;
+  font-weight: normal;
+  letter-spacing:normal;
+}
