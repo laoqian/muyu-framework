@@ -1,9 +1,10 @@
 import React ,{Component} from  'react'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux';
 import ToolBar from '../../components/tool-bar'
 import {Router, Route, Link} from 'react-router-dom'
 import JqgridWrapper from '../../containers/jqgrid-wrapper'
+import Modal from '../../containers/modal'
+
 
 let toolBarConfig = {
     sync:false,
@@ -49,7 +50,8 @@ class SysUser extends Component {
         return (
             <div className="my-col-full">
                 <ToolBar config={toolBarConfig} toolClick={this.toolClick}/>
-                <JqgridWrapper options={options} />
+                <JqgridWrapper options={options}/>
+                <Modal/>
             </div>
         )
     }

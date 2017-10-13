@@ -87,7 +87,7 @@ function mapActionToProps(dispatch) {
 App =  connect(mapStateToProps, mapActionToProps)(App);
 
 if (__DEV__) {
-    let DevTools = require('./components/DevTools')
+    let DevTools = require('./components/dev-tools')
     render(
         <Provider store={store}>
             <div>

@@ -7,7 +7,6 @@ import {JGGRID_RELOAD} from '../actions/def'
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
-
 class SearchToolBarForm_ extends Component{
     constructor(){
         super();
@@ -29,7 +28,7 @@ class SearchToolBarForm_ extends Component{
                     </FormItem>
                 );
             case 'select':
-                let ops = [];
+                let ops = [{key:'请选择',value:''}];
 
                 _(item.options).forEach(function (value,key) {
                     ops.push({key,value});
@@ -40,7 +39,7 @@ class SearchToolBarForm_ extends Component{
                         <Select defaultValue={item.default}>
                             {
                                 ops.map(op=>(
-                                    <Option value={''+op.value} key={op.value}>{op.key}</Option>
+                                    <Select.Option value={''+op.value} key={op.value}>{op.key}</Select.Option>
                                 ))
                             }
 
@@ -80,7 +79,7 @@ class ToolBar extends Component {
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
-                                <Button icon={btn.icon} key={btn.name}>{btn.name}</Button>
+                                <Button icon={btn.icon} key={btn.name} >{btn.name}</Button>
                             ))
                         }
                     </ButtonGroup>
