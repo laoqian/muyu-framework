@@ -1,8 +1,6 @@
 import React ,{Component} from  'react'
 import { Button, Form, Input, Select} from 'antd';
 import _ from 'lodash';
-import store from '../store/configure'
-import {JGGRID_RELOAD} from '../actions/def'
 
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
@@ -68,18 +66,18 @@ const SearchToolBarForm = Form.create()(SearchToolBarForm_);
 class ToolBar extends Component {
 
     render() {
-        let config = this.props.config;
-        let rightTool = config.rightTools;
+        let options = this.props.options;
+        let rightTool = options.rightTools;
 
         return (
             <div className="my-tb">
-                <SearchToolBarForm tools={config.leftTools}/>
+                <SearchToolBarForm tools={options.leftTools}/>
                 <div className="my-tb-right">
                     {rightTool.isReload?<Button icon="reload" onClick={()=>{$("#dataGrid").trigger('reloadGrid')}}/>:''}
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
-                                <Button icon={btn.icon} key={btn.name} >{btn.name}</Button>
+                                <Button icon={btn.icon} key={btn.name} onClick={btn.click}>{btn.name}</Button>
                             ))
                         }
                     </ButtonGroup>

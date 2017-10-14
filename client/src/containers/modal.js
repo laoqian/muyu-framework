@@ -3,15 +3,40 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux';
 import { Button,Icon } from 'antd';
 
+
+
 class Modal extends Component {
+    constructor(){
+        super();
+        this.defaultOptions = {
+            title:'系统提示',
+            isCloseEnabled:true,
+            iconType:'success',
+            cancelText:'取消',
+            okType:'primary',
+            okText:'确定',
+            maskClosable:false,
+            content:'',
+            onOk:function () {
+
+            },
+            onCancel:function () {
+                
+            }
+        }
+    }
 
     render() {
+        let options = Object.assign(this.defaultOptions,this.props.options);
+        let icon;
+        if(options.iconType==='success'){
+        }
         return (
             <div className="my-full-layer">
                 <div className="my-modal-wrapper">
                     <div className="my-modal-title">
-                        <span>系统提示</span>
-                        <Icon type="close" />
+                        <span>{options.title}</span>
+                        {options.isColseEnabled?<Icon type="close" />:''}
                     </div>
 
                     <div className="my-modal-content">
