@@ -1,8 +1,8 @@
 import React ,{Component} from  'react'
 import {connect} from 'react-redux'
-import ToolBar from '../../components/tool-bar'
+import ToolBar from '../../../components/tool-bar'
 import {Router, Route, Link} from 'react-router-dom'
-import JqgridWrapper from '../../containers/jqgrid-wrapper'
+import JqgridWrapper from '../../../containers/jqgrid-wrapper'
 import {Modal} from 'antd'
 import UserEdit from './edit'
 
@@ -33,32 +33,35 @@ class SysUser extends Component {
             items:[]}
     };
 
+    state ={
+        modalVisible:false
+    }
+
     constructor(props){
         super(props);
 
         this.toolBarOptions.rightTools.items =[
-            {name:'添加',icon:'plus',click:this.setModal2Visible},
+            {name:'添加',icon:'plus',click:this.toolClick.bind(this)},
             {name:'删除',icon:'delete'},
             {name:'修改',icon:'edit'},
             {name:'保存',icon:'save'}];
     }
 
-    setModal2Visible() {
-        this.setState({modal2Visible:true});
+    toolClick(visible) {
+        this.setState({modalVisible:visible});
     }
 
     render() {
-
         return (
             <div className="my-col-full">
-                <ToolBar options={this.toolBarOptions} toolClick={this.toolClick}/>
+                <ToolBar options={this.toolBarOptions} />
                 <JqgridWrapper options={this.options}/>
                 <Modal
                     title="用户编辑"
                     wrapClassName="vertical-center-modal"
-                    visible={true}
-                    onOk={() => this.setModal2Visible(false)}
-                    onCancel={() => this.setModal2Visible(false)}
+                    visible={this.state.modalVisible}
+                    onOk={() => this.toolClick(false)}
+                    onCancel={() => this.toolClick(false)}
                 >
                 </Modal>
             </div>

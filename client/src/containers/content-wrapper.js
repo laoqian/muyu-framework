@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Tabs} from 'antd';
 import {tab_delete,tab_sel} from '../actions/tabs'
 import {bindActionCreators} from 'redux';
-import SysUser from "../modules/sys/list"
+import SysUser from "../modules/sys/user/list"
 
 const TabPane = Tabs.TabPane;
 
