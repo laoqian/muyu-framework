@@ -65,6 +65,7 @@ const SearchToolBarForm = Form.create()(SearchToolBarForm_);
 
 class ToolBar extends Component {
 
+
     render() {
         let options = this.props.options;
         let rightTool = options.rightTools;
@@ -77,7 +78,7 @@ class ToolBar extends Component {
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
-                                <Button icon={btn.icon} key={btn.name} onClick={btn.click}>{btn.name}</Button>
+                                <Button icon={btn.icon} key={btn.name} onClick={()=>btn.click(btn)}>{btn.name}</Button>
                             ))
                         }
                     </ButtonGroup>

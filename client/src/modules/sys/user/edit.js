@@ -5,7 +5,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
 
-class UserEdit extends Component {
+class UserEditForm extends Component {
     constructor() {
         super();
         this.auth = this.auth.bind(this);
@@ -31,7 +31,7 @@ class UserEdit extends Component {
 
         const { getFieldDecorator } = this.props.form;
         return (
-            <div  className="full-screen flex-hvm login-bg">
+            <div  className="my-modal-wrapper">
                 <Form onSubmit={this.auth} className="login-form">
                     <FormItem>
                         {getFieldDecorator('username', {
@@ -46,19 +46,6 @@ class UserEdit extends Component {
                         })(
                             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
                         )}
-                    </FormItem>
-                    <FormItem>
-                        {getFieldDecorator('remember', {
-                            valuePropName: 'checked',
-                            initialValue: true,
-                        })(
-                            <Checkbox>记住密码</Checkbox>
-                        )}
-                        <a className="login-form-forgot" href="">忘记密码</a>
-                        <Button type="primary" htmlType="submit" className="login-form-button" >
-                            登  陆
-                        </Button>
-                        <a href="">注册!</a>
                     </FormItem>
                 </Form>
             </div>
@@ -77,10 +64,10 @@ function mapActionToProps(dispatch) {
     }
 }
 
-const WrappedNormalLoginForm = Form.create()(UserEdit);
+const UserEdit = Form.create()(UserEditForm);
 
 export default connect(
     mapStateToProps,
     mapActionToProps
-)(WrappedNormalLoginForm);
+)(UserEdit);
 

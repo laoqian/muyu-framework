@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${prefixPath}/menu/")
-public class MenuController  extends BaseController{
+public class MenuController extends BaseController{
 
     @Autowired
     MenuService menuService;

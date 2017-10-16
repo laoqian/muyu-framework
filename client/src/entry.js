@@ -11,7 +11,6 @@ import MenuList from './containers/menu-list'
 import ContentWrapper from './containers/content-wrapper'
 import {GET_ARTICLE} from './actions/def'
 import app_init from './init'
-import createHistory from 'history/createBrowserHistory'
 import {Router, Route, Link} from 'react-router-dom'
 
 
@@ -52,7 +51,7 @@ class MainPage extends Component {
     }
 }
 
-const history = createHistory();
+
 
 class App extends Component {
 
@@ -60,14 +59,7 @@ class App extends Component {
         if(!this.props.user.authed.enabled){
             return <Login/>
         }else{
-            return (
-                <div>
-                    <Router history={history}>
-                        <Route path="/" component={MainPage}>
-                        </Route>
-                    </Router>
-                </div>
-            )
+            return <MainPage/>
         }
     }
 }
