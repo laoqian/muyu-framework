@@ -25,8 +25,8 @@ compiler.run(function (err, stats) {
       process.exit(1)
     }
   } else {
-    debug('编译成功!')
+    console.log('编译成功!')
   }
 
-  config.copyStatic()
+  // config.copyStatic()
 })

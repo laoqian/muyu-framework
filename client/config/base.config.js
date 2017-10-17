@@ -54,7 +54,7 @@ config.sql_option = option
 
 config.dir_proj =  path.resolve(__dirname,'../')
 config.dir_src  = path.resolve(config.dir_proj,dir.main)
-config.dir_static  = path.resolve(config.dir_src,dir.static)
+config.dir_static  = path.resolve(config.dir_src,'../',dir.static)
 
 
 //-------------------------------
@@ -75,7 +75,9 @@ config.copyStatic = function(){
     }
 
     try {
-      fs.copySync( config.dir_static,dst)
+      console.log('源目录：'+config.dir_static);
+      console.log('发布目录：'+dst);
+      fs.copySync(config.dir_static,dst)
     } catch (err) {
       console.error('Oh no, there was an error: ' + err.message)
     }

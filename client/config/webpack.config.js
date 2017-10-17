@@ -21,8 +21,6 @@ var index = [];
 index.push(path.join(__dirname,'../src/entry.js'));
 var entry ={index};
 
-console.log(entry)
-
 var webpackConfig = {
   entry,
   output: {
