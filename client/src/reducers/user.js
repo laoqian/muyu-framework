@@ -1,10 +1,10 @@
 
-import {USER_AUTH,USER_LOGOUT,USER_ADD,USER_DELETE} from '../actions/def'
+import {USER_AUTH,USER_LOGOUT,USER_ADD,USER_DELETE,USER_GET} from '../actions/def'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 import immutable from 'immutable'
 
-let user = immutable.Map({authed: {}, data: {}});
+let user = immutable.Map({authed: {}, data: {},loadedUser:{}});
 
 function auth_reducer(state = user.toJS(),action) {
 

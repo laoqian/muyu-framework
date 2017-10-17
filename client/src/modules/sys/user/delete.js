@@ -3,16 +3,35 @@ import {connect} from 'react-redux'
 
 
 class UserDelete extends Component {
+
     constructor() {
         super();
+
+        this.state ={
+            visible:false,
+            loading:false
+        };
+
+        this.userDelete = ()=>{
+
+        }
     }
+
 
     render() {
 
         return (
-            <div  >
-
-            </div>
+            <Modal
+                title= '用户删除'
+                wrapClassName="vertical-center-modal"
+                visible={this.state.visible}
+                okType = "danger"
+                onOk ={() => this.userDelete('ok')}
+                onCancel={() => this.userDelete('cancel')}
+                confirmLoading ={this.state.loading}
+            >
+                <div>确定要删除吗？</div>
+            </Modal>
         )
     }
 }

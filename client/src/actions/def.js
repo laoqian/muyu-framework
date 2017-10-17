@@ -22,6 +22,7 @@ export const MENU_DELETE            = '删除菜单';
 /*用户操作*/
 export const USER_AUTH              = '用户认证';
 export const USER_LOGOUT            = '用户退出';
+export const USER_GET               = '用户获取';
 export const USER_ADD               = '用户添加';
 export const USER_DELETE            = '用户删除';
 

@@ -78,7 +78,7 @@ class ToolBar extends Component {
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
-                                <Button icon={btn.icon} key={btn.name} onClick={()=>btn.click(btn)}>{btn.name}</Button>
+                                <Button icon={btn.icon} key={btn.name} onClick={()=>rightTool.click(btn)}>{btn.name}</Button>
                             ))
                         }
                     </ButtonGroup>

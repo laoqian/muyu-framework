@@ -26,15 +26,18 @@ class JqgridWrapper extends Component {
                 subgridid:"id", npage: null, totalrows:"pageCount"
             },
             colModel: [
-                {label: '名称', name: 'name', key: true, width: 200},
+                {label: '名称', name: 'name', width: 200},
                 {label: '链接', name: 'href', width: 150},
                 {label: '排序', name: 'sort', width: 150,align:'right'},
                 {label: 'Freight', name: 'isShow', width: 150},
                 {label: 'Ship Name', name: 'updateDate', width: 150}
             ],
+            dataId: 'id', 	// 指定数据主键
             viewrecords: true,
             height: 500,
+            lazyLoad: false,
             rownumbers: true,
+            sortableColumn:false,
             pager: "#jqGridPager",
             shrinkToFit :false,
             autoGridHeight: true, // 自动表格高度

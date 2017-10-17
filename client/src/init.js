@@ -1,12 +1,9 @@
-/**
- * Created by gg on 2016/1/20.
- */
 import {UPDATE_TIME} from './actions/def'
-import {user_auth_action} from './actions/user'
+import {userAuth} from './actions/user'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 
-function timer_init(store) {
+function timerInid(store) {
     setInterval(() => {
         store.dispatch({
             type: UPDATE_TIME
@@ -26,7 +23,7 @@ let app_init = function (store) {
     let username = Cookies.get('username');
     let password = Cookies.get('password');
 
-    store.dispatch(user_auth_action(username,password));
+    store.dispatch(userAuth(username,password));
 
     window.onscroll = function () {
         store.dispatch({
