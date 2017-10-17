@@ -44,8 +44,8 @@ class JqgridWrapper extends Component {
             height: 500,
             lazyLoad: false,
             rownumbers: true,
+            pager: '#'+parseInt((Math.random()*1000000000)).toString(),
             sortableColumn:false,
-            pager: "#jqGridPager",
             shrinkToFit :false,
             autoGridHeight: true, // 自动表格高度
             autoGridHeightFix: 0,  // 自动表格高度宽度
@@ -84,20 +84,26 @@ class JqgridWrapper extends Component {
     }
 
     componentDidMount(prevProps, prevState) {
+        let gridTable = findDOMNode(this.refs.gridTable);
+
+
         this.curOptions = Object.assign(this.defaultOptions,this.props.options);
         this.curOptions.height = $('.my-grid-wrapper').height()-59;
 
-        let gridTable = findDOMNode(this.refs.gridTable);
+        // this.curOptions.pager = $(findDOMNode(this.refs.pager));
+
         this.gridTable = $(gridTable);
+
         this.gridTable.jqGrid(this.curOptions);
     }
 
     render() {
+        let pager= this.defaultOptions.pager.substr(1);
 
         return (
             <div className='my-grid-wrapper' ref="gridWrapper">
                 <table ref="gridTable"/>
-                <div   id ="jqGridPager"/>
+                <div  id={pager}/>
                 {this.state.loading ?<Loading text={'正在拼命加载中...'}/>:null}
             </div>
         )

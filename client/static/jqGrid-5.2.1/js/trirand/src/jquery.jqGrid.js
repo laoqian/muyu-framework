@@ -1329,10 +1329,13 @@ $.fn.jqGrid = function( pin ) {
 			colFilters : {},
 			colMenu : false
 		}, $.jgrid.defaults , pin );
+
+        console.log(p.pager)
 		if (localData !== undefined) {
 			p.data = localData;
 			pin.data = localData;
 		}
+
 		var ts= this, grid={
 			headers:[],
 			cols:[],

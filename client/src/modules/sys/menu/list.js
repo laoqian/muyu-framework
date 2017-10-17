@@ -7,6 +7,7 @@ import MenuEdit from './edit'
 import MenuDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
 import {notification } from 'antd';
+import {findDOMNode} from 'react-dom';
 
 class SyseMenu extends Component{
 
@@ -46,7 +47,7 @@ class SyseMenu extends Component{
         this.toolBarOptions.rightTools.click = item => {
             switch (item.name){
                 case '修改':
-                    let grid =$('#dataGrid');
+                    let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
                     let id =grid.getGridParam('selrow');
 
                     if(!id){
@@ -67,9 +68,9 @@ class SyseMenu extends Component{
     render() {
         return (
             <Router history= {this.history}>
-                <div className="my-col-full">
+                <div className="my-col-full" >
                     <ToolBar options={this.toolBarOptions}/>
-                    <JqgridWrapper options={this.options}/>
+                    <JqgridWrapper options={this.options} ref="grid"/>
                     <Route path="/edit/:id" component= {MenuEdit}/>
                     <Route path="/delete" component= {MenuDelete}/>
                 </div>

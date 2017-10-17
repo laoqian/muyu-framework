@@ -14,7 +14,8 @@ class SysUser extends Component{
         super();
 
         this.history = createHistory({basename:'#user'});
-        this.options = {};
+        this.options = {
+        };
 
         this.toolBarOptions = {
             sync: false,
@@ -47,7 +48,7 @@ class SysUser extends Component{
         this.toolBarOptions.rightTools.click = item => {
             switch (item.name){
                 case '修改':
-                    let grid =$('#dataGrid');
+                    let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
                     let id =grid.getGridParam('selrow');
 
                     if(!id){
