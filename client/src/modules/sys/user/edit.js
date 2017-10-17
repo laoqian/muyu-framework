@@ -1,12 +1,31 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {Form, Icon, Input, Button, Checkbox,Modal} from 'antd';
+import {Form, Icon, Input, Button, Checkbox,Modal,Row,TreeSelect,Col,TreeNode} from 'antd';
 import {userGet} from '../../../actions/user'
 import Loading from '../../../components/loading'
 import {notification } from 'antd';
 
 const FormItem = Form.Item;
+
+const treeData = [{
+    label: 'Node1',
+    value: '0-0',
+    key: '0-0',
+    children: [{
+        label: 'Child Node1',
+        value: '0-0-1',
+        key: '0-0-1',
+    }, {
+        label: 'Child Node2',
+        value: '0-0-2',
+        key: '0-0-2',
+    }],
+}, {
+    label: 'Node2',
+    value: '0-1',
+    key: '0-1',
+}];
 
 class UserEditForm extends Component {
     constructor() {
@@ -87,6 +106,12 @@ class UserEditForm extends Component {
     render() {
 
         const {getFieldDecorator} = this.props.form;
+        const formItemLayout = {
+            labelCol  : {span:6  },
+            wrapperCol: {span:18 },
+        };
+        let style={width:'100%'}
+
         return (
 
             <Modal
@@ -97,30 +122,119 @@ class UserEditForm extends Component {
                 onCancel={() => this.modalClosed('cancel')}
                 confirmLoading={this.state.submiting}
             >
-                <Form ref="userForm" className="my-user-form" layout="horizontal">
-                    <FormItem label="登录名">
-                        {getFieldDecorator('loginname', {
-                            rules: [{required: true, message: '请输入有效的用户名!'}],
-                        })(
-                            <Input placeholder="用户名" />
-                        )}
-                    </FormItem>
-                    <FormItem label="密码">
-                        {getFieldDecorator('password', {
-                            rules: [{required: true, message: '请输入有效的密码!'}],
-                        })(
-                            <Input type="password"
-                                   placeholder="密码"/>
-                        )}
-                    </FormItem>
-                    <FormItem label="再次输入密码">
-                        {getFieldDecorator('password', {
-                            rules: [{required: true, message: '请输入有效的密码!'}],
-                        })(
-                            <Input type="password"
-                                   placeholder="密码"/>
-                        )}
-                    </FormItem>
+                <Form ref="userForm" className="my-user-form" >
+                    <Row>
+                        <Col span={12}>
+                            <FormItem label="归属公司" {...formItemLayout}>
+                                {getFieldDecorator('office.id', {
+                                    rules: [{required: true, message: '请输入有效的用户名!'}],
+                                })(
+                                    <TreeSelect
+                                        style={style}
+                                        showSearch
+                                        placeholder= "Please select"
+                                        allowClear
+                                        treeDefaultExpandAll
+                                        treeData={treeData}
+                                    />
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}>
+                            <FormItem label="归属部门" {...formItemLayout}>
+                                {getFieldDecorator('password', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <TreeSelect
+                                        style={style}
+                                        showSearch
+                                        placeholder= "Please select"
+                                        allowClear
+                                        treeDefaultExpandAll
+                                        treeData={treeData}
+                                    />
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormItem label="登录名" {...formItemLayout}>
+                                {getFieldDecorator('loginname', {
+                                    rules: [{required: true, message: '请输入有效的用户名!'}],
+                                })(
+                                    <Input placeholder="用户名"   style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}>
+                            <FormItem label="姓名" {...formItemLayout}>
+                                {getFieldDecorator('name', {
+                                    rules: [{required: true, message: '请输入有效的姓名!'}],
+                                })(
+                                    <Input placeholder="姓名"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormItem label="密码" {...formItemLayout}>
+                                {getFieldDecorator('password', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <Input type="password"
+                                           placeholder="密码"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}>
+                            <FormItem label="确认密码" {...formItemLayout}>
+                                {getFieldDecorator('password', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <Input type="password"
+                                           placeholder="密码"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}/>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormItem label="邮箱" {...formItemLayout}>
+                                {getFieldDecorator('email', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <Input type="email"
+                                           placeholder="邮箱"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}>
+                            <FormItem label="电话" {...formItemLayout}>
+                                {getFieldDecorator('phone', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <Input type="phone"
+                                           placeholder="电话"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                        <Col span={12}/>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <FormItem label="用户类型" {...formItemLayout}>
+                                {getFieldDecorator('userType', {
+                                    rules: [{required: true, message: '请输入有效的密码!'}],
+                                })(
+                                    <Input type="text"
+                                           placeholder="邮箱"  style={style}/>
+                                )}
+                            </FormItem>
+                        </Col>
+                    </Row>
                 </Form>
                 {this.loadingUser? <Loading isLayerHide={true} text={this.state.loadingText}/>:''}
             </Modal>
