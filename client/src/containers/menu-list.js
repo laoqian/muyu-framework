@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {Menu, Icon} from 'antd';
-import {get_user_menu_list} from '../actions/menu'
-import {tab_add} from '../actions/tabs'
+import {get_user_menu_list} from '../redux/actions/menu'
+import {tab_add} from '../redux/actions/tabs'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 import _ from 'lodash'

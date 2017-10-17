@@ -1,4 +1,4 @@
-import config from '../config.js';
+import config from '../../config.js';
 import { message } from 'antd';
 
 //异步ajax中间件

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Form, Icon, Input, Button, Checkbox,Modal,Row,TreeSelect,Col,TreeNode} from 'antd';
-import {userGet} from '../../../actions/user'
+import {userGet} from '../../../redux/actions/user'
 import Loading from '../../../components/loading'
 import {notification } from 'antd';
 

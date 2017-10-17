@@ -1,7 +1,7 @@
 import React ,{Component} from  'react'
 import {connect} from 'react-redux'
 import {Tabs} from 'antd';
-import {tab_delete,tab_sel} from '../actions/tabs'
+import {tab_delete,tab_sel} from '../redux/actions/tabs'
 import {bindActionCreators} from 'redux';
 import SysUser from "../modules/sys/user/list"
 

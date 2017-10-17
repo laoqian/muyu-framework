@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import Loading from '../components/loading'
-import {jqgrid_action} from '../actions/jqgrid'
+import {jqgrid_action} from '../redux/actions/jqgrid'
 import {bindActionCreators} from 'redux'
 
 class JqgridWrapper extends Component {

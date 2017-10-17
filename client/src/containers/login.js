@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {userAuth} from '../actions/user'
+import {userAuth} from '../redux/actions/user'
 import {bindActionCreators} from 'redux'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
