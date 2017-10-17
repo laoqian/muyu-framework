@@ -1,21 +1,21 @@
 import {TAB_ADD,TAB_DELETE,TAB_SEL} from './def'
 
 
-export function tab_add(data) {
+export function tabAdd(data) {
     return {
         type:TAB_ADD,
         data
     }
 }
 
-export function tab_delete(data) {
+export function tabDelete(data) {
     return {
         type:TAB_DELETE,
         data,
     }
 }
 
-export function tab_sel(data) {
+export function tabSel(data) {
     return {
         type:TAB_SEL,
         data,

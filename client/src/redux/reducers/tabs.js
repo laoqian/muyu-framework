@@ -19,7 +19,7 @@ function tab_reducer(state=tabs.toJS(),action) {
 
     if(_.isObject(pene)){
         __i = _.findIndex(penes,chr=>{
-            return chr.key === pene.key
+            return chr.id === pene.id
         });
     }
 
@@ -27,17 +27,17 @@ function tab_reducer(state=tabs.toJS(),action) {
         case TAB_ADD:
             __i===-1?penes.push(pene):0;
 
-            tabs = tabs.merge({penes,activeKey:pene.key});
+            tabs = tabs.merge({penes,activeKey:pene.id});
             break;
         case TAB_DELETE:
             if(__i< 0){
                 return tabs.toJS();
             }
 
-            let delKey = penes[__i].key;
+            let delKey = penes[__i].id;
 
             _.remove(penes,chr=>{
-                return chr.key === pene.key
+                return chr.id === pene.id
             });
 
             if(penes.length===0){
@@ -48,7 +48,7 @@ function tab_reducer(state=tabs.toJS(),action) {
                     __i--;
                 }
 
-                tabs = tabs.merge({penes,activeKey:penes[__i].key});
+                tabs = tabs.merge({penes,activeKey:penes[__i].id});
             }
             else{
                 tabs = tabs.merge({penes,activeKey:ts.activeKey});
@@ -56,9 +56,8 @@ function tab_reducer(state=tabs.toJS(),action) {
 
             break;
         case TAB_SEL:
-            tabs = tabs.merge({penes,activeKey:pene.key});
+            tabs = tabs.merge({penes,activeKey:pene.id});
     }
-
 
     return tabs.toJS();
 }

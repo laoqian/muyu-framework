@@ -1,7 +1,7 @@
 
 import {MENU_GET_LIST,MENU_ADD,MENU_DELETE } from './def'
 
-export function get_user_menu_list() {
+export function getUserMenuList() {
     return {
         type:MENU_GET_LIST,
         uri :'menu/findList',
@@ -9,7 +9,7 @@ export function get_user_menu_list() {
     }
 }
 
-export function menu_add(menu) {
+export function menuAdd(menu) {
     return {
         type:MENU_ADD,
         uri :'menu/save',
@@ -19,7 +19,7 @@ export function menu_add(menu) {
 }
 
 
-export function menu_delete(menu) {
+export function menuDelete(menu) {
     return {
         type:MENU_DELETE,
         uri :'menu/delete',

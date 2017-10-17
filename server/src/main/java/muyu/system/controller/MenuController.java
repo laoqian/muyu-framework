@@ -30,13 +30,16 @@ public class MenuController extends BaseController{
     MenuService menuService;
 
     @RequestMapping("findList")
-    public ResultBean<List> findList(){
+    public ResultBean<List> findList() throws InterruptedException {
+
         List<Menu> list = menuService.findList(null);
+        Thread.sleep(1000);
         return new ResultBean<>(list);
     }
 
     @RequestMapping("findPage")
     public ResultPageBean<Menu> findPage(Menu menu, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
+
         return menuService.findPage(request,menu);
     }
 }

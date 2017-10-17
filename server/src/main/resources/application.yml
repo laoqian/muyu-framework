@@ -15,8 +15,8 @@ spring:
 
         driver-class-name: oracle.jdbc.driver.OracleDriver
         url: jdbc:oracle:thin:@localhost:1521:orcl
-        username: xmgl
-        password: js1
+        username: muyu
+        password: muyu
 
         # 使用druid数据源
         type: com.alibaba.druid.pool.DruidDataSource

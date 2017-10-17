@@ -3,12 +3,12 @@ import {connect} from 'react-redux'
 import ToolBar from '../../../components/tool-bar'
 import JqgridWrapper from '../../../layouts/grid'
 import {Router, Route,IndexRoute} from 'react-router-dom'
-import UserEdit from './edit'
-import UserDelete from './delete'
+import MenuEdit from './edit'
+import MenuDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
 import {notification } from 'antd';
 
-class SysUser extends Component{
+class SyseMenu extends Component{
 
     constructor() {
         super();
@@ -71,15 +71,14 @@ class SysUser extends Component{
                 <div className="my-col-full">
                     <ToolBar options={this.toolBarOptions}/>
                     <JqgridWrapper options={this.options}/>
-                    <Route path="/edit/:id" component= {UserEdit}/>
-                    <Route path="/delete" component= {UserDelete}/>
+                    <Route path="/edit/:id" component= {MenuEdit}/>
+                    <Route path="/delete" component= {MenuDelete}/>
                 </div>
             </Router>
         )
     }
 }
 
-SysUser.propTypes = {};
 
 function mapStateToProps(state) {
     return {
@@ -91,5 +90,5 @@ function mapActionToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps,mapActionToProps)(SysUser);
+export default connect(mapStateToProps, mapActionToProps)(SyseMenu);
 

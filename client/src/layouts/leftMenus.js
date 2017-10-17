@@ -1,14 +1,13 @@
 import React, {Component, PropTypes} from 'react'
 import {Menu, Icon} from 'antd';
-import {get_user_menu_list} from '../redux/actions/menu'
-import {tab_add} from '../redux/actions/tabs'
+import {getUserMenuList} from '../redux/actions/menu'
+import {tabAdd} from '../redux/actions/tabs'
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 import _ from 'lodash'
+import {Spin}  from 'antd'
 
 const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
-
 
 class MenuList extends Component {
 
@@ -18,7 +17,7 @@ class MenuList extends Component {
     }
 
     componentDidMount() {
-        this.props.get_user_menu_list();
+        this.props.getUserMenuList();
     }
 
     getSubMenuList(id){
@@ -32,14 +31,15 @@ class MenuList extends Component {
             return chr.id === menu.key;
         });
 
-        this.props.tab_add({title:selected.name,content:selected.name,key:selected.name,closable:true});
+        this.props.tabAdd(selected);
     }
 
     render() {
         if(this.props.menuList.length===0){
-            return (<div>
-                加载菜单，请稍候...
-            </div>)
+            let style ={width:'100%',height:'100%'};
+            return (<div className="flex-hvm" style={style}>
+                        <Spin size="large" />
+                    </div>)
         }else{
             return (
                 <Menu
@@ -50,7 +50,7 @@ class MenuList extends Component {
                     mode="inline"
                 >
                     {
-                        this.getSubMenuList("1").map((menu)=>(
+                        this.getSubMenuList("0").map((menu)=>(
                             <SubMenu key={menu.id} title={<span><Icon type="mail" /><span>{menu.name}</span></span>}>
                                     {
                                         this.getSubMenuList(menu.id).map((sub)=>(
@@ -71,7 +71,6 @@ MenuList.propTypes = {
     menuList:PropTypes.array.isRequired
 };
 
-
 function mapStateToProps(state) {
     return {
         menuList:state.menu.list
@@ -80,8 +79,8 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        get_user_menu_list: bindActionCreators(get_user_menu_list, dispatch),
-        tab_add: bindActionCreators(tab_add, dispatch)
+        getUserMenuList : bindActionCreators(getUserMenuList, dispatch),
+        tabAdd          : bindActionCreators(tabAdd, dispatch)
     }
 }
 
