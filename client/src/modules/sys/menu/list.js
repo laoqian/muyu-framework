@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import ToolBar from '../../../components/tool-bar'
+import ToolBar from '../../../containers/toolBar'
 import JqgridWrapper from '../../../layouts/grid'
 import {Router, Route,IndexRoute} from 'react-router-dom'
 import MenuEdit from './edit'
@@ -35,7 +35,6 @@ class SyseMenu extends Component{
                 }
             },
             rightTools:{
-                isReload: true,
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
@@ -82,7 +81,6 @@ class SyseMenu extends Component{
 
 function mapStateToProps(state) {
     return {
-        sys_user: state.sys_user
     }
 }
 

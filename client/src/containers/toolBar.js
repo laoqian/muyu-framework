@@ -1,5 +1,7 @@
 import React ,{Component} from  'react'
 import { Button, Form, Input, Select} from 'antd';
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
 import _ from 'lodash';
 
 const ButtonGroup = Button.Group;
@@ -74,7 +76,7 @@ class ToolBar extends Component {
             <div className="my-tb">
                 <SearchToolBarForm tools={options.leftTools}/>
                 <div className="my-tb-right">
-                    {rightTool.isReload?<Button icon="reload" onClick={()=>{$("#dataGrid").trigger('reloadGrid')}}/>:''}
+                    {rightTool.reload?<Button icon="reload" onClick={rightTool.reload}/>:''}
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
@@ -90,10 +92,15 @@ class ToolBar extends Component {
 }
 
 
-ToolBar.propTypes = {
+function mapStateToProps(state){
+    return {
+    }
+}
 
-};
+function mapActionToProps(dispatch) {
+    return {}
+}
 
+export default connect(mapStateToProps, mapActionToProps)(ToolBar);
 
-export default ToolBar;
 

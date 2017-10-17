@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import ToolBar from '../../../components/tool-bar'
+import ToolBar from '../../../containers/toolBar'
 import JqgridWrapper from '../../../layouts/grid'
 import {Router, Route,IndexRoute} from 'react-router-dom'
 import UserEdit from './edit'

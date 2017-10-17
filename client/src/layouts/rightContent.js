@@ -13,14 +13,14 @@ class ContentWrapper extends Component {
         this.onEdit = this.onEdit.bind(this);
         }
 
-    onEdit = (key, action) => {
+    onEdit = (id, action) => {
         if(action ==='remove'){
-            this.props.tabDelete({key})
+            this.props.tabDelete({id})
         }
     }
 
-    onTabClick = (key) => {
-        this.props.tabSel({key})
+    onTabClick = (id) => {
+        this.props.tabSel({id})
     }
 
     getPage(href){

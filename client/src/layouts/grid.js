@@ -1,14 +1,20 @@
 import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
 import {Link} from 'react-router'
 import Loading from '../components/loading'
 import {jqgrid_action} from '../redux/actions/jqgrid'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {findDOMNode} from 'react-dom';
 
 class JqgridWrapper extends Component {
     constructor(){
         super();
         let __this = this;
+
+        this.state ={
+             loading:false
+        };
+
         this.defaultOptions = {
             url: 'api/menu/findPage',
             styleUI: 'Bootstrap',
@@ -32,6 +38,7 @@ class JqgridWrapper extends Component {
                 {label: 'Freight', name: 'isShow', width: 150},
                 {label: 'Ship Name', name: 'updateDate', width: 150}
             ],
+
             dataId: 'id', 	// 指定数据主键
             viewrecords: true,
             height: 500,
@@ -46,24 +53,27 @@ class JqgridWrapper extends Component {
             autoGridWidthFix: 0,  // 自动表格修复宽度
 
             beforeRequest:function (data) {
-                $('#dataGrid').jqGrid('setGridParam', {pageNum:1,pageSize:20});
+                let grid = __this.gridTable;
+                grid.jqGrid('setGridParam', {pageNum:1,pageSize:20});
+                $('.ui-jqgrid .loading',grid).remove();
 
-                $('.ui-jqgrid .loading').remove();
-                __this.props.load(true);
+                __this.setState({loading:true});
             },
             loadComplete:function (data) {
-                __this.props.load(false);
+                __this.setState({loading:false});
             },
             gridComplete:function(){
-                let wrapper =$('.my-grid-wrapper');
+                let wrapper = findDOMNode(__this.refs.gridWrapper);
+                wrapper = $(wrapper);
+
                 let width =wrapper.width()-2;
                 let height = wrapper.height()-59;
-                let dataGrid =$('#dataGrid');
+                let grid = __this.gridTable;
 
-                dataGrid.jqGrid('setGridWidth',width);
-                dataGrid.jqGrid('setGridHeight',height);
+                grid.jqGrid('setGridWidth',width);
+                grid.jqGrid('setGridHeight',height);
 
-                $('.ui-jqgrid-hdiv').css('width',width);
+                $('.ui-jqgrid-hdiv',grid).css('width',width);
             },
 
             loadError:function (data){
@@ -72,19 +82,23 @@ class JqgridWrapper extends Component {
 
         };
     }
+
     componentDidMount(prevProps, prevState) {
         this.curOptions = Object.assign(this.defaultOptions,this.props.options);
         this.curOptions.height = $('.my-grid-wrapper').height()-59;
 
-        $("#dataGrid").jqGrid(this.curOptions);
+        let gridTable = findDOMNode(this.refs.gridTable);
+        this.gridTable = $(gridTable);
+        this.gridTable.jqGrid(this.curOptions);
     }
 
     render() {
+
         return (
-            <div className='my-grid-wrapper'>
-                <table id="dataGrid" />
-                <div   id="jqGridPager"/>
-                {this.props.grid.isLoading? <Loading text={'正在拼命加载中...'}/>:''}
+            <div className='my-grid-wrapper' ref="gridWrapper">
+                <table ref="gridTable"/>
+                <div   id ="jqGridPager"/>
+                {this.state.loading ?<Loading text={'正在拼命加载中...'}/>:null}
             </div>
         )
     }
@@ -102,7 +116,7 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        load: bindActionCreators(jqgrid_action, dispatch)
+
     }
 }
 
