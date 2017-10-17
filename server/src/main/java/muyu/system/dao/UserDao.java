@@ -1,5 +1,6 @@
 package muyu.system.dao;
 
+import muyu.system.common.persistence.CrudDao;
 import muyu.system.entity.User;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @version: 1.0.0
  */
 @Component
-public interface  UserDao {
+public interface  UserDao extends CrudDao<User>{
     User getUser();
 
 }

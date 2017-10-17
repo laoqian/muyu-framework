@@ -37,7 +37,6 @@ public class MenuController extends BaseController{
 
     @RequestMapping("findPage")
     public ResultPageBean<Menu> findPage(Menu menu, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
-//      Thread.sleep(5000);
         return menuService.findPage(request,menu);
     }
 }

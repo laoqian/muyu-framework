@@ -27,7 +27,7 @@ public class SystemController{
     public ResultBean<SecurityUser> login(HttpSession httpSession){
 
         httpSession.setAttribute("11","2222222222");
-        return userService.get("111");
+        return userService.getUser("111");
     }
 
     @RequestMapping("admin")

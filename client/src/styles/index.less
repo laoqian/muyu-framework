@@ -253,21 +253,16 @@ input, select, button {
   background: rgba(0, 0, 0, 0.3);
   z-index: 998;
   border-radius: 3px;
+  .flex-hvm;
 }
 .my-loading{
-  width: 260px;
   height: 56px;
-  position: absolute;
-  z-index: 999;
-  left: 50%;
-  top:50%;
-  margin-top: -28px;
-  margin-left: -130px;
+  z-index: 1001;
   border-radius: 8px;
   border: solid 1px darken(@border-color,10%);
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding:10px 20px;
   background: #f9f9f9;
 
   &>span{
@@ -289,5 +284,9 @@ input, select, button {
 .my-modal-wrapper{
   min-height:32px;
   background: white;
+}
 
+.my-user-form{
+  min-width: 800px;
+  height: 600px;
 }

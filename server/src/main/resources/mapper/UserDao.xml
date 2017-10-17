@@ -29,5 +29,7 @@
     <select id="getUser" resultType="User">
         select * from sys_user where ROWNUM = 1
     </select>
-
+    <select id="get" resultType="User">
+        select * from sys_user where id = #{id}
+    </select>
 </mapper>

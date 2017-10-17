@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.utils.SequenceUtils;
+import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,14 +43,34 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	public T get(String id) {
 		return dao.get(id);
 	}
-	
+
 	/**
 	 * 获取单条数据
 	 * @param entity
 	 * @return
 	 */
+
 	public T get(T entity) {
 		return dao.get(entity);
+	}
+
+	/**
+	 * 获取单挑数据
+	 * @param t
+	 * @return
+	 */
+	public ResultBean<T> query(T t){
+		ResultBean<T> bean = new ResultBean<>();
+		T t1 = dao.get(t);
+
+		if(t1==null){
+			bean.setMsg("查询失败，ID="+t.getId());
+			bean.setCode(ResultBean.FAIL);
+		}else{
+			bean.setData(t1);
+		}
+
+		return bean;
 	}
 	
 	/**
@@ -57,7 +79,6 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @return
 	 */
 	public List<T> findList(T entity) {
-
 		return dao.findList(entity);
 	}
 	
@@ -85,7 +106,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @param entity
 	 */
 	@Transactional(readOnly = false)
-	public void save(T entity) {
+	public ResultBean<T> save(T entity) {
 		if (entity.getIsNewRecord()){
 			entity.preInsert();
             if(StringUtils.isBlank(entity.getId())){
@@ -96,6 +117,8 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 			entity.preUpdate();
 			dao.update(entity);
 		}
+
+		return new ResultBean<>(entity);
 	}
 
 

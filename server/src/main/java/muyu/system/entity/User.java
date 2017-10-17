@@ -4,6 +4,7 @@
 package muyu.system.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
 import org.assertj.core.util.Lists;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * @version: 1.0.0
  */
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class User extends DataEntity<User> {
 
@@ -48,8 +50,10 @@ public class User extends DataEntity<User> {
 	
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
 
+	public User(){
+		super();
+	}
 
-	
 	public User(String id){
 		super(id);
 	}

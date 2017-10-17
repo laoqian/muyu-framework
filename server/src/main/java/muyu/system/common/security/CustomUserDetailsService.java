@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        ResultBean<SecurityUser> resultBean =userService.get(username);
+        ResultBean<SecurityUser> resultBean =userService.getUser(username);
 
         return resultBean.getData();
     }
