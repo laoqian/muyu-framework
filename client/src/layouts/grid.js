@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import Loading from '../components/loading'
-import {jqgrid_action} from '../redux/actions/jqgrid'
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {findDOMNode} from 'react-dom';
 
@@ -86,11 +84,8 @@ class JqgridWrapper extends Component {
     componentDidMount(prevProps, prevState) {
         let gridTable = findDOMNode(this.refs.gridTable);
 
-
         this.curOptions = Object.assign(this.defaultOptions,this.props.options);
         this.curOptions.height = $('.my-grid-wrapper').height()-59;
-
-        // this.curOptions.pager = $(findDOMNode(this.refs.pager));
 
         this.gridTable = $(gridTable);
 

@@ -94,6 +94,7 @@ class MenuEditForm extends Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
+        console.log(11111111);
         if(!this.state.visible && this.props.match.params.id){
             this.loadUser();
         }
@@ -112,6 +113,7 @@ class MenuEditForm extends Component {
         };
         let style={width:'100%'}
 
+        console.log("menu edit");
         return (
 
             <Modal

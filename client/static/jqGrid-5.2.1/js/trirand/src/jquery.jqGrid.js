@@ -1330,7 +1330,6 @@ $.fn.jqGrid = function( pin ) {
 			colMenu : false
 		}, $.jgrid.defaults , pin );
 
-        console.log(p.pager)
 		if (localData !== undefined) {
 			p.data = localData;
 			pin.data = localData;

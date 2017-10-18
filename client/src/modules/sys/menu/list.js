@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../containers/toolBar'
 import JqgridWrapper from '../../../layouts/grid'
-import {Router, Route,IndexRoute} from 'react-router-dom'
+import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import MenuEdit from './edit'
 import MenuDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
-import {notification } from 'antd';
+import {notification,Modal } from 'antd';
 import {findDOMNode} from 'react-dom';
 
 class SyseMenu extends Component{
@@ -58,7 +58,7 @@ class SyseMenu extends Component{
 
                     return this.history.push('/edit/'+id);
                 case '添加':
-                    return this.history.push('/edit');
+                    return this.history.push('/add');
                 case '删除':
                     return  this.history.push('/delete')
             }
@@ -67,18 +67,26 @@ class SyseMenu extends Component{
 
     render() {
         return (
-            <Router history= {this.history}>
-                <div className="my-col-full" >
-                    <ToolBar options={this.toolBarOptions}/>
-                    <JqgridWrapper options={this.options} ref="grid"/>
-                    <Route path="/edit/:id" component= {MenuEdit}/>
-                    <Route path="/delete" component= {MenuDelete}/>
-                </div>
-            </Router>
+            <div className="my-col-full" >
+                <ToolBar options={this.toolBarOptions}/>
+                <JqgridWrapper options={this.options} ref="grid"/>
+                <Router history= {this.history}>
+                    <Switch>
+                        <Route path="/edit/:id" component= {MenuEdit}/>
+                        <Route path="/add"      component= {MenuEdit}/>
+                        <Route path="/delete"   component= {MenuDelete}/>
+                        <Route                  component={NoMatch}/>
+                    </Switch>
+                </Router>
+            </div>
         )
     }
 }
 
+const NoMatch = ({ location }) => {
+    notification.error({message:`路由匹配出错:${location.pathname}`});
+    return null;
+};
 
 function mapStateToProps(state) {
     return {

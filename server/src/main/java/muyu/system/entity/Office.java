@@ -3,6 +3,8 @@
  */
 package muyu.system.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
  * @author ThinkGem
  * @version 2013-05-15
  */
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class Office extends DataEntity<Office> {
 
 	private static final long serialVersionUID = 1L;

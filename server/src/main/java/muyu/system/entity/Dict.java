@@ -1,6 +1,8 @@
 
 package muyu.system.entity;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
 
 
@@ -9,6 +11,9 @@ import muyu.system.common.persistence.DataEntity;
  * @author ThinkGem
  * @version 2013-05-15
  */
+
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class Dict extends DataEntity<Dict> {
 
 	private static final long serialVersionUID = 1L;
