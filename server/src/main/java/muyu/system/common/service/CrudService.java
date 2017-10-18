@@ -108,10 +108,12 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	@Transactional(readOnly = false)
 	public ResultBean<T> save(T entity) {
 		if (entity.getIsNewRecord()){
+
+			if(StringUtils.isBlank(entity.getId())){
+				entity.setId(SequenceUtils.getNextVal(null));
+			}
+
 			entity.preInsert();
-            if(StringUtils.isBlank(entity.getId())){
-                entity.setId(SequenceUtils.getNextVal(null));
-            }
 			dao.insert(entity);
 		}else{
 			entity.preUpdate();

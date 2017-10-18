@@ -21,7 +21,8 @@ import org.springframework.stereotype.Service;
 public class SequenceUtils {
     private static final String DEDAULT_SEQ_ID = "SEQ_COMMID";
 
-    public static OracleSequenceMaxValueIncrementer oracleSequenceMaxValueIncrementer = new OracleSequenceMaxValueIncrementer();
+    @Autowired
+    public static OracleSequenceMaxValueIncrementer oracleSequenceMaxValueIncrementer ;
    
     public static String getNextVal(String seqId){
     	if (StringUtils.isBlank(seqId)) {

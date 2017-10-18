@@ -3,7 +3,7 @@ import { Button, Form, Input, Select} from 'antd';
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import _ from 'lodash';
-
+import {reloadGrid} from '../redux/actions/jqgrid'
 const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
@@ -67,7 +67,6 @@ const SearchToolBarForm = Form.create()(SearchToolBarForm_);
 
 class ToolBar extends Component {
 
-
     render() {
         let options = this.props.options;
         let rightTool = options.rightTools;
@@ -76,7 +75,9 @@ class ToolBar extends Component {
             <div className="my-tb">
                 <SearchToolBarForm tools={options.leftTools}/>
                 <div className="my-tb-right">
-                    {rightTool.reload?<Button icon="reload" onClick={rightTool.reload}/>:''}
+                    {rightTool.reload?<Button icon="reload" onClick={()=>{
+                        this.props.reload(rightTool.gridName)
+                    }}/>:''}
                     <ButtonGroup>
                         {
                             rightTool.items.map(btn=>(
@@ -98,7 +99,9 @@ function mapStateToProps(state){
 }
 
 function mapActionToProps(dispatch) {
-    return {}
+    return {
+        reload:bindActionCreators(reloadGrid,dispatch)
+    }
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ToolBar);

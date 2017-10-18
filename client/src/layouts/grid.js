@@ -81,19 +81,24 @@ class JqgridWrapper extends Component {
         };
     }
 
+    componentDidUpdate(){
+        let {gridName} = this.props.grid;
+        if(this.curOptions.gridName === gridName){
+            this.gridTable.trigger('reloadGrid');
+        }
+    }
+
     componentDidMount(prevProps, prevState) {
         let gridTable = findDOMNode(this.refs.gridTable);
 
         this.curOptions = Object.assign(this.defaultOptions,this.props.options);
         this.curOptions.height = $('.my-grid-wrapper').height()-59;
-
         this.gridTable = $(gridTable);
-
         this.gridTable.jqGrid(this.curOptions);
     }
 
     render() {
-        let pager= this.defaultOptions.pager.substr(1);
+        let pager = this.defaultOptions.pager.substr(1);
 
         return (
             <div className='my-grid-wrapper' ref="gridWrapper">

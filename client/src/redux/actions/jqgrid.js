@@ -1,9 +1,9 @@
 
-import {JGGRID_LOAD_STATE} from './def'
+import {JGGRID_RELOAD} from './def'
 
-export function jqgrid_action(isLoading) {
+export function reloadGrid(gridName) {
     return {
-        type: JGGRID_LOAD_STATE,
-        data: {isLoading},
+        type: JGGRID_RELOAD,
+        data: {gridName},
     }
 }

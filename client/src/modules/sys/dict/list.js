@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import ToolBar from '../../../containers/toolBar'
 import JqgridWrapper from '../../../layouts/grid'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
-import MenuEdit from './edit'
-import MenuDelete from './delete'
+import DictEdit from './edit'
+import DictDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
 import {notification,Modal } from 'antd';
 import {findDOMNode} from 'react-dom';
@@ -14,8 +14,13 @@ class SyseMenu extends Component{
     constructor() {
         super();
 
+        this.moduleName = 'sysDict';
         this.history = createHistory({basename:'#user'});
-        this.options = {};
+        this.options = {
+            url:'api/dict/findPage',
+            gridName:this.moduleName+'Grid'
+        };
+
         this.toolBarOptions = {
             sync: false,
 
@@ -35,6 +40,8 @@ class SyseMenu extends Component{
                 }
             },
             rightTools:{
+                reload:true,
+                gridName:this.options.gridName,
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
@@ -71,9 +78,9 @@ class SyseMenu extends Component{
                 <JqgridWrapper options={this.options} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
-                        <Route path="/edit/:id" component= {MenuEdit}/>
-                        <Route path="/add"      component= {MenuEdit}/>
-                        <Route path="/delete"   component= {MenuDelete}/>
+                        <Route path="/edit/:id" component= {DictEdit}/>
+                        <Route path="/add"      component= {DictEdit}/>
+                        <Route path="/delete"   component= {DictDelete}/>
                         <Route                  component={NoMatch}/>
                     </Switch>
                 </Router>

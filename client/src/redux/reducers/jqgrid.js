@@ -1,14 +1,14 @@
 
-import {JGGRID_LOAD_STATE,JGGRID_RELOAD} from '../actions/def'
+import {JGGRID_RELOAD} from '../actions/def'
 import immutable from 'immutable'
 
-let grid = immutable.Map({isLoading:false});
+let grid = immutable.Map({isLoading:false,gridName:null});
 
 function jqgrid_reducer(state = grid.toJS(),action) {
 
     switch (action.type){
-        case JGGRID_LOAD_STATE:
-            grid = grid.merge({isLoading:action.data.isLoading});
+        case JGGRID_RELOAD:
+            grid = grid.merge({gridName:action.data.gridName});
             state = grid.toJS();
             break;
 

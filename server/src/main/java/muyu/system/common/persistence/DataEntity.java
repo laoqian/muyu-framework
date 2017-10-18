@@ -6,6 +6,7 @@ package muyu.system.common.persistence;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import muyu.system.common.utils.IdUtils;
+import muyu.system.common.utils.SequenceUtils;
 import muyu.system.common.utils.UserUtils;
 import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,8 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date updateDate;    // 更新日期
 
+    protected String remarks;  //备注
+
     @JsonIgnore
     @Length(min = 1, max = 1)
     protected String delFlag;    //删除标记（0：正常；1：删除；2：审核）
@@ -56,11 +59,6 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
      */
     @Override
     public void preInsert() {
-
-        if (StringUtils.isBlank(this.id)) {
-            setId(IdUtils.genId());
-        }
-
         User user = UserUtils.getUser();
         if (StringUtils.isNotBlank(user.getId())) {
             this.updateBy = user;
