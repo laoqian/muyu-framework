@@ -8,10 +8,10 @@ import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
-import muyu.system.common.utils.SequenceUtils;
-import muyu.system.entity.User;
+import muyu.system.common.utils.IdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,13 +27,17 @@ import javax.servlet.http.HttpServletRequest;
 
 @Transactional(readOnly = true)
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
-	
-	
+
+
+	private static final String DEDAULT_SEQ_ID = "SEQ_COMMID";
 	/**
 	 * 持久层对象
 	 */
 	@Autowired
 	protected D dao;
+
+
+
 
 	/**
 	 * 获取单条数据
@@ -110,7 +114,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 		if (entity.getIsNewRecord()){
 
 			if(StringUtils.isBlank(entity.getId())){
-				entity.setId(SequenceUtils.getNextVal(null));
+				entity.setId(IdUtils.genId());
 			}
 
 			entity.preInsert();

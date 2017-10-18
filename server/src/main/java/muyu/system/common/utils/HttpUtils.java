@@ -1,6 +1,7 @@
 package muyu.system.common.utils;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,15 +20,16 @@ import java.io.PrintWriter;
 public class HttpUtils {
     private static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
-    public static void sendResponse(HttpServletResponse response,Object body){
+    public static void sendResponse(HttpServletResponse response,Object body) throws JsonProcessingException {
 
-        Object json= JSON.toJSON(body);
+        ObjectMapper mapper = new ObjectMapper(); //转换器
+        String json= mapper.writeValueAsString(body);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = null;
         try {
             out = response.getWriter();
-            out.append(json.toString());
+            out.append(json);
             logger.debug("认证完成");
 
         } catch (IOException e) {

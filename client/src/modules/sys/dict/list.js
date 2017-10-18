@@ -13,26 +13,28 @@ class SyseMenu extends Component{
 
     constructor() {
         super();
-
+        
         this.moduleName = 'sysDict';
         this.history = createHistory({basename:'#user'});
-        this.options = {
+        this.gridOptions = {
             url:'api/dict/findPage',
-            gridName:this.moduleName+'Grid'
+            gridName:this.moduleName,
+            colModel: [
+                {label: '键值', name: 'value', width: 200},
+                {label: '标签', name: 'label', width: 150},
+                {label: '类型', name: 'type', width: 150},
+                {label: '描述', name: 'description', width: 150},
+                {label: '排序', name: 'sort', width: 150}
+            ],
         };
 
         this.toolBarOptions = {
-            sync: false,
-
             leftTools: {
                 items: [
                     {
-                        name: 'username', type: 'input', text: '登录名:', palaceHolder: '登录名',
-                        rules: [{
-                            required: true, message: '登录名不能为空!',
-                        }],
-                    },
-                    {name: 'type', type: 'select', options: {11: 111, 22: 333}, default: '', text: '类型:'}
+                        name: 'type', type: 'input', text: '类型:', palaceHolder: '类型',
+                        rules: [],
+                    }
                 ],
                 searchBtn: {
                     text: '查询',
@@ -41,7 +43,7 @@ class SyseMenu extends Component{
             },
             rightTools:{
                 reload:true,
-                gridName:this.options.gridName,
+                gridName:this.gridOptions.gridName,
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
@@ -57,9 +59,9 @@ class SyseMenu extends Component{
                     let id =grid.getGridParam('selrow');
 
                     if(!id){
-                        return notification.error({message:'未选择,要修改的用户'});
+                        return notification.error({message:'未选择,要修改的标签'});
                     }else {
-                        notification.success({message:'编辑用户：'+id});
+                        notification.success({message:'编辑标签：'+id});
                     }
 
                     return this.history.push('/edit/'+id);
@@ -69,13 +71,15 @@ class SyseMenu extends Component{
                     return  this.history.push('/delete')
             }
         };
+
+        this.history.push('/');
     }
 
     render() {
         return (
             <div className="my-col-full" >
                 <ToolBar options={this.toolBarOptions}/>
-                <JqgridWrapper options={this.options} ref="grid"/>
+                <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
                         <Route path="/edit/:id" component= {DictEdit}/>
@@ -90,7 +94,8 @@ class SyseMenu extends Component{
 }
 
 const NoMatch = ({ location }) => {
-    notification.error({message:`路由匹配出错:${location.pathname}`});
+    // notification.error({message:`路由匹配出错:${location.pathname}`});
+    console.warn(`路由匹配出错:${location.pathname}`);
     return null;
 };
 

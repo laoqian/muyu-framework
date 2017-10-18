@@ -10,12 +10,21 @@ const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 
 class DictEditForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+
+        this.state ={
+            visible:false,
+            editData:null,
+            submiting:false
+        };
+
 
         this.saveData = () => {
             let data;
-            this.props.form.validateFields((err, values) => {
+            let {validateFields} = this.props.form;
+
+            validateFields((err, values) => {
                 if (!err) {
                     console.log('Received values of form: ', values);
                     data = values;
@@ -24,6 +33,14 @@ class DictEditForm extends Component {
 
             let self = this;
             if (data) {
+
+                console.log(data);
+
+                if(this.props.editData!==null){
+                    data = Object.assign(this.props.editData,data);
+                }
+
+                console.log(data);
                 $.get('/api/dict/save?'+$.param(data), function (data) {
                     let tip;
                     if (data.code === 0) {
@@ -47,41 +64,64 @@ class DictEditForm extends Component {
             }
         }
 
-        this.loadData = () => {
-            let id = this.props.match.params.id;
+        this.loadData = (props,prevState) => {
+            let id = props.match.params.id;
+            let visible = prevState?prevState.visible:this.state.visible
 
-            if (id) {
-                this.state.loadingUser = true;
+
+            if (!visible && id) {
                 let self = this;
-                $.get('/api/dict/get?id=' + id, function (data){
 
+                console.log('loadData');
+                $.get('/api/dict/get?id=' + id, function (data){
                     if (data.code === 0 && data.data) {
-                        self.props.form.setFieldsValue(user);
+                        const {setFieldsValue} = self.props.form;
+                        setFieldsValue(data.data);
+                        self.setState({visible:true,editData:data.data});
                     } else {
                         notification.error({message: data.msg});
                     }
 
-                    self.state.loadingUser = false;
                 });
+            }else{
+               this.state.visible = true;
             }
         };
 
-        this.state = {
-            loadingUser: false,
-            loadingText: '加载中',
-            user: {}
-        }
-
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (!this.state.visible && this.props.match.params.id) {
-            this.loadData();
-        }
 
-        this.state.visible = true;
+    componentWillMount(){
+        console.log('componentWillMount');
+        if(!this.props.match.params.id){
+            this.state.visible = true;
+        }
+    }
+
+    componentDidMount(){
+        console.log('componentDidMount');
+        this.loadData(this.props,this.state);
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        this.state.editData =  null;
         this.state.submiting = false;
-        return true;
+
+        console.log('componentWillReceiveProps');
+    }
+
+
+    componentWillUpdate(nextProps,nextState){
+        console.log('componentWillUpdate');
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        
+        this.loadData(this.props,prevState)
+        console.log(prevState,this.state);
+
+        console.log('componentDidUpdate');
     }
 
     render() {
@@ -155,7 +195,7 @@ class DictEditForm extends Component {
                     </FormItem>
 
                 </Form>
-                {this.loadingUser ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
+                {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
             </Modal>
         )
     }

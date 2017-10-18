@@ -1,6 +1,8 @@
 package muyu.system.common.utils;
 
 
+import muyu.system.common.service.SequenceService;
+
 /**
  * 千山鸟飞绝，万径人踪灭。
  * 孤舟蓑笠翁，独钓寒江雪。
@@ -14,6 +16,7 @@ public class IdUtils {
 
 
     public static String genId(){
-        return null;
+        SequenceService service = ContextUtils.getBean(SequenceService.class);
+        return service.getNextVal(null);
     }
 }

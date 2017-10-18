@@ -4,7 +4,9 @@
 package muyu.system.common.utils;
 
 
+import muyu.system.common.security.SecurityUser;
 import muyu.system.entity.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 /**
@@ -15,7 +17,7 @@ import muyu.system.entity.User;
  * @date: 2017/9/14
  * @version: 1.0.0
  */
-public class UserUtils {
+public class UserUtils{
 
 	public static final String USER_CACHE = "userCache";
 	public static final String USER_CACHE_ID_ = "id_";
@@ -24,7 +26,9 @@ public class UserUtils {
 
 
 	public static User getUser(){
-		return null;
+		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		return (SecurityUser) object;
 	}
 
 }

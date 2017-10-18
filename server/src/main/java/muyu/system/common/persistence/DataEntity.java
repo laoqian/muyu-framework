@@ -5,8 +5,8 @@ package muyu.system.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import muyu.system.common.utils.IdUtils;
-import muyu.system.common.utils.SequenceUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import muyu.system.common.utils.UserUtils;
 import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,8 @@ import java.util.Date;
  * @date: 2017年9月21日
  * @version: 1.0.0
  */
-
+@EqualsAndHashCode(callSuper = true)
+@Data
 public abstract class DataEntity<T> extends BaseEntity<T> {
 
     private static final long serialVersionUID = 1L;
@@ -79,4 +80,6 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
         }
         this.updateDate = new Date();
     }
+
+
 }

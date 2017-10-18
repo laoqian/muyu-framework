@@ -57,7 +57,4 @@ public class User extends DataEntity<User> {
 	public User(String id){
 		super(id);
 	}
-
-
-
 }

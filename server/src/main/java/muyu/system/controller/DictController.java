@@ -2,7 +2,9 @@ package muyu.system.controller;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
+import muyu.system.common.utils.UserUtils;
 import muyu.system.entity.Dict;
+import muyu.system.entity.User;
 import muyu.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,10 @@ public class DictController extends BaseController{
     @Autowired
     DictService dictService;
 
+    @RequestMapping("get")
+    public ResultBean<Dict> get(Dict dict){
+        return dictService.query(dict);
+    }
     @RequestMapping("findPage")
     public ResultPageBean<Dict> findPage(Dict dict, HttpServletRequest request, HttpServletResponse response){
         return dictService.findPage(request,dict);
