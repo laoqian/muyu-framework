@@ -22,13 +22,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @RestController
-@RequestMapping("${prefixPath}/office/")
+@RequestMapping("${prefixPath}/dict/")
 public class DictController extends BaseController{
 
     @Autowired
     DictService dictService;
-
-
 
     @RequestMapping("findPage")
     public ResultPageBean<Dict> findPage(Dict dict, HttpServletRequest request, HttpServletResponse response){
