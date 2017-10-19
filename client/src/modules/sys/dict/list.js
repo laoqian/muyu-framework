@@ -14,7 +14,8 @@ class SyseDict extends Component{
 
     constructor() {
         super();
-        
+        let self = this;
+
         this.moduleName = 'sysDict';
         this.history = createHistory({basename:'#user'});
         this.gridOptions = {
@@ -27,6 +28,12 @@ class SyseDict extends Component{
                 {label: '描述', name: 'description', width: 150},
                 {label: '排序', name: 'sort', width: 150}
             ],
+            ondblClickRow:()=>{
+               let row = self.getSelRowData();
+               if(row){
+                   self.history.push({pathname:'/edit',row});
+               }
+            }
         };
 
         this.toolBarOptions = {
@@ -52,6 +59,9 @@ class SyseDict extends Component{
                 ]
             }
         };
+
+        this.getGrid =()=>$('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
+
 
         this.getSelRowData = ()=>{
             let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));

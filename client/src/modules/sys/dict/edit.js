@@ -62,12 +62,13 @@ class DictEditForm extends Component {
 
         this.loadData = ()=>{
             let self  = this;
-            let {id} = self.props.location.row;
+            let {row} = self.props.location;
 
-            if (!self.state.editData && id) {
-                $.get('/api/dict/get?id=' + id, function (bean) {
+            if (!self.state.editData && row) {
+                $.get('/api/dict/get?id=' + row.id, function (bean) {
                     if (bean.code === 0 && bean.data) {
                         const {setFieldsValue} = self.props.form;
+
                         self.setState({editData:bean.data});
                         setFieldsValue(bean.data);
                     } else {
