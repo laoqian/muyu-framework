@@ -44,10 +44,9 @@ class SyseDict extends Component{
             }
         };
 
-        this.isGridDbClick =false;
-
+        this.isGridDbClick =false; /*解决jqGrid双击事件触发单击事件*/
         this.toolBarOptions = {
-            leftTools: {
+            left: {
                 items: [
                     {
                         name: 'type', type: 'input', text: '类型:', palaceHolder: '类型',
@@ -59,9 +58,8 @@ class SyseDict extends Component{
                     icon: 'search'
                 }
             },
-            rightTools:{
+            right:{
                 reload:true,
-                gridName:this.gridOptions.gridName,
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
@@ -70,12 +68,8 @@ class SyseDict extends Component{
             }
         };
 
-        this.getGrid =()=>$('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
-
-        this.getSelectedId =()=>{
-            return $('.ui-jqgrid-btable',findDOMNode(this.refs.grid)).getGridParam('selrow');
-        }
-
+        this.getGrid = ()=>$('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
+        this.getSelectedId =()=>this.getGrid().getGridParam('selrow');
         this.getSelRowData = ()=>{
             let id =   this.getSelectedId();
             if(!id){
@@ -86,7 +80,7 @@ class SyseDict extends Component{
 
             row.id = id;
             return row;
-        }
+        };
 
         this.editRow = ()=>{
             let row= this.getSelRowData();
@@ -96,32 +90,34 @@ class SyseDict extends Component{
                 notification.success({message:'编辑标签：'+row.id});
             }
 
-            this.history.push({pathname:'/edit',type:'modify',row});
-        }
+            this.history.push({pathname:'/edit',type:'modify',row,grid:this.getGrid()});
+        };
 
         this.addRow = ()=>{
             let row= this.getSelRowData();
             if(row){
-                return this.history.push({pathname:'/edit',type:'add',row});
+                return this.history.push({pathname:'/edit',type:'add',row,grid:this.getGrid()});
             }else{
-                return this.history.push({pathname:'/edit',type:'add'});
+                return this.history.push({pathname:'/edit',type:'add',grid:this.getGrid()});
             }
-        }
+        };
 
-        this.toolBarOptions.rightTools.click = item => {
-            let row;
+        this.deleteRow = ()=>this.history.push({pathname:'/delete',row:this.getSelRowData(),grid:this.getGrid()});
+        this.reload = ()=>this.getGrid().trigger('reloadGrid');
+        this.toolBarOptions.right.click = item => {
             switch (item.name){
                 case '修改':
                     return this.editRow();
                 case '添加':
                     return this.addRow();
                 case '删除':
-                    let row = this.getSelRowData();
-                    return  this.history.push({pathname:'/delete',row})
+                    return this.deleteRow();
+                case '重加载':
+                    return this.reload();
             }
         };
 
-        this.history.push('/');
+        this.history.push('/'); /*初始化时指向根目录*/
     }
 
     render() {

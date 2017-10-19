@@ -21,7 +21,7 @@ class JqgridWrapper extends Component {
             autowidth:true,
             jsonReader: {
                 id: 'id', root: "list", page: "pageNum", userdata: "otherData",
-                total: "pageCount", records: "totals", subgrid: {root:"list"}
+                total: "pageCount", records: "total", subgrid: {root:"list"}
             },
             prmNames: {
                 page:"pageNum", rows:"pageSize", sort: "orderBy",
@@ -37,6 +37,7 @@ class JqgridWrapper extends Component {
                 {label: 'Ship Name', name: 'updateDate', width: 150}
             ],
 
+            sortname:'id',
             viewrecords: true,
             height: 500,
             lazyLoad: false,
@@ -48,14 +49,14 @@ class JqgridWrapper extends Component {
             autoGridWidth: true,  // 自动表格宽度
             autoGridWidthFix: 0,  // 自动表格修复宽度
 
-            beforeRequest:function (data) {
+            beforeRequest:function () {
                 let grid = __this.state.gridTable;
-                grid.jqGrid('setGridParam', {pageNum:1,pageSize:20});
-                $('.ui-jqgrid .loading',grid).remove();
+                grid.setGridParam({pageNum:1,pageSize:30});
 
+                $('.ui-jqgrid .loading',grid).remove();
                 __this.setState({loading:true});
             },
-            loadComplete:function (data) {
+            loadComplete:function () {
                 __this.setState({loading:false});
             },
             gridComplete:function(){
@@ -75,15 +76,7 @@ class JqgridWrapper extends Component {
             loadError:function (data){
 
             },
-
         };
-    }
-
-    componentDidUpdate(){
-        let {gridName} = this.props.grid;
-        if(this.state.curOptions.gridName === gridName){
-            this.state.gridTable.trigger('reloadGrid');
-        }
     }
 
     componentWillMount(){

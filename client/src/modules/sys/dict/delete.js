@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Modal,notification} from 'antd'
 import {reloadGrid} from '../../../redux/actions/jqgrid'
-import {bindActionCreators} from 'redux'
 
 class DictDelete extends Component {
 
@@ -33,8 +32,10 @@ class DictDelete extends Component {
 
                 self.setState({loading:false});
                 if (bean.code === 0) {
+                    let {grid} = self.props.location;
                     notification.success({message:bean.msg});
-                    self.props.reloadGrid('sysDict');
+                    grid.trigger('reloadGrid');
+
                     self.props.history.push('/');
                 } else {
                     notification.error({message:bean.msg});
@@ -70,7 +71,6 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        reloadGrid:bindActionCreators(reloadGrid,dispatch)
     }
 }
 

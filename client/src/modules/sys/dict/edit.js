@@ -6,7 +6,6 @@ import {userGet} from '../../../redux/actions/user'
 import Loading from '../../../components/loading'
 import {notification} from 'antd';
 import moduleManaer from '../../../modules'
-import {reloadGrid} from '../../../redux/actions/jqgrid'
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -49,9 +48,11 @@ class DictEditForm extends Component {
 
                     self.setState({submiting:false});
                     if (data.code === 0) {
+                        let {grid} = self.props.location;
+
                         tip = notification.success;
-                        self.props.reloadGrid('sysDict');
                         self.props.history.push('/');
+                        grid.trigger('reloadGrid');
                     } else {
                         tip = notification.error;
                     }
@@ -191,8 +192,7 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        userGet: bindActionCreators(userGet, dispatch),
-        reloadGrid:bindActionCreators(reloadGrid,dispatch)
+        userGet: bindActionCreators(userGet, dispatch)
     }
 }
 
