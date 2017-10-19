@@ -1,7 +1,7 @@
 import React from 'react'
 import { Spin } from 'antd';
 
-class Loding extends React.Component{
+export default class Loading extends React.Component{
     render() {
         let style={};
         if(this.props.isLayerHide){
@@ -20,4 +20,3 @@ class Loding extends React.Component{
     }
 }
 
-export default Loding;

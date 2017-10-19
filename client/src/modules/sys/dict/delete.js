@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Modal,notification} from 'antd'
-import moduleManaer from '../../../modules'
+import {reloadGrid} from '../../../redux/actions/jqgrid'
+import {bindActionCreators} from 'redux'
 
-
-class MenuDelete extends Component {
+class DictDelete extends Component {
 
     constructor() {
         super();
@@ -30,9 +30,12 @@ class MenuDelete extends Component {
             self.setState({loading:true});
 
             $.get('/api/dict/delete?id=' + row.id, function (bean) {
+
+                self.setState({loading:false});
                 if (bean.code === 0) {
                     notification.success({message:bean.msg});
-                    self.setState({loading:false});
+                    self.props.reloadGrid('sysDict');
+                    self.props.history.push('/');
                 } else {
                     notification.error({message:bean.msg});
                 }
@@ -49,7 +52,6 @@ class MenuDelete extends Component {
                 title= "字典删除"
                 wrapClassName= "vertical-center-modal"
                 visible={true}
-                okType = "danger"
                 onOk ={() => this.modalClick('ok')}
                 onCancel={() => this.modalClick('cancel')}
                 confirmLoading ={this.state.loading}
@@ -68,6 +70,7 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
+        reloadGrid:bindActionCreators(reloadGrid,dispatch)
     }
 }
 
@@ -75,5 +78,5 @@ function mapActionToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapActionToProps
-)(MenuDelete);
+)(DictDelete);
 

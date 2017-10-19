@@ -84,8 +84,6 @@ class SyseDict extends Component{
         };
 
         this.history.push('/');
-
-        moduleManaer.reg('dict/list',this);
     }
 
     render() {

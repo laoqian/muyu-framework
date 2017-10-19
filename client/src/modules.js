@@ -12,10 +12,6 @@ class ModulesManager {
 
     reg(key,coponents){
         this.components[key] = coponents;
-
-        for(let k in this.components){
-            console.log(this.components[k],k);
-        }
     }
 
     get(key){

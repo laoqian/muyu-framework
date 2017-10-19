@@ -6,6 +6,7 @@ import {userGet} from '../../../redux/actions/user'
 import Loading from '../../../components/loading'
 import {notification} from 'antd';
 import moduleManaer from '../../../modules'
+import {reloadGrid} from '../../../redux/actions/jqgrid'
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -44,12 +45,14 @@ class DictEditForm extends Component {
                 data = self.state.editData!==null?Object.assign(self.state.editData,data):data;
                 $.get('/api/dict/save?'+$.param(data), function (data) {
                     let tip;
+
+                    self.setState({submiting:false});
                     if (data.code === 0) {
                         tip = notification.success;
-                        self.setState({submiting:false});
+                        self.props.reloadGrid('sysDict');
+                        self.props.history.push('/');
                     } else {
                         tip = notification.error;
-                        self.setState({submiting:false});
                     }
 
                     tip({message: data.msg});
@@ -62,7 +65,6 @@ class DictEditForm extends Component {
             let {id} = self.props.location.row;
 
             if (!self.state.editData && id) {
-                console.log("loadData");
                 $.get('/api/dict/get?id=' + id, function (bean) {
                     if (bean.code === 0 && bean.data) {
                         const {setFieldsValue} = self.props.form;
@@ -95,7 +97,6 @@ class DictEditForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        console.log("componentDidUpdate");
         this.loadData();
     }
 
@@ -183,7 +184,8 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        userGet: bindActionCreators(userGet, dispatch)
+        userGet: bindActionCreators(userGet, dispatch),
+        reloadGrid:bindActionCreators(reloadGrid,dispatch)
     }
 }
 
