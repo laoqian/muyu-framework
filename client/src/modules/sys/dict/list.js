@@ -78,6 +78,10 @@ class SyseDict extends Component{
 
         this.getSelRowData = ()=>{
             let id =   this.getSelectedId();
+            if(!id){
+                return null;
+            }
+
             let row = this.getGrid().getRowData(id);
 
             row.id = id;
