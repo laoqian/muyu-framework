@@ -14,11 +14,18 @@ class DictEditForm extends Component {
         super(props);
 
         this.state ={
-            visible:false,
-            editData:null,
+            editData :null,
             submiting:false
         };
 
+        this.modalClick = (type) =>{
+            if (type === 'ok') {
+                this.setState({submiting: true});
+                this.saveData();
+            } else {
+                this.props.history.push('/');
+            }
+        }
 
         this.saveData = () => {
             let data;
@@ -33,95 +40,62 @@ class DictEditForm extends Component {
 
             let self = this;
             if (data) {
-
-                console.log(data);
-
-                if(this.props.editData!==null){
-                    data = Object.assign(this.props.editData,data);
-                }
-
-                console.log(data);
+                data = self.state.editData!==null?Object.assign(self.state.editData,data):data;
                 $.get('/api/dict/save?'+$.param(data), function (data) {
                     let tip;
                     if (data.code === 0) {
                         tip = notification.success;
+                        self.setState({submiting:false});
                     } else {
                         tip = notification.error;
+                        self.setState({submiting:false});
                     }
 
                     tip({message: data.msg});
-                    self.setState({submiting: false});
                 })
             }
         }
 
-        this.modalClosed = (type) => {
-            if (type === 'ok') {
-                this.setState({submiting: true});
-                this.saveData();
-            } else {
-                this.setState({visible: false});
+        this.loadData = ()=>{
+            let self  = this;
+            let id = self.props.match.params.id;
+
+            if (!self.state.editData && id) {
+                console.log("loadData");
+                $.get('/api/dict/get?id=' + id, function (bean) {
+                    if (bean.code === 0 && bean.data) {
+                        const {setFieldsValue} = self.props.form;
+                        self.setState({editData:bean.data});
+                        setFieldsValue(bean.data);
+
+                    } else {
+                        notification.error({message:bean.msg});
+                    }
+                });
             }
         }
-
-        this.loadData = (props,prevState) => {
-            let id = props.match.params.id;
-            let visible = prevState?prevState.visible:this.state.visible
-
-
-            if (!visible && id) {
-                let self = this;
-
-                console.log('loadData');
-                $.get('/api/dict/get?id=' + id, function (data){
-                    if (data.code === 0 && data.data) {
-                        const {setFieldsValue} = self.props.form;
-                        setFieldsValue(data.data);
-                        self.setState({visible:true,editData:data.data});
-                    } else {
-                        notification.error({message: data.msg});
-                    }
-
-                });
-            }else{
-               this.state.visible = true;
-            }
-        };
-
     }
 
 
     componentWillMount(){
-        console.log('componentWillMount');
-        if(!this.props.match.params.id){
-            this.state.visible = true;
-        }
     }
 
     componentDidMount(){
-        console.log('componentDidMount');
-        this.loadData(this.props,this.state);
+        console.log("componentDidMount");
+        this.loadData()
     }
 
     componentWillReceiveProps(nextProps) {
-
-        this.state.editData =  null;
         this.state.submiting = false;
-
-        console.log('componentWillReceiveProps');
     }
 
 
     componentWillUpdate(nextProps,nextState){
-        console.log('componentWillUpdate');
     }
 
     componentDidUpdate(prevProps, prevState){
-        
-        this.loadData(this.props,prevState)
-        console.log(prevState,this.state);
-
-        console.log('componentDidUpdate');
+        console.log("componentDidUpdate");
+        this.loadData();
     }
 
     render() {
@@ -140,12 +114,12 @@ class DictEditForm extends Component {
             <Modal
                 title='字典编辑'
                 wrapClassName="vertical-center-modal"
-                visible={this.state.visible}
-                onOk={() => this.modalClosed('ok')}
-                onCancel={() => this.modalClosed('cancel')}
+                visible={true}
+                onOk={() => this.modalClick('ok')}
+                onCancel={() => this.modalClick('cancel')}
                 confirmLoading={this.state.submiting}
             >
-                <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'400px'}}>
+                <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'460px'}}>
                     <FormItem label="键值" {...formItemLayout}>
                         {getFieldDecorator('value', {
                             rules: [{required: true, message: '请输入有效的用户名!'}],

@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -61,6 +62,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
 
     static private SqlSessionFactoryBean sqlSession;
 
+
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
@@ -70,6 +72,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
+            bean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
             bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
             this.sqlSession = bean;
             return bean.getObject();

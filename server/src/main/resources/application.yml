@@ -11,6 +11,7 @@ logging:
         muyu: DEBUG
 
 spring:
+
     datasource:
 
         driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -35,13 +36,7 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
 
-    ## Redis 配置
-    ## Redis数据库索引（默认为0）
-    session:
-        store-type: redis
-        cache-seconds: 100
-        cookie:
-              name: MUYU-SESSIONID
+
     redis:
         database: 0
         host: 127.0.0.1
@@ -55,13 +50,22 @@ spring:
     messages:
         basename: messages
 
+    jackson:
+        default-property-inclusion: non_null
+
+
+    session:
+      store-type: redis
+    mvc:
+      date-format: yyyy-MM-dd HH:mm:ss
+
 management:
     security:
         enabled: false
-
 #
 prefixPath: /api
 
 #分页参数
 pageSize  : 50
+
 
