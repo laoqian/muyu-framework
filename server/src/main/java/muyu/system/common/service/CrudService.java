@@ -133,8 +133,9 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @param entity
 	 */
 	@Transactional(readOnly = false)
-	public void delete(T entity) {
+	public ResultBean<T> delete(T entity) {
 		dao.delete(entity);
+		return new ResultBean<>(entity);
 	}
 
 }

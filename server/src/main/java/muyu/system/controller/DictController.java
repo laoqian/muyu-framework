@@ -42,4 +42,9 @@ public class DictController extends BaseController{
     public ResultBean<Dict> save(Dict dict){
         return dictService.save(dict);
     }
+
+    @RequestMapping("delete")
+    public ResultBean<Dict> delete(Dict dict){
+        return dictService.delete(dict);
+    }
 }

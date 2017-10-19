@@ -8,8 +8,9 @@ import DictDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
 import {notification,Modal } from 'antd';
 import {findDOMNode} from 'react-dom';
+import moduleManaer from '../../../modules'
 
-class SyseMenu extends Component{
+class SyseDict extends Component{
 
     constructor() {
         super();
@@ -52,27 +53,39 @@ class SyseMenu extends Component{
             }
         };
 
+        this.getSelRowData = ()=>{
+            let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
+            let id = grid.getGridParam('selrow');
+            let row = grid.getRowData(id);
+
+            row.id = id;
+            return row;
+        }
+
         this.toolBarOptions.rightTools.click = item => {
+            let row;
             switch (item.name){
                 case '修改':
-                    let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
-                    let id =grid.getGridParam('selrow');
+                     row= this.getSelRowData();
 
-                    if(!id){
+                    if(!row.id){
                         return notification.error({message:'未选择,要修改的标签'});
                     }else {
-                        notification.success({message:'编辑标签：'+id});
+                        notification.success({message:'编辑标签：'+row.id});
                     }
 
-                    return this.history.push('/edit/'+id);
+                    return this.history.push({pathname:'/edit',row});
                 case '添加':
-                    return this.history.push('/add');
+                    return this.history.push('/edit');
                 case '删除':
-                    return  this.history.push('/delete')
+                    row = this.getSelRowData();
+                    return  this.history.push({pathname:'/delete',row})
             }
         };
 
         this.history.push('/');
+
+        moduleManaer.reg('dict/list',this);
     }
 
     render() {
@@ -82,8 +95,7 @@ class SyseMenu extends Component{
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
-                        <Route path="/edit/:id" component= {DictEdit}/>
-                        <Route path="/add"      component= {DictEdit}/>
+                        <Route path="/edit"     component= {DictEdit}/>
                         <Route path="/delete"   component= {DictDelete}/>
                         <Route                  component={NoMatch}/>
                     </Switch>
@@ -108,5 +120,5 @@ function mapActionToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps, mapActionToProps)(SyseMenu);
+export default connect(mapStateToProps, mapActionToProps)(SyseDict);
 

@@ -1,10 +1,11 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {Form, Input, Modal, Row, Col, TreeNode} from 'antd';
+import {Form, Input, Modal} from 'antd';
 import {userGet} from '../../../redux/actions/user'
 import Loading from '../../../components/loading'
 import {notification} from 'antd';
+import moduleManaer from '../../../modules'
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -58,7 +59,7 @@ class DictEditForm extends Component {
 
         this.loadData = ()=>{
             let self  = this;
-            let id = self.props.match.params.id;
+            let {id} = self.props.location.row;
 
             if (!self.state.editData && id) {
                 console.log("loadData");
@@ -67,13 +68,13 @@ class DictEditForm extends Component {
                         const {setFieldsValue} = self.props.form;
                         self.setState({editData:bean.data});
                         setFieldsValue(bean.data);
-
                     } else {
                         notification.error({message:bean.msg});
                     }
                 });
             }
         }
+
     }
 
 
@@ -81,8 +82,8 @@ class DictEditForm extends Component {
     }
 
     componentDidMount(){
-        console.log("componentDidMount");
-        this.loadData()
+        this.loadData();
+        moduleManaer.reg('dict/edit',this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -110,9 +111,8 @@ class DictEditForm extends Component {
         };
 
         return (
-
             <Modal
-                title='字典编辑'
+                title={this.state.editData?`字典修改-${this.state.editData.id}`:'字典添加'}
                 wrapClassName="vertical-center-modal"
                 visible={true}
                 onOk={() => this.modalClick('ok')}

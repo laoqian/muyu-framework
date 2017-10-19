@@ -32,7 +32,6 @@ public class SystemController{
 
     @RequestMapping("admin")
     public ResultBean<String> get(HttpSession httpSession){
-
        return new ResultBean<String>("2122");
     }
 
