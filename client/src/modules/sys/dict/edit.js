@@ -17,6 +17,7 @@ class DictEditForm extends Component {
 
         this.state ={
             editData :null,
+            loaded   :false,
             submiting:false
         };
 
@@ -62,14 +63,19 @@ class DictEditForm extends Component {
 
         this.loadData = ()=>{
             let self  = this;
-            let {row} = self.props.location;
+            let {row,type} = self.props.location;
 
-            if (!self.state.editData && row) {
+            if (!self.state.loaded && row) {
                 $.get('/api/dict/get?id=' + row.id, function (bean) {
                     if (bean.code === 0 && bean.data) {
                         const {setFieldsValue} = self.props.form;
 
-                        self.setState({editData:bean.data});
+                        if(type==='modify'){
+                            self.setState({editData:bean.data,loaded:true});
+                        }else{
+                            self.setState({loaded:true});
+                        }
+
                         setFieldsValue(bean.data);
                     } else {
                         notification.error({message:bean.msg});

@@ -13,7 +13,7 @@ class JqgridWrapper extends Component {
              loading:false
         };
 
-        this.defaultOptions = {
+        this.state.defaultOptions = {
             url: 'api/menu/findPage',
             styleUI: 'Bootstrap',
             datatype: "json",
@@ -37,12 +37,10 @@ class JqgridWrapper extends Component {
                 {label: 'Ship Name', name: 'updateDate', width: 150}
             ],
 
-            dataId: 'id', 	// 指定数据主键
             viewrecords: true,
             height: 500,
             lazyLoad: false,
             rownumbers: true,
-            pager: '#'+parseInt((Math.random()*1000000000)).toString(),
             sortableColumn:false,
             shrinkToFit :false,
             autoGridHeight: true, // 自动表格高度
@@ -51,7 +49,7 @@ class JqgridWrapper extends Component {
             autoGridWidthFix: 0,  // 自动表格修复宽度
 
             beforeRequest:function (data) {
-                let grid = __this.gridTable;
+                let grid = __this.state.gridTable;
                 grid.jqGrid('setGridParam', {pageNum:1,pageSize:20});
                 $('.ui-jqgrid .loading',grid).remove();
 
@@ -66,7 +64,7 @@ class JqgridWrapper extends Component {
 
                 let width =wrapper.width()-2;
                 let height = wrapper.height()-59;
-                let grid = __this.gridTable;
+                let grid = __this.state.gridTable;
 
                 grid.jqGrid('setGridWidth',width);
                 grid.jqGrid('setGridHeight',height);
@@ -83,26 +81,31 @@ class JqgridWrapper extends Component {
 
     componentDidUpdate(){
         let {gridName} = this.props.grid;
-        if(this.curOptions.gridName === gridName){
-            this.gridTable.trigger('reloadGrid');
+        if(this.state.curOptions.gridName === gridName){
+            this.state.gridTable.trigger('reloadGrid');
         }
+    }
+
+    componentWillMount(){
+        this.state.curOptions = Object.assign(this.state.defaultOptions,this.props.options);
+        this.state.curOptions.height = $('.my-grid-wrapper').height()-59;
+        this.state.curOptions.pager = '#'+this.state.curOptions.gridName+'pager';
     }
 
     componentDidMount(prevProps, prevState) {
         let gridTable = findDOMNode(this.refs.gridTable);
 
-        this.curOptions = Object.assign(this.defaultOptions,this.props.options);
-        this.curOptions.height = $('.my-grid-wrapper').height()-59;
-        this.gridTable = $(gridTable);
-        this.gridTable.jqGrid(this.curOptions);
+        this.state.gridTable = $(gridTable);
+        this.state.gridTable.jqGrid(this.state.curOptions);
     }
 
     render() {
-        let pager = this.defaultOptions.pager.substr(1);
+        let pager = this.state.curOptions.pager.substr(1);
+        let talbleId = this.state.curOptions.gridName+'Table';
 
         return (
             <div className='my-grid-wrapper' ref="gridWrapper">
-                <table ref="gridTable"/>
+                <table ref="gridTable" id={talbleId}/>
                 <div  id={pager}/>
                 {this.state.loading ?<Loading text={'正在拼命加载中...'}/>:null}
             </div>

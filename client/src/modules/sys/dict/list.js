@@ -29,12 +29,22 @@ class SyseDict extends Component{
                 {label: '排序', name: 'sort', width: 150}
             ],
             ondblClickRow:()=>{
-               let row = self.getSelRowData();
-               if(row){
-                   self.history.push({pathname:'/edit',row});
-               }
+                self.editRow();
+                self.isGridDbClick = true;
+            },
+            beforeSelectRow:(id)=>{
+                let selectd = self.getSelectedId() !== id;
+                if(!selectd){
+                    setTimeout(()=>{
+                        self.isGridDbClick?self.isGridDbClick = false:self.getGrid().resetSelection();
+                    },200)
+                }
+
+                return selectd;
             }
         };
+
+        this.isGridDbClick =false;
 
         this.toolBarOptions = {
             leftTools: {
@@ -62,33 +72,47 @@ class SyseDict extends Component{
 
         this.getGrid =()=>$('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
 
+        this.getSelectedId =()=>{
+            return $('.ui-jqgrid-btable',findDOMNode(this.refs.grid)).getGridParam('selrow');
+        }
 
         this.getSelRowData = ()=>{
-            let grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
-            let id = grid.getGridParam('selrow');
-            let row = grid.getRowData(id);
+            let id =   this.getSelectedId();
+            let row = this.getGrid().getRowData(id);
 
             row.id = id;
             return row;
+        }
+
+        this.editRow = ()=>{
+            let row= this.getSelRowData();
+            if(!row){
+                return notification.error({message:'未选择,要修改的标签'});
+            }else {
+                notification.success({message:'编辑标签：'+row.id});
+            }
+
+            this.history.push({pathname:'/edit',type:'modify',row});
+        }
+
+        this.addRow = ()=>{
+            let row= this.getSelRowData();
+            if(row){
+                return this.history.push({pathname:'/edit',type:'add',row});
+            }else{
+                return this.history.push({pathname:'/edit',type:'add'});
+            }
         }
 
         this.toolBarOptions.rightTools.click = item => {
             let row;
             switch (item.name){
                 case '修改':
-                     row= this.getSelRowData();
-
-                    if(!row.id){
-                        return notification.error({message:'未选择,要修改的标签'});
-                    }else {
-                        notification.success({message:'编辑标签：'+row.id});
-                    }
-
-                    return this.history.push({pathname:'/edit',row});
+                    return this.editRow();
                 case '添加':
-                    return this.history.push('/edit');
+                    return this.addRow();
                 case '删除':
-                    row = this.getSelRowData();
+                    let row = this.getSelRowData();
                     return  this.history.push({pathname:'/delete',row})
             }
         };
