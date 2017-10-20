@@ -6,9 +6,8 @@ import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
 import createHistory from 'history/createBrowserHistory'
-import {notification,Modal } from 'antd';
+import {notification } from 'antd';
 import {findDOMNode} from 'react-dom';
-import moduleManaer from '../../../modules'
 
 class SyseDict extends Component{
 

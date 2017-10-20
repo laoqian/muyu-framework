@@ -48,11 +48,12 @@ class JqgridWrapper extends Component {
             autoGridHeightFix: 0,  // 自动表格高度宽度
             autoGridWidth: true,  // 自动表格宽度
             autoGridWidthFix: 0,  // 自动表格修复宽度
+            rowNum : 30,
+            rowList: [25,50,100,200],
 
             beforeRequest:function () {
                 let grid = __this.state.gridTable;
-                grid.setGridParam({pageNum:1,pageSize:30});
-
+                grid.setGridParam({postData:{pageNum:1,pageSize:25}});
                 $('.ui-jqgrid .loading',grid).remove();
                 __this.setState({loading:true});
             },

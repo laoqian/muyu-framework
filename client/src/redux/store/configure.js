@@ -2,7 +2,7 @@
 import {createStore, applyMiddleware, compose, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers/main.js';
-import fetchMiddleware from '../middlewares/fetch-middleware.js';
+import fetchMiddleware from '../middlewares/ajax.js';
 
 
 const rootReducer = combineReducers(reducers);
