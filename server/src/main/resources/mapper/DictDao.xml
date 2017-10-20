@@ -5,14 +5,19 @@
     <select id="get" resultType="Dict">
         SELECT
         *
-        FROM sys_dict
-        WHERE id=#{id}
+        FROM sys_dict a
+        WHERE a.id=#{id}
     </select>
     <select id="findList" resultType="Dict">
         SELECT
           *
-        FROM sys_dict
-        WHERE del_flag='0' ORDER BY sort
+        FROM sys_dict a
+        <where>
+            <if test="type!=null and type!=''">
+                a.type=#{type}
+            </if>
+        </where>
+
     </select>
     <insert id="insert" parameterType="Dict">
         INSERT INTO sys_dict

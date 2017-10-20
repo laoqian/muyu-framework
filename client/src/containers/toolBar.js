@@ -1,6 +1,5 @@
 import React ,{Component} from  'react'
 import { Button, Form, Input, Select} from 'antd';
-import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import _ from 'lodash';
 
@@ -8,55 +7,50 @@ const ButtonGroup = Button.Group;
 const FormItem = Form.Item;
 
 class SearchToolBarForm_ extends Component{
-    constructor(){
-        super();
-        this.renderCtrls = this.renderCtrls.bind(this);
+    constructor(props){
+        super(props);
+
+        this.renderCtrls =(item)=>{
+            const { getFieldDecorator } = this.props.form;
+            let children;
+            switch(item.type){
+                case 'input':
+                    children =  <Input placeholder={item.palaceHolder}/>;
+                    break;
+                case 'select':
+                    let ops = [{key:'请选择',value:''}];
+                    _(item.options).forEach(function (value,key) {
+                        ops.push({key,value});
+                    });
+
+                    children = <Select defaultValue={item.default}
+                                       children={ops.map(op=>(<Select.Option value={''+op.value} key={op.value}>{op.key}</Select.Option>))}/>
+            }
+
+            return children?<FormItem
+                                label={item.text}
+                                hasFeedback
+                                key={item.name}
+                                children={getFieldDecorator(item.name,{ruels:item.rules})(children)}
+                            />:null;
+        };
+
     }
 
-    renderCtrls(item){
-        const { getFieldDecorator } = this.props.form;
-
-        switch(item.type){
-            case 'input':
-                return(
-                    <FormItem label={item.text} hasFeedback key={item.name}>
-                        {
-                            getFieldDecorator(item.name,{
-                                ruels:item.rules
-                            })(<Input placeholder={item.palaceHolder}/>)
-                        }
-                    </FormItem>
-                );
-            case 'select':
-                let ops = [{key:'请选择',value:''}];
-
-                _(item.options).forEach(function (value,key) {
-                    ops.push({key,value});
-                });
-
-                return(
-                    <FormItem label={item.text} hasFeedback  key={item.name}>
-                        <Select defaultValue={item.default}>
-                            {
-                                ops.map(op=>(
-                                    <Select.Option value={''+op.value} key={op.value}>{op.key}</Select.Option>
-                                ))
-                            }
-
-                        </Select>
-                    </FormItem>
-                );
-        }
+    componentDidMount(){
+        let {register} = this.props;
+        register(this.props.form);
     }
 
     render(){
         let items = this.props.tools.items;
         let btn =this.props.tools.searchBtn;
+        let {click} =this.props;
         return(
             <Form className="my-tb-left" layout={'inline'} >
                 {items.map(item=>(this.renderCtrls(item)))}
                 <FormItem >
-                    <Button type="primary" icon={btn.icon}>{btn.text}</Button>
+                    <Button type="primary" onClick={()=>click({name:'重加载'})} icon={btn.icon}>{btn.text}</Button>
                 </FormItem>
             </Form>
         )
@@ -66,20 +60,25 @@ class SearchToolBarForm_ extends Component{
 const SearchToolBarForm = Form.create()(SearchToolBarForm_);
 
 class ToolBar extends Component {
+    constructor(props){
+        super(props);
+
+    }
+
+
 
     render() {
-        let options = this.props.options;
-        let {right} = options;
+        let {left,right,reload,click,register} = this.props;
 
         return (
             <div className="my-tb">
-                <SearchToolBarForm tools={options.left}/>
+                <SearchToolBarForm tools={left} register={register} click={click}/>
                 <div className="my-tb-right">
-                    {right.reload?<Button icon="reload" onClick={()=>right.click({name:'重加载'})}/>:''}
+                    {reload?<Button icon="reload" onClick={()=>click({name:'重加载'})}/>:''}
                     <ButtonGroup>
                         {
                             right.items.map(btn=>(
-                                <Button icon={btn.icon} key={btn.name} onClick={()=>right.click(btn)}>{btn.name}</Button>
+                                <Button icon={btn.icon} key={btn.name} onClick={()=>click(btn)}>{btn.name}</Button>
                             ))
                         }
                     </ButtonGroup>

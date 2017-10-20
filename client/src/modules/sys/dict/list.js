@@ -11,13 +11,12 @@ import {findDOMNode} from 'react-dom';
 
 class SyseDict extends Component{
 
-    constructor() {
-        super();
-        let self = this;
+    constructor(props) {
+        super(props);
 
-        this.moduleName = 'sysDict';
-        this.history = createHistory({basename:'#user'});
-        this.gridOptions = {
+        let $t = this;
+
+        $t.gridOptions = {
             url:'api/dict/findPage',
             gridName:this.moduleName,
             colModel: [
@@ -28,14 +27,14 @@ class SyseDict extends Component{
                 {label: '排序', name: 'sort', width: 150}
             ],
             ondblClickRow:()=>{
-                self.editRow();
-                self.isGridDbClick = true;
+                $t.editRow();
+                $t.isGridDbClick = true;
             },
             beforeSelectRow:(id)=>{
-                let selectd = self.getSelectedId() !== id;
+                let selectd = $t.getSelectedId() !== id;
                 if(!selectd){
                     setTimeout(()=>{
-                        self.isGridDbClick?self.isGridDbClick = false:self.getGrid().resetSelection();
+                        $t.isGridDbClick?$t.isGridDbClick = false:$t.getGrid().resetSelection();
                     },200)
                 }
 
@@ -43,8 +42,7 @@ class SyseDict extends Component{
             }
         };
 
-        this.isGridDbClick =false; /*解决jqGrid双击事件触发单击事件*/
-        this.toolBarOptions = {
+        $t.toolBarOptions = {
             left: {
                 items: [
                     {
@@ -57,8 +55,8 @@ class SyseDict extends Component{
                     icon: 'search'
                 }
             },
+            reload:true,
             right:{
-                reload:true,
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
@@ -67,62 +65,66 @@ class SyseDict extends Component{
             }
         };
 
-        this.getGrid = ()=>$('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
-        this.getSelectedId =()=>this.getGrid().getGridParam('selrow');
-        this.getSelRowData = ()=>{
-            let id =   this.getSelectedId();
-            if(!id){
-                return null;
+
+        $t.moduleName = 'sysDict';
+        $t.history = createHistory({basename:'#user'});
+        $t.isGridDbClick =false; /*解决jqGrid双击事件触发单击事件*/
+
+        $t.getGrid = (()=>{
+            let grid;
+            return ()=>{
+                if(!grid || grid.length===0){
+                    grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
+                }
+                return grid;
             }
+        })();
 
-            let row = this.getGrid().getRowData(id);
-
-            row.id = id;
-            return row;
+        $t.getSelectedId =()=>$t.getGrid().getGridParam('selrow');
+        $t.getSelRowData = ()=>{
+            let id =   $t.getSelectedId();
+            return id?Object.assign($t.getGrid().getRowData(id),{id}):null ;
         };
 
-        this.editRow = ()=>{
-            let row= this.getSelRowData();
+        $t.eventFunc =  {};
+
+        $t.eventFunc['修改'] = $t.editRow = ()=>{
+            let row= $t.getSelRowData();
             if(!row){
                 return notification.error({message:'未选择,要修改的标签'});
             }else {
                 notification.success({message:'编辑标签：'+row.id});
             }
 
-            this.history.push({pathname:'/edit',type:'modify',row,grid:this.getGrid()});
+            this.history.push({pathname:'/edit',type:'modify',row,grid:$t.getGrid()});
         };
 
-        this.addRow = ()=>{
-            let row= this.getSelRowData();
-            if(row){
-                return this.history.push({pathname:'/edit',type:'add',row,grid:this.getGrid()});
+        $t.eventFunc['添加']    = $t.addRow     = ()=>$t.history.push({pathname:'/edit',type:'add',row:$t.getSelRowData(),grid:$t.getGrid()});
+        $t.eventFunc['删除']    = $t.deleteRow  = ()=>$t.history.push({pathname:'/delete',row:$t.getSelRowData(),grid:$t.getGrid()});
+        $t.eventFunc['重加载']  = $t.reload     = ()=>{
+            if($t.serachForm){
+                let {validateFields} = $t.serachForm;
+                validateFields((err,values)=>{
+                    if(!err){
+                        $t.getGrid().setGridParam({postData:values}).trigger('reloadGrid')
+                    }
+                })
             }else{
-                return this.history.push({pathname:'/edit',type:'add',grid:this.getGrid()});
+                $t.getGrid().trigger('reloadGrid')
             }
         };
 
-        this.deleteRow = ()=>this.history.push({pathname:'/delete',row:this.getSelRowData(),grid:this.getGrid()});
-        this.reload = ()=>this.getGrid().trigger('reloadGrid');
-        this.toolBarOptions.right.click = item => {
-            switch (item.name){
-                case '修改':
-                    return this.editRow();
-                case '添加':
-                    return this.addRow();
-                case '删除':
-                    return this.deleteRow();
-                case '重加载':
-                    return this.reload();
-            }
-        };
+        $t.click = item =>$t.eventFunc[item.name]?$t.eventFunc[item.name]():console.error('Warning:未定义的事件：'+item.name);
 
-        this.history.push('/'); /*初始化时指向根目录*/
+        $t.register=form=>$t.serachForm=form;
+
+        $t.history.push('/'); /*初始化时指向根目录*/
     }
 
     render() {
         return (
             <div className="my-col-full" >
-                <ToolBar options={this.toolBarOptions}/>
+                <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
