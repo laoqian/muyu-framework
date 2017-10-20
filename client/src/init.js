@@ -1,4 +1,3 @@
-import {UPDATE_TIME} from './redux/actions/def'
 import {userAuth} from './redux/actions/user'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';

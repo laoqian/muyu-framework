@@ -14,7 +14,6 @@ import {Router, Route, Link} from 'react-router-dom'
 
 appInit(store);
 
-
 class App extends Component {
 
     render() {

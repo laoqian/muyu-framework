@@ -42,7 +42,7 @@ class DictEditForm extends Component {
             let self = this;
             if (data) {
                 data = self.state.editData!==null?Object.assign(self.state.editData,data):data;
-                $.get('/api/dict/save?'+$.param(data), function (data) {
+                $.get('/api/menu/save?'+$.param(data), function (data) {
                     let tip;
 
                     self.setState({submiting:false});
@@ -66,7 +66,7 @@ class DictEditForm extends Component {
             let {row,type} = self.props.location;
 
             if (!self.state.loaded && row) {
-                $.get('/api/dict/get?id=' + row.id, function (bean) {
+                $.get('/api/menu/get?id=' + row.id, function (bean) {
                     if (bean.code === 0 && bean.data) {
                         const {setFieldsValue} = self.props.form;
 

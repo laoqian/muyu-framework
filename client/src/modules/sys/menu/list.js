@@ -17,14 +17,13 @@ class SyseDict extends Component{
         let $t = this;
 
         $t.gridOptions = {
-            url:'api/dict/findPage',
+            url:'api/menu/findPage',
             gridName:this.moduleName,
             colModel: [
-                {label: '键值', name: 'value', width: 200},
-                {label: '标签', name: 'label', width: 150},
-                {label: '类型', name: 'type', width: 150},
-                {label: '描述', name: 'description', width: 150},
-                {label: '排序', name: 'sort', width: 150}
+                {label: '名称',  name: 'name', width: 200},
+                {label: '链接',   name: 'href', width: 150},
+                {label: '父编号', name:'id', width: 150},
+                {label: '排序',   name: 'sort', width: 150}
             ],
             setQueryParam:()=>$t.setQueryParam(),
             ondblClickRow:()=>{
