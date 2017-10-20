@@ -26,6 +26,7 @@ class SyseDict extends Component{
                 {label: '描述', name: 'description', width: 150},
                 {label: '排序', name: 'sort', width: 150}
             ],
+            setQueryParam:()=>$t.setQueryParam(),
             ondblClickRow:()=>{
                 $t.editRow();
                 $t.isGridDbClick = true;
@@ -102,17 +103,20 @@ class SyseDict extends Component{
         $t.eventFunc['添加']    = $t.addRow     = ()=>$t.history.push({pathname:'/edit',type:'add',row:$t.getSelRowData(),grid:$t.getGrid()});
         $t.eventFunc['删除']    = $t.deleteRow  = ()=>$t.history.push({pathname:'/delete',row:$t.getSelRowData(),grid:$t.getGrid()});
         $t.eventFunc['重加载']  = $t.reload     = ()=>{
+            $t.setQueryParam();
+            $t.getGrid().trigger('reloadGrid')
+        };
+
+        $t.setQueryParam = ()=>{
             if($t.serachForm){
                 let {validateFields} = $t.serachForm;
                 validateFields((err,values)=>{
                     if(!err){
-                        $t.getGrid().setGridParam({postData:values}).trigger('reloadGrid')
+                        $t.getGrid().setGridParam({postData:values})
                     }
                 })
-            }else{
-                $t.getGrid().trigger('reloadGrid')
             }
-        };
+        }
 
         $t.click = item =>$t.eventFunc[item.name]?$t.eventFunc[item.name]():console.error('Warning:未定义的事件：'+item.name);
 

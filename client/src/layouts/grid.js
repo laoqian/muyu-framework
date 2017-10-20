@@ -53,7 +53,8 @@ class JqgridWrapper extends Component {
 
             beforeRequest:function () {
                 let grid = __this.state.gridTable;
-                grid.setGridParam({postData:{pageNum:1,pageSize:25}});
+                let {setQueryParam} = __this.state.curOptions;
+                setQueryParam?setQueryParam():null;
                 $('.ui-jqgrid .loading',grid).remove();
                 __this.setState({loading:true});
             },
