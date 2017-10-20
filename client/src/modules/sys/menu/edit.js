@@ -1,244 +1,182 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {Form, Icon, Input, Button, Checkbox,Modal,Row,TreeSelect,Col,TreeNode} from 'antd';
+import {Form, Input, Modal} from 'antd';
 import {userGet} from '../../../redux/actions/user'
-import Loading from '../../../components/loading'
-import {notification } from 'antd';
+import Loading from '../../../layouts/loading'
+import {notification} from 'antd';
 
 const FormItem = Form.Item;
+const TextArea = Input.TextArea;
 
-const treeData = [{
-    label: 'Node1',
-    value: '0-0',
-    key: '0-0',
-    children: [{
-        label: 'Child Node1',
-        value: '0-0-1',
-        key: '0-0-1',
-    }, {
-        label: 'Child Node2',
-        value: '0-0-2',
-        key: '0-0-2',
-    }],
-}, {
-    label: 'Node2',
-    value: '0-1',
-    key: '0-1',
-}];
+class DictEditForm extends Component {
+    constructor(props) {
+        super(props);
 
-class MenuEditForm extends Component {
-    constructor() {
-        super();
+        this.state ={
+            editData :null,
+            loaded   :false,
+            submiting:false
+        };
 
-        this.saveUser =()=>{
-            let user;
-            this.props.form.validateFields((err, values)=>{
+        this.modalClick = (type) =>{
+            if (type === 'ok') {
+                this.setState({submiting: true});
+                this.saveData();
+            } else {
+                this.props.history.push('/');
+            }
+        }
+
+        this.saveData = () => {
+            let data;
+            let {validateFields} = this.props.form;
+
+            validateFields((err, values) => {
                 if (!err) {
                     console.log('Received values of form: ', values);
-                    user = values;
+                    data = values;
                 }
             });
 
-            let self  = this;
-            if(user){
-                $.post('/api/user/save',user,function (data) {
+            let self = this;
+            if (data) {
+                data = self.state.editData!==null?Object.assign(self.state.editData,data):data;
+                $.get('/api/dict/save?'+$.param(data), function (data) {
                     let tip;
 
-                    if(data.code ===0 ){
+                    self.setState({submiting:false});
+                    if (data.code === 0) {
+                        let {grid} = self.props.location;
+
                         tip = notification.success;
-                    }else{
+                        self.props.history.push('/');
+                        grid.trigger('reloadGrid');
+                    } else {
                         tip = notification.error;
                     }
 
-                    tip({message:data.msg});
-                    self.setState({submiting:false});
+                    tip({message: data.msg});
                 })
             }
         }
 
-        this.modalClosed =(type)=>{
-            if(type==='ok'){
-                this.setState({submiting:true});
-                this.saveUser();
-            }else{
-                this.setState({visible:false});
-            }
-        }
+        this.loadData = ()=>{
+            let self  = this;
+            let {row,type} = self.props.location;
 
-        this.loadUser = ()=>{
-            let id = this.props.match.params.id;
+            if (!self.state.loaded && row) {
+                $.get('/api/dict/get?id=' + row.id, function (bean) {
+                    if (bean.code === 0 && bean.data) {
+                        const {setFieldsValue} = self.props.form;
 
-            if(id){
-                this.state.loadingUser = true ;
-                let self = this;
-                $.get('/api/user/get?id='+id,function (data) {
+                        if(type==='modify'){
+                            self.setState({editData:bean.data,loaded:true});
+                        }else{
+                            self.setState({loaded:true});
+                        }
 
-                    if(data.code === 0 && data.data){
-                        self.props.form.setFieldsValue(user);
-                    }else{
-                        notification.error({message:data.msg});
+                        setFieldsValue(bean.data);
+                    } else {
+                        notification.error({message:bean.msg});
                     }
-
-                    self.state.loadingUser = false;
                 });
             }
-        };
-
-        this.state = {
-            loadingUser:false,
-            loadingText:'加载中',
-            user:{}
         }
 
     }
 
-    shouldComponentUpdate(nextProps,nextState){
-        console.log(11111111);
-        if(!this.state.visible && this.props.match.params.id){
-            this.loadUser();
-        }
 
-        this.state.visible = true;
+    componentWillMount(){
+    }
+
+    componentDidMount(){
+        this.loadData();
+    }
+
+    componentWillReceiveProps(nextProps) {
         this.state.submiting = false;
-        return true;
+    }
+
+
+    componentWillUpdate(nextProps,nextState){
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        this.loadData();
     }
 
     render() {
-
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
-            labelCol  : {span:6  },
-            wrapperCol: {span:18 },
+            labelCol: {span: 6},
+            wrapperCol: {span: 16},
         };
-        let style={width:'100%'}
+        let textAreaStyle = {
+            height: '100px',
+            resize: 'none'
+        };
 
-        console.log("menu edit");
         return (
-
             <Modal
-                title= '用户编辑'
+                title={this.state.editData?`字典修改-${this.state.editData.id}`:'字典添加'}
                 wrapClassName="vertical-center-modal"
-                visible= {this.state.visible}
-                onOk={() => this.modalClosed('ok')}
-                onCancel={() => this.modalClosed('cancel')}
+                visible={true}
+                onOk={() => this.modalClick('ok')}
+                onCancel={() => this.modalClick('cancel')}
                 confirmLoading={this.state.submiting}
             >
-                <Form ref="userForm" className="my-user-form" >
-                    <Row>
-                        <Col span={12}>
-                            <FormItem label="归属公司" {...formItemLayout}>
-                                {getFieldDecorator('office.id', {
-                                    rules: [{required: true, message: '请输入有效的用户名!'}],
-                                })(
-                                    <TreeSelect
-                                        style={style}
-                                        showSearch
-                                        placeholder= "Please select"
-                                        allowClear
-                                        treeDefaultExpandAll
-                                        treeData={treeData}
-                                    />
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem label="归属部门" {...formItemLayout}>
-                                {getFieldDecorator('password', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <TreeSelect
-                                        style={style}
-                                        showSearch
-                                        placeholder= "Please select"
-                                        allowClear
-                                        treeDefaultExpandAll
-                                        treeData={treeData}
-                                    />
-                                )}
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem label="登录名" {...formItemLayout}>
-                                {getFieldDecorator('loginname', {
-                                    rules: [{required: true, message: '请输入有效的用户名!'}],
-                                })(
-                                    <Input placeholder="用户名"   style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem label="姓名" {...formItemLayout}>
-                                {getFieldDecorator('name', {
-                                    rules: [{required: true, message: '请输入有效的姓名!'}],
-                                })(
-                                    <Input placeholder="姓名"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem label="密码" {...formItemLayout}>
-                                {getFieldDecorator('password', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <Input type="password"
-                                           placeholder="密码"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem label="确认密码" {...formItemLayout}>
-                                {getFieldDecorator('password', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <Input type="password"
-                                           placeholder="密码"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}/>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem label="邮箱" {...formItemLayout}>
-                                {getFieldDecorator('email', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <Input type="email"
-                                           placeholder="邮箱"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}>
-                            <FormItem label="电话" {...formItemLayout}>
-                                {getFieldDecorator('phone', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <Input type="phone"
-                                           placeholder="电话"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={12}/>
-                    </Row>
-                    <Row>
-                        <Col span={12}>
-                            <FormItem label="用户类型" {...formItemLayout}>
-                                {getFieldDecorator('userType', {
-                                    rules: [{required: true, message: '请输入有效的密码!'}],
-                                })(
-                                    <Input type="text"
-                                           placeholder="邮箱"  style={style}/>
-                                )}
-                            </FormItem>
-                        </Col>
-                    </Row>
+                <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'460px'}}>
+                    <FormItem label="键值" {...formItemLayout}>
+                        {getFieldDecorator('value', {
+                            rules: [{required: true, message: '请输入有效的用户名!'}],
+                        })(
+                            <Input placeholder="键值" />
+                        )}
+                    </FormItem>
+
+                    <FormItem label="标签" {...formItemLayout}>
+                        {getFieldDecorator('label', {
+                            rules: [{required: true, message: '请输入有效的密码!'}],
+                        })(
+                            <Input placeholder="标签" />
+                        )}
+                    </FormItem>
+
+                    <FormItem label="类型" {...formItemLayout}>
+                        {getFieldDecorator('type', {
+                            rules: [{required: true, message: '请输入有效的用户名!'}],
+                        })(
+                            <Input placeholder="类型" />
+                        )}
+                    </FormItem>
+
+                    <FormItem label="排序" {...formItemLayout}>
+                        {getFieldDecorator('sort', {
+                            rules: [{required: true, message: '请输入有效的姓名!'}],
+                        })(
+                            <Input placeholder="排序" />
+                        )}
+                    </FormItem>
+
+                    <FormItem label="描述" {...formItemLayout}>
+                        {getFieldDecorator('description', {
+                            rules: [],
+                        })(
+                            <Input placeholder="描述" />
+                        )}
+                    </FormItem>
+
+                    <FormItem label="备注" {...formItemLayout}>
+                        {getFieldDecorator('remarks', {
+                            rules: [],
+                        })(
+                            <TextArea placeholder="备注" style={textAreaStyle} />
+                        )}
+                    </FormItem>
+
                 </Form>
-                {this.loadingUser? <Loading isLayerHide={true} text={this.state.loadingText}/>:''}
+                {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
             </Modal>
         )
     }
@@ -252,14 +190,14 @@ function mapStateToProps(state) {
 
 function mapActionToProps(dispatch) {
     return {
-        userGet:bindActionCreators(userGet,dispatch)
+        userGet: bindActionCreators(userGet, dispatch)
     }
 }
 
-const MenuEdit = Form.create()(MenuEditForm);
+const DictEdit = Form.create()(DictEditForm);
 
 export default connect(
     mapStateToProps,
     mapActionToProps
-)(MenuEdit);
+)(DictEdit);
 

@@ -8,7 +8,7 @@ import fetchMiddleware from '../middlewares/ajax.js';
 const rootReducer = combineReducers(reducers);
 
 if (__DEV__) {
-    let DevTools = require('../../components/dev-tools')
+    let DevTools = require('../../layouts/dev-tools')
     var createStoreWithMiddleware = compose(
         applyMiddleware(thunk),
         applyMiddleware(fetchMiddleware),

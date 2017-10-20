@@ -3,16 +3,19 @@ package muyu.system.common.utils;
 import muyu.system.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
 
+
 /**
- * Cache工具类
- * @author ThinkGem
- * @version 2013-5-29
+ * 千山鸟飞绝，万径人踪灭。
+ * 孤舟蓑笠翁，独钓寒江雪。
+ *
+ * @author: 于其先
+ * @date: 2017/10/20
+ * @version: 1.0.0
  */
+
 public class CacheUtils {
 	
 	private static Logger logger = LoggerFactory.getLogger(CacheUtils.class);
@@ -55,13 +58,14 @@ public class CacheUtils {
 	}
 
 	public static void putUserCache(String key,Object value){
-		User user = UserUtils.getUser();
-		put(USER_CACHE,key,value);
+		put(USER_CACHE,getUserKey(key),value);
 	}
 
 	public static Object getUserCache(String key){
-		return get(USER_CACHE,key);
+		return get(USER_CACHE,getUserKey(key));
 	}
 
-
+	private static String getUserKey(String key){
+		return USER_CACHE_ID_ + UserUtils.getUser().getId() + "_" + key;
+	}
 }

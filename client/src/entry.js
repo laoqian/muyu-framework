@@ -4,53 +4,15 @@ import ReactDom, {Component, PropTypes} from 'react'
 import {render} from 'react-dom'
 import {Provider,connect} from 'react-redux';
 import store from './redux/store/configure'
-import Login from './containers/login'
-import Header from './containers/header'
-import Footer from './containers/footer'
+import Login from './layouts/login'
+import Header from './layouts/header'
+import Footer from './layouts/footer'
 import MenuList from './layouts/leftMenus'
 import ContentWrapper from './layouts/rightContent'
-import {GET_ARTICLE} from './redux/actions/def'
-import app_init from './init'
+import appInit from './init'
 import {Router, Route, Link} from 'react-router-dom'
 
-
-app_init(store);
-
-const article_get = (nextState, replace) => {
-    let id = nextState.params.articleid;
-
-    if (id) {
-        store.dispatch({
-            type: GET_ARTICLE,
-            ajax_type: 'post',
-            data: {article_id: id},
-            uri: '/article_get'
-        });
-    }
-    return true;
-}
-
-
-class MainPage extends Component {
-
-    render() {
-        return (
-            <div className="flex flex-center">
-                <Header/>
-                <div>
-                    <div className="left-wrapper">
-                        <MenuList/>
-                    </div>
-                    <div className="right-wrapper">
-                        <ContentWrapper/>
-                    </div>
-                </div>
-                <Footer/>
-            </div>
-        )
-    }
-}
-
+appInit(store);
 
 
 class App extends Component {
@@ -59,27 +21,28 @@ class App extends Component {
         if(!this.props.user.authed.enabled){
             return <Login/>
         }else{
-            return <MainPage/>
+            return (
+                <div className="flex flex-center">
+                    <Header/>
+                    <div>
+                        <div className="left-wrapper">
+                            <MenuList/>
+                        </div>
+                        <div className="right-wrapper">
+                            <ContentWrapper/>
+                        </div>
+                    </div>
+                    <Footer/>
+                </div>
+            )
         }
     }
 }
 
-function mapStateToProps(state) {
-
-    return {
-        user: state.user
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {
-    }
-}
-
-App =  connect(mapStateToProps, mapActionToProps)(App);
+App =  connect(state=>({user:state.user}),dispatch=>({}))(App);
 
 if (__DEV__) {
-    let DevTools = require('./components/dev-tools')
+    let DevTools = require('./layouts/dev-tools')
     render(
         <Provider store={store}>
             <div>

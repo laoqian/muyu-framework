@@ -3,9 +3,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Form, Input, Modal} from 'antd';
 import {userGet} from '../../../redux/actions/user'
-import Loading from '../../../components/loading'
+import Loading from '../../../layouts/loading'
 import {notification} from 'antd';
-import moduleManaer from '../../../modules'
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -93,7 +92,6 @@ class DictEditForm extends Component {
 
     componentDidMount(){
         this.loadData();
-        moduleManaer.reg('dict/edit',this);
     }
 
     componentWillReceiveProps(nextProps) {

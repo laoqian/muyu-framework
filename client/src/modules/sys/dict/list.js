@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import ToolBar from '../../../containers/toolBar'
+import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../../layouts/grid'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'

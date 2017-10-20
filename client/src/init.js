@@ -3,15 +3,7 @@ import {userAuth} from './redux/actions/user'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 
-function timerInid(store) {
-    setInterval(() => {
-        store.dispatch({
-            type: UPDATE_TIME
-        })
-    }, 1000)
-}
-
-let app_init = function (store) {
+let appInit = function (store) {
 
     /*通知框初始化*/
     notification.config({
@@ -25,11 +17,6 @@ let app_init = function (store) {
 
     store.dispatch(userAuth(username,password));
 
-    window.onscroll = function () {
-        store.dispatch({
-            type: define.PAGE_SCROLL
-        })
-    }
 }
 
-export default app_init;
+export default appInit;

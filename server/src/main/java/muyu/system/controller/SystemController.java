@@ -30,8 +30,8 @@ public class SystemController{
         return userService.getUser("111");
     }
 
-    @RequestMapping("admin")
-    public ResultBean<String> get(HttpSession httpSession){
+    @RequestMapping("getConfig")
+    public ResultBean<String> getConfig(){
        return new ResultBean<String>("2122");
     }
 
