@@ -46,7 +46,7 @@ class MenuList extends Component {
                     onClick={this.handleClick}
                     style={{ width: 240 }}
                     defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    defaultOpenKeys={['1']}
                     mode="inline"
                 >
                     {

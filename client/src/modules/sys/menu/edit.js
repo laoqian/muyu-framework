@@ -127,54 +127,37 @@ class DictEditForm extends Component {
                 confirmLoading={this.state.submiting}
             >
                 <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'460px'}}>
-                    <FormItem label="键值" {...formItemLayout}>
+                    <FormItem label="名称" {...formItemLayout}>
                         {getFieldDecorator('value', {
                             rules: [{required: true, message: '请输入有效的用户名!'}],
                         })(
-                            <Input placeholder="键值" />
+                            <Input placeholder="名称" />
                         )}
                     </FormItem>
 
-                    <FormItem label="标签" {...formItemLayout}>
+                    <FormItem label="链接" {...formItemLayout}>
                         {getFieldDecorator('label', {
                             rules: [{required: true, message: '请输入有效的密码!'}],
                         })(
-                            <Input placeholder="标签" />
+                            <Input placeholder="链接" />
                         )}
                     </FormItem>
 
-                    <FormItem label="类型" {...formItemLayout}>
+                    <FormItem label="父编号" {...formItemLayout}>
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: '请输入有效的用户名!'}],
                         })(
-                            <Input placeholder="类型" />
+                            <Input placeholder="父编号" />
                         )}
                     </FormItem>
 
                     <FormItem label="排序" {...formItemLayout}>
                         {getFieldDecorator('sort', {
-                            rules: [{required: true, message: '请输入有效的姓名!'}],
+                            rules: [{required: true, message: '请输入有效的排序号!'}],
                         })(
                             <Input placeholder="排序" />
                         )}
                     </FormItem>
-
-                    <FormItem label="描述" {...formItemLayout}>
-                        {getFieldDecorator('description', {
-                            rules: [],
-                        })(
-                            <Input placeholder="描述" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="备注" {...formItemLayout}>
-                        {getFieldDecorator('remarks', {
-                            rules: [],
-                        })(
-                            <TextArea placeholder="备注" style={textAreaStyle} />
-                        )}
-                    </FormItem>
-
                 </Form>
                 {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
             </Modal>

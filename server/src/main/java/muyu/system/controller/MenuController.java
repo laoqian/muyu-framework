@@ -3,6 +3,7 @@ package muyu.system.controller;
 import com.github.pagehelper.Page;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
+import muyu.system.entity.Dict;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,9 @@ public class MenuController extends BaseController{
     MenuService menuService;
 
     @RequestMapping("findList")
-    public ResultBean<List> findList() throws InterruptedException {
+    public ResultBean<List> findList() {
 
         List<Menu> list = menuService.findList(null);
-        Thread.sleep(1000);
         return new ResultBean<>(list);
     }
 
@@ -41,5 +41,15 @@ public class MenuController extends BaseController{
     public ResultPageBean<Menu> findPage(Menu menu, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
 
         return menuService.findPage(request,menu);
+    }
+
+    @RequestMapping("save")
+    public ResultBean<Menu> save(Menu menu){
+        return menuService.save(menu);
+    }
+
+    @RequestMapping("delete")
+    public ResultBean<Menu> delete(Menu menu){
+        return menuService.delete(menu);
     }
 }

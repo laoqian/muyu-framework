@@ -23,6 +23,10 @@ class JqgridWrapper extends Component {
                 id: 'id', root: "list", page: "pageNum", userdata: "otherData",
                 total: "pageCount", records: "total", subgrid: {root:"list"}
             },
+            treeReader: {	// 自定义树表格JSON读取参数
+                level_field: "level", parent_id_field: "parentId",
+                leaf_field: "isLeaf", expanded_field: "isOpen", icon_field: "_icon"
+            },
             prmNames: {
                 page:"pageNum", rows:"pageSize", sort: "orderBy",
                 order: "sord", search:"_search", nd:"nd", id:"id",

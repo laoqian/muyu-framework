@@ -17,7 +17,7 @@ const fetchMiddleware = store => next => action => {
         data = action.data;
     }
 
-    console.log('--->',action);
+    console.log(`${action.ajax_type}--->:`,action);
 
     $.ajax({
         url,
@@ -32,7 +32,7 @@ const fetchMiddleware = store => next => action => {
         success:function (data) {
             action.result = data;
 
-            console.log(action);
+            console.log(`ajax result:`,action);
             next(action);
         }
     });

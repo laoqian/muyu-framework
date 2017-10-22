@@ -84,6 +84,7 @@ class SyseDict extends Component{
         $t.getSelectedId =()=>$t.getGrid().getGridParam('selrow');
         $t.getSelRowData = ()=>{
             let id =   $t.getSelectedId();
+            console.log('选择的ID：'+id);
             return id?Object.assign($t.getGrid().getRowData(id),{id}):null ;
         };
 

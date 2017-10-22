@@ -17,8 +17,9 @@ class SyseDict extends Component{
         let $t = this;
 
         $t.gridOptions = {
-            url:'api/menu/findPage',
             gridName:this.moduleName,
+            treeGrid:true,
+            url:'api/menu/findPage',
             colModel: [
                 {label: '名称',  name: 'name', width: 200},
                 {label: '链接',   name: 'href', width: 150},
@@ -66,7 +67,7 @@ class SyseDict extends Component{
         };
 
 
-        $t.moduleName = 'sysDict';
+        $t.moduleName = 'sysMenu';
         $t.history = createHistory({basename:'#user'});
         $t.isGridDbClick =false; /*解决jqGrid双击事件触发单击事件*/
 
