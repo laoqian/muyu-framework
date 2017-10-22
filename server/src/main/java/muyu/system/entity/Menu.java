@@ -3,7 +3,7 @@ package muyu.system.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.persistence.TreeEntity;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -15,10 +15,9 @@ import muyu.system.common.persistence.DataEntity;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Menu extends DataEntity<Menu> {
+public class Menu extends TreeEntity<Menu> {
 
 	private static final long serialVersionUID = 1L;
-	private String parentId;	// 父级菜单
 	private String parentIds; // 所有父级编号
 	private String name; 	// 名称
 	private String href; 	// 链接
@@ -29,13 +28,10 @@ public class Menu extends DataEntity<Menu> {
 	private String permission; // 权限标识
 	
 	private String userId;
-	
+
 	public Menu(){
 		super();
-		this.sort = 30;
-		this.isShow = "1";
 	}
-	
 	public Menu(String id){
 		super(id);
 	}

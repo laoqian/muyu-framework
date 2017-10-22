@@ -68,4 +68,6 @@ prefixPath: /api
 #分页参数
 pageSize  : 50
 
+#Tree 参数
+rootId :  0
 

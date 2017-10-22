@@ -37,10 +37,9 @@ public class MenuController extends BaseController{
         return new ResultBean<>(list);
     }
 
-    @RequestMapping("findPage")
-    public ResultPageBean<Menu> findPage(Menu menu, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
-
-        return menuService.findPage(request,menu);
+    @RequestMapping("findTree")
+    public ResultPageBean<Menu> findPage(HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
+        return menuService.findTreePage(request,"1");
     }
 
     @RequestMapping("save")

@@ -1,6 +1,7 @@
 package muyu.system.dao;
 
 import muyu.system.common.persistence.CrudDao;
+import muyu.system.common.persistence.TreeDao;
 import muyu.system.entity.Menu;
 import muyu.system.entity.User;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,6 @@ import org.springframework.stereotype.Component;
  * @date: 2017/9/15
  * @version: 1.0.0
  */
-public interface MenuDao extends CrudDao<Menu>{
+public interface MenuDao extends TreeDao<Menu> {
 
 }

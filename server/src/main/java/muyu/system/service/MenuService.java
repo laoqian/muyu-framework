@@ -3,6 +3,7 @@ package muyu.system.service;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.security.SecurityUser;
 import muyu.system.common.service.CrudService;
+import muyu.system.common.service.TreeService;
 import muyu.system.dao.MenuDao;
 import muyu.system.dao.UserDao;
 import muyu.system.entity.Menu;
@@ -21,6 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class MenuService extends CrudService<MenuDao,Menu>{
+public class MenuService extends TreeService<MenuDao,Menu> {
 
 }
