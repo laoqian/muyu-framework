@@ -29,8 +29,11 @@ class ContentWrapper extends Component {
             return <Page/>;
         }catch(err){
             return (
-                <div className="my-col-full" >
-                    <h3 style={{padding:'20px'}}>{err.toString()}</h3>
+                <div className="my-col-full flex-hvm" >
+                    <div >
+                        <img src="./images/nodata.jpg" alt=""/>
+                        <h4 style={{padding:'20px'}}>{err.toString()}</h4>
+                    </div>
                 </div>
             );
         }
