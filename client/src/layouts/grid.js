@@ -43,6 +43,12 @@ class JqgridWrapper extends Component {
             autoGridHeightFix: 0,  // 自动表格高度宽度
             autoGridWidth: true,  // 自动表格宽度
             autoGridWidthFix: 0,  // 自动表格修复宽度
+
+            /*treeGrid参数*/
+            tree_root_level:1,
+            treeGridModel: 'adjacency', /*指定为adjacency模式时通过parentid来生成树。nested模式通过lef和right生成树 */
+
+            /*分页选项*/
             rowNum: 30,
             rowList: [25, 50, 100, 200],
 
@@ -80,7 +86,7 @@ class JqgridWrapper extends Component {
     componentWillMount() {
         this.state.curOptions = Object.assign(this.state.defaultOptions, this.props.options);
         let {colModel} = this.state.curOptions;
-        
+
         /*默认设置为不可排序*/
         colModel.forEach(item=>{
             !item.sortable ? item.sortable = false : null;

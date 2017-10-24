@@ -11,7 +11,7 @@
               a.parent_id AS "parentId",
               a.name AS "name",
               a.href AS "href",
-              level-1 as "level",
+              level as "level",
               connect_by_isleaf AS "leaf"
             FROM sys_menu a
             WHERE  a.del_flag='0'

@@ -20,7 +20,7 @@ class SyseDict extends Component {
             url: 'api/menu/findTree',
             gridName: this.moduleName,
             treeGrid: true,
-            ExpandColumn: 'name',
+            ExpandColumn : 'name',
             rownumbers:false,
             colModel: [
                 {label: '名称', name: 'name', width: 200},
