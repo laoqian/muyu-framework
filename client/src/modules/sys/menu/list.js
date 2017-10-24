@@ -28,7 +28,8 @@ class SyseDict extends ListComponent{
             colModel: [
                 {label: '名称', name: 'name', width: 200},
                 {label: '链接', name: 'href', width: 150},
-                {label: '排序', name: 'sort', width: 100,align:'center'}
+                {label: '排序', name: 'sort', width: 100,align:'center'},
+                {label: '显示', name: 'isShow', width: 100,align:'center'},
             ]
         });
 
@@ -50,10 +51,10 @@ class SyseDict extends ListComponent{
                 items: [
                     {name: '添加', path: '/add', icon: 'plus',},
                     {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    {name: '升级', path: '/add', icon: 'swap-left',},
-                    {name: '降级', path: '/add', icon: 'swap-right',},
-                    {name: '上移', path: '/add', icon: 'arrow-up',},
-                    {name: '下移', path: '/add', icon: 'arrow-down',},
+                    // {name: '升级', path: '/add', icon: 'swap-left',},
+                    // {name: '降级', path: '/add', icon: 'swap-right',},
+                    // {name: '上移', path: '/add', icon: 'arrow-up',},
+                    // {name: '下移', path: '/add', icon: 'arrow-down',},
                     {name: '修改', path: '/edit', icon: 'edit',},
                     {name: '删除', path: '/delete', icon: 'delete',}
                 ]

@@ -28,14 +28,14 @@ public class ControllerAOP {
 
     @Around("resultAOP()")
     public Object handlerControllerMethod(ProceedingJoinPoint pjp){
-        long startTime = System.currentTimeMillis();
+        long startTime = System.nanoTime();
         BaseResultBean result;
 
         try {
             result = (BaseResultBean) pjp.proceed();
-            long useTime = System.currentTimeMillis() - startTime;
+            long useTime = System.nanoTime() - startTime;
             result.setUseTime(useTime);
-            logger.debug(pjp.getSignature() + "控制器执行时间:" + useTime+"毫秒");
+            logger.debug(pjp.getSignature() + "控制器执行时间: " + ((double)useTime)/1000000+" 毫秒");
         } catch (Throwable e) {
             result = handlerException(pjp, e);
         }

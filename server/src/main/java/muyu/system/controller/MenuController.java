@@ -48,7 +48,7 @@ public class MenuController extends BaseController{
 
     @RequestMapping("get")
     public ResultBean<Menu> get(Menu menu){
-        return menuService.query(menu);
+        return StringUtils.isNotBlank(menu.getId())?new ResultBean<>(menu):menuService.query(menu);
     }
 
     @RequestMapping("findTree")
