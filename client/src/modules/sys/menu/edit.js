@@ -61,65 +61,81 @@ class DictEditForm extends Component {
             }
         }
 
-        this.loadData = ()=>{
-            let self  = this;
-            let {row,type} = self.props.location;
+        this.bindDataOnce = ()=>{
+            let {row,type} = this.props.location;
+            const {setFieldsValue} = this.props.form;
 
-            if (!self.state.loaded && row) {
-                $.get('/api/menu/get?id=' + row.id, function (bean) {
-                    if (bean.code === 0 && bean.data) {
-                        const {setFieldsValue} = self.props.form;
+            if(!this.props.location.binded){
+                this.props.location.binded = true;
 
-                        if(type==='modify'){
-                            self.setState({editData:bean.data,loaded:true});
-                        }else{
-                            self.setState({loaded:true});
+                switch (type){
+                    case 'add':
+                        if(row){
+                            this.state.editData = {parentId:row.parentId};
+                            setFieldsValue(row);
                         }
-
-                        setFieldsValue(bean.data);
-                    } else {
-                        notification.error({message:bean.msg});
-                    }
-                });
+                        break;
+                    case 'modify':
+                        this.state.editData = row;
+                        setFieldsValue(row);
+                        break;
+                    case 'insert':
+                        this.state.editData = {
+                            parentId  : row.id,
+                            parentName: row.name
+                        };
+                }
             }
         }
 
     }
 
-
     componentWillMount(){
+
     }
 
     componentDidMount(){
-        this.loadData();
+        this.bindDataOnce();
     }
 
     componentWillReceiveProps(nextProps) {
         this.state.submiting = false;
     }
 
-
     componentWillUpdate(nextProps,nextState){
+
     }
 
     componentDidUpdate(prevProps, prevState){
-        this.loadData();
+        this.bindDataOnce();
     }
 
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 6},
-            wrapperCol: {span: 16},
+            wrapperCol: {span:16},
         };
-        let textAreaStyle = {
-            height: '100px',
-            resize: 'none'
-        };
+        let title= '菜单添加';
+        let {type,binded} = this.props.location;
+
+        if(binded){
+            switch (type){
+                case 'modify':
+                    title=`菜单修改-${this.state.editData.id}`;
+                    break;
+                case 'add':
+                    title='菜单添加';
+                    break;
+                case 'insert':
+                    title=`${this.state.editData.parentName}-添加子菜单`;
+                    break;
+            }
+        }
 
         return (
             <Modal
-                title={this.state.editData?`字典修改-${this.state.editData.id}`:'字典添加'}
+                title={title}
                 wrapClassName="vertical-center-modal"
                 visible={true}
                 onOk={() => this.modalClick('ok')}
@@ -128,7 +144,7 @@ class DictEditForm extends Component {
             >
                 <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'460px'}}>
                     <FormItem label="名称" {...formItemLayout}>
-                        {getFieldDecorator('value', {
+                        {getFieldDecorator('name', {
                             rules: [{required: true, message: '请输入有效的用户名!'}],
                         })(
                             <Input placeholder="名称" />
@@ -136,18 +152,8 @@ class DictEditForm extends Component {
                     </FormItem>
 
                     <FormItem label="链接" {...formItemLayout}>
-                        {getFieldDecorator('label', {
-                            rules: [{required: true, message: '请输入有效的密码!'}],
-                        })(
+                        {getFieldDecorator('href')(
                             <Input placeholder="链接" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="父编号" {...formItemLayout}>
-                        {getFieldDecorator('type', {
-                            rules: [{required: true, message: '请输入有效的用户名!'}],
-                        })(
-                            <Input placeholder="父编号" />
                         )}
                     </FormItem>
 

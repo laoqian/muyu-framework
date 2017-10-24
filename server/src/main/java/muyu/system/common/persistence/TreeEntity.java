@@ -15,9 +15,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class TreeEntity<T> extends DataEntity<T> {
-    int level;
-    boolean expanded = false; //默认不展开
-    boolean leaf;
+    int level;                  //当前层级
+    boolean expanded = true;    //默认展开
+    boolean leaf;               //是否叶子节点
     private String parentId;
 
     public TreeEntity(){

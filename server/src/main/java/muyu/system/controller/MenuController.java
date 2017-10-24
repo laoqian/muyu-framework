@@ -31,15 +31,19 @@ public class MenuController extends BaseController{
     MenuService menuService;
 
     @RequestMapping("findList")
-    public ResultBean<List> findList() {
-
-        List<Menu> list = menuService.findList(null);
+    public ResultBean<List> findList(Menu menu) {
+        List<Menu> list = menuService.findList(menu);
         return new ResultBean<>(list);
     }
 
+    @RequestMapping("get")
+    public ResultBean<Menu> get(Menu menu){
+        return menuService.query(menu);
+    }
+
     @RequestMapping("findTree")
-    public ResultPageBean<Menu> findPage(HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
-        return menuService.findTreePage(request,"1");
+    public ResultPageBean<Menu> findTree(HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
+        return menuService.findTreePage(request,"0");
     }
 
     @RequestMapping("save")

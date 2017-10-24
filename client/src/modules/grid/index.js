@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
-import Loading from './loading'
+import Loading from '../../layouts/loading'
 import {connect} from 'react-redux'
 import {findDOMNode} from 'react-dom';
 

@@ -17,7 +17,6 @@
                 a.type=#{type}
             </if>
         </where>
-
     </select>
     <insert id="insert" parameterType="Dict">
         INSERT INTO sys_dict

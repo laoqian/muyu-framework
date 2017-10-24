@@ -47,7 +47,7 @@ class Header extends Component {
                 </div>
                 <div className="header-wrapper" >
                     <img src="./images/64.png" alt=""/>
-                    <span>工程项目管理系统</span>
+                    <span>木鱼快速开发框架</span>
                     <ul className="ul list-inline  pull-right flex-vm">
                         {
                         menus.map(m=>(

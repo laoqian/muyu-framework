@@ -4,19 +4,73 @@
     <select id="findList" resultType="Menu">
         select id AS "id",parent_id AS "parentId",name AS "name",href AS "href" from sys_menu where del_flag='0'
     </select>
-
     <select id="findTree" resultType="Menu">
             SELECT
-              a.id AS "id",
-              a.parent_id AS "parentId",
-              a.name AS "name",
-              a.href AS "href",
-              level as "level",
+              a.id              AS "id",
+              a.parent_id       AS "parentId",
+              a.name            AS "name",
+              a.href            AS "href",
+              a.sort            AS "sort",
+              level             AS "level",
               connect_by_isleaf AS "leaf"
             FROM sys_menu a
-            WHERE  a.del_flag='0'
-            start with a.id=#{rootId}
-            connect by prior a.id = a.parent_id
+            START WITH a.parent_id=#{rootId}
+            CONNECT BY PRIOR a.id = a.parent_id
             ORDER SIBLINGS BY sort
     </select>
+    <select id="get" resultType="Menu">
+        SELECT
+            a.id         AS "id",
+            a.parent_id  AS "parentId",
+            a.name       AS "name",
+            a.sort       AS "sort",
+            a.href       AS "href"
+        FROM sys_menu a
+        WHERE a.id=#{id}
+    </select>
+    <insert id="insert">
+        INSERT INTO sys_menu
+        (id,
+        parent_id,
+        name,
+        href,
+        sort,
+        is_show,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks
+        )
+        VALUES (
+        #{id},
+        #{parentId},
+        #{name},
+        #{href},
+        #{sort},
+        #{isShow},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks}
+        )
+    </insert>
+    <update id="update">
+          UPDATE sys_menu SET
+              parent_id=#{parentId},
+              name=#{name},
+              sort=#{sort},
+              href=#{href},
+              is_show=#{isShow},
+              update_by =   #{updateBy.id},
+              update_date =   #{updateDate},
+              remarks =#{remarks}
+          WHERE id=#{id}
+    </update>
+    <delete id="delete">
+          UPDATE sys_menu SET
+            del_flag = 1
+          WHERE id=#{id}
+    </delete>
 </mapper>
