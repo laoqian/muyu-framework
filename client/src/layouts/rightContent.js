@@ -24,8 +24,16 @@ class ContentWrapper extends Component {
     }
 
     getPage(href){
-        let Page = require('../modules'+href).default;
-        return <Page/>;
+        try{
+            let Page = require('../modules'+href).default;
+            return <Page/>;
+        }catch(err){
+            return (
+                <div className="my-col-full" >
+                    <h3 style={{padding:'20px'}}>{err.toString()}</h3>
+                </div>
+            );
+        }
     }
 
     render() {
