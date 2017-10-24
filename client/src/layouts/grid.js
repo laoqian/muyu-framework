@@ -79,6 +79,13 @@ class JqgridWrapper extends Component {
 
     componentWillMount() {
         this.state.curOptions = Object.assign(this.state.defaultOptions, this.props.options);
+        let {colModel} = this.state.curOptions;
+        
+        /*默认设置为不可排序*/
+        colModel.forEach(item=>{
+            !item.sortable ? item.sortable = false : null;
+        });
+
         this.state.curOptions.height = $('.my-grid-wrapper').height() - 59;
         this.state.curOptions.pager = '#' + this.state.curOptions.gridName + 'pager';
     }

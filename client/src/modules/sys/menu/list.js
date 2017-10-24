@@ -22,11 +22,9 @@ class SyseDict extends Component {
             treeGrid: true,
             ExpandColumn: 'name',
             rownumbers:false,
-            sortable:false,
             colModel: [
                 {label: '名称', name: 'name', width: 200},
                 {label: '链接', name: 'href', width: 150},
-                // {label: '父编号', name: 'id', width: 150},
                 {label: '排序', name: 'sort', width: 150}
             ],
             setQueryParam: () => $t.setQueryParam(),
