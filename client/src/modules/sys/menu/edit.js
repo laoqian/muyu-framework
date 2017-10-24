@@ -73,7 +73,10 @@ class DictEditForm extends Component {
                         if(row){
                             this.state.editData = {parentId:row.parentId};
                             setFieldsValue(row);
+                        }else{
+                            this.state.editData = {parentId:1};
                         }
+                        console.log(row);
                         break;
                     case 'modify':
                         this.state.editData = row;

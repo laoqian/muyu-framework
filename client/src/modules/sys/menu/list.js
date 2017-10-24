@@ -7,6 +7,7 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
+import {notification} from 'antd';
 
 class SyseDict extends ListComponent{
 
@@ -14,8 +15,8 @@ class SyseDict extends ListComponent{
         super(props);
 
         let $t = this;
-
-        $t.moduleName = 'sysMenu';
+        $t.baseUrl      = '/api/menu/'   ;
+        $t.moduleName   = 'sysMenu'     ;
         $t.history.push('/'); /*初始化时指向根目录*/
 
         $t.setGridInitParam({
@@ -49,8 +50,10 @@ class SyseDict extends ListComponent{
                 items: [
                     {name: '添加', path: '/add', icon: 'plus',},
                     {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    {name: '升级', path: '/add', icon: 'arrow-up',},
-                    {name: '降级', path: '/add', icon: 'arrow-down',},
+                    {name: '升级', path: '/add', icon: 'swap-left',},
+                    {name: '降级', path: '/add', icon: 'swap-right',},
+                    {name: '上移', path: '/add', icon: 'arrow-up',},
+                    {name: '下移', path: '/add', icon: 'arrow-down',},
                     {name: '修改', path: '/edit', icon: 'edit',},
                     {name: '删除', path: '/delete', icon: 'delete',}
                 ]
@@ -65,8 +68,25 @@ class SyseDict extends ListComponent{
                 row     : $t.getSelRowData(),
                 grid    : $t.getGrid()
             })
-        })
+        });
 
+        $t.chgLevel = (id,type)=>{
+            let data;
+            if(arguments.length===2){
+                data ={id,type};
+            }else{
+                let row = $t.getSelRowData();
+                if(row){
+                    data={id:row.id,type:id};
+                }else{
+                   return notification.error({message:'未选择行'});
+                }
+            }
+
+            $.get($t.encodeUrl('chgLevel?'+$.param(data)),function(bean){
+
+            })
+        }
 
     }
 

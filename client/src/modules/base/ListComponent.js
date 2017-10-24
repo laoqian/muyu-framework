@@ -52,6 +52,10 @@ export default class ListComponent extends Component{
 
         $t.eventFunc = {};
 
+        $t.regEvent = (cnName,enName,func)=>{
+            $t.eventFunc[cnName] = $t[enName] = func;
+        }
+
         $t.eventFunc['修改'] = $t.editRow = async () => {
             let row = $t.getSelRowData();
             if (!row) {
@@ -98,9 +102,13 @@ export default class ListComponent extends Component{
             $t.getGrid().trigger('reloadGrid')
         };
 
-        $t.regEvent = (cnName,enName,func)=>{
-            $t.eventFunc[cnName] = $t[enName] = func;
-        }
+        $t.regEvent("升级",'upgradeRow'   ,()=>$t.chgLevel(0));
+        $t.regEvent("降级",'degradeRow'   ,()=>$t.chgLevel(1));
+        $t.regEvent("上移",'shiftUpRow'   ,()=>$t.chgLevel(2));
+        $t.regEvent("下移",'shiftDownRow' ,()=>$t.chgLevel(3));
+
+
+        $t.encodeUrl = (url)=>$t.baseUrl+url;
 
         $t.setQueryParam = () => {
             if ($t.serachForm) {

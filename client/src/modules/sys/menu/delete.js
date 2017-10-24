@@ -28,7 +28,7 @@ class DictDelete extends Component {
 
             self.setState({loading:true});
 
-            $.get('/api/dict/delete?id=' + row.id, function (bean) {
+            $.get('/api/menu/delete?id=' + row.id, function (bean) {
 
                 self.setState({loading:false});
                 if (bean.code === 0) {
@@ -46,7 +46,7 @@ class DictDelete extends Component {
 
     render() {
         let {row} = this.props.location;
-        let text = `确定要删除:${row.label}吗？`;
+        let text = `确定要删除:${row.name}吗？`;
 
         return (
             <Modal

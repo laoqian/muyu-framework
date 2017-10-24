@@ -26,7 +26,7 @@ public class BaseResultBean implements Serializable {
 
     public static final int NO_PERMISSION = 2;
 
-    private String msg = "success";
+    private String msg = "成功";
 
     private int code = SUCCESS;
 
@@ -37,6 +37,11 @@ public class BaseResultBean implements Serializable {
         super();
     }
 
+    public BaseResultBean(String msg,boolean code) {
+        super();
+        this.msg = msg;
+        this.code = code?SUCCESS:FAIL;
+    }
 
     public BaseResultBean(Throwable e) {
         super();

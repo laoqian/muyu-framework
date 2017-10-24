@@ -24,6 +24,10 @@ public class ResultBean<T> extends  BaseResultBean implements Serializable {
         super();
     }
 
+    public ResultBean(String msg,boolean code){
+        super(msg,code);
+    }
+
     public ResultBean(T data) {
         super();
         this.data = data;

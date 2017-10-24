@@ -10,7 +10,7 @@ import java.util.List;
  * @version 2014-05-16
  * @param <T>
  */
-public interface TreeDao<T> extends CrudDao {
+public interface TreeDao<T> extends CrudDao<T> {
 
 	List<T> findTree(String rootId);
 }

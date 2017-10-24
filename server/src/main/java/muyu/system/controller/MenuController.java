@@ -6,9 +6,9 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.entity.Dict;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +29,16 @@ public class MenuController extends BaseController{
 
     @Autowired
     MenuService menuService;
+
+    @ModelAttribute
+    public Menu preState(@RequestParam(required=false) String id){
+        Menu menu =null;
+        if(StringUtils.isNotBlank(id)){
+            menu = menuService.get(id);
+        }
+
+        return menu==null?new Menu():menu;
+    }
 
     @RequestMapping("findList")
     public ResultBean<List> findList(Menu menu) {
@@ -54,5 +64,11 @@ public class MenuController extends BaseController{
     @RequestMapping("delete")
     public ResultBean<Menu> delete(Menu menu){
         return menuService.delete(menu);
+    }
+
+    @RequestMapping("chgLevel")
+    @ResponseBody
+    public ResultBean<Menu> chgLevel(Menu menu,Integer type){
+        return menuService.chgLevel(menu,type);
     }
 }
