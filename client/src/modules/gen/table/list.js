@@ -3,22 +3,22 @@ import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
-import DictEdit from './edit'
-import DictDelete from './delete'
+import GenTableEdit from './edit'
+import GenTableDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
 
-class SyseDict extends ListComponent{
+class GenTable extends ListComponent{
 
     constructor(props){
         super(props);
 
         let $t = this;
-        $t.baseUrl      = '/api/dict/'   ;
-        $t.moduleName = 'sysDict';
+        $t.baseUrl      = '/api/gen/'   ;
+        $t.moduleName = 'sysGen';
         $t.history.push('/'); /*初始化时指向根目录*/
         $t.setGridInitParam({
-            url:'api/dict/findPage',
+            url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
             colModel: [
                 {label: '键值', name: 'value', width: 200},
@@ -60,8 +60,8 @@ class SyseDict extends ListComponent{
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
-                        <Route path="/edit"     component= {DictEdit}/>
-                        <Route path="/delete"   component= {DictDelete}/>
+                        <Route path="/edit"     component= {GenTableEdit}/>
+                        <Route path="/delete"   component= {GenTableDelete}/>
                         <Route                  component={NoMatch}/>
                     </Switch>
                 </Router>
@@ -85,5 +85,5 @@ function mapActionToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps, mapActionToProps)(SyseDict);
+export default connect(mapStateToProps, mapActionToProps)(GenTable);
 

@@ -50,7 +50,8 @@ export default class ListComponent extends Component{
 
         $t.eventFunc['修改'] = $t.editRow = async () => {
             let row = $t.getSelRowData();
-            console.log(row);
+
+
             if (!row) {
                 return notification.error({message: '未选择,要修改的菜单'});
             } else {
@@ -68,7 +69,6 @@ export default class ListComponent extends Component{
 
         $t.eventFunc['添加'] = $t.addRow = async ()=>{
             let row  = $t.getSelRowData();
-
             if(row){
               try{
                   let bean = await $t.loadSelData(row.id);

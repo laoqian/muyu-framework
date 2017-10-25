@@ -1,23 +1,24 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
-import createHistory from 'history/createBrowserHistory'
-import {notification } from 'antd';
 import {findDOMNode} from 'react-dom';
+import ListComponent from "../../base/ListComponent";
 
-class SyseDict extends Component{
+class SyseUser extends ListComponent{
 
-    constructor(props) {
+    constructor(props){
         super(props);
 
         let $t = this;
-
-        $t.gridOptions = {
-            url:'api/dict/findPage',
+        $t.baseUrl    = '/api/user/'   ;
+        $t.moduleName = 'sysUser';
+        $t.history.push('/');
+        $t.setGridInitParam({
+            url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
             colModel: [
                 {label: '键值', name: 'value', width: 200},
@@ -25,23 +26,8 @@ class SyseDict extends Component{
                 {label: '类型', name: 'type', width: 150},
                 {label: '描述', name: 'description', width: 150},
                 {label: '排序', name: 'sort', width: 150}
-            ],
-            setQueryParam:()=>$t.setQueryParam(),
-            ondblClickRow:()=>{
-                $t.editRow();
-                $t.isGridDbClick = true;
-            },
-            beforeSelectRow:(id)=>{
-                let selectd = $t.getSelectedId() !== id;
-                if(!selectd){
-                    setTimeout(()=>{
-                        $t.isGridDbClick?$t.isGridDbClick = false:$t.getGrid().resetSelection();
-                    },200)
-                }
-
-                return selectd;
-            }
-        };
+            ]
+        });
 
         $t.toolBarOptions = {
             left: {
@@ -65,64 +51,6 @@ class SyseDict extends Component{
                 ]
             }
         };
-
-
-        $t.moduleName = 'sysDict';
-        $t.history = createHistory({basename:'#user'});
-        $t.isGridDbClick =false; /*解决jqGrid双击事件触发单击事件*/
-
-        $t.getGrid = (()=>{
-            let grid;
-            return ()=>{
-                if(!grid || grid.length===0){
-                    grid = $('.ui-jqgrid-btable',findDOMNode(this.refs.grid));
-                }
-                return grid;
-            }
-        })();
-
-        $t.getSelectedId =()=>$t.getGrid().getGridParam('selrow');
-        $t.getSelRowData = ()=>{
-            let id =   $t.getSelectedId();
-            return id?Object.assign($t.getGrid().getRowData(id),{id}):null ;
-        };
-
-        $t.eventFunc =  {};
-
-        $t.eventFunc['修改'] = $t.editRow = ()=>{
-            let row= $t.getSelRowData();
-            if(!row){
-                return notification.error({message:'未选择,要修改的标签'});
-            }else {
-                notification.success({message:'编辑标签：'+row.id});
-            }
-
-            this.history.push({pathname:'/edit',type:'modify',row,grid:$t.getGrid()});
-        };
-
-        $t.eventFunc['添加']    = $t.addRow     = ()=>$t.history.push({pathname:'/edit',type:'add',row:$t.getSelRowData(),grid:$t.getGrid()});
-        $t.eventFunc['删除']    = $t.deleteRow  = ()=>$t.history.push({pathname:'/delete',row:$t.getSelRowData(),grid:$t.getGrid()});
-        $t.eventFunc['重加载']  = $t.reload     = ()=>{
-            $t.setQueryParam();
-            $t.getGrid().trigger('reloadGrid')
-        };
-
-        $t.setQueryParam = ()=>{
-            if($t.serachForm){
-                let {validateFields} = $t.serachForm;
-                validateFields((err,values)=>{
-                    if(!err){
-                        $t.getGrid().setGridParam({postData:values})
-                    }
-                })
-            }
-        }
-
-        $t.click = item =>$t.eventFunc[item.name]?$t.eventFunc[item.name]():console.error('Warning:未定义的事件：'+item.name);
-
-        $t.register=form=>$t.serachForm=form;
-
-        $t.history.push('/'); /*初始化时指向根目录*/
     }
 
     render() {
@@ -157,5 +85,5 @@ function mapActionToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps, mapActionToProps)(SyseDict);
+export default connect(mapStateToProps, mapActionToProps)(SyseUser);
 

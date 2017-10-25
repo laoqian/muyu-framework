@@ -1,9 +1,7 @@
 package muyu.system.controller;
 
-import com.github.pagehelper.Page;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
-import muyu.system.entity.Dict;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -31,13 +28,13 @@ public class MenuController extends BaseController{
     MenuService menuService;
 
     @ModelAttribute
-    public Menu preState(@RequestParam(required=false) String id){
-        Menu menu =null;
-        if(StringUtils.isNotBlank(id)){
-            menu = menuService.get(id);
+    public Menu preState(@RequestParam(required = false) String id) {
+        Menu m=null;
+        if (StringUtils.isNotBlank(id)){
+            m = menuService.get(id);
         }
 
-        return menu==null?new Menu():menu;
+        return m != null ? m : new Menu();
     }
 
     @RequestMapping("findList")
@@ -52,7 +49,7 @@ public class MenuController extends BaseController{
     }
 
     @RequestMapping("findTree")
-    public ResultPageBean<Menu> findTree(HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
+    public ResultPageBean<Menu> findTree(HttpServletRequest request){
         return menuService.findTreePage(request,"0");
     }
 

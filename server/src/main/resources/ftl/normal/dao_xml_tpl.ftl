@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.system.dao.DictDao">
+
+    <select id="get" resultType="Dict">
+        SELECT
+        *
+        FROM sys_dict a
+        WHERE a.id=#{id}
+    </select>
+    <select id="findList" resultType="Dict">
+        SELECT
+          *
+        FROM sys_dict a
+        <where>
+            <if test="type!=null and type!=''">
+                a.type=#{type}
+            </if>
+        </where>
+    </select>
+    <insert id="insert" parameterType="Dict">
+        INSERT INTO sys_dict
+        (
+              id,
+              value,
+              label,
+              type,
+              description,
+              sort,
+              create_by,
+              create_date,
+              update_by,
+              update_date,
+              remarks
+          )
+          VALUES (
+              #{id},
+              #{value},
+              #{label},
+              #{type},
+              #{description},
+              #{sort},
+              #{createBy.id},
+              #{createDate},
+              #{updateBy.id},
+              #{updateDate},
+              #{remarks}
+          )
+    </insert>
+    <update id="update">
+        UPDATE sys_dict SET
+          value = #{value},
+          label =  #{label},
+          type = #{type},
+          description =   #{description},
+          sort =   #{sort},
+          parent_id =   #{parentId},
+          update_by =   #{updateBy.id},
+          update_date =   #{updateDate},
+          remarks =#{remarks}
+        WHERE id=#{id}
+    </update>
+    <delete id="delete">
+      DELETE FROM sys_dict where id=#{id}
+    </delete>
+</mapper>

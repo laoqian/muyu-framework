@@ -9,7 +9,7 @@ import {notification} from 'antd';
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 
-class UserEditForm extends Component {
+class DictEditForm extends Component {
     constructor(props) {
         super(props);
 
@@ -210,7 +210,7 @@ function mapActionToProps(dispatch) {
     }
 }
 
-const DictEdit = Form.create()(UserEditForm);
+const DictEdit = Form.create()(DictEditForm);
 
 export default connect(
     mapStateToProps,
