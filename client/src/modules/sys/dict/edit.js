@@ -15,18 +15,17 @@ class DictEditForm extends Component {
 
         this.state ={
             editData :null,
-            loaded   :false,
             submiting:false
         };
 
         this.modalClick = (type) =>{
             if (type === 'ok') {
-                this.setState({submiting: true});
+                this.setState({submiting:true});
                 this.saveData();
             } else {
                 this.props.history.push('/');
             }
-        }
+        };
 
         this.saveData = () => {
             let data;
@@ -59,30 +58,33 @@ class DictEditForm extends Component {
                     tip({message: data.msg});
                 })
             }
-        }
+        };
 
-        this.loadData = ()=>{
-            let self  = this;
-            let {row,type} = self.props.location;
+        this.bindDataOnce = ()=>{
+            let {row,type} = this.props.location;
+            const {setFieldsValue} = this.props.form;
 
-            if (!self.state.loaded && row) {
-                $.get('/api/dict/get?id=' + row.id, function (bean) {
-                    if (bean.code === 0 && bean.data) {
-                        const {setFieldsValue} = self.props.form;
+            if(!this.props.location.binded){
+                this.props.location.binded = true;
 
-                        if(type==='modify'){
-                            self.setState({editData:bean.data,loaded:true});
+                switch (type){
+                    case 'add':
+                        if(row){
+                            this.state.editData = {parentId:row.parentId};
+                            setFieldsValue(row);
                         }else{
-                            self.setState({loaded:true});
+                            this.state.editData = {parentId:1};
                         }
-
-                        setFieldsValue(bean.data);
-                    } else {
-                        notification.error({message:bean.msg});
-                    }
-                });
+                        console.log(row);
+                        break;
+                    case 'modify':
+                        this.state.editData = row;
+                        setFieldsValue(row);
+                        break;
+                }
             }
         }
+
 
     }
 
@@ -91,7 +93,7 @@ class DictEditForm extends Component {
     }
 
     componentDidMount(){
-        this.loadData();
+        this.bindDataOnce();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -103,7 +105,7 @@ class DictEditForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState){
-        this.loadData();
+        this.bindDataOnce();
     }
 
     render() {
@@ -117,9 +119,23 @@ class DictEditForm extends Component {
             resize: 'none'
         };
 
+        let title= '字典添加';
+        let {type,binded} = this.props.location;
+
+        if(binded){
+            switch (type){
+                case 'modify':
+                    title=`字典修改-${this.state.editData.id}`;
+                    break;
+                case 'add':
+                    title='字典添加';
+                    break;
+            }
+        }
+
         return (
             <Modal
-                title={this.state.editData?`字典修改-${this.state.editData.id}`:'字典添加'}
+                title={title}
                 wrapClassName="vertical-center-modal"
                 visible={true}
                 onOk={() => this.modalClick('ok')}

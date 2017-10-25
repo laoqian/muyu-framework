@@ -69,8 +69,7 @@
           WHERE id=#{id}
     </update>
     <delete id="delete">
-          UPDATE sys_menu SET
-            del_flag = 1
+          DELETE from sys_menu
           WHERE id=#{id}
     </delete>
 </mapper>

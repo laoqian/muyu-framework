@@ -34,15 +34,7 @@ export default class ListComponent extends Component{
         $t.history = createHistory({basename: '#user'});
         $t.isGridDbClick = false;
 
-        $t.getGrid = (() => {
-            let grid;
-            return () => {
-                if (!grid || grid.length === 0) {
-                    grid = $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
-                }
-                return grid;
-            }
-        })();
+        $t.getGrid = () => $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
 
         $t.getSelectedId = () => $t.getGrid().getGridParam('selrow');
         $t.getSelRowData = () => {
@@ -58,15 +50,16 @@ export default class ListComponent extends Component{
 
         $t.eventFunc['修改'] = $t.editRow = async () => {
             let row = $t.getSelRowData();
+            console.log(row);
             if (!row) {
                 return notification.error({message: '未选择,要修改的菜单'});
             } else {
-                notification.success({message: '编辑菜单：' + row.id});
                 try{
                     let bean = await $t.loadSelData(row.id);
                     row = bean.data;
+                    notification.success({message: '编辑菜单：' + row.id});
                 }catch (err){
-                    notification.error({message:err.msg});
+                    return notification.error({message:err.msg});
                 }
             }
 
@@ -125,7 +118,7 @@ export default class ListComponent extends Component{
 
         $t.loadSelData =(id)=>{
             return new Promise((res,rej)=>{
-                $.get('/api/menu/get?id=' + id, function (bean) {
+                $.get($t.encodeUrl('get?id='+ id), function (bean) {
                     if (bean.code === 0 && bean.data) {
                         res(bean);
                     } else {

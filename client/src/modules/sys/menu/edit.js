@@ -15,7 +15,6 @@ class DictEditForm extends Component {
 
         this.state ={
             editData :null,
-            loaded   :false,
             submiting:false
         };
 
