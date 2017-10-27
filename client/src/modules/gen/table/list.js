@@ -14,7 +14,7 @@ class GenTable extends ListComponent{
         super(props);
 
         let $t = this;
-        $t.baseUrl      = '/api/gen/'   ;
+        $t.baseUrl    = '/api/gen/'   ;
         $t.moduleName = 'sysGen';
         $t.history.push('/'); /*初始化时指向根目录*/
         $t.setGridInitParam({

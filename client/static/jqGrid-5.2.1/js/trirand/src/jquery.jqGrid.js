@@ -2009,6 +2009,10 @@ $.fn.jqGrid = function( pin ) {
 				} else { rcnt = rcnt > 1 ? rcnt :1; }
 			} else { return; }
 
+			if(ts.p.beforAddJsonData){
+                ts.p.beforAddJsonData(data,rcnt,more,adjust);
+			}
+
 			var dReader, locid = "_id_", frd,
 			locdata = (ts.p.datatype !== "local" && ts.p.loadonce) || ts.p.datatype === "jsonstring";
 			if(locdata) { ts.p.data = []; ts.p._index = {}; ts.p.localReader.id = locid;}
@@ -14840,7 +14844,8 @@ $.jgrid.extend({
 
 			rc[expanded] = true;
 			if(!rc[isLeaf]) {
-				$("div.treeclick",rc1).removeClass(this.p.treeIcons.plus+" tree-plus").addClass(this.p.treeIcons.minus+" tree-minus");
+				$("div.treeclick",rc1).removeClass(this.p.treeIcons.plus+" tree-plus").addClass(this.p.treeIcons.minus+" " +
+					".");
 			}
 			this.p.treeANode = rc1.rowIndex;
 			this.p.datatype = this.p.treedatatype;

@@ -3,6 +3,7 @@ import {Link} from 'react-router'
 import Loading from '../../layouts/loading'
 import {connect} from 'react-redux'
 import {findDOMNode} from 'react-dom';
+import _ from 'lodash'
 
 class JqgridWrapper extends Component {
     constructor() {
@@ -59,6 +60,22 @@ class JqgridWrapper extends Component {
                 setQueryParam ? setQueryParam() : null;
                 $('.ui-jqgrid .loading', grid).remove();
                 __this.setState({loading: true});
+
+                /*缓存上一次的数据*/
+                if(this.p && this.p.data){
+                    __this.cacheList = this.p.data;
+                }
+            },
+            beforAddJsonData:function(data,rcnt,more,adjust){
+                if(__this.cacheList && data.list && data.list.length>0){
+                    let list = data.list;
+                    list.forEach(data=>{
+                        let cache = _.find(__this.cacheList,(chr)=>chr['_id_'] ===data.id)
+                        if(cache){
+                            data.expanded = cache.expanded;
+                        }
+                    })
+                }
             },
             loadComplete: function () {
                 __this.setState({loading: false});
@@ -100,7 +117,9 @@ class JqgridWrapper extends Component {
         let gridTable = findDOMNode(this.refs.gridTable);
 
         this.state.gridTable = $(gridTable);
-        this.state.gridTable.jqGrid(this.state.curOptions);
+        let grid  = this.state.gridTable.jqGrid(this.state.curOptions);
+
+
     }
 
     render() {

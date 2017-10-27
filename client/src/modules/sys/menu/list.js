@@ -29,7 +29,7 @@ class SyseDict extends ListComponent{
                 {label: '名称', name: 'name', width: 200},
                 {label: '链接', name: 'href', width: 150},
                 {label: '排序', name: 'sort', width: 100,align:'center'},
-                {label: '显示', name: 'isShow', width: 100,align:'center'},
+                {label: '显示', name: 'isShow', width: 100,align:'center'}
             ]
         });
 

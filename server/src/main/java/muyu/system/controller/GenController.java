@@ -22,6 +22,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("${prefixPath}/gen/")
 public class GenController extends BaseService{
+
     @Autowired
     private GenService genService;
 

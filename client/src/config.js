@@ -6,12 +6,11 @@ let config = {
     server_port: 9999,
     notice_height:20,
     header_height:60,
-    left_height:100,
+    left_height:80,
     footer_height:24
 };
 
 /*后端服务器地址*/
-// config.base_url = 'http://' + config.server_ip + ':' + config.server_port;
 config.base_url = '/api';
 
 
