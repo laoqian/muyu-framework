@@ -18,6 +18,7 @@ class JqgridWrapper extends Component {
 
         this.state.defaultOptions = {
             url: 'api/menu/findPage',
+            editurl:'clientArray ',
             styleUI: 'Bootstrap',
             datatype: "json",
             mtype: "GET",
@@ -118,14 +119,18 @@ class JqgridWrapper extends Component {
             this.state.curOptions = Object.assign(this.state.curOptions,this.state.treeToolBar);
         }
 
-        /*默认设置为不可排序*/
-        let id =false;
+
+        let id =false,isNewRecord=false;
         colModel.forEach(item=>{
             item.name==='id'?id=true:null;
+            item.name==='isNewRecord'?isNewRecord=true:null;
+
+            /*默认设置为不可排序*/
             !item.sortable ? item.sortable = false : null;
         });
 
         !id?colModel.push({name:'id',hidden:true}):null;
+        !isNewRecord?colModel.push({name:'isNewRecord',hidden:true}):null;
 
         this.state.curOptions.talbleId =  this.state.curOptions.gridName + 'Table';
         this.state.curOptions.pager = '#' + this.state.curOptions.gridName + 'pager';
@@ -177,14 +182,14 @@ function mapActionToProps(dispatch) {
 class GridToolBar extends Component{
     constructor(props){
         super(props);
+        let {grid,options} = this.props;
 
         this.expand = (level)=>{
-            let {grid} = this.props;
             let list  = grid.getRowData(null,true);
             list.forEach(row=>{
                 if(!row.leaf){
                     if(row.level>=level){
-                        if(row.expanded ){
+                        if(row.expanded){
                             grid.collapseRow(row);
                             grid.collapseNode(row);
                         }
@@ -203,13 +208,52 @@ class GridToolBar extends Component{
         this.eventFunc['降级'] =
         this.eventFunc['上移'] =
         this.eventFunc['下移'] = key=>{
-            let {grid} = this.props;
-            grid.trigger('reloadGrid');
+            let url = options.baseUrl+'transform';
+            let id = grid.getGridParam('selrow');
+            let data ={id,type:key};
+            $.get(url+'?'+$.param(data),data=>{
+                if(data.code===0){
+                    grid.trigger('roladGrid');
+                }
+            })
         };
 
+        this.baseId = 825;
+        this.createRow = ()=>{
+            let data            =   {};
+            data.id             =   (this.baseId++).toString();
+            data.isNewRecord    =   true;
+
+            if(options.treeGrid){
+                let id  = grid.getGridParam('selrow');
+                let row = grid.getRowData(id,true);
+                if(id){
+                    data.parentId   = id;
+                    data.level      = row.level+1;
+                }else{
+                    data.parentId   = 0;
+                    data.level      = options.tree_root_level;
+                }
+
+                data.leaf       = true;
+                data.expanded   = true;
+            }
+
+            let {beforeAddRow} = options;
+            if(_.isFunction(beforeAddRow)){
+                beforeAddRow.call(grid,data);
+            }
+
+            return data;
+        };
 
         this.eventFunc['添加'] = ()=>{
-            console.log('添加');
+            let row = this.createRow();
+            if(options.treeGrid){
+                grid.addChildNode(row.id,row.parentId,row,true);
+            }else{
+                grid.addRow(row,true);
+            }
         };
 
 
