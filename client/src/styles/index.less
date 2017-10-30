@@ -219,6 +219,9 @@ input, select, button {
   border: solid 1px #ccc;
   border-radius: 3px;
   background: white;
+  .flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .my-tb{
@@ -239,11 +242,8 @@ input, select, button {
 }
 
 .my-grid-wrapper{
-  position: absolute;
-  top: 54px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  .flex;
+  flex: 1;
 }
 .my-loading-wrapper{
   width: 100%;

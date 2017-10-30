@@ -1135,7 +1135,7 @@ $.extend($.jgrid,{
 			treegrid : {
 				icon_plus : 'glyphicon-triangle-right',
 				icon_minus : 'glyphicon-triangle-bottom',
-				icon_leaf : 'glyphicon-unchecked'
+				icon_leaf : 'glyphicon-cog'
 			},
 			fmatter : {
 				icon_edit : "glyphicon-edit",

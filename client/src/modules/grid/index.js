@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
 import Loading from '../../layouts/loading'
 import {connect} from 'react-redux'
-import {findDOMNode} from 'react-dom';
+import {findDOMNode,render} from 'react-dom';
+import { Button, Icon } from 'antd';
+const ButtonGroup = Button.Group;
 import _ from 'lodash'
 
 class JqgridWrapper extends Component {
@@ -83,48 +85,64 @@ class JqgridWrapper extends Component {
             gridComplete: function () {
                 let wrapper = findDOMNode(__this.refs.gridWrapper);
                 wrapper = $(wrapper);
-
-                let width = wrapper.width() - 2;
-                let height = wrapper.height() - 59;
                 let grid = __this.state.gridTable;
 
-                grid.jqGrid('setGridWidth', width);
-                grid.jqGrid('setGridHeight', height);
+                let width = wrapper.width();
+                let toobar = wrapper.find('.ui-userdata-top');
+                let header = wrapper.find('.ui-jqgrid-pager');
+                let pager = wrapper.find('.ui-jqgrid-hdiv');
+                let height = wrapper.height() - toobar.height() - header.height()-pager.height();
 
-                $('.ui-jqgrid-hdiv', grid).css('width', width);
+                grid.jqGrid('setGridWidth', width+2);
+                grid.jqGrid('setGridHeight', height);
+                toobar.width(width);
+                header.width(width);
+                pager.width(width);
             },
 
             loadError: function (data) {
 
             },
         };
+
+        this.state.treeToolBar ={
+            toolbar:[true,"top"],
+        };
     }
 
     componentWillMount() {
         this.state.curOptions = Object.assign(this.state.defaultOptions, this.props.options);
-        let {colModel} = this.state.curOptions;
+        let {colModel,treeGrid} = this.state.curOptions;
+
+        if(treeGrid){
+            this.state.curOptions = Object.assign(this.state.curOptions,this.state.treeToolBar);
+        }
 
         /*默认设置为不可排序*/
         colModel.forEach(item=>{
             !item.sortable ? item.sortable = false : null;
         });
 
-        this.state.curOptions.height = $('.my-grid-wrapper').height() - 59;
+        this.state.curOptions.talbleId =  this.state.curOptions.gridName + 'Table';
         this.state.curOptions.pager = '#' + this.state.curOptions.gridName + 'pager';
+        this.state.curOptions.topToobar = '#' + 't_'+this.state.curOptions.talbleId;
     }
 
     componentDidMount(prevProps, prevState) {
         let gridTable = findDOMNode(this.refs.gridTable);
 
         this.state.gridTable = $(gridTable);
-        let grid  = this.state.gridTable.jqGrid(this.state.curOptions);
+        this.state.gridTable.jqGrid(this.state.curOptions);
 
-
+        render(
+            <GridToolBar/>,
+            document.getElementById('t_'+this.state.curOptions.talbleId)
+        );
     }
 
     render() {
         let pager = this.state.curOptions.pager.substr(1);
-        let talbleId = this.state.curOptions.gridName + 'Table';
+        let {talbleId} = this.state.curOptions;
 
         return (
             <div className='my-grid-wrapper' ref="gridWrapper">
@@ -149,6 +167,34 @@ function mapStateToProps(state) {
 function mapActionToProps(dispatch) {
     return {}
 }
+
+
+class GridToolBar extends Component{
+
+    render(){
+        let style={'margin-left':'10px'};
+        return (
+            <div style={style}>
+                <ButtonGroup>
+                    <Button  >1</Button>
+                    <Button  >2</Button>
+                    <Button  >3</Button>
+                    <Button  >4</Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <Button  >升级</Button>
+                    <Button  >降级</Button>
+                    <Button  >上移</Button>
+                    <Button  >下移</Button>
+                </ButtonGroup>
+                <ButtonGroup>
+                    <Button >添加</Button>
+                </ButtonGroup>
+            </div>
+        )
+    }
+}
+
 
 export default connect(mapStateToProps, mapActionToProps)(JqgridWrapper);
 

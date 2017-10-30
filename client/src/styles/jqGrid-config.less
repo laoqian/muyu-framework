@@ -1,5 +1,7 @@
 
-
+.ui-jqgrid{
+  border: 0;
+}
 
 .ui-jqgrid-hdiv{
   border: solid 1px @border-color;
@@ -57,6 +59,41 @@ tr.jqgrow>td:first-child,tr.jqgrow>td:last-child{
   letter-spacing:normal;
 }
 .tree-minus,.tree-plus,.tree-leaf{
-  margin-top: 5px;
+  margin-top: 3px;
+}
 
+.ui-row-ltr{
+
+  .glyphicon-cog:before,.glyphicon-triangle-right:before,.glyphicon-triangle-bottom:before {
+    color: #039cfd;
+    font-size: 0.6em!important;
+    font-weight: lighter!important;
+  }
+}
+
+.success{
+
+  .glyphicon-cog:before,.glyphicon-triangle-right:before,.glyphicon-triangle-bottom:before{
+    color: white;
+  }
+}
+
+.ui-jqgrid .ui-userdata{
+  padding: 0;
+}
+.ui-userdata-top{
+  background: rgb(248, 248, 248);
+  .flex-vm;
+
+  .ant-btn-group{
+    margin-right: 10px;
+
+    .ant-btn{
+      height: 26px;
+    }
+  }
+}
+
+.ui-jqgrid-pager{
+  border-top:solid 1px @border-color!important;
 }
