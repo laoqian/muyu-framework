@@ -14385,6 +14385,7 @@ $.jgrid.extend({
 						ind2 =$.jgrid.stripPref($t.p.idPrefix,$(target,$t.rows).closest("tr.jqgrow")[0].id),
 						pos = $t.p._index[ind2];
 						if(!$t.p.data[pos][isLeaf]){
+                            console.log($t.p.data[pos]);
 							if($t.p.data[pos][expanded]){
 								$($t).jqGrid("collapseRow",$t.p.data[pos]);
 								$($t).jqGrid("collapseNode",$t.p.data[pos]);
@@ -14403,6 +14404,8 @@ $.jgrid.extend({
 							var target = e.target || e.srcElement,
 							ind2 =$.jgrid.stripPref($t.p.idPrefix,$(target,$t.rows).closest("tr.jqgrow")[0].id),
 							pos = $t.p._index[ind2];
+
+
 							if(!$t.p.data[pos][isLeaf]){
 								if($t.p.data[pos][expanded]){
 									$($t).jqGrid("collapseRow",$t.p.data[pos]);

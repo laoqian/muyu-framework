@@ -21,6 +21,7 @@ class SyseDict extends ListComponent{
 
         $t.setGridInitParam({
             url: 'api/menu/findTree',
+            baseUrl: $t.baseUrl,
             gridName: this.moduleName,
             treeGrid: true,
             ExpandColumn : 'name',
