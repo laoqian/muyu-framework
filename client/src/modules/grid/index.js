@@ -139,6 +139,82 @@ class JqgridWrapper extends Component {
         this.state.curOptions.talbleId =  this.state.curOptions.gridName + 'Table';
         this.state.curOptions.pager = '#' + this.state.curOptions.gridName + 'pager';
         this.state.curOptions.topToobar = '#' + 't_'+this.state.curOptions.talbleId;
+
+        /*在树模式时，支持多选*/
+        if(this.state.curOptions.treeGrid){
+            this.state.curOptions.selectedList = [];
+
+            let beforeSelectRow = this.state.curOptions;
+            this.state.curOptions.beforeSelectRow = function (id,e) {
+                let selId    = this.p.selrow;
+                let list     = this.p.data;
+                let selList  = this.p.selectedList;
+
+                /*shift按下时根据上一个单击和现在单击的进行多选*/
+                if(e.shiftKey){
+                    this.p.selectedList =[];
+                    let start = _.findIndex(list,item=>item.id===selId);
+                    let end = _.findIndex(list,item=>item.id===id);
+                    if(start>=0 && end>=0){
+                        if(start>end){
+                            start ^=end;
+                            end   ^=start;
+                            start ^=end;
+                        }
+
+                        for(let i=0;i<list.length;i++){
+                            let row = list[i];
+                            if(i>=start && i<=end){
+                                $('#'+row.id).addClass('success');
+                                this.p.selectedList.push(row.id);
+                            }else{
+                                $('#'+row.id).removeClass('success');
+                            }
+                        }
+                    }
+                }else if(e.ctrlKey){
+                    /*ctrl按下时根据已选中就是反选，未选中就设置为选中*/
+                    let seled = false;
+                    selList.forEach(nid=>id===nid?seled=true:null);
+
+                    if(seled){
+                        this.p.selectedList =[];
+                        selList.forEach(nid=>{
+                            nid!==id?this.p.selectedList.push(nid):null;
+                        });
+
+                        $('#'+id).removeClass('success');
+                        this.p.selrow = this.p.selectedList.length>0?this.p.selectedList[0]:null;
+                    }else{
+                        this.p.selectedList.push(id);
+                        $('#'+id).addClass('success');
+                        this.p.selrow = id;
+                    }
+                }else{
+                    let seled = false;
+                    this.p.selectedList =[];
+
+                    selList.forEach(nid=>{
+                        id===nid?seled=true:null;
+                        $('#'+nid).removeClass('success')
+                    });
+
+                    if(this.p.selrow!==id || (selList.length>1 && seled)){
+                        $('#'+id).addClass('success');
+                        this.p.selrow = id;
+                        this.p.selectedList.push(id);
+                    }else{
+                        this.p.selrow = null;
+                    }
+
+                    if(beforeSelectRow){
+                        beforeSelectRow(this.p.selrow);
+                    }
+                }
+
+                return false;
+            }
+        }
     }
 
     componentDidMount(prevProps, prevState) {

@@ -43,6 +43,13 @@
                 },timeout+300);
             })
         })(jQuery);
+
+        /*屏蔽页面shift选中文字功能*/
+        document.onselectstart=function(event){
+            event = window.event||event;
+            event.returnValue = false;
+        }
+
     </script>
     <style type="text/css">
 

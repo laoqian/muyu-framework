@@ -2,6 +2,7 @@ import {Component} from 'react'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
 import {notification} from 'antd';
+import _ from 'lodash';
 
 export default class ListComponent extends Component{
 
@@ -11,29 +12,18 @@ export default class ListComponent extends Component{
 
         $t.gridOptions = {
             setQueryParam: () => $t.setQueryParam(),
-            ondblClickRow: () => {
-                $t.editRow();
-                $t.isGridDbClick = true;
-            },
-            beforeSelectRow: (id) => {
-                let selectd = $t.getSelectedId() !== id;
-                if (!selectd) {
-                    setTimeout(() => {
-                        $t.isGridDbClick ? $t.isGridDbClick = false : $t.getGrid().resetSelection();
-                    }, 200)
-                }
-
-                return selectd;
+            ondblClickRow: function(id){
+                $t.editRow(id);
             }
         };
 
         $t.setGridInitParam = (options)=>{
             $t.gridOptions = Object.assign($t.gridOptions,options);
 
+            /*支持行编辑时双击为编辑当前行*/
             if(options.inlineEdit){
-                $t.gridOptions.ondblClickRow =()=>{
-                    let id = $t.getSelectedId();
-                    $t.getGrid().editRow(id,false,function(id){
+                $t.gridOptions.ondblClickRow = function(id){
+                    $(this).editRow(id,false,function(id){
                         this.p.editList.push(id);
                         if(this.p.treeGrid){
                             $('#'+id,this).find('.tree-wrap-ltr').next().css({flex:1,display:'flex'});
@@ -41,10 +31,10 @@ export default class ListComponent extends Component{
                     });
                 }
             }
+
         };
 
         $t.history = createHistory({basename: '#user'});
-        $t.isGridDbClick = false;
 
         $t.getGrid = () => $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
 
@@ -81,14 +71,20 @@ export default class ListComponent extends Component{
             $t.eventFunc[cnName] = $t[enName] = func;
         }
 
-        $t.eventFunc['修改'] = $t.editRow = async () => {
-            let row = $t.getSelRowData();
+        $t.eventFunc['修改'] = $t.editRow = async (id) => {
+            let row;
+            if(!id){
+                row = $t.getSelRowData();
+                id = row.id;
+            }else{
+                row = $t.getGrid().getRowData(id);
+            }
 
-            if (!row) {
+            if (!id) {
                 return notification.error({message: '未选择,要修改的菜单'});
             } else {
                 try{
-                    let bean = await $t.loadSelData(row.id);
+                    let bean = await $t.loadSelData(id);
                     row = bean.data;
                     notification.success({message: '编辑菜单：' + row.id});
                 }catch (err){
