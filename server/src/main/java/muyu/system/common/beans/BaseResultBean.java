@@ -30,7 +30,7 @@ public class BaseResultBean implements Serializable {
 
     private int code = SUCCESS;
 
-    private long useTime=0;
+    private double useTime=0;
 
 
     public BaseResultBean() {

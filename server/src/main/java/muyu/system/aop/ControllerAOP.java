@@ -33,9 +33,9 @@ public class ControllerAOP {
 
         try {
             result = (BaseResultBean) pjp.proceed();
-            long useTime = System.nanoTime() - startTime;
+            double useTime = ((double)(System.nanoTime() - startTime))/1000000;
             result.setUseTime(useTime);
-            logger.debug(pjp.getSignature() + "控制器执行时间: " + ((double)useTime)/1000000+" 毫秒");
+            logger.debug(pjp.getSignature() + "控制器执行时间: " + useTime +" 毫秒");
         } catch (Throwable e) {
             result = handlerException(pjp, e);
         }

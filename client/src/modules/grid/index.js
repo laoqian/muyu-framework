@@ -3,9 +3,10 @@ import {Link} from 'react-router'
 import Loading from '../../layouts/loading'
 import {connect} from 'react-redux'
 import {findDOMNode,render} from 'react-dom';
-import { Button, Icon } from 'antd';
+import { Button } from 'antd';
 const ButtonGroup = Button.Group;
 import _ from 'lodash'
+import {notification} from 'antd';
 
 class JqgridWrapper extends Component {
     constructor() {
@@ -144,7 +145,6 @@ class JqgridWrapper extends Component {
         if(this.state.curOptions.treeGrid){
             this.state.curOptions.selectedList = [];
 
-            let beforeSelectRow = this.state.curOptions;
             this.state.curOptions.beforeSelectRow = function (id,e) {
                 let selId    = this.p.selrow;
                 let list     = this.p.data;
@@ -205,10 +205,6 @@ class JqgridWrapper extends Component {
                         this.p.selectedList.push(id);
                     }else{
                         this.p.selrow = null;
-                    }
-
-                    if(beforeSelectRow){
-                        beforeSelectRow(this.p.selrow);
                     }
                 }
 
@@ -289,8 +285,12 @@ class GridToolBar extends Component{
         this.eventFunc['上移'] =
         this.eventFunc['下移'] = key=>{
             let url = options.baseUrl+'transform';
-            let id = grid.getGridParam('selrow');
-            let data ={id,type:key};
+            let idList = grid.getGridParam('selectedList');
+            if(idList.length===0){
+                return notification.error({message:'未选择任何要操作的行！'});
+            }
+
+            let data ={ids:idList.join(','),type:key};
             $.get(url+'?'+$.param(data),data=>{
                 if(data.code===0){
                     grid.trigger('roladGrid');
@@ -299,13 +299,15 @@ class GridToolBar extends Component{
         };
 
         this.baseId = 825;
-
         this.setSort   =  (row)=>{
             let list = grid.getRowData(null,true);
             let pid = row.parentId?row.parentId:"0";
             let sort = 10;
-            
-            list.forEach(t=>t.parentId===pid && t.sort>=sort?sort=t.sort+10:null);
+
+            list.forEach(t=>{
+                let prId = t.parentId?t.parentId:'0';
+                prId===pid && t.sort>=sort?sort=t.sort+10:null
+            });
 
             row.sort = sort;
         };
