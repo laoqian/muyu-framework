@@ -48,6 +48,9 @@ class JqgridWrapper extends Component {
             autoGridWidth: true,  // 自动表格宽度
             autoGridWidthFix: 0,  // 自动表格修复宽度
 
+            /*行编辑扩展*/
+            editList:[],
+
             /*treeGrid参数*/
             tree_root_level:1,
             treeGridModel: 'adjacency', /*指定为adjacency模式时通过parentid来生成树。nested模式通过left和right生成树 */
@@ -82,6 +85,7 @@ class JqgridWrapper extends Component {
             },
             loadComplete: function () {
                 __this.setState({loading: false});
+                $(this).resetSelection();
             },
             gridComplete: function () {
                 let wrapper = findDOMNode(__this.refs.gridWrapper);
@@ -225,9 +229,7 @@ class GridToolBar extends Component{
             let pid = row.parentId?row.parentId:"0";
             let sort = 10;
             
-            list.forEach(t=>{
-                t.parentId===pid && t.sort>=sort?sort=t.sort+10:null;
-            });
+            list.forEach(t=>t.parentId===pid && t.sort>=sort?sort=t.sort+10:null);
 
             row.sort = sort;
         };
@@ -273,6 +275,7 @@ class GridToolBar extends Component{
             }
 
             grid.editRow(row.id,false,function(id){
+                this.p.editList.push(id);
                 if(this.p.treeGrid){
                     $('#'+id,this).find('.tree-wrap-ltr').next().css({flex:1,display:'flex'});
                 }

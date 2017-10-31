@@ -2,7 +2,6 @@ import {Component} from 'react'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
 import {notification} from 'antd';
-import _ from 'lodash'
 
 export default class ListComponent extends Component{
 
@@ -30,14 +29,24 @@ export default class ListComponent extends Component{
 
         $t.setGridInitParam = (options)=>{
             $t.gridOptions = Object.assign($t.gridOptions,options);
+
+            if(options.inlineEdit){
+                $t.gridOptions.ondblClickRow =()=>{
+                    let id = $t.getSelectedId();
+                    $t.getGrid().editRow(id,false,function(id){
+                        this.p.editList.push(id);
+                        if(this.p.treeGrid){
+                            $('#'+id,this).find('.tree-wrap-ltr').next().css({flex:1,display:'flex'});
+                        }
+                    });
+                }
+            }
         };
 
         $t.history = createHistory({basename: '#user'});
         $t.isGridDbClick = false;
 
         $t.getGrid = () => $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
-
-
 
         $t.getSelectedId = () => $t.getGrid().getGridParam('selrow');
         $t.getSelRowData = () => {
@@ -48,19 +57,22 @@ export default class ListComponent extends Component{
         $t.getEditList = ()=> {
             let g = $t.getGrid();
             let list = g.getRowData(null, true);
-            let editList = [];
             let pass = true;
+            let editList = g[0].p.editList;
+            let eList =[];
 
-            list.forEach(row => row.isNewRecord ? editList.push(row) : null);
-
-            editList.forEach(row => {
-                g.saveRow(row.id, null, null, null, null, (rowid,msg)=>{
+            editList.forEach(id => {
+                g.saveRow(id, null, null, null, null, (rowid,msg)=>{
                     pass = false;
                     notification.error({message:msg});
                 });
             });
 
-            return pass?editList:null;
+            list.forEach(row => {
+                $.inArray(row.id,editList)!==-1?eList.push(row):null;
+            });
+
+            return pass?eList:null;
         };
 
         $t.eventFunc = {};

@@ -7,6 +7,7 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
+import {notification} from 'antd';
 
 class SyseDict extends ListComponent{
 
@@ -23,6 +24,7 @@ class SyseDict extends ListComponent{
             baseUrl         : $t.baseUrl,
             gridName        : this.moduleName,
             treeGrid        : true,
+            inlineEdit      : true,
             ExpandColumn    : 'name',
             ExpNum          : 8,
             rownumbers      : false,
@@ -62,6 +64,7 @@ class SyseDict extends ListComponent{
 
         $t.regEvent("保存",'save',()=>{
            let list =  $t.getEditList();
+
            if(list){
                $.ajax({
                    url :$t.encodeUrl('saveBatch'),
@@ -73,13 +76,16 @@ class SyseDict extends ListComponent{
                    contentType : "application/json;charset=utf-8",
                    dataType : "json",
                    success : function(data) {
-                       console.log(data);
                        if(data.code===0){
                            $t.reload();
+                           notification.success({message:data.msg});
+                       }else{
+                           notification.error({message:data.msg});
                        }
                    },
                    error : function(error) {
                        console.log(error);
+                       notification.error({message:'连接服务器超时'});
                    }
                });
            }
