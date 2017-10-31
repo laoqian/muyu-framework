@@ -12404,18 +12404,19 @@ $.jgrid.extend({
 					if( $.isFunction($t.p.validationCell) ) {
 						$t.p.validationCell.call($t, elem, cv[1], ind.rowIndex, index);
 					} else {
-						var tr = $($t).jqGrid('getGridRowById', rowid), 
-							positions = $.jgrid.findPos(tr);
-						$.jgrid.info_dialog(errors.errcap,cv[1],edit.bClose,{
-							left:positions[0],
-							top:positions[1]+$(tr).outerHeight(), 
-							styleUI : $t.p.styleUI, 
-							onClose: function(){
-								if(index >= 0 ) {
-									$("#"+rowid+"_" +$t.p.colModel[index].name).focus();
-								}
-							}
-						});
+						// var tr = $($t).jqGrid('getGridRowById', rowid),
+						// 	positions = $.jgrid.findPos(tr);
+						// $.jgrid.info_dialog(errors.errcap,cv[1],edit.bClose,{
+						// 	left:positions[0],
+						// 	top:positions[1]+$(tr).outerHeight(),
+						// 	styleUI : $t.p.styleUI,
+						// 	onClose: function(){
+						// 		if(index >= 0 ) {
+						// 			$("#"+rowid+"_" +$t.p.colModel[index].name).focus();
+						// 		}
+						// 	}
+						// });
+                      return o.errorfunc.call($t, rowid, cv[1]);
 					}
 				} catch (e) {
 					alert(cv[1]);
@@ -14385,7 +14386,6 @@ $.jgrid.extend({
 						ind2 =$.jgrid.stripPref($t.p.idPrefix,$(target,$t.rows).closest("tr.jqgrow")[0].id),
 						pos = $t.p._index[ind2];
 						if(!$t.p.data[pos][isLeaf]){
-                            console.log($t.p.data[pos]);
 							if($t.p.data[pos][expanded]){
 								$($t).jqGrid("collapseRow",$t.p.data[pos]);
 								$($t).jqGrid("collapseNode",$t.p.data[pos]);
@@ -14404,8 +14404,6 @@ $.jgrid.extend({
 							var target = e.target || e.srcElement,
 							ind2 =$.jgrid.stripPref($t.p.idPrefix,$(target,$t.rows).closest("tr.jqgrow")[0].id),
 							pos = $t.p._index[ind2];
-
-
 							if(!$t.p.data[pos][isLeaf]){
 								if($t.p.data[pos][expanded]){
 									$($t).jqGrid("collapseRow",$t.p.data[pos]);

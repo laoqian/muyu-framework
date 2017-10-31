@@ -2,6 +2,7 @@ package muyu.system.controller;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
+import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
@@ -58,14 +59,19 @@ public class MenuController extends BaseController{
         return menuService.save(menu);
     }
 
+    @RequestMapping("saveBatch")
+    public ResultBean<Menu> saveBatch(@RequestBody SubmitBatchBean<?,Menu> batchBean){
+        return menuService.saveBatch(batchBean);
+    }
+
     @RequestMapping("delete")
     public ResultBean<Menu> delete(Menu menu){
         return menuService.delete(menu);
     }
 
-    @RequestMapping("chgLevel")
+    @RequestMapping("transform")
     @ResponseBody
-    public ResultBean<Menu> chgLevel(Menu menu,Integer type){
-        return menuService.chgLevel(menu,type);
+    public ResultBean<Menu> transform(Menu menu,String type){
+        return menuService.transform(menu,type);
     }
 }

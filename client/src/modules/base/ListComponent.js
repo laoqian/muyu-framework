@@ -2,6 +2,7 @@ import {Component} from 'react'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
 import {notification} from 'antd';
+import _ from 'lodash'
 
 export default class ListComponent extends Component{
 
@@ -36,10 +37,30 @@ export default class ListComponent extends Component{
 
         $t.getGrid = () => $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
 
+
+
         $t.getSelectedId = () => $t.getGrid().getGridParam('selrow');
         $t.getSelRowData = () => {
             let id = $t.getSelectedId();
             return id ? Object.assign($t.getGrid().getRowData(id), {id}) : null;
+        };
+
+        $t.getEditList = ()=> {
+            let g = $t.getGrid();
+            let list = g.getRowData(null, true);
+            let editList = [];
+            let pass = true;
+
+            list.forEach(row => row.isNewRecord ? editList.push(row) : null);
+
+            editList.forEach(row => {
+                g.saveRow(row.id, null, null, null, null, (rowid,msg)=>{
+                    pass = false;
+                    notification.error({message:msg});
+                });
+            });
+
+            return pass?editList:null;
         };
 
         $t.eventFunc = {};
@@ -50,7 +71,6 @@ export default class ListComponent extends Component{
 
         $t.eventFunc['修改'] = $t.editRow = async () => {
             let row = $t.getSelRowData();
-
 
             if (!row) {
                 return notification.error({message: '未选择,要修改的菜单'});

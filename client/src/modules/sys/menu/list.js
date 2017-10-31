@@ -7,7 +7,6 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
-import {notification} from 'antd';
 
 class SyseDict extends ListComponent{
 
@@ -20,18 +19,20 @@ class SyseDict extends ListComponent{
         $t.history.push('/'); /*初始化时指向根目录*/
 
         $t.setGridInitParam({
-            url: 'api/menu/findTree',
-            baseUrl: $t.baseUrl,
-            gridName: this.moduleName,
-            treeGrid: true,
-            ExpandColumn : 'name',
-            rownumbers:false,
-            colModel: [
-                {label: '名称', name: 'name', width: 200},
-                {label: '链接', name: 'href', width: 150},
-                {label: '排序', name: 'sort', width: 100,align:'center'},
-                {label: '显示', name: 'isShow', width: 100,align:'center'}
-            ]
+            url             : 'api/menu/findTree',
+            baseUrl         : $t.baseUrl,
+            gridName        : this.moduleName,
+            treeGrid        : true,
+            ExpandColumn    : 'name',
+            ExpNum          : 8,
+            rownumbers      : false,
+            colModel        : [
+                                {label: '名称', name: 'name', width: 200,editable:true,editrules:{required:true}},
+                                {label: '链接', name: 'href', width: 150,editable:true},
+                                {label: '排序', name: 'sort', width: 100,align:'center',editable:true},
+                                {label: '显示', name: 'isShow', width: 100,align:'center',editable:true}
+                            ],
+            ondblClickRow   :null
         });
 
         $t.toolBarOptions = {
@@ -50,18 +51,39 @@ class SyseDict extends ListComponent{
             reload: true,
             right: {
                 items: [
-                    {name: '添加', path: '/add', icon: 'plus',},
-                    {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    // {name: '升级', path: '/add', icon: 'swap-left',},
-                    // {name: '降级', path: '/add', icon: 'swap-right',},
-                    // {name: '上移', path: '/add', icon: 'arrow-up',},
-                    // {name: '下移', path: '/add', icon: 'arrow-down',},
-                    {name: '修改', path: '/edit', icon: 'edit',},
-                    {name: '删除', path: '/delete', icon: 'delete',}
+                    // {name: '添加', path: '/add', icon: 'plus',},
+                    // {name: '插入', path: '/add', icon: 'plus-square-o',},
+                    // {name: '修改', path: '/edit', icon: 'edit',},
+                    {name: '保存', path: '/save'  , icon: 'save',     },
+                    {name: '删除', path: '/delete', icon: 'delete',   }
                 ]
             }
         };
 
+        $t.regEvent("保存",'save',()=>{
+           let list =  $t.getEditList();
+           if(list){
+               $.ajax({
+                   url :$t.encodeUrl('saveBatch'),
+                   type : 'post',
+                   data : JSON.stringify({
+                       list : list
+                   }),
+                   timeout : 10000,
+                   contentType : "application/json;charset=utf-8",
+                   dataType : "json",
+                   success : function(data) {
+                       console.log(data);
+                       if(data.code===0){
+                           $t.reload();
+                       }
+                   },
+                   error : function(error) {
+                       console.log(error);
+                   }
+               });
+           }
+        });
 
         $t.regEvent("插入",'insertRow',()=>{
             $t.history.push({
@@ -71,25 +93,6 @@ class SyseDict extends ListComponent{
                 grid    : $t.getGrid()
             })
         });
-
-        $t.chgLevel = (id,type)=>{
-            let data;
-            if(arguments.length===2){
-                data ={id,type};
-            }else{
-                let row = $t.getSelRowData();
-                if(row){
-                    data={id:row.id,type:id};
-                }else{
-                   return notification.error({message:'未选择行'});
-                }
-            }
-
-            $.get($t.encodeUrl('chgLevel?'+$.param(data)),function(bean){
-
-            })
-        }
-
     }
 
     render() {

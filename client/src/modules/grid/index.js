@@ -18,7 +18,7 @@ class JqgridWrapper extends Component {
 
         this.state.defaultOptions = {
             url: 'api/menu/findPage',
-            editurl:'clientArray ',
+            editurl:'clientArray',
             styleUI: 'Bootstrap',
             datatype: "json",
             mtype: "GET",
@@ -219,6 +219,19 @@ class GridToolBar extends Component{
         };
 
         this.baseId = 825;
+
+        this.setSort   =  (row)=>{
+            let list = grid.getRowData(null,true);
+            let pid = row.parentId?row.parentId:"0";
+            let sort = 10;
+            
+            list.forEach(t=>{
+                t.parentId===pid && t.sort>=sort?sort=t.sort+10:null;
+            });
+
+            row.sort = sort;
+        };
+
         this.createRow = ()=>{
             let data            =   {};
             data.id             =   (this.baseId++).toString();
@@ -227,14 +240,18 @@ class GridToolBar extends Component{
             if(options.treeGrid){
                 let id  = grid.getGridParam('selrow');
                 let row = grid.getRowData(id,true);
+
                 if(id){
                     data.parentId   = id;
                     data.level      = row.level+1;
                 }else{
-                    data.parentId   = 0;
+                    data.parentId   = null;
                     data.level      = options.tree_root_level;
                 }
 
+                this.setSort(data);
+
+                data.isShow     = 0;
                 data.leaf       = true;
                 data.expanded   = true;
             }
@@ -254,6 +271,12 @@ class GridToolBar extends Component{
             }else{
                 grid.addRow(row,true);
             }
+
+            grid.editRow(row.id,false,function(id){
+                if(this.p.treeGrid){
+                    $('#'+id,this).find('.tree-wrap-ltr').next().css({flex:1,display:'flex'});
+                }
+            });
         };
 
 
@@ -263,24 +286,29 @@ class GridToolBar extends Component{
             }else if(_.isFunction(this.eventFunc[key])){
                 this.eventFunc[key](key);
             }else{
-                console.error('Waring:grid操作事件未定义：'+key);
+                console.error('Warning:grid操作事件未定义：'+key);
             }
         }
 
-        this.renderBtn = key=><Button onClick={()=>this.click(key)} >{key}</Button>;
+        this.renderBtn = (key,icon)=><Button onClick={()=>this.click(key)} icon={icon}>{key}</Button>;
     }
-
 
     render(){
         let style={'marginLeft':'10px'};
         let {options,edit} = this.props;
-        let opList =['升级','降级','上移','下移'];
+        let opList =[
+            {name:'升级',icon:'rollback'},
+            {name:'降级',icon:'enter'},
+            {name:'上移',icon:'arrow-up'},
+            {name:'下移',icon:'arrow-down'}
+        ];
+
         let expBtn=null,expBtnChildren=[],opBtn=null,opBtnChildren=[];
 
         if(options.treeGrid){
 
             if(edit){
-                let expNum = options.expNum>0?options.expNum:4;
+                let expNum = options.ExpNum>0?options.ExpNum:4;
                 for(let i=0;i<expNum;i++){
                     expBtnChildren.push(this.renderBtn(i+1));
                 }
@@ -288,16 +316,16 @@ class GridToolBar extends Component{
                 expBtn =<ButtonGroup children={expBtnChildren}/>;
             }
 
-            for(let i=0;i<opList.length;i++){
-                opBtnChildren.push(this.renderBtn(opList[i]));
-            }
+            opList.forEach(t=>{
+                opBtnChildren.push(this.renderBtn(t.name,t.icon));
+            });
 
             opBtn = <ButtonGroup children={opBtnChildren}/>;
         }
 
         let btnGroup=null;
         if(edit) {
-            btnGroup = <ButtonGroup children={this.renderBtn('添加')}/>
+            btnGroup = <ButtonGroup children={this.renderBtn('添加','plus-circle-o')}/>
         }
 
         return (

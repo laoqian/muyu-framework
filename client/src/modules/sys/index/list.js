@@ -81,6 +81,7 @@ class SyseDict extends Component{
             }
         })();
 
+
         $t.getSelectedId =()=>$t.getGrid().getGridParam('selrow');
         $t.getSelRowData = ()=>{
             let id =   $t.getSelectedId();

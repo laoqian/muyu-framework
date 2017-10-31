@@ -2,6 +2,7 @@ package muyu.system.common.persistence;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -18,6 +19,8 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
     int level;                  //当前层级
     boolean expanded = true;    //默认展开
     boolean leaf;               //是否叶子节点
+
+
     private String parentId;
 
     public TreeEntity(){
