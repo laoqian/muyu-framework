@@ -71,7 +71,7 @@ public class MenuController extends BaseController{
 
     @RequestMapping("transform")
     @ResponseBody
-    public ResultBean<Menu> transform(Menu menu,String type){
-        return menuService.transform(menu,type);
+    public ResultBean<Menu> transform(String ids,String type){
+        return menuService.transform(ids,type);
     }
 }

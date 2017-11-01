@@ -86,7 +86,14 @@ class JqgridWrapper extends Component {
             },
             loadComplete: function () {
                 __this.setState({loading: false});
-                $(this).resetSelection();
+                if(this.p.muiltSelect){
+                    let selList = this.p.selectedList;
+                    selList.forEach(id=>{
+                        $('#'+id,this).addClass('success');
+                    })
+                }else{
+                    $('#'+this.p.selrow,this).addClass('success');
+                }
             },
             gridComplete: function () {
                 let wrapper = findDOMNode(__this.refs.gridWrapper);
@@ -142,7 +149,7 @@ class JqgridWrapper extends Component {
         this.state.curOptions.topToobar = '#' + 't_'+this.state.curOptions.talbleId;
 
         /*在树模式时，支持多选*/
-        if(this.state.curOptions.treeGrid){
+        if(this.state.curOptions.muiltSelect){
             this.state.curOptions.selectedList = [];
 
             this.state.curOptions.beforeSelectRow = function (id,e) {
@@ -293,7 +300,7 @@ class GridToolBar extends Component{
             let data ={ids:idList.join(','),type:key};
             $.get(url+'?'+$.param(data),data=>{
                 if(data.code===0){
-                    grid.trigger('roladGrid');
+                    grid.trigger('reloadGrid');
                 }
             })
         };

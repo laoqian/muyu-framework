@@ -2,15 +2,18 @@ package muyu.system.common.service;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
-import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.common.persistence.TreeDao;
 import muyu.system.common.persistence.TreeEntity;
+import muyu.system.common.tree.TreeNode;
 import muyu.system.common.utils.IdUtils;
-import muyu.system.entity.Menu;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -53,30 +56,31 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 		return list;
 	}
 
-	public ResultBean<T> transform(T t,String type){
+	public ResultBean<T> transform(String ids,String type){
+		List<T> list    = dao.findTree(this.rootId);
+		Set<String> set 	= new HashSet<>(Arrays.asList(ids.split(",")));
+		TreeNode root = TreeNode.createTree(this.rootId,list);
+
 		switch (type){
 			case "升级":
-				T p = dao.get(t.getParentId());
-				if(p!=null){
-					t.setParentId(p.getParentId());
-					dao.update(t);
-				}
+				root.upgrade(set);
 				break;
 			case "降级":
-
+				root.degrade(set);
 				break;
 			case "上移":
-
+				root.up(set);
 				break;
 			case "下移":
-
+				root.down(set);
 				break;
 			default:
-				return new ResultBean("未定义的层级操作",false);
+				return new ResultBean<>("未定义的层级操作",false);
 		}
 
+		root.getUpdateList().forEach(t->super.save((T)t));
 
-		return new ResultBean("操作成功",true);
+		return new ResultBean<>("操作成功",true);
 	}
 
 

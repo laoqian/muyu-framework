@@ -19,11 +19,9 @@ public class Menu extends TreeEntity<Menu> {
 
 	private static final long serialVersionUID = 1L;
 	private String parentIds; // 所有父级编号
-	private String name; 	// 名称
 	private String href; 	// 链接
 	private String target; 	// 目标
 	private String icon; 	// 图标
-	private Integer sort; 	// 排序
 	private String isShow="1"; 	// 是否在菜单中显示（1：显示；0：不显示）
 	private String permission; // 权限标识
 	

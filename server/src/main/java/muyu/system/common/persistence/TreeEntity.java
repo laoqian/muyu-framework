@@ -1,8 +1,8 @@
 package muyu.system.common.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -16,10 +16,14 @@ import org.springframework.beans.factory.annotation.Value;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class TreeEntity<T> extends DataEntity<T> {
-    int level;                  //当前层级
-    boolean expanded = true;    //默认展开
-    boolean leaf;               //是否叶子节点
+    private int level;                  //当前层级
+    private boolean expanded = true;    //默认展开
+    private boolean leaf;               //是否叶子节点
+    private String name ;               //
+    private Integer sort; 	            // 排序
 
+    @JsonIgnore
+    private boolean isUpdated = false;          //是否需要更新
 
     private String parentId;
 
@@ -29,5 +33,17 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
 
     public TreeEntity(String id){
         super(id);
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public void update(){
+        this.isUpdated = true;
     }
 }
