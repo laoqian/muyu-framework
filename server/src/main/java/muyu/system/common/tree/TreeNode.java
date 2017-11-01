@@ -3,8 +3,6 @@ package muyu.system.common.tree;
 
 import lombok.Data;
 import muyu.system.common.persistence.TreeEntity;
-import sun.reflect.generics.tree.Tree;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -107,7 +105,6 @@ public class TreeNode {
             if(ids.contains(c.getId())){
                 c.move(false);
                 ids.remove(c.getId());
-                i--;
             }
 
             if(!ids.isEmpty()){
@@ -117,12 +114,12 @@ public class TreeNode {
     }
 
     public void down(Set ids){
-        for(int i=0;i<this.childList.size();i++){
+
+        for(int i=this.childList.size()-1;i>=0;i--){
             TreeNode c = this.childList.get(i);
             if(ids.contains(c.getId())){
                 c.move(true);
                 ids.remove(c.getId());
-                i--;
             }
 
             if(!ids.isEmpty()){
