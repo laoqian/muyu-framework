@@ -1,15 +1,15 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
 package muyu.system.entity;
 
 
 import muyu.system.common.persistence.DataEntity;
 
 /**
- * 区域Entity
- * @author ThinkGem
- * @version 2013-05-15
+ * 千山鸟飞绝，万径人踪灭。
+ * 孤舟蓑笠翁，独钓寒江雪。
+ *
+ * @author: 于其先
+ * @date: 2017/9/14
+ * @version: 1.0.0
  */
 public class Area extends DataEntity<Area> {
 

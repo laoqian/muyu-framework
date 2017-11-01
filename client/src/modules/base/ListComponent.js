@@ -2,7 +2,7 @@ import {Component} from 'react'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
 import {notification} from 'antd';
-import _ from 'lodash';
+import u from '../../utils';
 
 export default class ListComponent extends Component{
 
@@ -140,13 +140,13 @@ export default class ListComponent extends Component{
                     }
                 })
             }
-        }
+        };
 
         $t.click = item => $t.eventFunc[item.name] ? $t.eventFunc[item.name]() : console.error('Warning:未定义的事件：' + item.name);
 
         $t.loadSelData =(id)=>{
             return new Promise((res,rej)=>{
-                $.get($t.encodeUrl('get?id='+ id), function (bean) {
+                u.get($t.encodeUrl('get?id='+ id), function (bean) {
                     if (bean.code === 0 && bean.data) {
                         res(bean);
                     } else {
@@ -157,6 +157,5 @@ export default class ListComponent extends Component{
         };
 
         $t.register = form => $t.serachForm = form;
-
     }
 }

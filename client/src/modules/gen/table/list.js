@@ -21,11 +21,9 @@ class GenTable extends ListComponent{
             url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
             colModel: [
-                {label: '键值', name: 'value', width: 200},
-                {label: '标签', name: 'label', width: 150},
-                {label: '类型', name: 'type', width: 150},
-                {label: '描述', name: 'description', width: 150},
-                {label: '排序', name: 'sort', width: 150}
+                {label: '表名', name: 'value', width: 200},
+                {label: '说明', name: 'label', width: 300},
+                {label: '类名', name: 'type',  width: 150},
             ]
         });
 

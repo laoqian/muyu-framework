@@ -1,6 +1,4 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package muyu.system.entity;
 
 import com.google.common.collect.Lists;
@@ -9,9 +7,12 @@ import muyu.system.common.persistence.DataEntity;
 import java.util.List;
 
 /**
- * 角色Entity
- * @author ThinkGem
- * @version 2013-12-05
+ * 千山鸟飞绝，万径人踪灭。
+ * 孤舟蓑笠翁，独钓寒江雪。
+ *
+ * @author: 于其先
+ * @date: 2017/9/14
+ * @version: 1.0.0
  */
 public class Role extends DataEntity<Role> {
 	

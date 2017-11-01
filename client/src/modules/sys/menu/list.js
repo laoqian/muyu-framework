@@ -8,6 +8,7 @@ import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
 import {notification} from 'antd';
+import u from '../../../utils'
 
 class SyseDict extends ListComponent{
 
@@ -28,6 +29,7 @@ class SyseDict extends ListComponent{
             muiltSelect     : true,
             ExpandColumn    : 'name',
             ExpNum          : 8,
+            pagerAble       : true,
             rownumbers      : false,
             colModel        : [
                                 {label: '名称', name: 'name'  , width: 200,editable:true,editrules:{required:true}},
@@ -65,40 +67,9 @@ class SyseDict extends ListComponent{
 
         $t.regEvent("保存",'save',()=>{
            let list =  $t.getEditList();
-
            if(list){
-               $.ajax({
-                   url :$t.encodeUrl('saveBatch'),
-                   type : 'post',
-                   data : JSON.stringify({
-                       list : list
-                   }),
-                   timeout : 10000,
-                   contentType : "application/json;charset=utf-8",
-                   dataType : "json",
-                   success : function(data) {
-                       if(data.code===0){
-                           $t.reload();
-                           notification.success({message:data.msg});
-                       }else{
-                           notification.error({message:data.msg});
-                       }
-                   },
-                   error : function(error) {
-                       console.log(error);
-                       notification.error({message:'连接服务器超时'});
-                   }
-               });
+               u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
            }
-        });
-
-        $t.regEvent("插入",'insertRow',()=>{
-            $t.history.push({
-                pathname: '/edit',
-                type    : 'insert',
-                row     : $t.getSelRowData(),
-                grid    : $t.getGrid()
-            })
         });
     }
 

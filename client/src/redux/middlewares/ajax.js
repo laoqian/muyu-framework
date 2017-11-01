@@ -1,5 +1,5 @@
-import config from '../../config.js';
-import { message } from 'antd';
+import config   from '../../config.js'
+import u        from '../../utils'
 
 //异步ajax中间件
 const fetchMiddleware = store => next => action => {
@@ -19,21 +19,14 @@ const fetchMiddleware = store => next => action => {
 
     console.log(`${action.ajax_type}--->:`,action);
 
-    $.ajax({
+    u.ajax({
         url,
         data,
-        dataType:'json',
         type:action.ajax_type,
-        timeout:2000,
-        error:function (error) {
-            let errorText = '错误代码:'+error.status+',信息：'+error.statusText;
-            message.error(errorText);
-        },
-        success:function (data) {
+        success:function (data){
             action.result = data;
-
             console.log(`ajax result:`,action);
-            next(action);
+            data.code===0?next(action):null;
         }
     });
 }

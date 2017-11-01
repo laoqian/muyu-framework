@@ -1,26 +1,26 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Form, Input, Modal} from 'antd';
-import {userGet} from '../../../redux/actions/user'
-import Loading from '../../../layouts/loading'
-import {notification} from 'antd';
+import React                                    from 'react'
+import {connect}                                from 'react-redux'
+import {bindActionCreators}                     from 'redux'
+import {Form, Input, Modal, Row, Col,Button}    from 'antd';
+import {userGet}                                from '../../../redux/actions/user'
+import {notification}                           from 'antd';
+import JqgridWrapper                            from '../../grid/index'
+import ListComponent                            from "../../base/ListComponent";
+import u                                        from '../../../utils'
 
 const FormItem = Form.Item;
-const TextArea = Input.TextArea;
 
-class DictEditForm extends Component {
+class DictEditForm extends ListComponent {
     constructor(props) {
         super(props);
 
-        this.state ={
-            editData :null,
-            submiting:false
+        this.state = {
+            editData: null,
+            submiting: false
         };
 
-        this.modalClick = (type) =>{
+        this.modalClick = (type) => {
             if (type === 'ok') {
-                this.setState({submiting:true});
                 this.saveData();
             } else {
                 this.props.history.push('/');
@@ -40,11 +40,11 @@ class DictEditForm extends Component {
 
             let self = this;
             if (data) {
-                data = self.state.editData!==null?Object.assign(self.state.editData,data):data;
-                $.get('/api/dict/save?'+$.param(data), function (data) {
+                this.setState({submiting: true});
+                data = self.state.editData !== null ? Object.assign(self.state.editData, data) : data;
+                u.get('/api/dict/save?'+ $.param(data),function(data) {
                     let tip;
-
-                    self.setState({submiting:false});
+                    self.setState({submiting: false});
                     if (data.code === 0) {
                         let {grid} = self.props.location;
 
@@ -60,22 +60,22 @@ class DictEditForm extends Component {
             }
         };
 
-        this.bindDataOnce = ()=>{
-            let {row,type} = this.props.location;
+        this.bindDataOnce = () => {
+            let {row, type} = this.props.location;
             const {setFieldsValue} = this.props.form;
 
-            if(!this.props.location.binded){
+            if (!this.props.location.binded) {
                 this.props.location.binded = true;
 
-                switch (type){
+                switch (type) {
                     case 'add':
-                        if(row){
-                            this.state.editData = {parentId:row.parentId};
+                        if (row) {
+                            this.state.editData = {parentId: row.parentId};
                             setFieldsValue(row);
-                        }else{
-                            this.state.editData = {parentId:1};
+                        } else {
+                            this.state.editData = {parentId: 1};
                         }
-                        console.log(row);
+
                         break;
                     case 'modify':
                         this.state.editData = row;
@@ -85,14 +85,56 @@ class DictEditForm extends Component {
             }
         }
 
+        let $t = this;
+        $t.baseUrl = '/api/gen/';
+        $t.moduleName = 'sysGenEdit';
 
+        $t.setGridInitParam({
+            url: 'api/menu/findTree',
+            baseUrl: $t.baseUrl,
+            gridName: this.moduleName,
+            inlineEdit: true,
+            ExpandColumn: 'name',
+            pagerAble:false,
+            rownumbers: false,
+            colModel: [
+                {label: '列名', name: 'name', width: 100},
+                {label: '说明', name: 'comments', width: 100, editable: true},
+                {label: '物理类型', name: 'jdbcType', width: 100, editable: true, align: 'center'},
+                {label: 'Java类型', name: 'javaType', width: 100, editable: true, align: 'center'},
+                {label: 'Java属性名称', name: 'javaFiled', width: 100, editable: true, align: 'center'},
+                {label: '可空', name: 'isNull', width: 60, editable: true, align: 'center'},
+                {label: '查询', name: 'isQuery', width: 60, editable: true, align: 'center'},
+                {label: '查询匹配方式', name: 'queryType', width: 100, editable: true, align: 'center'},
+                {label: '显示表单类型', name: 'showType', width: 100, editable: true, align: 'center'},
+                {label: '字典类型', name: 'dictType', width: 100, editable: true, align: 'center'},
+                {label: '排序', name: 'sort', width: 100, editable: true, align: 'center'},
+            ],
+            ondblClickRow: null
+        });
+
+        $t.loadTableInfo = ()=>{
+            let {validateFields} = this.props.form;
+            let data;
+
+            validateFields((err, values) => {
+                if (!err) {
+                    console.log('Received values of form: ', values);
+                    data = values;
+                }
+            });
+
+            if(data){
+                $.get
+            }
+        }
     }
 
 
-    componentWillMount(){
+    componentWillMount() {
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.bindDataOnce();
     }
 
@@ -101,10 +143,10 @@ class DictEditForm extends Component {
     }
 
 
-    componentWillUpdate(nextProps,nextState){
+    componentWillUpdate(nextProps, nextState) {
     }
 
-    componentDidUpdate(prevProps, prevState){
+    componentDidUpdate(prevProps, prevState) {
         this.bindDataOnce();
     }
 
@@ -119,16 +161,16 @@ class DictEditForm extends Component {
             resize: 'none'
         };
 
-        let title= '字典添加';
-        let {type,binded} = this.props.location;
+        let title = '业务表添加';
+        let {type, binded} = this.props.location;
 
-        if(binded){
-            switch (type){
+        if (binded) {
+            switch (type) {
                 case 'modify':
-                    title=`字典修改-${this.state.editData.id}`;
+                    title = `业务表修改-${this.state.editData.id}`;
                     break;
                 case 'add':
-                    title='字典添加';
+                    title = '业务表添加';
                     break;
             }
         }
@@ -142,57 +184,45 @@ class DictEditForm extends Component {
                 onCancel={() => this.modalClick('cancel')}
                 confirmLoading={this.state.submiting}
             >
-                <Form ref="userForm" className="my-form-square" style={{width:'400px',height:'460px'}}>
-                    <FormItem label="键值" {...formItemLayout}>
-                        {getFieldDecorator('value', {
-                            rules: [{required: true, message: '请输入有效的用户名!'}],
-                        })(
-                            <Input placeholder="键值" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="标签" {...formItemLayout}>
-                        {getFieldDecorator('label', {
-                            rules: [{required: true, message: '请输入有效的密码!'}],
-                        })(
-                            <Input placeholder="标签" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="类型" {...formItemLayout}>
-                        {getFieldDecorator('type', {
-                            rules: [{required: true, message: '请输入有效的用户名!'}],
-                        })(
-                            <Input placeholder="类型" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="排序" {...formItemLayout}>
-                        {getFieldDecorator('sort', {
-                            rules: [{required: true, message: '请输入有效的姓名!'}],
-                        })(
-                            <Input placeholder="排序" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="描述" {...formItemLayout}>
-                        {getFieldDecorator('description', {
-                            rules: [],
-                        })(
-                            <Input placeholder="描述" />
-                        )}
-                    </FormItem>
-
-                    <FormItem label="备注" {...formItemLayout}>
-                        {getFieldDecorator('remarks', {
-                            rules: [],
-                        })(
-                            <TextArea placeholder="备注" style={textAreaStyle} />
-                        )}
-                    </FormItem>
-
-                </Form>
-                {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
+                <div style={{width: '1200px', height: '600px'}} className="flex-vs">
+                    <Form ref="form" className="my-form-square">
+                        <Row>
+                            <Col span={6}>
+                                <FormItem label="表名" {...formItemLayout}>
+                                    {getFieldDecorator('name', {
+                                        rules: [{required: true, message: '请输入有效的表名!'}],
+                                    })(
+                                        <Input placeholder="表名"/>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={6}>
+                                <FormItem label="说明" {...formItemLayout}>
+                                    {getFieldDecorator('comments', {
+                                        rules: [{required: true, message: '请输入有效的说明!'}],
+                                    })(
+                                        <Input placeholder="说明"/>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={6}>
+                                <FormItem label="类名" {...formItemLayout}>
+                                    {getFieldDecorator('className', {
+                                        rules: [{required: true, message: '请输入有效的类名!'}],
+                                    })(
+                                        <Input placeholder="类名"/>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={4}>
+                                <FormItem {...formItemLayout}>
+                                    <Button icon="reload" onChange={this.loadTableInfo}>加载</Button>
+                                </FormItem>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <JqgridWrapper options={this.gridOptions} ref="grid"/>
+                </div>
             </Modal>
         )
     }

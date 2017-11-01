@@ -1,4 +1,4 @@
-package muyu.system.controller;
+package muyu.system.web;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

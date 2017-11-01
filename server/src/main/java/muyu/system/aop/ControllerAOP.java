@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 public class ControllerAOP {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAOP.class);
 
-    @Pointcut("execution(public muyu.system.common.beans.* muyu.system.controller..*.*(..))")
+    @Pointcut("execution(public muyu.system.common.beans.* muyu.system.web..*.*(..))")
     public void resultAOP(){}
 
     @Around("resultAOP()")

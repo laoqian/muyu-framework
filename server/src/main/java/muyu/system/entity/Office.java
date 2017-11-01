@@ -10,11 +10,13 @@ import muyu.system.common.persistence.DataEntity;
 import java.util.List;
 
 /**
- * 机构Entity
- * @author ThinkGem
- * @version 2013-05-15
+ * 千山鸟飞绝，万径人踪灭。
+ * 孤舟蓑笠翁，独钓寒江雪。
+ *
+ * @author: 于其先
+ * @date: 2017/9/14
+ * @version: 1.0.0
  */
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Office extends DataEntity<Office> {

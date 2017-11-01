@@ -1,4 +1,4 @@
-package muyu.system.controller;
+package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;

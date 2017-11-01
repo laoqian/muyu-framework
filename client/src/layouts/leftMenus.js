@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Menu, Icon} from 'antd';
 import {getUserMenuList} from '../redux/actions/menu'
 import {tabAdd} from '../redux/actions/tabs'
@@ -66,10 +66,6 @@ class MenuList extends Component {
     }
 }
 
-
-MenuList.propTypes = {
-    menuList:PropTypes.array.isRequired
-};
 
 function mapStateToProps(state) {
     return {

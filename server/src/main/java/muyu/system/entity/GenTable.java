@@ -16,13 +16,21 @@ import muyu.system.common.persistence.DataEntity;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Gen extends DataEntity<Gen> {
+public class GenTable extends DataEntity<GenTable> {
+	String genTableId;
 	String name;
 	String comments;
-	String className;
+	String jdbcType;
+	String javaType;
+	String javaFiled;
+	boolean isNull;
+	boolean isQuery;
+	String queryType;
+	String showType;
+	String dictType;
+	int 	sort;
 
-	public Gen() {
+	public GenTable() {
 		super();
 	}
-
 }

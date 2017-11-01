@@ -1,7 +1,6 @@
-package muyu.system.controller;
+package muyu.system.web;
 
 import muyu.system.common.beans.ResultPageBean;
-import muyu.system.entity.Menu;
 import muyu.system.entity.Office;
 import muyu.system.service.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;

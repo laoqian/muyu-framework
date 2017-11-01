@@ -6,6 +6,7 @@ import {findDOMNode,render} from 'react-dom';
 import { Button } from 'antd';
 const ButtonGroup = Button.Group;
 import _ from 'lodash'
+import u from '../../utils'
 import {notification} from 'antd';
 
 class JqgridWrapper extends Component {
@@ -229,18 +230,22 @@ class JqgridWrapper extends Component {
         let edit = true;
         if(this.state.curOptions.treeGrid || edit){
             let props = {options:this.state.curOptions,grid,edit};
-            render(<GridToolBar {...props} />,document.getElementById('t_'+this.state.curOptions.talbleId));
+            let e = document.getElementById('t_'+this.state.curOptions.talbleId);
+
+            if(e){
+                render(<GridToolBar {...props} />,e);
+            }
         }
     }
 
     render() {
         let pager = this.state.curOptions.pager.substr(1);
-        let {talbleId} = this.state.curOptions;
+        let {talbleId,pagerAble} = this.state.curOptions;
 
         return (
             <div className='my-grid-wrapper' ref="gridWrapper">
                 <table ref="gridTable" id={talbleId}/>
-                <div id={pager}/>
+                {pagerAble?<div id={pager}/>:null}
                 {this.state.loading ? <Loading text={'正在拼命加载中...'}/> : null}
             </div>
         )
@@ -298,7 +303,7 @@ class GridToolBar extends Component{
             }
 
             let data ={ids:idList.join(','),type:key};
-            $.get(url+'?'+$.param(data),data=>{
+            u.get(url+'?'+$.param(data),data=>{
                 if(data.code===0){
                     grid.trigger('reloadGrid');
                 }
