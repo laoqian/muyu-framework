@@ -15,7 +15,7 @@ class DictEditForm extends ListComponent {
         super(props);
 
         this.state = {
-            editData: null,
+            editData : null,
             submiting: false
         };
 

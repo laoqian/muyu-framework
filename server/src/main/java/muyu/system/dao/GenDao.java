@@ -1,7 +1,7 @@
 package muyu.system.dao;
 
 import muyu.system.common.persistence.CrudDao;
-import muyu.system.entity.Gen;
+import muyu.system.entity.Table;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @date: 2017/9/15
  * @version: 1.0.0
  */
-public interface GenDao extends CrudDao<Gen>{
+public interface GenDao extends CrudDao<Table>{
 
     Set getTableList();
 

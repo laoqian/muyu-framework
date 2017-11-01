@@ -16,7 +16,7 @@ import muyu.system.common.persistence.DataEntity;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GenTable extends DataEntity<GenTable> {
+public class TableColumn extends DataEntity<TableColumn> {
 	String genTableId;
 	String name;
 	String comments;
@@ -30,7 +30,7 @@ public class GenTable extends DataEntity<GenTable> {
 	String dictType;
 	int 	sort;
 
-	public GenTable() {
+	public TableColumn() {
 		super();
 	}
 }

@@ -2,10 +2,14 @@ package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
+import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.common.service.BaseService;
-import muyu.system.entity.Gen;
+import muyu.system.entity.Table;
+import muyu.system.entity.TableColumn;
+import muyu.system.entity.Menu;
 import muyu.system.service.GenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +35,8 @@ public class GenController extends BaseService{
 
 
     @RequestMapping("findPage")
-    ResultPageBean<Gen> getTableColumn(HttpServletRequest request,Gen gen){
-        return genService.findPage(request,gen);
+    ResultPageBean<Table> getTableColumn(HttpServletRequest request, Table table){
+        return genService.findPage(request, table);
     }
 
     @RequestMapping("getTableColumn")
@@ -43,5 +47,10 @@ public class GenController extends BaseService{
     @RequestMapping("getTableList")
     ResultBean<Set> getTableList(){
         return genService.getTableList();
+    }
+
+    @RequestMapping("saveBatch")
+    public ResultBean<Menu> saveBatch(@RequestBody SubmitBatchBean<Table,TableColumn> batchBean){
+        return genService.saveBatch(batchBean);
     }
 }

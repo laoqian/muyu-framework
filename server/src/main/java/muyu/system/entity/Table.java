@@ -16,12 +16,12 @@ import muyu.system.common.persistence.DataEntity;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Gen extends DataEntity<Gen> {
+public class Table extends DataEntity<Table> {
 	String name;
 	String comments;
 	String className;
 
-	public Gen() {
+	public Table() {
 		super();
 	}
 
