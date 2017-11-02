@@ -21,5 +21,5 @@ public interface GenDao extends CrudDao<Table>{
 
     Set getTableList();
 
-    List<TableColumn> findTableColumn(Table table);
+    List<TableColumn> findTableColumn(TableColumn tableColumn);
 }

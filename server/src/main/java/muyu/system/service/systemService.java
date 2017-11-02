@@ -3,8 +3,11 @@ package muyu.system.service;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.service.BaseService;
 import muyu.system.common.utils.CacheUtils;
+import muyu.system.dao.DictDao;
+import muyu.system.dao.GenDao;
 import muyu.system.entity.Config;
 import muyu.system.entity.Dict;
+import muyu.system.entity.TableColumn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +27,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class SystemService extends BaseService{
 
     @Autowired
-    DictService dictService;
+    DictDao dictDao;
+
+    @Autowired
+    GenDao genDao;
+
 
     public ResultBean<Config> getConfig(){
         Config config;
 
         config = CacheUtils.getGlobalCache("sysConfig",Config.class);
-        if(config==null){
+        if(config!=null){
             config  = new Config();
-            config.setDicts(dictService.findList(new Dict()));
+            config.setDicts(dictDao.findList(new Dict()));
 
+            TableColumn tableColumn = new TableColumn();
+            tableColumn.setQueryBy("table_name in (select table_name from user_tables)");
+
+            config.setTableColumns(genDao.findTableColumn(tableColumn));
             CacheUtils.putGlobalCache("sysConfig",config);
         }
 

@@ -18,4 +18,5 @@ import java.util.List;
 @Data
 public class Config implements Serializable{
     List<Dict> dicts;
+    List<TableColumn> tableColumns;
 }

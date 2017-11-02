@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TableColumn extends DataEntity<TableColumn> {
+	String  tableName;
 	String  genTableId;
 	String  name;
 	String  comments;

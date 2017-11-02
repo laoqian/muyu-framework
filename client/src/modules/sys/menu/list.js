@@ -17,7 +17,7 @@ class SyseDict extends ListComponent{
 
         let $t = this;
         $t.baseUrl      = '/api/menu/'   ;
-        $t.moduleName   = 'sysMenu'     ;
+        $t.moduleName   = 'sys_menu'     ;
         $t.history.push('/'); /*初始化时指向根目录*/
 
         $t.setGridInitParam({

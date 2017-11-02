@@ -34,11 +34,11 @@ public class GenService extends CrudService<GenDao,Table>{
     }
 
 
-    public ResultPageBean<List> findTableColumn(HttpServletRequest request,Table table){
+    public ResultPageBean<List> findTableColumn(HttpServletRequest request,TableColumn tableColumn){
         ResultPageBean bean = new ResultPageBean(request);
 
-        if(StringUtils.isBlank(table.getName()) || StringUtils.isBlank(table.getId())){
-            bean.setList(dao.findTableColumn(table));
+        if(StringUtils.isBlank(tableColumn.getName()) || StringUtils.isBlank(tableColumn.getGenTableId())){
+            bean.setList(dao.findTableColumn(tableColumn));
         }
         return bean;
     }

@@ -145,6 +145,21 @@ class JqgridWrapper extends Component {
         !id?colModel.push({name:'id',hidden:true}):null;
         !isNewRecord?colModel.push({name:'isNewRecord',hidden:true}):null;
 
+        /*增加数据库编辑属性*/
+        let {gridName} = this.state.curOptions;
+        if(gridName){
+            colModel.forEach(c=>{
+                if(c.editable){
+                    let column =u.getTableColumn(gridName,c.name);
+                    if(column){
+                        c.editoptions =c.editoptions?c.editoptions:{};
+                        let options   = {maxLength:column.length,required:!column.isEmpty};
+                        c.editoptions = Object.assign(c.editoptions,options);
+                    }
+                }
+            })
+        }
+
         this.state.curOptions.talbleId =  this.state.curOptions.gridName + 'Table';
         this.state.curOptions.pager = '#' + this.state.curOptions.gridName + 'pager';
         this.state.curOptions.topToobar = '#' + 't_'+this.state.curOptions.talbleId;

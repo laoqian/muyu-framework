@@ -17,12 +17,20 @@
 
     <select id="findTableColumn" resultType="TableColumn">
         SELECT
+          lower(table_name)  AS "tableName",
           lower(column_name) AS "name",
           lower(data_type)   AS "jdbcType",
           data_length        AS "length",
           CASE lower(nullable) WHEN 'n' THEN 0 ELSE 1 END AS "isEmpty"
         FROM user_tab_columns
-        WHERE table_name= upper(#{name})
+        <where>
+            <if test="name!=null and name!=''">
+                table_name = upper(#{tableName})
+            </if>
+            <if test="queryBy!=null and queryBy!=''">
+                ${queryBy}
+            </if>
+        </where>
     </select>
 
     <insert id="insert" parameterType="Dict">

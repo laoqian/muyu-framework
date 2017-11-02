@@ -60,6 +60,24 @@ u.getDict = (type)=>{
     return d;
 };
 
+u.getTableColumn = (tableName,columnName)=>{
+    let column =null;
+
+    if(u.loadSuccess){
+        let {tableColumns} = u.sysConfig;
+
+        for(let i=0;i<tableColumns.length;i++){
+            let col = tableColumns[i];
+            if(col.tableName === tableName && col.name===columnName){
+                column = col;
+                break;
+            }
+        }
+    }
+
+    return column;
+};
+
 u.tip = (message,type)=>notification[type?type:'success']({message});
 
 u.loadSuccess = false;

@@ -41,7 +41,7 @@ public class GenController extends BaseService{
     }
 
     @RequestMapping("findTableColumn")
-    ResultPageBean<List> findTableColumn(HttpServletRequest request,Table table){
+    ResultPageBean<List> findTableColumn(HttpServletRequest request,TableColumn table){
         return genService.findTableColumn(request,table);
     }
 
