@@ -12229,6 +12229,11 @@ $.jgrid.extend({
 							var opt = $.extend({},cm[i].editoptions || {},{id:rowid+"_"+nm,name:nm,rowId:rowid, oper:'edit'});
 							if(!cm[i].edittype) { cm[i].edittype = "text"; }
 							if(tmp === "&nbsp;" || tmp === "&#160;" || (tmp.length===1 && tmp.charCodeAt(0)===160) ) {tmp='';}
+
+							if($.jgrid.beforeCreateEl){
+                                $.jgrid.beforeCreateEl.call($t,cm[i],opt,tmp);
+							}
+
 							var elc = $.jgrid.createEl.call($t,cm[i].edittype,opt,tmp,true,$.extend({},$.jgrid.ajaxOptions,$t.p.ajaxSelectOptions || {}));
 							$(elc).addClass("editable inline-edit-cell");
 							if( $.inArray(cm[i].edittype, ['text','textarea','password','select']) > -1) {
@@ -12362,6 +12367,7 @@ $.jgrid.extend({
 							} else {
 								var sel = $("select",this), selectedText = [];
 								tmp[nm] = $(sel).val();
+								
 								if(tmp[nm]) { tmp[nm]= tmp[nm].join(","); } else { tmp[nm] =""; }
 								$("select option:selected",this).each(
 									function(i,selected){
@@ -12370,6 +12376,8 @@ $.jgrid.extend({
 								);
 								tmp2[nm] = selectedText.join(",");
 							}
+							
+							
 							if(cm.formatter && cm.formatter === 'select') { tmp2={}; }
 							elem = $("select",this);
 							break;
@@ -12385,6 +12393,8 @@ $.jgrid.extend({
 							}
 							break;
 					}
+					
+					
 					cv = $.jgrid.checkValues.call($t,tmp[nm],i);
 					if(cv[0] === false) {
 						index = i;
@@ -12423,6 +12433,7 @@ $.jgrid.extend({
 				}
 				return success;
 			}
+		
 			var idname, opers = $t.p.prmNames, oldRowId = rowid;
 			if ($t.p.keyName === false) {
 				idname = opers.id;

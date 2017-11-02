@@ -34,19 +34,23 @@ public class SystemService extends BaseService{
 
 
     public ResultBean<Config> getConfig(){
-        Config config;
+        Config config=null;
 
-        config = CacheUtils.getGlobalCache("sysConfig",Config.class);
-        if(config!=null){
-            config  = new Config();
-            config.setDicts(dictDao.findList(new Dict()));
+        try{
+            config = CacheUtils.getGlobalCache("sysConfig",Config.class);
 
-            TableColumn tableColumn = new TableColumn();
-            tableColumn.setQueryBy("table_name in (select table_name from user_tables)");
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }finally {
 
-            config.setTableColumns(genDao.findTableColumn(tableColumn));
-            CacheUtils.putGlobalCache("sysConfig",config);
+            if(config!=null){
+                config  = new Config();
+                config.setDicts(dictDao.findList(new Dict()));
+                config.setTableColumns(genDao.findTableColumn(new TableColumn()));
+                CacheUtils.putGlobalCache("sysConfig",config);
+            }
         }
+
 
         return new ResultBean<>(config);
 

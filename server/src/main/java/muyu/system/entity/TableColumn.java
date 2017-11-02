@@ -4,6 +4,7 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.utils.ExtendUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -32,6 +33,14 @@ public class TableColumn extends DataEntity<TableColumn> {
 	String  showType;
 	String  dictType;
 	Integer sort;
+
+	public void setTableName(String tableName) {
+		this.tableName = ExtendUtils.underline2Camel(tableName,false);
+	}
+
+	public void setName(String name) {
+		this.name = ExtendUtils.underline2Camel(name,false);
+	}
 
 	public String getComments() {
 		return StringUtils.isBlank(comments)?name:comments;

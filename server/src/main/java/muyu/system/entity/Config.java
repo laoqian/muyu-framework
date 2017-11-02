@@ -17,6 +17,8 @@ import java.util.List;
 
 @Data
 public class Config implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     List<Dict> dicts;
     List<TableColumn> tableColumns;
 }
