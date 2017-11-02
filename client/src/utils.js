@@ -33,7 +33,7 @@ u.ajax = (options)=>{
 
                 notification.error({message:data.msg});
             }
-
+            data.success = ()=>data.code===0;
             options.success(data);
         },
         error       : function(error) {

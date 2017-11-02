@@ -2,6 +2,7 @@ package muyu.system.dao;
 
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.entity.Table;
+import muyu.system.entity.TableColumn;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,5 @@ public interface GenDao extends CrudDao<Table>{
 
     Set getTableList();
 
-    List<Map> getTableColumn(String tableName);
+    List<TableColumn> findTableColumn(Table table);
 }

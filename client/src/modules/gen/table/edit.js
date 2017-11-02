@@ -1,22 +1,53 @@
 import React                                    from 'react'
 import {connect}                                from 'react-redux'
 import {bindActionCreators}                     from 'redux'
-import {Form, Input, Modal, Row, Col,Button}    from 'antd';
+import {Form, Input, Modal, Row, Col,Select,Button}    from 'antd';
 import {userGet}                                from '../../../redux/actions/user'
 import {notification}                           from 'antd';
 import JqgridWrapper                            from '../../grid/index'
 import ListComponent                            from "../../base/ListComponent";
 import u                                        from '../../../utils'
 
-const FormItem = Form.Item;
+const FormItem  = Form.Item;
+const Option    = Select.Option;
 
-class DictEditForm extends ListComponent {
+class GenEditForm extends ListComponent {
     constructor(props) {
         super(props);
+        let $t = this;
+
+        $t.baseUrl = '/api/gen/';
+        $t.moduleName = 'sysGenEdit';
+
+        $t.setGridInitParam({
+            url       : $t.encodeUrl('findTableColumn'),
+            baseUrl   : $t.baseUrl,
+            gridName  : this.moduleName,
+            inlineEdit: true,
+            ExpandColumn: 'name',
+            pagerAble   : false,
+            rownumbers  : false,
+            colModel    : [
+                {label: '列名', name: 'name', width: 100},
+                {label: '说明', name: 'comments', width: 100, editable: true},
+                {label: '物理类型', name: 'jdbcType', width: 100},
+                {label: '长度', name: 'length'  , width: 100,  align: 'right'},
+                {label: 'Java类型', name: 'javaType', width: 160, editable: true},
+                {label: 'Java属性名称', name: 'javaFiled', width: 100, editable: true},
+                {label: '可空', name: 'isNull', width: 60, editable: true, align: 'center'},
+                {label: '查询', name: 'isQuery', width: 60, editable: true, align: 'center'},
+                {label: '查询匹配方式', name: 'queryType', width: 100, editable: true, align: 'center'},
+                {label: '显示表单类型', name: 'showType', width: 100, editable: true, align: 'center'},
+                {label: '字典类型', name: 'dictType', width: 100, editable: true, align: 'center'},
+                {label: '排序', name: 'sort', width: 100, editable: true, align: 'center'},
+            ],
+            ondblClickRow: null
+        });
 
         this.state = {
-            editData : null,
-            submiting: false
+            tableList : [],
+            editData  : null,
+            submiting : false
         };
 
         this.modalClick = (type) => {
@@ -83,50 +114,17 @@ class DictEditForm extends ListComponent {
                         break;
                 }
             }
-        }
+        };
 
-        let $t = this;
-        $t.baseUrl = '/api/gen/';
-        $t.moduleName = 'sysGenEdit';
+        /*获取tableList*/
+        u.get($t.encodeUrl('getTableList'),(bean)=>{
+            bean.success()?$t.setState({tableList:bean.data}):null;
+        })
 
-        $t.setGridInitParam({
-            url: 'api/menu/findTree',
-            baseUrl: $t.baseUrl,
-            gridName: this.moduleName,
-            inlineEdit: true,
-            ExpandColumn: 'name',
-            pagerAble:false,
-            rownumbers: false,
-            colModel: [
-                {label: '列名', name: 'name', width: 100},
-                {label: '说明', name: 'comments', width: 100, editable: true},
-                {label: '物理类型', name: 'jdbcType', width: 100, editable: true, align: 'center'},
-                {label: 'Java类型', name: 'javaType', width: 100, editable: true, align: 'center'},
-                {label: 'Java属性名称', name: 'javaFiled', width: 100, editable: true, align: 'center'},
-                {label: '可空', name: 'isNull', width: 60, editable: true, align: 'center'},
-                {label: '查询', name: 'isQuery', width: 60, editable: true, align: 'center'},
-                {label: '查询匹配方式', name: 'queryType', width: 100, editable: true, align: 'center'},
-                {label: '显示表单类型', name: 'showType', width: 100, editable: true, align: 'center'},
-                {label: '字典类型', name: 'dictType', width: 100, editable: true, align: 'center'},
-                {label: '排序', name: 'sort', width: 100, editable: true, align: 'center'},
-            ],
-            ondblClickRow: null
-        });
-
-        $t.loadTableInfo = ()=>{
-            let {validateFields} = this.props.form;
-            let data;
-
-            validateFields((err, values) => {
-                if (!err) {
-                    console.log('Received values of form: ', values);
-                    data = values;
-                }
-            });
-
-            if(data){
-                $.get
-            }
+        $t.loadTableInfo = (name)=>{
+            let grid =$t.getGrid();
+            grid.setGridParam({postData: {name}});
+            grid.trigger('reloadGrid');
         }
     }
 
@@ -136,6 +134,7 @@ class DictEditForm extends ListComponent {
 
     componentDidMount() {
         this.bindDataOnce();
+        this.register(this.props.form);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -156,11 +155,6 @@ class DictEditForm extends ListComponent {
             labelCol: {span: 6},
             wrapperCol: {span: 16},
         };
-        let textAreaStyle = {
-            height: '100px',
-            resize: 'none'
-        };
-
         let title = '业务表添加';
         let {type, binded} = this.props.location;
 
@@ -192,16 +186,9 @@ class DictEditForm extends ListComponent {
                                     {getFieldDecorator('name', {
                                         rules: [{required: true, message: '请输入有效的表名!'}],
                                     })(
-                                        <Input placeholder="表名"/>
-                                    )}
-                                </FormItem>
-                            </Col>
-                            <Col span={6}>
-                                <FormItem label="说明" {...formItemLayout}>
-                                    {getFieldDecorator('comments', {
-                                        rules: [{required: true, message: '请输入有效的说明!'}],
-                                    })(
-                                        <Input placeholder="说明"/>
+                                        <Select placeholder="请选择表名" allowClear onSelect={this.loadTableInfo}>
+                                            {this.state.tableList.map(name=><Option vlaue={name} key={name}>{name}</Option>)}
+                                        </Select>
                                     )}
                                 </FormItem>
                             </Col>
@@ -214,9 +201,11 @@ class DictEditForm extends ListComponent {
                                     )}
                                 </FormItem>
                             </Col>
-                            <Col span={4}>
-                                <FormItem {...formItemLayout}>
-                                    <Button icon="reload" onChange={this.loadTableInfo}>加载</Button>
+                            <Col span={6}>
+                                <FormItem label="说明" {...formItemLayout}>
+                                    {getFieldDecorator('comments')(
+                                        <Input placeholder="说明"/>
+                                    )}
                                 </FormItem>
                             </Col>
                         </Row>
@@ -240,7 +229,7 @@ function mapActionToProps(dispatch) {
     }
 }
 
-const DictEdit = Form.create()(DictEditForm);
+const DictEdit = Form.create()(GenEditForm);
 
 export default connect(
     mapStateToProps,

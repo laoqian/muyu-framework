@@ -15,16 +15,14 @@
         select LOWER(table_name) from user_tables
     </select>
 
-    <select id="getTableColumn" resultType="Map">
-        select
+    <select id="findTableColumn" resultType="TableColumn">
+        SELECT
           lower(column_name) AS "name",
-          lower(data_type) AS "type",
-          lower(data_length) AS "length",
-          lower(data_precision) AS "precision",
-          lower(data_scale) AS "scale",
-          lower(nullable)  AS "nullable"
-        from user_tab_columns
-        where table_name= upper(#{tableName})
+          lower(data_type)   AS "jdbcType",
+          data_length        AS "length",
+          CASE lower(nullable) WHEN 'n' THEN 0 ELSE 1 END AS "isEmpty"
+        FROM user_tab_columns
+        WHERE table_name= upper(#{name})
     </select>
 
     <insert id="insert" parameterType="Dict">

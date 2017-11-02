@@ -35,13 +35,14 @@ public class GenController extends BaseService{
 
 
     @RequestMapping("findPage")
-    ResultPageBean<Table> getTableColumn(HttpServletRequest request, Table table){
-        return genService.findPage(request, table);
+    ResultPageBean<Table> findPage(HttpServletRequest request,Table table) {
+
+        return genService.findPage(request,table);
     }
 
-    @RequestMapping("getTableColumn")
-    ResultBean<List> getTableColumn(String tableName){
-        return genService.getTableColumn(tableName);
+    @RequestMapping("findTableColumn")
+    ResultPageBean<List> findTableColumn(HttpServletRequest request,Table table){
+        return genService.findTableColumn(request,table);
     }
 
     @RequestMapping("getTableList")
@@ -51,6 +52,6 @@ public class GenController extends BaseService{
 
     @RequestMapping("saveBatch")
     public ResultBean<Menu> saveBatch(@RequestBody SubmitBatchBean<Table,TableColumn> batchBean){
-        return genService.saveBatch(batchBean);
+        return null;
     }
 }

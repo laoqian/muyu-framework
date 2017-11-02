@@ -253,9 +253,10 @@ input, select, button {
   flex: 1;
 }
 .my-loading-wrapper{
-  width: 100%;
-  top:-54px;
+  top:0;
   bottom: 0;
+  left:0;
+  right: 0;
   position: absolute;
   background: rgba(0, 0, 0, 0.3);
   z-index: 998;
@@ -302,4 +303,8 @@ input, select, button {
   input,select,textarea{
     border-radius: 0!important;
   }
+}
+
+.ant-modal-body .my-grid-wrapper{
+  border: solid 1px @border-color;
 }

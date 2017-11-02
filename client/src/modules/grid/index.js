@@ -115,7 +115,7 @@ class JqgridWrapper extends Component {
             },
 
             loadError: function (data) {
-
+                console.log(data);
             },
         };
 
