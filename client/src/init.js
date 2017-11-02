@@ -1,6 +1,10 @@
 import {userAuth} from './redux/actions/user'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
+import u from './utils'
+import gridExtend from './modules/grid/extend'
+import * as TYPE from './redux/actions/def'
+import _ from 'lodash'
 
 let appInit = function (store) {
 
@@ -16,6 +20,10 @@ let appInit = function (store) {
 
     store.dispatch(userAuth(username,password));
 
+    u.loadSystemConfig({store,TYPE,_});
+
+    /*jqGrid扩展初始化*/
+    gridExtend();
 }
 
 export default appInit;

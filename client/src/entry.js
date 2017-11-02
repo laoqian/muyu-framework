@@ -10,7 +10,7 @@ import Footer from './layouts/footer'
 import MenuList from './layouts/leftMenus'
 import ContentWrapper from './layouts/rightContent'
 import appInit from './init'
-import {Router, Route, Link} from 'react-router-dom'
+import {Router,Route, Link} from 'react-router-dom'
 
 appInit(store);
 

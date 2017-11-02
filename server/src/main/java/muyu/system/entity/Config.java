@@ -2,6 +2,7 @@ package muyu.system.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,6 +16,6 @@ import java.util.List;
 
 
 @Data
-public class Config {
+public class Config implements Serializable{
     List<Dict> dicts;
 }

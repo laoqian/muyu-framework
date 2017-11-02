@@ -2,6 +2,8 @@ package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.security.SecurityUser;
+import muyu.system.entity.Config;
+import muyu.system.service.SystemService;
 import muyu.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ public class SystemController{
 
     @Autowired
     UserService userService;
+    @Autowired
+    SystemService systemService;
 
     public ResultBean<SecurityUser> login(HttpSession httpSession){
 
@@ -31,8 +35,9 @@ public class SystemController{
     }
 
     @RequestMapping("getConfig")
-    public ResultBean<String> getConfig(){
-       return new ResultBean<String>("2122");
+    public ResultBean<Config> getConfig(){
+       return systemService.getConfig();
     }
+
 
 }

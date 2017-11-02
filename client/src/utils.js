@@ -1,7 +1,5 @@
 
 import {notification}   from 'antd'
-import * as def    from './redux/actions/def'
-import store            from './redux/store/configure'
 
 const NO_LOGIN          =  -1;
 const SUCCESS           =  0;
@@ -41,6 +39,7 @@ u.ajax = (options)=>{
             notification.error({message:msg});
             let data ={code:FAIL,msg};
 
+            data.success = ()=>data.code===0;
             if(options.success){
                 options.success(data);
             }
@@ -48,9 +47,33 @@ u.ajax = (options)=>{
     });
 };
 
-u.get  = (url,success)=>u.ajax({url,type:'get',success});
-u.post = (url,data,success)=>u.ajax({url,type:'post',data,success});
-u.store = store;
-u.def   = def;
+u.get   = (url,success)=>u.ajax({url,type:'get',success});
+u.post  = (url,data,success)=>u.ajax({url,type:'post',data,success});
+u.getDict = (type)=>{
+    let d =[];
+
+    if(u.loadSuccess){
+        let {dicts} = u.sysConfig;
+        dicts?dicts.forEach(v=>v.type===type?d.push(v):null):null;
+    }
+
+    return d;
+};
+
+u.tip = (message,type)=>notification[type?type:'success']({message});
+
+u.loadSuccess = false;
+
+u.loadSystemConfig = (options)=>{
+    u = Object.assign(u,options);
+
+    /*加载系统配置*/
+    u.get('api/getConfig',bean=>{
+        if(bean.success()){
+            u.sysConfig   = bean.data;
+            u.loadSuccess = true;
+        }
+    });
+}
 
 export default u;

@@ -7,8 +7,8 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
-import {notification} from 'antd';
 import u from '../../../utils'
+import colModel  from './colModel'
 
 class SyseDict extends ListComponent{
 
@@ -31,12 +31,7 @@ class SyseDict extends ListComponent{
             ExpNum          : 8,
             pagerAble       : true,
             rownumbers      : false,
-            colModel        : [
-                                {label: '名称', name: 'name'  , width: 200,editable:true,editrules:{required:true}},
-                                {label: '链接', name: 'href'  , width: 150,editable:true},
-                                {label: '排序', name: 'sort'  , width: 100,editable:true,align:'center'},
-                                {label: '显示', name: 'isShow', width: 100,editable:true,align:'center'}
-                            ],
+            colModel        : colModel,
             ondblClickRow   :null
         });
 

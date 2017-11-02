@@ -2,6 +2,7 @@ package muyu.system.service;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.service.BaseService;
+import muyu.system.common.utils.CacheUtils;
 import muyu.system.entity.Config;
 import muyu.system.entity.Dict;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class systemService extends BaseService{
+public class SystemService extends BaseService{
 
     @Autowired
     DictService dictService;
 
-    ResultBean<Config> getConfig(){
-        Config config = new Config();
+    public ResultBean<Config> getConfig(){
+        Config config;
 
-        config.setDicts(dictService.findList(new Dict()));
+        config = CacheUtils.getGlobalCache("sysConfig",Config.class);
+        if(config==null){
+            config  = new Config();
+            config.setDicts(dictService.findList(new Dict()));
+
+            CacheUtils.putGlobalCache("sysConfig",config);
+        }
 
         return new ResultBean<>(config);
 

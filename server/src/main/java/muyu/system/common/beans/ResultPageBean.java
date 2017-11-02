@@ -53,7 +53,7 @@ public class ResultPageBean<T> extends BaseResultBean implements Serializable {
         if (StringUtils.isNumeric(size)){
             this.pageSize = Integer.parseInt(size);
         }else{
-            this.pageSize = -1;
+            this.pageSize = 0;
         }
 
         String orderBy = request.getParameter("orderBy");
