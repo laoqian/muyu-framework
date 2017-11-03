@@ -1,11 +1,8 @@
 
-import u from '../../utils'
-import _ from 'lodash'
-import {renderToString} from 'react-dom/server'
-import React from 'react'
-import { Button } from 'antd';
+let gridExtend =function(){
 
-let gridExtend =()=>{
+    let {u} = this;
+    let _ = u._;
 
     let genValue = (type) =>{
         let dict = u.getDict(type);

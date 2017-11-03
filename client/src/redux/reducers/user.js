@@ -1,17 +1,17 @@
 
-import {USER_AUTH,USER_LOGOUT,USER_ADD,USER_DELETE,USER_GET} from '../actions/def'
+import {USER_AUTH,USER_LOGOUT} from '../actions/def'
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 import immutable from 'immutable'
 
-let user = immutable.Map({authed: {}, data: {},loadedUser:{}});
+let user = immutable.Map({});
 
 function auth_reducer(state = user.toJS(),action) {
 
     switch (action.type){
         case USER_AUTH:
             if(action.result.code === 0){
-                user = user.merge({authed:action.result.data});
+                user = user.merge({...action.result.data});
                 state = user.toJS();
 
                 Cookies.set('username',action.data.username);
@@ -27,10 +27,6 @@ function auth_reducer(state = user.toJS(),action) {
             user = user.merge({authed: {}});
             state = user.toJS();
             notification.success({message:'退出成功'});
-            break;
-        case USER_ADD:
-            break;
-        case USER_DELETE:
             break;
     }
 

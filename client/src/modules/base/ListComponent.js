@@ -1,14 +1,13 @@
-import {Component} from 'react'
+import BaseComponent from './BaseComponent'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
-import {notification} from 'antd';
-import u from '../../utils';
 
-export default class ListComponent extends Component{
+export default class ListComponent extends BaseComponent{
 
     constructor(props){
         super(props);
         let $t = this;
+        let u = this.u;
 
         $t.gridOptions = {
             setQueryParam: () => $t.setQueryParam(),
@@ -54,7 +53,7 @@ export default class ListComponent extends Component{
             editList.forEach(id => {
                 g.saveRow(id, null, null, null, null, (rowid,msg)=>{
                     pass = false;
-                    notification.error({message:msg});
+                    u.tip(msg,'error');
                 });
             });
 
@@ -81,14 +80,14 @@ export default class ListComponent extends Component{
             }
 
             if (!id) {
-                return notification.error({message: '未选择,要修改的菜单'});
+                return u.tip('未选择,要修改的菜单','error');
             } else {
                 try{
                     let bean = await $t.loadSelData(id);
                     row = bean.data;
-                    notification.success({message: '编辑菜单：' + row.id});
+                    u.tip('编辑菜单：' + row.id);
                 }catch (err){
-                    return notification.error({message:err.msg});
+                    return u.tip(err.msg,'error');
                 }
             }
 
@@ -102,7 +101,7 @@ export default class ListComponent extends Component{
                   let bean = await $t.loadSelData(row.id);
                   row = bean.data;
               }catch (err){
-                  notification.error({message:err.msg});
+                  u.tip(err.msg,'error');
               }
             }
 
@@ -112,7 +111,7 @@ export default class ListComponent extends Component{
         $t.eventFunc['删除'] = $t.deleteRow = ()=>{
             let row  = $t.getSelRowData();
             if(!row){
-                return notification.error({message:'未选择要删除的列'});
+                return u.tip('未选择要删除的列','error');
             }
 
             $t.history.push({pathname: '/delete', row,grid:$t.getGrid()});
@@ -127,9 +126,6 @@ export default class ListComponent extends Component{
         $t.regEvent("降级",'degradeRow'   ,()=>$t.chgLevel(1));
         $t.regEvent("上移",'shiftUpRow'   ,()=>$t.chgLevel(2));
         $t.regEvent("下移",'shiftDownRow' ,()=>$t.chgLevel(3));
-
-
-        $t.encodeUrl = (url)=>$t.baseUrl+url;
 
         $t.setQueryParam = () => {
             if ($t.serachForm) {

@@ -7,7 +7,7 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
-import u from '../../../utils'
+import u from '../../base/utils'
 import colModel  from './colModel'
 
 class SyseDict extends ListComponent{

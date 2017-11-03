@@ -6,7 +6,7 @@ import {findDOMNode,render} from 'react-dom';
 import { Button } from 'antd';
 const ButtonGroup = Button.Group;
 import _ from 'lodash'
-import u from '../../utils'
+import u from '../base/utils'
 import {notification} from 'antd';
 
 class JqgridWrapper extends Component {

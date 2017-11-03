@@ -63,13 +63,13 @@ input, select, button {
   display: flex!important;
 }
 
-//垂直居中
+//只适用于单个元素垂直居中
 .flex-vm{
   .flex;
   align-items: center!important;
 }
 
-//水平居中
+//只适用于单个元素水平居中
 .flex-hm{
   .flex;
   justify-content: center !important;
@@ -191,34 +191,6 @@ input, select, button {
 }
 
 
-.left-wrapper{
-  width: @left-width;
-  position: absolute;
-  top:@header-height;
-  bottom: @footer-height;
-  left: 0;
-  background: @back-color;
-}
-
-.right-wrapper{
-  position: absolute;
-  top:@header-height;
-  bottom: @footer-height;
-  left: @left-width;
-  right:0;
-  background: white;
-
-}
-
-.footer{
-  width: 100%;
-  height: @footer-height;
-  position: absolute;
-  bottom: 0;
-  background: @main-color;
-  color: white;
-  font-size: 11px;
-}
 
 .my-col-full{
   width: 100%;

@@ -1,4 +1,15 @@
+.ant-layout-content{
+  display: flex;
+}
+.ant-layout-content>.ant-tabs{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 
+  .ant-tabs-content{
+    flex: 1;
+  }
+}
 
 .right-wrapper>.ant-tabs{
   height: 100%;
@@ -107,15 +118,11 @@
     background: rgb(248,248,248);
     height: 35px;
     padding-top: 6px;
-
   }
+
   .ant-modal-footer {
     background: rgb(248,248,248);
     height: 40px;
     padding-top: 6px;
   }
-}
-
-.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content > .ant-tabs-tabpane-inactive{
-  width: 0px;
 }

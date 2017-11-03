@@ -4,7 +4,10 @@ import muyu.system.common.beans.ResultBean;
 import muyu.system.common.security.AuthenticationProviderCustom;
 import muyu.system.common.security.CustomUserDetailsService;
 import muyu.system.common.security.SecurityUser;
+import muyu.system.common.utils.ContextUtils;
 import muyu.system.common.utils.HttpUtils;
+import muyu.system.entity.Menu;
+import muyu.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -63,7 +66,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
             ResultBean<SecurityUser> resultBean = new ResultBean<>();
-            resultBean.setData((SecurityUser)authentication.getPrincipal());
+            SecurityUser user  = (SecurityUser)authentication.getPrincipal();
+            MenuService   menuService = ContextUtils.getBean(MenuService.class);
+
+            user.setMenuList(menuService.findList(new Menu()));
+            resultBean.setData(user);
             HttpUtils.sendResponse(response,resultBean);
         }
     }

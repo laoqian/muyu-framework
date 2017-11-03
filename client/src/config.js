@@ -1,14 +1,7 @@
 
 
 
-let config = {
-    server_ip: '192.168.2.222',
-    server_port: 9999,
-    notice_height:20,
-    header_height:60,
-    left_height:80,
-    footer_height:24
-};
+let config = {};
 
 /*后端服务器地址*/
 config.base_url = '/api';

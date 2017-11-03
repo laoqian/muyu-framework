@@ -18,7 +18,7 @@ var __DEV__ = config['__DEV__']
 var __PROD__ = config['__PROD__']
 
 var index = [];
-index.push(path.join(__dirname,'../src/entry.js'));
+index.push(path.join(__dirname,'../src/application.js'));
 var entry ={index};
 
 var webpackConfig = {

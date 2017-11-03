@@ -1,14 +1,20 @@
+import _ from 'lodash'
+import { notification } from 'antd';
+import Cookies from 'js-cookie';
+import gridExtend from '../grid/extend'
 
-import {notification}   from 'antd'
-
-const NO_LOGIN          =  -1;
-const SUCCESS           =  0;
-const FAIL              =  1;
-const NO_PERMISSION     =  1;
-
-let u = {};
+let u ={loadSuccess:false,
+    _:_,
+    cookies:Cookies
+};
 
 u.ajax = (options)=>{
+
+    const NO_LOGIN          =  -1;
+    const SUCCESS           =  0;
+    const FAIL              =  1;
+    const NO_PERMISSION     =  2;
+
     $.ajax({
         url         :  options.url,
         type        :  options.type,
@@ -32,7 +38,9 @@ u.ajax = (options)=>{
                 notification.error({message:data.msg});
             }
             data.success = ()=>data.code===0;
-            options.success(data);
+            if(options.success){
+                options.success(data);
+            }
         },
         error       : function(error) {
             let msg = '错误代码:'+error.status+',信息：'+error.statusText;
@@ -47,7 +55,14 @@ u.ajax = (options)=>{
     });
 };
 
-u.get   = (url,success)=>u.ajax({url,type:'get',success});
+u.get   = (url,data,success)=>{
+    if(_.isFunction(data)){
+        u.ajax({url,type:'get',data});
+    }else{
+        url = url+'?'+$.param(data);
+        u.ajax({url,type:'get',success});
+    }
+};
 u.post  = (url,data,success)=>u.ajax({url,type:'post',data,success});
 u.getDict = (type)=>{
     let d =[];
@@ -79,19 +94,30 @@ u.getTableColumn = (tableName,columnName)=>{
 };
 
 u.tip = (message,type)=>notification[type?type:'success']({message});
+u.systemInit = function(){
 
-u.loadSuccess = false;
-
-u.loadSystemConfig = (options)=>{
-    u = Object.assign(u,options);
+    /*通知框初始化*/
+    notification.config({
+        placement:'bottomRight',
+        bottom: 50,
+        duration: 3,
+    });
 
     /*加载系统配置*/
-    u.get('api/getConfig',bean=>{
-        if(bean.success()){
-            u.sysConfig   = bean.data;
-            u.loadSuccess = true;
+    let t = setInterval(()=>{
+        if(!u.loadSuccess){
+            u.get('api/getConfig',bean=>{
+                if(bean.success()){
+                    u.system   = bean.data;
+                    u.loadSuccess = true;
+                }
+            });
+        }else{
+            clearInterval(t);
         }
-    });
-}
+    },100000);
+
+    gridExtend.call(this);
+};
 
 export default u;

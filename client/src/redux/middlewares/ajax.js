@@ -1,5 +1,5 @@
 import config   from '../../config.js'
-import u        from '../../utils'
+import u        from '../../modules/base/utils'
 
 //异步ajax中间件
 const fetchMiddleware = store => next => action => {
