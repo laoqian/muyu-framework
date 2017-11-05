@@ -191,7 +191,8 @@ input, select, button {
 }
 
 .ant-layout-header{
-  .logo{
+
+  .my-logo{
     width: 240px;
     height: 100%;
     float: left;
@@ -200,9 +201,16 @@ input, select, button {
       color: white;
     }
   }
+  .my-user{
+    float: right;
+  }
   .ant-menu{
-    background: inherit;
+    background: none;
+    border-bottom: inherit;
+    display: inline-block;
     .ant-menu-item{
+      height: @header-height!important;
+
       i{
         margin-right: 3px;
       }
@@ -211,7 +219,12 @@ input, select, button {
       padding-right: 10px;
       font-size: 12px;
     }
-    .ant-menu-item-selected,.ant-menu-item:hover{
+
+    .ant-menu-item-selected{
+      color: white;
+      border-bottom: solid 2px white!important;
+    }
+    .ant-menu-item:hover{
       color: white;
     }
   }

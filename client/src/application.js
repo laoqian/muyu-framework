@@ -76,7 +76,7 @@ class App extends BaseComponent{
             return (
                 <Layout style={{ minHeight: '100vh' }}>
                     <Header>
-                        <div className="logo" ><h4>木鱼快速开发框架</h4></div>
+                        <div className="my-logo" ><h4>木鱼快速开发框架</h4></div>
                         <Menu
                             mode="horizontal"
                             defaultSelectedKeys={['1']}
@@ -91,6 +91,9 @@ class App extends BaseComponent{
                                 ))
                             }
                         </Menu>
+                        <div className="my-user">
+                            用户
+                        </div>
                     </Header>
                     <Layout>
                         <Sider   collapsible
