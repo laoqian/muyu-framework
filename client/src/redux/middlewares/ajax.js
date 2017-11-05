@@ -1,5 +1,4 @@
-import config   from '../../config.js'
-import u        from '../../modules/base/utils'
+import u        from '../../utils'
 
 //异步ajax中间件
 const fetchMiddleware = store => next => action => {
@@ -8,7 +7,7 @@ const fetchMiddleware = store => next => action => {
         return next(action);
     }
 
-    let url = config.base_url + '/' + action.uri;
+    let url = u.baseUrl + '/' + action.uri;
     let data ='';
 
     if(action.submit_type ==='url'){

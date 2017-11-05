@@ -17,10 +17,11 @@ const { SubMenu } = Menu;
 class App extends BaseComponent{
     constructor(props) {
         super(props);
-        this.state = {collapsed: false};
+        this.state = {collapsed: false,activeMenu:"1"};
         let {tabAdd} = this.props;
 
         this.onCollapse = collapsed => this.setState({collapsed});
+        this.navClick = menu =>this.setState({activeMenu:menu.key});
         this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr => chr.id === menu.key));
         this.getSubMenuList = id => _.filter(this.props.user.menuList, m => m.parentId === id);
         this.getPage = href=>{
@@ -56,12 +57,12 @@ class App extends BaseComponent{
             let {userAuth} = this.props;
             userAuth(username,password);
         }
+
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(this.props.user){
-            this.u.systemInit.call(this);
-        }
+        let user = this.props.user;
+        user.enabled?this.u.online.call(this):this.u.outline();
     }
 
     render() {
@@ -74,7 +75,23 @@ class App extends BaseComponent{
 
             return (
                 <Layout style={{ minHeight: '100vh' }}>
-                    <Header>Header</Header>
+                    <Header>
+                        <div className="logo" ><h4>木鱼快速开发框架</h4></div>
+                        <Menu
+                            mode="horizontal"
+                            defaultSelectedKeys={['1']}
+                            onClick={this.navClick}
+                        >
+                            {
+                                this.getSubMenuList("0").map((menu)=>(
+                                    <Menu.Item key={menu.id}>
+                                        <Icon type={menu.icon} />
+                                        {menu.name}
+                                    </Menu.Item>
+                                ))
+                            }
+                        </Menu>
+                    </Header>
                     <Layout>
                         <Sider   collapsible
                                  collapsed={this.state.collapsed}
@@ -87,10 +104,10 @@ class App extends BaseComponent{
                                 mode="inline"
                             >
                                 {
-                                    this.getSubMenuList("0").map((menu)=>(
+                                    this.getSubMenuList(this.state.activeMenu).map((menu)=>(
                                         <SubMenu key={menu.id} title={
                                             <span>
-                                                <Icon type="mail" />
+                                                <Icon type={menu.icon}/>
                                                 <span>{menu.name}</span>
                                             </span>}>
                                             {

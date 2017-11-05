@@ -1,9 +1,13 @@
 import _ from 'lodash'
 import { notification } from 'antd';
 import Cookies from 'js-cookie';
-import gridExtend from '../grid/extend'
+import gridExtend from './modules/grid/extend'
 
-let u ={loadSuccess:false,
+let u = {
+    baseUrl:'/api/',
+    rootLevel:1,    /*树形根层级*/
+    rootId:"0",     /*树形根Id*/
+    loadSuccess:false,
     _:_,
     cookies:Cookies
 };
@@ -37,6 +41,7 @@ u.ajax = (options)=>{
 
                 notification.error({message:data.msg});
             }
+
             data.success = ()=>data.code===0;
             if(options.success){
                 options.success(data);
@@ -57,7 +62,7 @@ u.ajax = (options)=>{
 
 u.get   = (url,data,success)=>{
     if(_.isFunction(data)){
-        u.ajax({url,type:'get',data});
+        u.ajax({url,type:'get',success:data});
     }else{
         url = url+'?'+$.param(data);
         u.ajax({url,type:'get',success});
@@ -93,8 +98,14 @@ u.getTableColumn = (tableName,columnName)=>{
     return column;
 };
 
-u.tip = (message,type)=>notification[type?type:'success']({message});
-u.systemInit = function(){
+u.tip       = (message,type)=>notification[type?type:'success']({message});
+u.success   = (msg) =>u.tip(msg,'success');
+u.error     = (msg) =>u.tip(msg,'error');
+
+u.online = function(){
+    if(u.loadSuccess){
+        return ;
+    }
 
     /*通知框初始化*/
     notification.config({
@@ -118,6 +129,11 @@ u.systemInit = function(){
     },100000);
 
     gridExtend.call(this);
+};
+
+u.outline = function(){
+    u.loadSuccess = false;
+    u.system   = {};
 };
 
 export default u;

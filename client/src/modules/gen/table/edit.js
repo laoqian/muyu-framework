@@ -6,7 +6,7 @@ import {userGet}                                from '../../../redux/actions/use
 import {notification}                           from 'antd';
 import JqgridWrapper                            from '../../grid/index'
 import ListComponent                            from "../../base/ListComponent";
-import u                                        from '../../base/utils'
+import u                                        from '../../../utils'
 
 const FormItem  = Form.Item;
 const Option    = Select.Option;

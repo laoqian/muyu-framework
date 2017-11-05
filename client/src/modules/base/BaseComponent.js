@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import u from './utils'
+import u from '../../utils'
 
 export default class BaseComponent extends Component{
 

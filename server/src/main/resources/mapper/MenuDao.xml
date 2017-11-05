@@ -6,6 +6,7 @@
           id AS "id",
           parent_id AS "parentId",
           name AS "name",
+          icon AS "icon",
           is_show AS "isShow",
           href AS "href"
         from sys_menu
@@ -16,6 +17,7 @@
               a.id              AS "id",
               a.parent_id       AS "parentId",
               a.name            AS "name",
+              a.icon            AS "icon",
               is_show           AS "isShow",
               a.href            AS "href",
               a.sort            AS "sort",
@@ -31,6 +33,7 @@
             a.id         AS "id",
             a.parent_id  AS "parentId",
             a.name       AS "name",
+            a.icon       AS "icon",
             a.sort       AS "sort",
             a.href       AS "href"
         FROM sys_menu a
@@ -41,6 +44,7 @@
         (id,
         parent_id,
         name,
+        icon,
         href,
         sort,
         is_show,
@@ -54,6 +58,7 @@
         #{id},
         #{parentId},
         #{name},
+        #{icon},
         #{href},
         #{sort},
         #{isShow},
@@ -68,6 +73,7 @@
           UPDATE sys_menu SET
               parent_id=#{parentId},
               name=#{name},
+              icon=#{icon},
               sort=#{sort},
               href=#{href},
               is_show=#{isShow},

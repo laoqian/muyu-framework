@@ -6,7 +6,7 @@ import {findDOMNode,render} from 'react-dom';
 import { Button } from 'antd';
 const ButtonGroup = Button.Group;
 import _ from 'lodash'
-import u from '../base/utils'
+import u from '../../utils'
 import {notification} from 'antd';
 
 class JqgridWrapper extends Component {
@@ -294,14 +294,13 @@ class GridToolBar extends Component{
         this.eventFunc['降级'] =
         this.eventFunc['上移'] =
         this.eventFunc['下移'] = key=>{
-            let url = options.baseUrl+'transform';
             let idList = grid.getGridParam('selectedList');
             if(idList.length===0){
                 return notification.error({message:'未选择任何要操作的行！'});
             }
 
             let data ={ids:idList.join(','),type:key};
-            u.get(url+'?'+$.param(data),data=>{
+            u.get(options.baseUrl+'transform'+'?'+$.param(data),data=>{
                 if(data.code===0){
                     grid.trigger('reloadGrid');
                 }
