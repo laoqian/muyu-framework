@@ -128,68 +128,6 @@ input, select, button {
   }
 }
 
-.header {
-  width: 100%;
-
-  .notice-bar{
-    color:red;
-    height:@notice-height;
-    display: none;
-  }
-
-  .header-wrapper{
-    box-sizing: content-box;
-    height: @header-height;
-    background: @main-color;
-
-     span{
-       font-size: 18px;
-       font-weight: bold;
-       color: whitesmoke;
-       vertical-align: middle;
-     }
-  }
-
-  ul {
-    height: 100%;
-    margin-right: 30px;
-
-
-    li{
-      height: 52px;
-      width: 52px;
-      padding: 0;
-      margin-right: 10px;
-      border-radius: 5px;
-
-      &:hover{
-        background: rgba(0, 0, 0, 0.25);
-      }
-    }
-
-    a {
-      color: white;
-      font-size: 11px;
-      text-decoration:none;
-
-      &:hover{
-        text-decoration:none;
-        i::before{
-          font-size: 20px;
-        }
-      }
-
-
-      i{
-        margin-bottom: 4px;
-        &::before{
-          font-size: 18px;
-        }
-      }
-    }
-  }
-}
-
 .ant-layout-header{
 
   .my-logo{
@@ -201,8 +139,32 @@ input, select, button {
       color: white;
     }
   }
+
   .my-user{
-    float: right;
+      float: right;
+      height: 100%;
+      .flex-hvm;
+      color: white;
+
+    *{
+      font-size: 12px;
+    }
+    .my-user-info{
+      height: 100%;
+      .flex-hvm;
+
+      img{
+        display: inline-block;
+        width: @header-height*0.6;
+        height: @header-height*0.6;
+        border-radius: @header-height*0.3;
+        border: solid 3px white;
+        margin-right: 5px;
+      }
+
+
+    }
+
   }
   .ant-menu{
     background: none;

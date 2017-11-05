@@ -3,7 +3,7 @@ import React,{Component} from 'react'
 import {render} from 'react-dom'
 import {Provider,connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import { Layout, Menu, Icon,Tabs } from 'antd'
+import { Layout, Menu, Icon,Tabs,Dropdown } from 'antd'
 import BaseComponent  from './modules/base/BaseComponent'
 import store from './redux/store/configure'
 import Login from './layouts/login'
@@ -14,6 +14,9 @@ const TabPane = Tabs.TabPane;
 
 const { Header, Content,Sider } = Layout;
 const { SubMenu } = Menu;
+
+
+
 class App extends BaseComponent{
     constructor(props) {
         super(props);
@@ -47,6 +50,17 @@ class App extends BaseComponent{
         };
 
         this.onTabClick = (id) =>this.props.tabSel({id});
+
+        this.dropClick = (drop)=>this.dropHander[drop.key]?this.dropHander[drop.key](): console.error('Warning:未定义的下拉菜单事件：' + drop.key);
+
+        this.dropHander = {};
+        this.dropHander.set = ()=>{
+
+        };
+
+        this.dropHander.logout = ()=>{
+
+        }
     }
 
     componentDidMount(){
@@ -67,6 +81,19 @@ class App extends BaseComponent{
 
     render() {
         let user = this.props.user;
+        const dropMenu = (
+            <Menu onClick={this.dropClick}>
+                <Menu.Item key="set">
+                    <Icon type="menu-fold"/>
+                    系统设置
+                </Menu.Item>
+                <Menu.Divider/>
+                <Menu.Item key="logout">
+                    <Icon type="poweroff"/>
+                    安全退出
+                </Menu.Item>
+            </Menu>
+        );
 
         if(!user.enabled){
             return <Login/>
@@ -92,7 +119,12 @@ class App extends BaseComponent{
                             }
                         </Menu>
                         <div className="my-user">
-                            用户
+                            <div className="my-user-info">
+                                <img src="./images/yu.jpg"/>
+                                <Dropdown overlay={dropMenu} placement="bottomRight">
+                                    <span>超级用户</span>
+                                </Dropdown>
+                            </div>
                         </div>
                     </Header>
                     <Layout>
