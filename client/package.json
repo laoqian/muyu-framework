@@ -111,7 +111,7 @@
     "less-loader": "^2.2.2",
     "mocha": "^2.3.4",
     "node-libs-browser": "^0.5.2",
-    "postcss-loader": "^0.8.0",
+    "postcss-loader": "^0.8.2",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-hmr": "^1.0.0",
     "redux-devtools": "^3.0.1",

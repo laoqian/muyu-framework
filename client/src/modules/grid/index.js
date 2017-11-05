@@ -45,10 +45,7 @@ class JqgridWrapper extends Component {
             rownumbers: true,
             sortableColumn: false,
             shrinkToFit: false,
-            autoGridHeight: true, // 自动表格高度
-            autoGridHeightFix: 0,  // 自动表格高度宽度
-            autoGridWidth: true,  // 自动表格宽度
-            autoGridWidthFix: 0,  // 自动表格修复宽度
+
 
             /*行编辑扩展*/
             editList:[],
@@ -97,21 +94,7 @@ class JqgridWrapper extends Component {
                 }
             },
             gridComplete: function () {
-                let wrapper = findDOMNode(__this.refs.gridWrapper);
-                wrapper = $(wrapper);
-                let grid = __this.state.gridTable;
 
-                let width = wrapper.width();
-                let toobar = wrapper.find('.ui-userdata-top');
-                let header = wrapper.find('.ui-jqgrid-pager');
-                let pager = wrapper.find('.ui-jqgrid-hdiv');
-                let height = wrapper.height() - toobar.height() - header.height()-pager.height();
-
-                grid.jqGrid('setGridWidth', width+2);
-                grid.jqGrid('setGridHeight', height);
-                toobar.width(width);
-                header.width(width);
-                pager.width(width);
             },
 
             loadError: function (data) {

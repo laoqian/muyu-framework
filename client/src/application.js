@@ -90,9 +90,9 @@ class App extends BaseComponent{
                                     this.getSubMenuList("0").map((menu)=>(
                                         <SubMenu key={menu.id} title={
                                             <span>
-                                    <Icon type="mail" />
-                                    <span>{menu.name}</span>
-                                </span>}>
+                                                <Icon type="mail" />
+                                                <span>{menu.name}</span>
+                                            </span>}>
                                             {
                                                 this.getSubMenuList(menu.id).map((sub)=>(
                                                     <Menu.Item key={sub.id}>{sub.name}</Menu.Item>

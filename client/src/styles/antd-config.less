@@ -1,127 +1,120 @@
-.ant-layout-content{
-  display: flex;
+.ant-layout-header {
+  height: @header-height;
+  background-image: -webkit-linear-gradient(left bottom, rgb(65, 118, 231), rgb(46, 153, 212));
 }
-.ant-layout-content>.ant-tabs{
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 
-  .ant-tabs-content{
+
+/*标签页配置*/
+
+.ant-layout-content {
+  display: flex;
+
+  .ant-tabs {
+    display: flex;
+    flex-direction: column;
     flex: 1;
-  }
-}
-
-.right-wrapper>.ant-tabs{
-  height: 100%;
-  background: #f4f4f4;
-
-  &>.ant-tabs-bar{
-    padding-top: 0!important;
-    height: 30px;
-    background: white;
-    box-shadow:0 1px 3px #ccc;
-    z-index: 999;
-  }
-
-  &>.ant-tabs-content{
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    top:40px;
-    right:10px;
     background: #f4f4f4;
-    margin-left: auto !important;
-  }
 
-  &.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
-    border-radius: 0;
-    border: 0;
-    background: white;
-  }
-  .ant-tabs-nav .ant-tabs-tab{
-    height: 29px;
-  }
-  &.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
-    border-bottom: solid 2px @main-color;
-  }
+    .ant-tabs-content {
+      flex: 1;
+    }
 
-  &:not(.ant-tabs-vertical) > .ant-tabs-content{
-    width: auto;
+    & > .ant-tabs-bar {
+      padding-top: 0 !important;
+      height: 30px;
+      background: white;
+      margin-bottom: 0;
+      box-shadow: 0 1px 3px #ccc;
+      z-index: 999;
+    }
+
+    .ant-tabs-tabpane {
+      padding: 10px;
+    }
+
+    &.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+      border-radius: 0;
+      border: 0;
+      background: white;
+    }
+    .ant-tabs-nav .ant-tabs-tab {
+      height: 29px;
+    }
+    &.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+      border-bottom: solid 2px @main-color;
+    }
   }
 }
 
-.ant-input-lg{
-  padding-top: 2px;
-  padding-bottom: 2px;
+/*form配置*/
+
+.ant-input-lg {
   height: 28px;
   letter-spacing: normal;
   color: #000;
-}
-.ant-tabs-bar{
-  margin-bottom: 0;
+  padding: 0 8px;
+  font-size: 12px !important;
 }
 
-.ant-btn{
+.ant-btn {
   font-weight: 500;
   font-size: 12px;
 }
-.ant-form-item-label>label{
+
+.ant-form-item-label > label {
   height: 28px;
   color: #666;
 }
-.ant-select-lg .ant-select-selection--single{
-  height: 28px;
 
+.ant-select-lg .ant-select-selection--single {
+  height: 28px;
 }
-.ant-select-lg .ant-select-selection__rendered{
-  line-height: 28px!important;
+
+.ant-select-lg .ant-select-selection__rendered {
+  line-height: 28px !important;
 }
-.ant-select-selection{
+
+.ant-select-selection {
   min-width: 140px;
   letter-spacing: normal;
   color: #000;
 }
 
-.ant-btn-lg{
-  height: 28px;
-  padding: 0 8px;
-  font-size: 12px!important;
-}
-
-.ant-btn-primary{
+.ant-btn-primary {
   background: @btn-submit-color;
 }
-.ant-input:focus,.ant-select-focused .ant-select-selection{
+
+.ant-input:focus, .ant-select-focused .ant-select-selection {
   border-color: #49a9ee;
   outline: 0;
   box-shadow: none;
 }
 
-.vertical-center-modal{
+.vertical-center-modal {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.vertical-center-modal .ant-modal{
-  top:0;
-  width: auto!important;
-  min-width:240px;
+.vertical-center-modal .ant-modal {
+  top: 0;
+  width: auto !important;
+  min-width: 240px;
 
-  .ant-modal-close{
-    top:-6px;
+  .ant-modal-close {
+    top: -6px;
   }
-  .ant-modal-close,.ant-modal-close-x{
+  .ant-modal-close, .ant-modal-close-x {
     height: 35px;
   }
-  .ant-modal-header{
-    background: rgb(248,248,248);
+  .ant-modal-header {
+    background: rgb(248, 248, 248);
     height: 35px;
     padding-top: 6px;
   }
 
   .ant-modal-footer {
-    background: rgb(248,248,248);
+    background: rgb(248, 248, 248);
     height: 40px;
     padding-top: 6px;
   }

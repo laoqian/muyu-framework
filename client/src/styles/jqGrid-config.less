@@ -1,11 +1,31 @@
 
-.ui-jqgrid{
+.ui-jqgrid,.ui-jqgrid-view,.ui-jqgrid-bdiv{
   border: 0;
+  .flex;
+  flex-direction: column;
+  flex: 1;
+  width: auto!important;
+}
+
+.ui-userdata,.ui-jqgrid-hdiv,.ui-jqgrid-pager{
+  width: auto!important;
 }
 
 .ui-jqgrid-hdiv{
   border: solid 1px @border-color;
   background: #f8f8f8;
+}
+
+.ui-jqgrid .ui-jqgrid-htable .ui-th-div{
+  margin-top:0;
+  color:#000;
+  font-size: 12px!important;
+  font-weight: normal;
+  letter-spacing:normal;
+}
+
+tr.jqgrow{
+  height: 27px;
 }
 
 .ui-jqgrid-btable:hover{
@@ -20,29 +40,23 @@ tr.success>td{
   background-color: #3498DB!important;
   color: #fff!important;
 }
+
 .jqgrid-rownum{
   background: white!important;
 }
-tr.jqgrow{
-  height: 27px;
-}
 
-tr.jqgrow>td{
-  line-height:24px!important;
-  vertical-align: middle;
-}
 
 .ui-jqgrid tr.jqgrow td{
+  line-height:24px!important;
+  vertical-align: middle;
   padding: 1px 5px;
-}
-
-tr.jqgrow>td{
   color:#000;
   border-right: dashed 1px @border-color!important ;
   border-bottom-style: dashed!important;
   letter-spacing:normal;
   font-size: 12px!important;
 }
+
 
 tr.jqgrow>td:first-child,tr.jqgrow>td:last-child{
   border-right: dashed 1px @border-color!important;
@@ -51,13 +65,7 @@ tr.jqgrow>td:first-child,tr.jqgrow>td:last-child{
 .ui-jqgrid .ui-jqgrid-htable th{
   padding-bottom: 5px;
 }
-.ui-jqgrid .ui-jqgrid-htable .ui-th-div{
-  margin-top:0;
-  color:#000;
-  font-size: 12px!important;
-  font-weight: normal;
-  letter-spacing:normal;
-}
+
 .tree-minus,.tree-plus,.tree-leaf{
   margin-top: 3px;
 }
