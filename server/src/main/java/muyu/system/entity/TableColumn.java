@@ -4,7 +4,6 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
-import muyu.system.common.utils.ExtendUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -19,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TableColumn extends DataEntity<TableColumn> {
+
+
 	String  tableName;
 	String  genTableId;
 	String  name;
@@ -34,19 +35,11 @@ public class TableColumn extends DataEntity<TableColumn> {
 	String  dictType;
 	Integer sort;
 
-	public void setTableName(String tableName) {
-		this.tableName = ExtendUtils.underline2Camel(tableName,false);
-	}
-
-	public void setName(String name) {
-		this.name = ExtendUtils.underline2Camel(name,false);
-	}
-
 	public String getComments() {
 		return StringUtils.isBlank(comments)?name:comments;
 	}
 
-	public String getJavaType() {
+	public String getJavaType(){
 
 		if (StringUtils.isNotBlank(javaType)){
 			return javaType;
@@ -61,9 +54,8 @@ public class TableColumn extends DataEntity<TableColumn> {
 			case "nvarchar2":
 				return "String";
 			case "timestamp(6)":
-				return "java.sql.Timestamp";
 			case "DATE":
-				return "java.sql.Date";
+				return "Date";
 			default:
 				return "String";
 		}

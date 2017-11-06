@@ -61,6 +61,13 @@ class App extends BaseComponent{
         this.dropHander.logout = ()=>{
 
         }
+
+        this.after = ()=>{
+
+            let user = this.props.user;
+
+            user.enabled?this.u.online.call(this):this.u.outline();
+        }
     }
 
     componentDidMount(){
@@ -72,11 +79,11 @@ class App extends BaseComponent{
             userAuth(username,password);
         }
 
+        this.after();
     }
 
     componentDidUpdate(prevProps, prevState){
-        let user = this.props.user;
-        user.enabled?this.u.online.call(this):this.u.outline();
+        this.after();
     }
 
     render() {

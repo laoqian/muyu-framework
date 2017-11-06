@@ -24,7 +24,7 @@
           CASE lower(nullable) WHEN 'n' THEN 0 ELSE 1 END AS "isEmpty"
         FROM user_tab_columns
         <where>
-            <if test="name!=null and name!=''">
+            <if test="tableName!=null and tableName!=''">
                 table_name = upper(#{tableName})
             </if>
             <if test="queryBy!=null and queryBy!=''">

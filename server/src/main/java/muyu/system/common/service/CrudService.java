@@ -42,7 +42,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @return
 	 */
 	public T get(String id) {
-		return dao.get(id);
+		return (StringUtils.isNotBlank(id))?dao.get(id):null;
 	}
 
 	/**

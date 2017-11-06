@@ -26,7 +26,6 @@ let gridExtend =function(){
     };
 
     $.unformat.sys_dict =function (cellval,options,pos,cnt) {
-        console.log(cellval,options,pos,cnt);
         return $.unformat.select(cellval,options,pos,cnt);
     }
 

@@ -3,6 +3,7 @@ package muyu.system.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import muyu.system.common.persistence.DataEntity;
 
 /**
@@ -16,13 +17,11 @@ import muyu.system.common.persistence.DataEntity;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class Table extends DataEntity<Table> {
-	String name;
-	String comments;
-	String className;
-
-	public Table() {
-		super();
-	}
-
+	String   name;
+	String   comments;
+	String   className;
+	String   packageName;
+	Integer  type;
 }

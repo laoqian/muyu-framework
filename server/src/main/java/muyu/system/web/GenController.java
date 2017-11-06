@@ -1,5 +1,7 @@
 package muyu.system.web;
 
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModelException;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.beans.SubmitBatchBean;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -51,7 +54,7 @@ public class GenController extends BaseService{
     }
 
     @RequestMapping("saveBatch")
-    public ResultBean<Menu> saveBatch(@RequestBody SubmitBatchBean<Table,TableColumn> batchBean){
-        return null;
+    public ResultBean<Table> saveBatch(@RequestBody SubmitBatchBean<Table,TableColumn> batchBean,HttpServletRequest request) throws IOException, TemplateException {
+        return genService.saveBatch(request,batchBean);
     }
 }

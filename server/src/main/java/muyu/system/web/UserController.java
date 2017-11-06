@@ -23,7 +23,8 @@ public class UserController extends BaseController{
 
     @ModelAttribute
     public User preState(@RequestParam(required=false) String id){
-        return StringUtils.isNotBlank(id)?userService.get(id):null;
+        User user = userService.get(id);
+        return user!=null ? user : new User();
     }
 
     @RequestMapping("getAuthedUser")

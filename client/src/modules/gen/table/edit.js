@@ -7,7 +7,7 @@ import {notification}                           from 'antd';
 import JqgridWrapper                            from '../../grid/index'
 import ListComponent                            from "../../base/ListComponent";
 import u                                        from '../../../utils'
-
+import colModel  from './colModel'
 const FormItem  = Form.Item;
 const Option    = Select.Option;
 
@@ -27,20 +27,7 @@ class GenEditForm extends ListComponent {
             ExpandColumn: 'name',
             pagerAble   : false,
             rownumbers  : false,
-            colModel    : [
-                {label: '列名', name: 'name', width: 100},
-                {label: '说明', name: 'comments', width: 100, editable: true},
-                {label: '物理类型', name: 'jdbcType', width: 100},
-                {label: '长度', name: 'length'  , width: 100,  align: 'right'},
-                {label: 'Java类型', name: 'javaType', width: 160, editable: true},
-                {label: 'Java属性名称', name: 'javaFiled', width: 100, editable: true},
-                {label: '可空', name: 'isEmpty', width: 60,editable: true, align:'center',formatter:'sys_dict',formatoptions:{type:'sys_bool'}},
-                {label: '查询', name: 'isQuery', width: 60, editable: true, align: 'center'},
-                {label: '查询匹配方式', name: 'queryType', width: 100, editable: true, align: 'center'},
-                {label: '显示表单类型', name: 'showType', width: 100, editable: true, align: 'center'},
-                {label: '字典类型', name: 'dictType', width: 100, editable: true, align: 'center'},
-                {label: '排序', name: 'sort', width: 100, editable: true, align: 'center'},
-            ],
+            colModel    : colModel,
             ondblClickRow: null
         });
 
@@ -73,7 +60,9 @@ class GenEditForm extends ListComponent {
             if (data) {
                 this.setState({submiting: true});
                 data = self.state.editData !== null ? Object.assign(self.state.editData, data) : data;
-                u.get('/api/dict/save?'+ $.param(data),function(data) {
+                let list  = this.getGrid().getRowData(null,true);
+
+                u.post(this.encodeUrl('saveBatch'),{data,list},function(data){
                     let tip;
                     self.setState({submiting: false});
                     if (data.code === 0) {
@@ -121,9 +110,9 @@ class GenEditForm extends ListComponent {
             bean.success()?$t.setState({tableList:bean.data}):null;
         })
 
-        $t.loadTableInfo = (name)=>{
+        $t.loadTableInfo = (tableName)=>{
             let grid =$t.getGrid();
-            grid.setGridParam({postData: {name}});
+            grid.setGridParam({postData: {tableName}});
             grid.trigger('reloadGrid');
         }
     }
@@ -193,11 +182,33 @@ class GenEditForm extends ListComponent {
                                 </FormItem>
                             </Col>
                             <Col span={6}>
+                                <FormItem label="包名" {...formItemLayout}>
+                                    {getFieldDecorator('packageName', {
+                                        rules: [{required: true, message: '请输入有效的类名!'}],
+                                        initialValue:"bus"
+                                    })(
+                                        <Input placeholder="包名"/>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={6}>
                                 <FormItem label="类名" {...formItemLayout}>
                                     {getFieldDecorator('className', {
                                         rules: [{required: true, message: '请输入有效的类名!'}],
                                     })(
                                         <Input placeholder="类名"/>
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}>
+                                <FormItem label="类型" {...formItemLayout}>
+                                    {getFieldDecorator('type',{initialValue:"0"})(
+                                        <Select placeholder="类型" >
+                                            <Option value="0">普通</Option>
+                                            <Option value="1">树形</Option>
+                                        </Select>
                                     )}
                                 </FormItem>
                             </Col>
