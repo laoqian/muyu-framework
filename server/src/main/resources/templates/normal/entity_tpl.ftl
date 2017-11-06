@@ -20,9 +20,9 @@ import ${package};
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class ${entityName} extends DataEntity<${entityName}> {
+public class ${entityName} extends ${pClass}<${entityName}> {
 	private static final long serialVersionUID = 1L;
 	<#list columnList as column>
-		${column["javaType"]} ${column["name"]};  //${column["comments"]}
+    ${column["javaType"]} ${column["javaFiled"]};  //${column["comments"]}
 	</#list>
 }

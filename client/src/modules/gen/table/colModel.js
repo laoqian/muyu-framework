@@ -15,6 +15,6 @@ let colModel =
     {label: '显示表单类型', name: 'showType', width: 100, editable: true, align: 'center'},
     {label: '字典类型', name: 'dictType', width: 100, editable: true, align: 'center'},
     {label: '排序', name: 'sort', width: 100, editable: true, align: 'center'},
-]
+];
 
 export default colModel;

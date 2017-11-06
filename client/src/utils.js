@@ -108,13 +108,11 @@ u.configuration = ()=>{
         if(bean.success()){
             u.system   = bean.data;
             u.loadSuccess = true;
-            console.log(`请求系统配置完成`,u);
+            console.log(`请求系统配置完成`,bean);
         }
     });
 }
 u.online = function(){
-
-    console.log(`请求---`+u.loadSuccess);
     if(u.loadSuccess){
         return;
     }

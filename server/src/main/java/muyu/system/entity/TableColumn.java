@@ -4,6 +4,7 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.utils.ExtendUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -28,8 +29,8 @@ public class TableColumn extends DataEntity<TableColumn> {
 	Integer length;
 	String  javaType;
 	String  javaFiled;
-	Boolean isEmpty;
-	Boolean isQuery = false;
+	Integer isEmpty;
+	Integer isQuery =1 ;
 	String  queryType;
 	String  showType;
 	String  dictType;
@@ -37,6 +38,11 @@ public class TableColumn extends DataEntity<TableColumn> {
 
 	public String getComments() {
 		return StringUtils.isBlank(comments)?name:comments;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+		this.javaFiled = ExtendUtils.underline2Camel(name,true);
 	}
 
 	public String getJavaType(){

@@ -10,6 +10,7 @@ import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.persistence.TreeEntity;
 import muyu.system.common.service.CrudService;
 import muyu.system.common.utils.ExtendUtils;
 import muyu.system.dao.GenDao;
@@ -85,12 +86,12 @@ public class GenService extends CrudService<GenDao,Table>{
     public ResultPageBean<List> findTableColumn(HttpServletRequest request,TableColumn tableColumn){
         ResultPageBean bean = new ResultPageBean(request);
 
-
         if(StringUtils.isBlank(tableColumn.getName()) || StringUtils.isBlank(tableColumn.getGenTableId())){
 
             List<TableColumn> list  =dao.findTableColumn(tableColumn);
+            int i =1;
             for (TableColumn column : list) {
-                column.setName(ExtendUtils.underline2Camel(column.getName(), true));
+                column.setSort(10*i++);
             }
 
             bean.setList(list);
@@ -125,7 +126,6 @@ public class GenService extends CrudService<GenDao,Table>{
             }
         });
 
-        String entityName = ExtendUtils.underline2Camel(table.getName(),true);
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         System.out.println("tplBasePath:"+tplBasePath);
         Resource resource = resolver.getResource(tplBasePath);
@@ -137,7 +137,16 @@ public class GenService extends CrudService<GenDao,Table>{
         List<TableColumn> list = gen.getList();
         /*去除父类中已有的属性*/
         List<TableColumn> columnList  = new ArrayList<>();
-        Class<?> clz = DataEntity.class;
+        Class<?> clz;
+        if(gen.getType()==0){
+            clz = DataEntity.class;
+            cfg.setSharedVariable("pClass"   ,"DataEntity");
+
+        }else{
+            clz = TreeEntity.class;
+            cfg.setSharedVariable("pClass"   ,"TreeEntity");
+        }
+
         Field[] fields = clz.getDeclaredFields();
         HashSet filedSet = new HashSet();
         HashSet packages = new HashSet();
@@ -146,7 +155,7 @@ public class GenService extends CrudService<GenDao,Table>{
         }
 
         for(TableColumn column : list){
-            if(!filedSet.contains(column.getName())){
+            if(!filedSet.contains(column.getJavaFiled())){
                 columnList.add(column);
             }
             Class<?> c = null;
@@ -181,13 +190,13 @@ public class GenService extends CrudService<GenDao,Table>{
         cfg.setSharedVariable("packages"   ,packages);
         cfg.setSharedVariable("columnList" ,columnList);
         cfg.setSharedVariable("createDate" ,new Date());
-        cfg.setSharedVariable("entityName" ,entityName);
+        cfg.setSharedVariable("entityName" ,gen.getEntityName());
         cfg.setSharedVariable("packageName",gen.getPackageName());
 
         HashMap weaponMap = new HashMap();
 
         Template template = cfg.getTemplate("entity_tpl.ftl");
-        String fileName =baseDir+gen.getPackageMap().get("entityPakage")+"/"+entityName+".java";
+        String fileName =baseDir+gen.getPackageMap().get("entityPakage")+"/"+gen.getEntityName()+".java";
         File entity = new File(fileName);
         if(!entity.exists() && !entity.createNewFile()){
             System.out.println("创建实体文件失败:"+fileName);
