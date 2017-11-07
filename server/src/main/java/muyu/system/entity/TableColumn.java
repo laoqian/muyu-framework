@@ -28,9 +28,9 @@ public class TableColumn extends DataEntity<TableColumn> {
 	String  jdbcType;
 	Integer length;
 	String  javaType;
-	String  javaFiled;
+	String  javaField;
 	Integer isEmpty;
-	Integer isQuery =1 ;
+	Integer isQuery =1;
 	String  queryType;
 	String  showType;
 	String  dictType;
@@ -42,7 +42,7 @@ public class TableColumn extends DataEntity<TableColumn> {
 
 	public void setName(String name) {
 		this.name = name;
-		this.javaFiled = ExtendUtils.underline2Camel(name,true);
+		this.javaField = ExtendUtils.underline2Camel(name,true);
 	}
 
 	public String getJavaType(){

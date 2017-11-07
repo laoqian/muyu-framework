@@ -14,7 +14,7 @@ import ${package};
  * 孤舟蓑笠翁，独钓寒江雪。
  * ${entityName}
  * @author  于其先
- * @version
+ * @version ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  */
 
 @EqualsAndHashCode(callSuper = true)
@@ -23,6 +23,6 @@ import ${package};
 public class ${entityName} extends ${pClass}<${entityName}> {
 	private static final long serialVersionUID = 1L;
 	<#list columnList as column>
-    ${column["javaType"]} ${column["javaFiled"]};  //${column["comments"]}
+    ${column["javaType"]} ${column["javaField"]};  //${column["comments"]}
 	</#list>
 }

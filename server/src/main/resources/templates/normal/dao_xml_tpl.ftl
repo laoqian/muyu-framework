@@ -1,66 +1,76 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="muyu.system.dao.DictDao">
+<mapper namespace="${packageName+".dao."+daoName}">
 
-    <select id="get" resultType="Dict">
+    <sql id="${entityName+"Columns"}">
+    <#list list as column>
+        ${"a."+column["name"]} AS "${column["javaField"]}";
+    </#list>
+    </sql>
+
+    <sql id="${entityName+"Joins"}">
+    </sql>
+
+    <select id="get" resultType="${entityName}">
         SELECT
-        *
-        FROM sys_dict a
-        WHERE a.id=#{id}
+        <include refid="${entityName+"Columns"}"/>
+        FROM ${tableName} a
+        <include refid="${entityName+"Joins"}"/>
+        WHERE a.id = ${r'#{id}'}
     </select>
-    <select id="findList" resultType="Dict">
+
+    <select id="query" resultType="${entityName}">
         SELECT
-          *
-        FROM sys_dict a
+        <include refid="${entityName+"Columns"}"/>
+        FROM ${tableName} a
+        <include refid="${entityName+"Joins"}"/>
+        WHERE a.id = ${r'#{id}'}
+    </select>
+
+    <select id="findList" resultType="${entityName}">
+        SELECT
+        <include refid="${entityName+"Columns"}"/>
+        FROM ${tableName} a
+        <include refid="${entityName+"Joins"}"/>
         <where>
-            <if test="type!=null and type!=''">
-                a.type=#{type}
-            </if>
         </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${r'${page.orderBy}'}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
     </select>
-    <insert id="insert" parameterType="Dict">
-        INSERT INTO sys_dict
-        (
-              id,
-              value,
-              label,
-              type,
-              description,
-              sort,
-              create_by,
-              create_date,
-              update_by,
-              update_date,
-              remarks
-          )
-          VALUES (
-              #{id},
-              #{value},
-              #{label},
-              #{type},
-              #{description},
-              #{sort},
-              #{createBy.id},
-              #{createDate},
-              #{updateBy.id},
-              #{updateDate},
-              #{remarks}
-          )
+
+
+    <insert id="insert">
+        INSERT INTO ${tableName}(
+        <#list list as column>
+            ${column["name"]}<#if column_has_next>,</#if>
+        </#list>
+        ) VALUES (
+        <#list list as column>
+            ${"#\{"+column["javaField"]+"}"}<#if column_has_next>,</#if>
+        </#list>
+        )
     </insert>
+
     <update id="update">
-        UPDATE sys_dict SET
-          value = #{value},
-          label =  #{label},
-          type = #{type},
-          description =   #{description},
-          sort =   #{sort},
-          parent_id =   #{parentId},
-          update_by =   #{updateBy.id},
-          update_date =   #{updateDate},
-          remarks =#{remarks}
-        WHERE id=#{id}
+        UPDATE ${tableName} SET
+        <#list list as column>
+            ${column["name"]+"=#\{"+column["javaField"]+"}"}<#if column_has_next>,</#if>
+        </#list>
+        WHERE id = ${r'#{id}'}
     </update>
-    <delete id="delete">
-      DELETE FROM sys_dict where id=#{id}
-    </delete>
+
+    <update id="delete">
+        DELETE FROM ${tableName}
+        WHERE id =  ${r'#{id}'}
+    </update>
+    <update id="logicDelete">
+        UPDATE ${tableName} SET del_flag = 1
+        WHERE id = ${r'#{id}'}
+    </update>
 </mapper>

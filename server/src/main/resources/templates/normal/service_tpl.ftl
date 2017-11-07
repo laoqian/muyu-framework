@@ -1,8 +1,8 @@
-package muyu.system.service;
+package ${packageName+".service"};
 
 import muyu.system.common.service.CrudService;
-import muyu.system.dao.DictDao;
-import muyu.system.entity.Dict;
+import ${packageName+".dao."+daoName};
+import ${packageName+".entity."+entityName};
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
  * 孤舟蓑笠翁，独钓寒江雪。
  *
  * @author: 于其先
- * @date: 2017/9/15
+ * @date: ${createDate?string("yyyy-MM-dd HH:mm:ss")}
  * @version: 1.0.0
  */
 
 @Service
 @Transactional
-public class DictService extends CrudService<DictDao,Dict>{
+public class ${serviceName} extends CrudService<${daoName},${entityName}>{
 
 }

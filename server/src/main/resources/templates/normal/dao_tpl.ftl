@@ -1,7 +1,7 @@
-package muyu.system.dao;
+package ${packageName+".dao"};
 
 import muyu.system.common.persistence.CrudDao;
-import muyu.system.entity.Dict;
+import ${packageName+".entity."+entityName};
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -11,6 +11,6 @@ import muyu.system.entity.Dict;
  * @date: 2017/9/15
  * @version: 1.0.0
  */
-public interface DictDao extends CrudDao<Dict>{
+public interface ${daoName} extends CrudDao<${entityName}>{
 
 }

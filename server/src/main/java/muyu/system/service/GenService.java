@@ -59,11 +59,12 @@ public class GenService extends CrudService<GenDao,Table>{
             this.table = table;
             this.list = list;
 
-            String dir = packageName.replace(".","/");
+            String dir = "./src/main/java/"+packageName.replace(".","/");
             this.packageMap.put("entityPakage",dir+"/entity");
             this.packageMap.put("daoPakage",dir+"/dao");
-            this.packageMap.put("webPakage",dir+"/web");
+            this.packageMap.put("controllerPakage",dir+"/web");
             this.packageMap.put("servicePakage",dir+"/service");
+            this.packageMap.put("xml","./src/main/resources/"+table.getPackageName());
 
             int pos = StringUtils.indexOf(table.getName(),'_');
             if(pos>0){
@@ -108,8 +109,8 @@ public class GenService extends CrudService<GenDao,Table>{
     public ResultBean<Table> genCode(HttpServletRequest request,SubmitBatchBean<Table,TableColumn> batchBean) throws IOException, TemplateModelException {
         Table table             = batchBean.getData();
         Configuration cfg       = new Configuration(Configuration.VERSION_2_3_23);
-        String tplBasePath      = "classpath:/templates/normal/";
-        String baseDir          = "src/main/java/";
+        String tplBasePath;
+
 
         GenConfiguration gen = new GenConfiguration(
                 StringUtils.split(this.getClass().getPackage().getName(),".")[0]+"."+ table.getPackageName(),
@@ -118,19 +119,13 @@ public class GenService extends CrudService<GenDao,Table>{
 
         /*创建包目录*/
         gen.getPackageMap().forEach((key,dir)->{
-            String dirName = baseDir+ dir;
-            System.out.println("创建目录:"+dirName);
-            File file = new File(dirName);
+            System.out.println("创建目录:"+dir);
+            File file = new File(dir);
             if(!file.exists() && !file.mkdirs()){
-                System.out.println("创建目录失败:"+dirName);
+                System.out.println("创建目录失败:"+dir);
             }
         });
 
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        System.out.println("tplBasePath:"+tplBasePath);
-        Resource resource = resolver.getResource(tplBasePath);
-
-        cfg.setDirectoryForTemplateLoading(resource.getFile());
         cfg.setDefaultEncoding("UTF-8");
         cfg.setSharedVariable("list"    ,gen.getList());
 
@@ -139,13 +134,21 @@ public class GenService extends CrudService<GenDao,Table>{
         List<TableColumn> columnList  = new ArrayList<>();
         Class<?> clz;
         if(gen.getType()==0){
+            tplBasePath = "classpath:/templates/normal/";
             clz = DataEntity.class;
             cfg.setSharedVariable("pClass"   ,"DataEntity");
 
         }else{
+            tplBasePath = "classpath:/templates/tree/";
             clz = TreeEntity.class;
             cfg.setSharedVariable("pClass"   ,"TreeEntity");
         }
+
+
+        System.out.println("tplBasePath:"+tplBasePath);
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource resource = resolver.getResource(tplBasePath);
+        cfg.setDirectoryForTemplateLoading(resource.getFile());
 
         Field[] fields = clz.getDeclaredFields();
         HashSet filedSet = new HashSet();
@@ -155,7 +158,7 @@ public class GenService extends CrudService<GenDao,Table>{
         }
 
         for(TableColumn column : list){
-            if(!filedSet.contains(column.getJavaFiled())){
+            if(!filedSet.contains(column.getJavaField())){
                 columnList.add(column);
             }
             Class<?> c = null;
@@ -187,29 +190,52 @@ public class GenService extends CrudService<GenDao,Table>{
             }
         }
 
-        cfg.setSharedVariable("packages"   ,packages);
-        cfg.setSharedVariable("columnList" ,columnList);
-        cfg.setSharedVariable("createDate" ,new Date());
-        cfg.setSharedVariable("entityName" ,gen.getEntityName());
-        cfg.setSharedVariable("packageName",gen.getPackageName());
+        cfg.setSharedVariable("tableName"       ,table.getName());
+        cfg.setSharedVariable("packages"        ,packages);
+        cfg.setSharedVariable("columnList"      ,columnList);
+        cfg.setSharedVariable("list"            ,list);
+        cfg.setSharedVariable("createDate"      ,new Date());
+        cfg.setSharedVariable("packageName"     ,gen.getPackageName());
+        cfg.setSharedVariable("entityName"      ,gen.getEntityName());
+        cfg.setSharedVariable("daoName"         ,gen.getEntityName()+"Dao");
+        cfg.setSharedVariable("serviceName"     ,gen.getEntityName()+"Service");
+        cfg.setSharedVariable("controllerName"  ,gen.getEntityName()+"Controller");
 
         HashMap weaponMap = new HashMap();
 
-        Template template = cfg.getTemplate("entity_tpl.ftl");
-        String fileName =baseDir+gen.getPackageMap().get("entityPakage")+"/"+gen.getEntityName()+".java";
-        File entity = new File(fileName);
-        if(!entity.exists() && !entity.createNewFile()){
-            System.out.println("创建实体文件失败:"+fileName);
-        }
+        String entityFileName = gen.getPackageMap().get("entityPakage")+"/"+gen.getEntityName()+".java";
+        String daoFileName = gen.getPackageMap().get("daoPakage")+"/"+cfg.getSharedVariable("daoName")+".java";
+        String serviceFileName = gen.getPackageMap().get("servicePakage")+"/"+cfg.getSharedVariable("serviceName")+".java";
+        String controllerFileName = gen.getPackageMap().get("controllerPakage")+"/"+cfg.getSharedVariable("controllerName")+".java";
+        String xmlFileName = gen.getPackageMap().get("xml")+"/"+cfg.getSharedVariable("daoName")+".xml";
 
-        try (OutputStream out = new FileOutputStream(entity)) {
-            Writer writer = new OutputStreamWriter(out, "UTF-8");
+        genFile(cfg,"entity",entityFileName,weaponMap);
+        genFile(cfg,"dao",daoFileName,weaponMap);
+        genFile(cfg,"service",serviceFileName,weaponMap);
+        genFile(cfg,"controller",controllerFileName,weaponMap);
+        System.out.println(xmlFileName);
+        genFile(cfg,"dao_xml",xmlFileName,weaponMap);
 
-            template.process(weaponMap,writer);
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        }
 
         return  new ResultBean<>("生成代码成功",true);
     }
+
+    private void  genFile(Configuration cfg,String tplName,String fileName,Map varMap) throws IOException {
+                /*生成实体*/
+        File file = new File(fileName);
+        if(!file.exists() && !file.createNewFile()){
+            System.out.println("创建文件失败:"+fileName);
+        }
+
+        Template template = cfg.getTemplate(tplName+"_tpl.ftl");
+
+        try (OutputStream out = new FileOutputStream(file)) {
+            Writer writer = new OutputStreamWriter(out, "UTF-8");
+
+            template.process(varMap,writer);
+        } catch (TemplateException e){
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -195,6 +195,7 @@ class GenEditForm extends ListComponent {
                                 <FormItem label="类名" {...formItemLayout}>
                                     {getFieldDecorator('className', {
                                         rules: [{required: true, message: '请输入有效的类名!'}],
+                                        initialValue:"User"
                                     })(
                                         <Input placeholder="类名"/>
                                     )}
