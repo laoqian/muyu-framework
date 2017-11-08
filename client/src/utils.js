@@ -48,7 +48,7 @@ u.ajax = (options)=>{
             }
         },
         error       : function(error) {
-            let msg = '错误代码:'+error.status+',信息：'+error.statusText;
+            let msg = '错误代码:'+error.status+',信息：'+ error.statusText;
             notification.error({message:msg});
             let data ={code:FAIL,msg};
 
@@ -77,7 +77,6 @@ u.getDict = (type)=>{
         dicts?dicts.forEach(v=>v.type===type?d.push(v):null):null;
     }
 
-    console.log(u);
     return d;
 };
 

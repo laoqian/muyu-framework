@@ -214,6 +214,30 @@ class GenEditForm extends ListComponent {
                                 </FormItem>
                             </Col>
                             <Col span={6}>
+                                <FormItem label="编辑类型" {...formItemLayout}>
+                                    {getFieldDecorator('editType',{initialValue:"0"})(
+                                        <Select placeholder="编辑类型" >
+                                            <Option value="0">弹出编辑框</Option>
+                                            <Option value="1">行内编辑</Option>
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </Col>
+                            <Col span={6}>
+                                <FormItem label="生成类型" {...formItemLayout}>
+                                    {getFieldDecorator('genType',{initialValue:"3"})(
+                                        <Select placeholder="生成类型" >
+                                            <Option value="0">仅保存配置</Option>
+                                            <Option value="1">仅生成服务端代码</Option>
+                                            <Option value="2">仅生成客户端代码</Option>
+                                            <Option value="3">全部生成</Option>
+                                        </Select>
+                                    )}
+                                </FormItem>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={6}>
                                 <FormItem label="说明" {...formItemLayout}>
                                     {getFieldDecorator('comments')(
                                         <Input placeholder="说明"/>

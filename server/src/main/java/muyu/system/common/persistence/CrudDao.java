@@ -70,4 +70,7 @@ public interface CrudDao<T> extends BaseDao {
 	 */
 	int delete(T entity);
 
+
+	int logicDelete(T entity);
+
 }

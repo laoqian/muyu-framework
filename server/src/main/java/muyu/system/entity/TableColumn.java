@@ -21,20 +21,23 @@ import org.apache.commons.lang3.StringUtils;
 public class TableColumn extends DataEntity<TableColumn> {
 
 
-	String  tableName;
-	String  genTableId;
-	String  name;
-	String  comments;
-	String  jdbcType;
-	Integer length;
-	String  javaType;
-	String  javaField;
-	Integer isEmpty;
-	Integer isQuery =1;
-	String  queryType;
-	String  showType;
-	String  dictType;
-	Integer sort;
+	String genTableId;  //gen_table_id
+	String name;  //name
+	String comments;  //comments
+	String jdbcType;  //jdbc_type
+	String javaType;  //java_type
+	String javaField;  //java_field
+	String isPk;  //is_pk
+	String isNull;  //is_null
+	String isInsert;  //is_insert
+	String isEdit;  //is_edit
+	String isList;  //is_list
+	String isQuery;  //is_query
+	String queryType;  //query_type
+	String showType;  //show_type
+	String dictType;  //dict_type
+	String settings;  //settings
+	Integer sort;  //sort
 
 	public String getComments() {
 		return StringUtils.isBlank(comments)?name:comments;

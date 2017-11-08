@@ -107,7 +107,7 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	 * @param entity
 	 */
 	@Transactional(readOnly = false)
-	public ResultBean<T> save(T entity) {
+	public void saveSingle(T entity) {
 		if (entity.getIsNewRecord()){
 
 			if(StringUtils.isBlank(entity.getId())){
@@ -121,9 +121,20 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 			dao.update(entity);
 		}
 
-		return new ResultBean<>(entity);
+
 	}
 
+	@Transactional(readOnly = false)
+	public ResultBean<T> save(T entity) {
+		saveSingle(entity);
+		return new ResultBean<>();
+	}
+
+	@Transactional(readOnly = false)
+	public ResultBean<T> save(List<T> list) {
+		list.forEach(this::saveSingle);
+		return new ResultBean<>();
+	}
 
 	/**
 	 * 删除数据
@@ -132,6 +143,16 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	@Transactional(readOnly = false)
 	public ResultBean<T> delete(T entity) {
 		dao.delete(entity);
+		return new ResultBean<>(entity);
+	}
+
+	/**
+	 * 删除数据
+	 * @param entity
+	 */
+	@Transactional(readOnly = false)
+	public ResultBean<T> logicDelete(T entity) {
+		dao.logicDelete(entity);
 		return new ResultBean<>(entity);
 	}
 

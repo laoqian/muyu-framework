@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.system.dao.TableColumnDao">
+
+    <sql id="TableColumnColumns">
+        a.id AS "id";
+        a.gen_table_id AS "genTableId";
+        a.name AS "name";
+        a.comments AS "comments";
+        a.jdbc_type AS "jdbcType";
+        a.java_type AS "javaType";
+        a.java_field AS "javaField";
+        a.is_pk AS "isPk";
+        a.is_null AS "isNull";
+        a.is_insert AS "isInsert";
+        a.is_edit AS "isEdit";
+        a.is_list AS "isList";
+        a.is_query AS "isQuery";
+        a.query_type AS "queryType";
+        a.show_type AS "showType";
+        a.dict_type AS "dictType";
+        a.settings AS "settings";
+        a.sort AS "sort";
+        a.create_by AS "createBy.id";
+        a.create_date AS "createDate";
+        a.update_by AS "updateBy.id";
+        a.update_date AS "updateDate";
+        a.remarks AS "remarks";
+        a.del_flag AS "delFlag";
+    </sql>
+
+    <sql id="TableColumnJoins">
+    </sql>
+
+    <select id="get" resultType="TableColumn">
+        SELECT
+        <include refid="TableColumnColumns"/>
+        FROM gen_table_column a
+        <include refid="TableColumnJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="query" resultType="TableColumn">
+        SELECT
+        <include refid="TableColumnColumns"/>
+        FROM gen_table_column a
+        <include refid="TableColumnJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="TableColumn">
+        SELECT
+        <include refid="TableColumnColumns"/>
+        FROM gen_table_column a
+        <include refid="TableColumnJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO gen_table_column(
+            id,
+            gen_table_id,
+            name,
+            comments,
+            jdbc_type,
+            java_type,
+            java_field,
+            is_pk,
+            is_null,
+            is_insert,
+            is_edit,
+            is_list,
+            is_query,
+            query_type,
+            show_type,
+            dict_type,
+            settings,
+            sort,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{id},
+            #{genTableId},
+            #{name},
+            #{comments},
+            #{jdbcType},
+            #{javaType},
+            #{javaField},
+            #{isPk},
+            #{isNull},
+            #{isInsert},
+            #{isEdit},
+            #{isList},
+            #{isQuery},
+            #{queryType},
+            #{showType},
+            #{dictType},
+            #{settings},
+            #{sort},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE gen_table_column SET
+            id=#{id},
+            gen_table_id=#{genTableId},
+            name=#{name},
+            comments=#{comments},
+            jdbc_type=#{jdbcType},
+            java_type=#{javaType},
+            java_field=#{javaField},
+            is_pk=#{isPk},
+            is_null=#{isNull},
+            is_insert=#{isInsert},
+            is_edit=#{isEdit},
+            is_list=#{isList},
+            is_query=#{isQuery},
+            query_type=#{queryType},
+            show_type=#{showType},
+            dict_type=#{dictType},
+            settings=#{settings},
+            sort=#{sort},
+            create_by=#{createBy.id},
+            create_date=#{createDate},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM gen_table_column
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE gen_table_column SET del_flag = 1
+        WHERE id = #{id}
+    </update>
+    <update id="deleteByQuery">
+        DELETE FROM gen_table_column
+        <where>
+            <if test="genTableId!=null and genTableId!=''">
+                AND gen_table_id=#{genTableId}
+            </if>
+        </where>
+    </update>
+</mapper>

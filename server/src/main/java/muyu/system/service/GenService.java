@@ -13,11 +13,14 @@ import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.persistence.TreeEntity;
 import muyu.system.common.service.CrudService;
 import muyu.system.common.utils.ExtendUtils;
+import muyu.system.common.utils.IdUtils;
 import muyu.system.dao.GenDao;
+import muyu.system.dao.TableColumnDao;
 import muyu.system.entity.Table;
 import muyu.system.entity.TableColumn;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Case;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -43,6 +46,9 @@ import java.util.*;
 @Service
 @Transactional
 public class GenService extends CrudService<GenDao,Table>{
+
+    @Autowired
+    TableColumnDao tableColumnDao;
 
     @NoArgsConstructor
     @Data
@@ -102,11 +108,40 @@ public class GenService extends CrudService<GenDao,Table>{
 
 
     public ResultBean<Table> saveBatch(HttpServletRequest request,SubmitBatchBean<Table,TableColumn> batchBean) throws IOException, TemplateException {
-        return genCode(request,batchBean);
+        Table table = batchBean.getData();
+        List<TableColumn> list  = batchBean.getList();
+        TableColumn query = new TableColumn();
+        super.save(table);
+        query.setGenTableId(table.getId());
+        tableColumnDao.deleteByQuery(query);
+        list.forEach(tableColumn ->{
+            tableColumn.setGenTableId(table.getId());
+            tableColumn.preInsert();
+            tableColumn.setId(IdUtils.genId());
+            tableColumnDao.insert(tableColumn);
+        });
+
+
+        switch (table.getGenType()){
+            case 1:
+                genServerCode(request,batchBean);
+                break;
+            case 2:
+                genClientCode(request,batchBean);
+                break;
+            case 3:
+                genServerCode(request,batchBean);
+                genClientCode(request,batchBean);
+        }
+
+        return new ResultBean<>();
     }
 
+    private void genClientCode(HttpServletRequest request, SubmitBatchBean<Table, TableColumn> batchBean) throws IOException, TemplateModelException {
 
-    public ResultBean<Table> genCode(HttpServletRequest request,SubmitBatchBean<Table,TableColumn> batchBean) throws IOException, TemplateModelException {
+    }
+
+    private void genServerCode(HttpServletRequest request, SubmitBatchBean<Table, TableColumn> batchBean) throws IOException, TemplateModelException {
         Table table             = batchBean.getData();
         Configuration cfg       = new Configuration(Configuration.VERSION_2_3_23);
         String tplBasePath;
@@ -215,12 +250,9 @@ public class GenService extends CrudService<GenDao,Table>{
         genFile(cfg,"controller",controllerFileName,weaponMap);
         System.out.println(xmlFileName);
         genFile(cfg,"dao_xml",xmlFileName,weaponMap);
-
-
-        return  new ResultBean<>("生成代码成功",true);
     }
 
-    private void  genFile(Configuration cfg,String tplName,String fileName,Map varMap) throws IOException {
+    private void  genFile(Configuration cfg,String tplName,String fileName,Map varMap) throws IOException{
                 /*生成实体*/
         File file = new File(fileName);
         if(!file.exists() && !file.createNewFile()){
