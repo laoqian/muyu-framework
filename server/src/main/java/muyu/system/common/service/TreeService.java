@@ -5,7 +5,7 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.TreeDao;
 import muyu.system.common.persistence.TreeEntity;
 import muyu.system.common.tree.TreeNode;
-import muyu.system.common.utils.IdUtils;
+import muyu.system.utils.IdUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 

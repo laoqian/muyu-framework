@@ -8,7 +8,7 @@ import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
-import muyu.system.common.utils.IdUtils;
+import muyu.system.utils.IdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

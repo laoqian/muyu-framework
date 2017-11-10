@@ -12,14 +12,13 @@ import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.persistence.TreeEntity;
 import muyu.system.common.service.CrudService;
-import muyu.system.common.utils.ExtendUtils;
-import muyu.system.common.utils.IdUtils;
+import muyu.system.utils.ExtendUtils;
+import muyu.system.utils.IdUtils;
 import muyu.system.dao.GenDao;
 import muyu.system.dao.TableColumnDao;
 import muyu.system.entity.Table;
 import muyu.system.entity.TableColumn;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -29,7 +28,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.*;
@@ -120,7 +118,6 @@ public class GenService extends CrudService<GenDao,Table>{
             tableColumn.setId(IdUtils.genId());
             tableColumnDao.insert(tableColumn);
         });
-
 
         switch (table.getGenType()){
             case 1:

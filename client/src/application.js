@@ -8,12 +8,14 @@ import BaseComponent  from './modules/base/BaseComponent'
 import store from './redux/store/configure'
 import Login from './layouts/login'
 import {tabAdd,tabDelete,tabSel} from './redux/actions/tabs'
-import {userAuth} from './redux/actions/user'
+import {userAuth,userLogout} from './redux/actions/user'
+import { notification } from 'antd';
 
 const TabPane = Tabs.TabPane;
 
 const { Header, Content,Sider } = Layout;
 const { SubMenu } = Menu;
+
 
 
 
@@ -58,9 +60,7 @@ class App extends BaseComponent{
 
         };
 
-        this.dropHander.logout = ()=>{
-
-        }
+        this.dropHander.logout = ()=>this.props.userLogout();
 
         this.after = ()=>{
 
@@ -76,13 +76,20 @@ class App extends BaseComponent{
         let password = u.cookies.get('password');
         if(username &&　password){
             let {userAuth} = this.props;
-            userAuth(username,password);
+            // userAuth(username,password);
         }
 
+        /*通知框初始化*/
+        notification.config({
+            placement:'bottomRight',
+            bottom: 50,
+            duration: 3,
+        });
         this.after();
     }
 
     componentDidUpdate(prevProps, prevState){
+
         this.after();
     }
 
@@ -191,6 +198,7 @@ App =  connect(state=>(
         tabs        :   state.tabs
     }),dispatch=>({
     userAuth        :   bindActionCreators(userAuth   ,   dispatch),
+    userLogout      :   bindActionCreators(userLogout ,   dispatch),
     tabAdd          :   bindActionCreators(tabAdd     ,   dispatch),
     tabDelete       :   bindActionCreators(tabDelete  ,   dispatch),
     tabSel          :   bindActionCreators(tabSel     ,   dispatch)

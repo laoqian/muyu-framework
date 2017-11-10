@@ -1,6 +1,7 @@
 package muyu.system.config;
 
 
+import muyu.system.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ public class RedisConfig {
 
     @Bean
     RedisCacheManager cacheManager(){
+        RedisUtils.setRedisTemplate(redisTemplate);
         return new RedisCacheManager(redisTemplate);
     }
 }

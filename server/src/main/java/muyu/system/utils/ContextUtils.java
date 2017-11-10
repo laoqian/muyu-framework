@@ -1,4 +1,4 @@
-package muyu.system.common.utils;
+package muyu.system.utils;
 
 import org.springframework.context.ApplicationContext;
 

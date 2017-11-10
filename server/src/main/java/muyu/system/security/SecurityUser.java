@@ -1,4 +1,4 @@
-package muyu.system.common.security;
+package muyu.system.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import muyu.system.entity.User;

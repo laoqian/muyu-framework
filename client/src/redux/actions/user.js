@@ -1,5 +1,5 @@
 
-import {USER_AUTH} from './def'
+import {USER_AUTH,USER_LOGOUT} from './def'
 
 export function userAuth(username, password) {
     return {
@@ -11,12 +11,11 @@ export function userAuth(username, password) {
     }
 }
 
-export function userGet(id) {
+export function userLogout() {
     return {
-        type: USER_AUTH,
-        ajax_type: 'post',
+        type: USER_LOGOUT,
+        ajax_type: 'get',
         submit_type:'url',
-        data: {id},
-        uri: 'user/get'
+        uri: 'logout'
     }
 }

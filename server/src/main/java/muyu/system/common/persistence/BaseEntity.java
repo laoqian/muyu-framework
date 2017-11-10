@@ -5,7 +5,7 @@ package muyu.system.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.pagehelper.Page;
-import muyu.system.common.utils.UserUtils;
+import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;

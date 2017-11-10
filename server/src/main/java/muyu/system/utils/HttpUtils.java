@@ -1,4 +1,4 @@
-package muyu.system.common.utils;
+package muyu.system.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

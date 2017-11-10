@@ -11,7 +11,10 @@ const fetchMiddleware = store => next => action => {
     let data ='';
 
     if(action.submit_type ==='url'){
-        url = url+'?'+$.param(action.data);
+        if(action.data){
+            url = url+'?'+$.param(action.data);
+        }
+
     }else{
         data = action.data;
     }

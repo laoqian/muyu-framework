@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import muyu.system.common.utils.UserUtils;
+import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;

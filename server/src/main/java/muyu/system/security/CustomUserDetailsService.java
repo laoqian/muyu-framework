@@ -1,4 +1,4 @@
-package muyu.system.common.security;
+package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.service.UserService;
@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        ResultBean<SecurityUser> resultBean =userService.getUser(username);
+        ResultBean<SecurityUser> resultBean = userService.getUser(username);
 
         return resultBean.getData();
     }

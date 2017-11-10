@@ -4,7 +4,7 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
-import muyu.system.common.utils.ExtendUtils;
+import muyu.system.utils.ExtendUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -20,7 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 public class TableColumn extends DataEntity<TableColumn> {
 
-
+	String tableName;  //gen_table_id
 	String genTableId;  //gen_table_id
 	String name;  //name
 	String comments;  //comments

@@ -1,11 +1,8 @@
-package muyu.system.config;
+package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
-import muyu.system.common.security.AuthenticationProviderCustom;
-import muyu.system.common.security.CustomUserDetailsService;
-import muyu.system.common.security.SecurityUser;
-import muyu.system.common.utils.ContextUtils;
-import muyu.system.common.utils.HttpUtils;
+import muyu.system.utils.ContextUtils;
+import muyu.system.utils.HttpUtils;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;

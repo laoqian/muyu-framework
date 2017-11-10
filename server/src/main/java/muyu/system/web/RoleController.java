@@ -3,11 +3,8 @@ package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
-import muyu.system.common.utils.UserUtils;
 import muyu.system.entity.Role;
 import muyu.system.service.RoleService;
-import muyu.system.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

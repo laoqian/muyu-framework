@@ -24,7 +24,7 @@ function auth_reducer(state = user.toJS(),action) {
 
             break;
         case USER_LOGOUT:
-            user = user.merge({authed: {}});
+            user = immutable.Map({});
             state = user.toJS();
             notification.success({message:'退出成功'});
             break;

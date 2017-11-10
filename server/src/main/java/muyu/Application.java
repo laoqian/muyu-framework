@@ -1,6 +1,6 @@
 package muyu;
 
-import muyu.system.common.utils.ContextUtils;
+import muyu.system.utils.ContextUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

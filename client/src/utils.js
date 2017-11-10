@@ -14,7 +14,7 @@ let u = {
 
 u.ajax = (options)=>{
 
-    const NO_LOGIN          =  -1;
+    const NO_LOGIN          = -1;
     const SUCCESS           =  0;
     const FAIL              =  1;
     const NO_PERMISSION     =  2;
@@ -116,12 +116,7 @@ u.online = function(){
         return;
     }
 
-    /*通知框初始化*/
-    notification.config({
-        placement:'bottomRight',
-        bottom: 50,
-        duration: 3,
-    });
+
 
     /*加载系统配置*/
     let  i = 1 ;

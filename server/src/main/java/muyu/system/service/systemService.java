@@ -2,7 +2,6 @@ package muyu.system.service;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.service.BaseService;
-import muyu.system.common.utils.CacheUtils;
 import muyu.system.dao.DictDao;
 import muyu.system.dao.GenDao;
 import muyu.system.entity.Config;
@@ -32,27 +31,11 @@ public class SystemService extends BaseService{
     @Autowired
     GenDao genDao;
 
-
     public ResultBean<Config> getConfig(){
-        Config config=null;
-
-//        try{
-//            config = CacheUtils.getGlobalCache("sysConfig",Config.class);
-//
-//        }catch (Exception ex){
-//            System.out.println(ex.getMessage());
-//        }finally {
-
-//            if(config!=null){
-                config  = new Config();
+        Config config=  new Config();
                 config.setDicts(dictDao.findList(new Dict()));
                 config.setTableColumns(genDao.findTableColumn(new TableColumn()));
-                CacheUtils.putGlobalCache("sysConfig",config);
-//            }
-//        }
-
 
         return new ResultBean<>(config);
-
     }
 }

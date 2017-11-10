@@ -1,7 +1,7 @@
 package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
-import muyu.system.common.security.SecurityUser;
+import muyu.system.security.SecurityUser;
 import muyu.system.entity.Config;
 import muyu.system.service.SystemService;
 import muyu.system.service.UserService;

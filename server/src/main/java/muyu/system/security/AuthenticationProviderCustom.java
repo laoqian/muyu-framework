@@ -1,11 +1,13 @@
-package muyu.system.common.security;
+package muyu.system.security;
 
+import muyu.system.utils.RedisUtils;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -16,6 +18,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @version: 1.0.0
  */
 public class AuthenticationProviderCustom implements AuthenticationProvider {
+
+    private static final int MAX_ATTEMPTS = 3;
+
     private final UserDetailsService userDetailsService;
 
     public AuthenticationProviderCustom(UserDetailsService userDetailsService) {
@@ -36,7 +41,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
             throw new UsernameNotFoundException("用户不存在");
         }else if (!userDetails.isEnabled()){
             throw new DisabledException("用户已被禁用");
-        }else if (!userDetails.isAccountNonExpired()) {
+        }else if (!userDetails.isAccountNonExpired()){
             throw new AccountExpiredException("账号已过期");
         }else if (!userDetails.isAccountNonLocked()) {
             throw new LockedException("账号已被锁定");
@@ -48,10 +53,17 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
-            throw new BadCredentialsException("用户名/密码无效");
+            WebAuthenticationDetails details = (WebAuthenticationDetails)authentication.getDetails();
+            String key = details.getRemoteAddress() + "-attempCount";
+            long num = RedisUtils.incr(key,1);
+            if(num>MAX_ATTEMPTS){
+                throw new BadCredentialsException("超过登陆次数限制，请稍后再试："+num);
+            }
+
+            throw new BadCredentialsException("用户名/密码无效："+num);
         }
         //授权
-        return new UsernamePasswordAuthenticationToken(userDetails, password,userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
     }
 
     @Override

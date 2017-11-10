@@ -1,4 +1,4 @@
-package muyu.system.common.utils;
+package muyu.system.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
