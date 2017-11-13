@@ -1,6 +1,7 @@
 package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
+import muyu.system.entity.User;
 import muyu.system.utils.CacheUtils;
 import muyu.system.utils.ContextUtils;
 import muyu.system.utils.HttpUtils;
@@ -60,11 +61,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             ResultBean resultBean = new ResultBean(exception);
             if(exception instanceof MaxAuthedNumLimitException){
                 resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
+
+                String cacheName = request.getRemoteAddr();
+                Map varify = IdentifyCodeUtils.getCode();
+                CacheUtils.set(cacheName,"code",varify.get("code"));
+
+                User user = new User();
+                user.setAuthErrorNum((Integer) CacheUtils.get(cacheName,"attempNum"));
+                user.setBase64Image((String)varify.get("image"));
+                resultBean.setData(user);
             }
-            
-            String ipAddr = request.getRemoteAddr();
-            Map varify = IdentifyCodeUtils.getCode();
-            CacheUtils.set(ipAddr,"code",varify.get("code"));
 
             HttpUtils.sendResponse(response,resultBean);
         }

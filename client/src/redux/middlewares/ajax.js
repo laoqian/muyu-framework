@@ -28,7 +28,7 @@ const fetchMiddleware = store => next => action => {
         success:function (data){
             action.result = data;
             console.log(`ajax result:`,action);
-            data.code===0?next(action):null;
+            next(action);
         }
     });
 }

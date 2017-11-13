@@ -60,7 +60,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         WebAuthenticationDetails details = (WebAuthenticationDetails)authentication.getDetails();
         String cacheName = details.getRemoteAddress();
 
-        long num = CacheUtils.increase(cacheName,"attempCount"); /*尝试次数*/
+        long num = CacheUtils.increase(cacheName,"attempNum"); /*尝试次数*/
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
             if(num>MAX_ATTEMPTS){

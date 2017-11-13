@@ -13,9 +13,7 @@ class Login extends Component {
     }
 
     auth(e){
-     console.log(e);
         let form;
-
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -29,8 +27,14 @@ class Login extends Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState){
+    }
     render() {
+        let src =null;
 
+        if(this.props.user && this.props.user.authErrorNum>3){
+            src ='data:image/jpeg;base64,'+this.props.user.base64Image;
+        }
         const { getFieldDecorator } = this.props.form;
         return (
             <div  className="full-screen flex-hvm login-bg">
@@ -61,6 +65,7 @@ class Login extends Component {
                             登  陆
                         </Button>
                         <a href="">注册!</a>
+                        <img src={src} />
                     </FormItem>
                 </Form>
             </div>
@@ -76,7 +81,8 @@ Login.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        time: state.time
+        time: state.time,
+        user: state.user
     }
 }
 

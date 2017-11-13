@@ -30,7 +30,7 @@ public class CacheUtils{
         if(value==null){
             value = 0;
         }
-        RedisUtils.hset(cache,key,value++);
+        RedisUtils.hset(cache,key,++value);
         return value;
     }
 
