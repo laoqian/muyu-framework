@@ -55,7 +55,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         if(!password.equals(token.getCredentials())) {
             WebAuthenticationDetails details = (WebAuthenticationDetails)authentication.getDetails();
             String key = details.getRemoteAddress() + "-attempCount";
-            long num = RedisUtils.incr(key,1);
+            long num = RedisUtils.increase(key,1);
             if(num>MAX_ATTEMPTS){
                 throw new BadCredentialsException("超过登陆次数限制，请稍后再试："+num);
             }

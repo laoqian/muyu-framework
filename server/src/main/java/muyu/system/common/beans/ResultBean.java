@@ -33,4 +33,7 @@ public class ResultBean<T> extends  BaseResultBean implements Serializable {
         this.data = data;
     }
 
+    public ResultBean(Throwable t) {
+        super(t);
+    }
 }
