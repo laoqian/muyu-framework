@@ -1,10 +1,12 @@
 package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
+import muyu.system.utils.CacheUtils;
 import muyu.system.utils.ContextUtils;
 import muyu.system.utils.HttpUtils;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
+import muyu.system.utils.IdentifyCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +25,10 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -54,7 +58,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
             ResultBean resultBean = new ResultBean(exception);
-            resultBean.setMsg(exception.getMessage());
+            if(exception instanceof MaxAuthedNumLimitException){
+                resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
+            }
+            
+            String ipAddr = request.getRemoteAddr();
+            Map varify = IdentifyCodeUtils.getCode();
+            CacheUtils.set(ipAddr,"code",varify.get("code"));
+
             HttpUtils.sendResponse(response,resultBean);
         }
     }

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -30,6 +32,9 @@ public class SystemService extends BaseService{
 
     @Autowired
     GenDao genDao;
+
+    @Autowired
+    HttpSession session;
 
     public ResultBean<Config> getConfig(){
         Config config=  new Config();

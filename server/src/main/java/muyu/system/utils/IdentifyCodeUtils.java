@@ -22,17 +22,17 @@ import java.util.Random;
  */
 public class IdentifyCodeUtils {
 
-    private final int width = 90;//定义图片的width
-    private final int height = 20;//定义图片的height
-    private final int codeCount = 4;//定义图片上显示验证码的个数
-    private final int xx = 15;
-    private final int fontHeight = 18;
-    private final int codeY = 16;
-    private final char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+    private final static int width = 90;//定义图片的width
+    private final static int height = 20;//定义图片的height
+    private final static int codeCount = 4;//定义图片上显示验证码的个数
+    private final static int xx = 15;
+    private final static int fontHeight = 18;
+    private final static int codeY = 16;
+    private final static char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
             'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
             'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-    public Map<String, String> getCode(HttpServletResponse resp) throws IOException {
+    public static Map<String, String> getCode() throws IOException {
         BufferedImage buffImg = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
         Graphics gd = buffImg.getGraphics();
         // 创建一个随机数生成器类
@@ -83,11 +83,6 @@ public class IdentifyCodeUtils {
 
         // 将四位数字的验证码保存到Session中。
         // 禁止图像缓存。
-        resp.setHeader("Pragma", "no-cache");
-        resp.setHeader("Cache-Control", "no-cache");
-        resp.setDateHeader("Expires", 0);
-
-        resp.setContentType("image/jpeg");
 
         // 将图像转为base64字符串
         ByteArrayOutputStream bos = new ByteArrayOutputStream();

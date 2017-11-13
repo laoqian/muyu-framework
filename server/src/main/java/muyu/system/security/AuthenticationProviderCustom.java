@@ -1,5 +1,7 @@
 package muyu.system.security;
 
+import muyu.system.utils.CacheUtils;
+import muyu.system.utils.ContextUtils;
 import muyu.system.utils.RedisUtils;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -8,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import java.util.Map;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -50,14 +57,15 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         }
         //数据库用户的密码
         String password = userDetails.getPassword();
+        WebAuthenticationDetails details = (WebAuthenticationDetails)authentication.getDetails();
+        String cacheName = details.getRemoteAddress();
 
+        long num = CacheUtils.increase(cacheName,"attempCount"); /*尝试次数*/
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
-            WebAuthenticationDetails details = (WebAuthenticationDetails)authentication.getDetails();
-            String key = details.getRemoteAddress() + "-attempCount";
-            long num = RedisUtils.increase(key,1);
             if(num>MAX_ATTEMPTS){
-                throw new BadCredentialsException("超过登陆次数限制，请稍后再试："+num);
+
+                throw new MaxAuthedNumLimitException("超过登陆次数限制，请稍后再试："+num);
             }
 
             throw new BadCredentialsException("用户名/密码无效："+num);

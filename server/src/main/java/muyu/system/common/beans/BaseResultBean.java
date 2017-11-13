@@ -26,6 +26,8 @@ public class BaseResultBean implements Serializable {
 
     public static final int NO_PERMISSION = 2;
 
+    public static final int MAX_AUTHED_NUM_LIMIT = 3; /*最大认证错误次数限制错误*/
+
     private String msg = "成功";
 
     private int code = SUCCESS;
@@ -45,7 +47,7 @@ public class BaseResultBean implements Serializable {
 
     public BaseResultBean(Throwable e) {
         super();
-        this.msg = e.toString();
+        this.msg = e.getMessage();
         this.code = FAIL;
     }
 }
