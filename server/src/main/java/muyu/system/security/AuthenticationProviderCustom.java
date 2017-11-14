@@ -67,7 +67,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
             if(num>MAX_ATTEMPTS){
-                throw new MaxAuthedNumLimitException("超过登陆次数限制，请稍后再试："+num);
+                throw new MaxAuthedNumLimitException("用户名/密码无效："+num);
             }
 
             throw new BadCredentialsException("用户名/密码无效："+num);

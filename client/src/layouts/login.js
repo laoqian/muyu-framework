@@ -21,7 +21,7 @@ class Login extends BaseComponent {
                     $t.setState({varify:bean.data});
                 }
             })
-        }
+        };
 
         $t.getVarifyHtml= (src)=>{
             const { getFieldDecorator } = $t.props.form;
@@ -63,7 +63,8 @@ class Login extends BaseComponent {
 
     componentDidUpdate(prevProps, prevState){
         let {user} = this.props;
-        if(user && user.authErrorNum>3 && !this.state.varify){
+        let preUser  = prevProps.user;
+        if(user && user.authErrorNum>3 && ( !this.state.varify ||preUser.authErrorNum!==user.authErrorNum) ){
             this.getVarifyImage();
         }
     }
