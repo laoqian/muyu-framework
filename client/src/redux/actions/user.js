@@ -1,12 +1,12 @@
 
 import {USER_AUTH,USER_LOGOUT} from './def'
 
-export function userAuth(username, password) {
+export function userAuth(data) {
     return {
         type: USER_AUTH,
         ajax_type: 'post',
         submit_type:'url',
-        data: {username, password},
+        data,
         uri: 'login'
     }
 }

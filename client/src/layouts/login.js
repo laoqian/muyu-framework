@@ -1,44 +1,89 @@
-import React, {Component, PropTypes} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import {userAuth} from '../redux/actions/user'
 import {bindActionCreators} from 'redux'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,Col,Row } from 'antd';
+import BaseComponent from '../modules/base/BaseComponent'
 const FormItem = Form.Item;
 
-
-class Login extends Component {
+class Login extends BaseComponent {
     constructor() {
         super();
-        this.auth = this.auth.bind(this);
-    }
 
-    auth(e){
-        let form;
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                form = values;
+        let $t = this;
+        $t.state ={
+            varify :null
+        };
+
+        $t.getVarifyImage = ()=>{
+            $t.u.get($t.encodeUrl('getCachedCode'),function (bean) {
+                if(bean.success()){
+                    $t.setState({varify:bean.data});
+                }
+            })
+        }
+
+        $t.getVarifyHtml= (src)=>{
+            const { getFieldDecorator } = $t.props.form;
+            return (
+                <FormItem>
+                    <Row justify="space-between" type="flex" align="top">
+                        <Col span="14" >
+                            {getFieldDecorator('code',{
+                                required:true
+                            })(
+                                <Input prefix={<Icon type="book" style={{fontSize:13}} />}  placeholder="验证码"/>
+                            )}
+                        </Col>
+                        <Col span="10">
+                            <img src={src}  className="login-varify" onClick={this.getVarifyImage} style={{width:'100%'}}/>
+                        </Col>
+                    </Row>
+                </FormItem>
+            )
+        };
+
+        $t.auth=(e)=>{
+            let data;
+            let {validateFields} =this.props.form;
+
+            e.preventDefault();
+            validateFields((err,values) => {
+                if (!err) {
+                    console.log('Received values of form: ', values);
+                    data = values;
+                }
+            });
+
+            if(data){
+                console.log(data);
+                $t.props.auth(data);
             }
-        });
-
-        if(form!==undefined){
-            this.props.auth(form.username,form.password);
         }
     }
 
     componentDidUpdate(prevProps, prevState){
+        let {user} = this.props;
+        if(user && user.authErrorNum>3 && !this.state.varify){
+            this.getVarifyImage();
+        }
     }
     render() {
-        let src =null;
-
-        if(this.props.user && this.props.user.authErrorNum>3){
-            src ='data:image/jpeg;base64,'+this.props.user.base64Image;
+        let varifyHtml = null;
+        if(this.state.varify){
+            varifyHtml = this.getVarifyHtml('data:image/jpeg;base64,'+this.state.varify);
         }
         const { getFieldDecorator } = this.props.form;
         return (
             <div  className="full-screen flex-hvm login-bg">
                 <Form onSubmit={this.auth} className="login-form">
+                    <FormItem>
+                        <Row justify="center" type="flex">
+                            <Col >
+                                <h4 style={{color:'black'}}>木鱼快速开发框架</h4>
+                            </Col>
+                        </Row>
+                    </FormItem>
                     <FormItem>
                         {getFieldDecorator('username', {
                             rules: [{ required: true, message: '请输入有效的用户名!' }],
@@ -53,6 +98,7 @@ class Login extends Component {
                             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
                         )}
                     </FormItem>
+                    {varifyHtml}
                     <FormItem>
                         {getFieldDecorator('remember', {
                             valuePropName: 'checked',
@@ -60,12 +106,9 @@ class Login extends Component {
                         })(
                             <Checkbox>记住密码</Checkbox>
                         )}
-                        <a className="login-form-forgot" href="">忘记密码</a>
                         <Button type="primary" htmlType="submit" className="login-form-button" >
                             登  陆
                         </Button>
-                        <a href="">注册!</a>
-                        <img src={src} />
                     </FormItem>
                 </Form>
             </div>

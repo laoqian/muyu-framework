@@ -63,12 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
 
                 String cacheName = request.getRemoteAddr();
-                Map varify = IdentifyCodeUtils.getCode();
-                CacheUtils.set(cacheName,"code",varify.get("code"));
-
                 User user = new User();
                 user.setAuthErrorNum((Integer) CacheUtils.get(cacheName,"attempNum"));
-                user.setBase64Image((String)varify.get("image"));
                 resultBean.setData(user);
             }
 

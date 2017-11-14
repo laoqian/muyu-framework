@@ -12,13 +12,14 @@ import java.util.Map;
  * @version: 1.0.0
  */
 public class CacheUtils{
+    private static final int DEFAULT_TIMEOUT  	   = 900;
 
     public static Map get(String cache){
         return RedisUtils.hmget(cache);
     }
 
     public static boolean set(String cache,Map map){
-        return RedisUtils.hmset(cache,map);
+        return RedisUtils.hmset(cache,map,DEFAULT_TIMEOUT);
     }
 
     public static Object get(String cache,String key){
@@ -30,11 +31,12 @@ public class CacheUtils{
         if(value==null){
             value = 0;
         }
-        RedisUtils.hset(cache,key,++value);
+
+        set(cache,key,++value);
         return value;
     }
 
     public static boolean set(String cache,String key,Object value){
-        return RedisUtils.hset(cache,key,value);
+        return RedisUtils.hset(cache,key,value,DEFAULT_TIMEOUT);
     }
 }

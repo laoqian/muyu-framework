@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -39,5 +41,9 @@ public class SystemController{
        return systemService.getConfig();
     }
 
+    @RequestMapping("getCachedCode")
+    public ResultBean<String> getCachedCode(HttpServletRequest request) throws IOException {
+        return systemService.getCachedCode(request);
+    }
 
 }

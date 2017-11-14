@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
  */
 
 public class RedisUtils {
-
 	private static RedisTemplate redisTemplate ;
 
 	public static void setRedisTemplate(RedisTemplate redisTemplate) {

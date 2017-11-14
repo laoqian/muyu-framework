@@ -21,8 +21,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class User extends DataEntity<User> {
-
 	private static final long serialVersionUID = 1L;
+
 	private Office company;	// 归属公司		--1
 	private Office office;	// 归属部门		--2
 	private String loginName;// 登录名

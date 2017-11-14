@@ -11,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import java.util.Map;
@@ -43,7 +45,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         if(username != null) {
             userDetails = userDetailsService.loadUserByUsername(username);
         }
-        //
+
         if(userDetails == null) {
             throw new UsernameNotFoundException("用户不存在");
         }else if (!userDetails.isEnabled()){
@@ -70,7 +72,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 
             throw new BadCredentialsException("用户名/密码无效："+num);
         }
-        //授权
+
         return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
     }
 

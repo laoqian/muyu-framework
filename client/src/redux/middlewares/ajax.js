@@ -7,7 +7,7 @@ const fetchMiddleware = store => next => action => {
         return next(action);
     }
 
-    let url = u.baseUrl + '/' + action.uri;
+    let url = u.baseUrl + action.uri;
     let data ='';
 
     if(action.submit_type ==='url'){
