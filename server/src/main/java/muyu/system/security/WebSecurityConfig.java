@@ -2,12 +2,9 @@ package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.entity.User;
-import muyu.system.utils.CacheUtils;
-import muyu.system.utils.ContextUtils;
-import muyu.system.utils.HttpUtils;
+import muyu.system.utils.*;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
-import muyu.system.utils.IdentifyCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -78,10 +75,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             ResultBean<SecurityUser> resultBean = new ResultBean<>();
             SecurityUser user  = (SecurityUser)authentication.getPrincipal();
             MenuService   menuService = ContextUtils.getBean(MenuService.class);
-
             user.setMenuList(menuService.findList(new Menu()));
             resultBean.setData(user);
+
+            RedisUtils.del(request.getRemoteAddr()); /*删除缓存的验证信息等*/
             HttpUtils.sendResponse(response,resultBean);
+
+
         }
     }
 

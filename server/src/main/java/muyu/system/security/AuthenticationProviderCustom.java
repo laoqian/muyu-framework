@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -66,11 +67,20 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
         //与authentication里面的credentials相比较
         if(!password.equals(token.getCredentials())) {
             if(num>MAX_ATTEMPTS){
-
                 throw new MaxAuthedNumLimitException("超过登陆次数限制，请稍后再试："+num);
             }
 
             throw new BadCredentialsException("用户名/密码无效："+num);
+        }
+
+        if(num>MAX_ATTEMPTS){
+            HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+            String code  = request.getParameter("code");
+            String cachedCode = (String)CacheUtils.get(cacheName,"code");
+
+            if(!cachedCode.equals(code)){
+                throw new MaxAuthedNumLimitException("验证码错误："+num);
+            }
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());

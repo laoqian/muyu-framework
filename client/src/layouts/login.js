@@ -56,7 +56,6 @@ class Login extends BaseComponent {
             });
 
             if(data){
-                console.log(data);
                 $t.props.auth(data);
             }
         }
