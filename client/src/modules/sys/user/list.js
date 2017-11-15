@@ -7,6 +7,7 @@ import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import ListComponent from "../../base/ListComponent";
+import colModel from './colModel'
 
 class SyseUser extends ListComponent{
 
@@ -14,19 +15,14 @@ class SyseUser extends ListComponent{
         super(props);
 
         let $t = this;
-        $t.baseUrl    = '/api/user/'   ;
+        $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
         $t.history.push('/');
+
         $t.setGridInitParam({
             url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
-            colModel: [
-                {label: '键值', name: 'value', width: 200},
-                {label: '标签', name: 'label', width: 150},
-                {label: '类型', name: 'type', width: 150},
-                {label: '描述', name: 'description', width: 150},
-                {label: '排序', name: 'sort', width: 150}
-            ]
+            colModel
         });
 
         $t.toolBarOptions = {
@@ -71,7 +67,6 @@ class SyseUser extends ListComponent{
 }
 
 const NoMatch = ({ location }) => {
-    // notification.error({message:`路由匹配出错:${location.pathname}`});
     console.warn(`路由匹配出错:${location.pathname}`);
     return null;
 };

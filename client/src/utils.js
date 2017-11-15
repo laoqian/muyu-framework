@@ -2,6 +2,9 @@ import _ from 'lodash'
 import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import gridExtend from './modules/grid/extend'
+import React from 'react'
+import {Input,Select } from 'antd';
+const Option = Select.Option;
 
 let u = {
     baseUrl:'/api/',
@@ -134,6 +137,21 @@ u.online = function(){
 u.outline = function(){
     u.loadSuccess = false;
     u.system   = {};
+};
+
+
+u.render ={};
+
+u.render.text = option=>(<Input placeholder={option.placeholder}/>);
+
+u.render.select = (options)=>{
+    let ops = [];
+    ops.push(<Option value="">请选择</Option>);
+    options.forEach(op=>{
+        ops.push(<Option value={op.value}>{op.label}</Option>)
+    });
+
+    return <Select children={ops}/>;
 };
 
 export default u;

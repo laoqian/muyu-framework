@@ -76,7 +76,7 @@ class App extends BaseComponent{
         let password = u.cookies.get('password');
         if(username &&　password){
             let {userAuth} = this.props;
-            // userAuth(username,password);
+            userAuth({username,password});
         }
 
         /*通知框初始化*/

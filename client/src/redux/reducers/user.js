@@ -30,7 +30,6 @@ function auth_reducer(state = user.toJS(),action) {
             notification.success({message:'退出成功'});
             break;
     }
-    console.log(state);
     return state;
 }
 

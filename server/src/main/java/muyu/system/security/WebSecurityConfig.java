@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             user.setAuthErrorNum((Integer) CacheUtils.get(request.getRemoteAddr(),"attempNum"));
             resultBean.setData(user);
-            resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
+            
             HttpUtils.sendResponse(response,resultBean);
         }
     }
@@ -76,8 +76,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             RedisUtils.del(request.getRemoteAddr()); /*删除缓存的验证信息等*/
             HttpUtils.sendResponse(response,resultBean);
-
-
         }
     }
 

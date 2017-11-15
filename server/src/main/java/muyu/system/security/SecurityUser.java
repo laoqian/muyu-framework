@@ -22,7 +22,7 @@ public class SecurityUser extends User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities(){
         return null;
     }
 
@@ -34,7 +34,7 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return super.getLoginName();
+        return super.getUserName();
     }
 
     @Override
