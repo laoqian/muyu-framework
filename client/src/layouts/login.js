@@ -64,7 +64,7 @@ class Login extends BaseComponent {
     componentDidUpdate(prevProps, prevState){
         let {user} = this.props;
         let preUser  = prevProps.user;
-        if(user && user.authErrorNum>3 && ( !this.state.varify ||preUser.authErrorNum!==user.authErrorNum)){
+        if(user && user.authErrorNum>=3 && ( !this.state.varify ||preUser.authErrorNum!==user.authErrorNum)){
             this.getVarifyImage();
         }
     }

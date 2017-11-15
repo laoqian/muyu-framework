@@ -56,15 +56,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
             ResultBean resultBean = new ResultBean(exception);
-            if(exception instanceof MaxAuthedNumLimitException){
-                resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
+            User user = new User();
 
-                String cacheName = request.getRemoteAddr();
-                User user = new User();
-                user.setAuthErrorNum((Integer) CacheUtils.get(cacheName,"attempNum"));
-                resultBean.setData(user);
-            }
-
+            user.setAuthErrorNum((Integer) CacheUtils.get(request.getRemoteAddr(),"attempNum"));
+            resultBean.setData(user);
+            resultBean.setCode(ResultBean.MAX_AUTHED_NUM_LIMIT);
             HttpUtils.sendResponse(response,resultBean);
         }
     }
