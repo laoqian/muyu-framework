@@ -24,6 +24,7 @@ public class TableColumn extends DataEntity<TableColumn> {
 	String genTableId;  //gen_table_id
 	String name;  //name
 	String comments;  //comments
+	Integer length;  //length
 	String jdbcType;  //jdbc_type
 	String javaType;  //java_type
 	String javaField;  //java_field
@@ -45,7 +46,14 @@ public class TableColumn extends DataEntity<TableColumn> {
 
 	public void setName(String name) {
 		this.name = name;
-		this.javaField = ExtendUtils.underline2Camel(name,true);
+		String str;
+		if(StringUtils.endsWith(name,"_id")){
+			str = StringUtils.substring(name,0,StringUtils.lastIndexOf(name,"_"));
+		}else{
+			str = name;
+		}
+
+		this.javaField = ExtendUtils.underline2Camel(str,true);
 	}
 
 	public String getJavaType(){
@@ -59,6 +67,7 @@ public class TableColumn extends DataEntity<TableColumn> {
 			case "numeric":
 				return "java.math.BigDecimal";
 			case "char":
+				return "Char";
 			case "varchar2":
 			case "nvarchar2":
 				return "String";

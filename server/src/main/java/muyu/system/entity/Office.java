@@ -5,6 +5,7 @@ package muyu.system.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import muyu.system.common.persistence.DataEntity;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class Office extends DataEntity<Office> {
 
 	private static final long serialVersionUID = 1L;
@@ -36,9 +38,4 @@ public class Office extends DataEntity<Office> {
 	private User primaryPerson;//主负责人
 	private User deputyPerson;//副负责人
 	private List<String> childDeptList;//快速添加子部门
-	
-	Office(){
-		super();
-		this.type = "2";
-	}
 }

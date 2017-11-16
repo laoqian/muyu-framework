@@ -6,17 +6,20 @@ import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import GenTableEdit from './edit'
 import GenTableDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/ListComponent";
+import BaseComponent from "../../base/BaseComponent";
 
-class GenTable extends ListComponent{
+class GenTable extends BaseComponent{
 
     constructor(props){
         super(props);
-
         let $t = this;
+
+        $t.extend("List");
+
+        console.log($t);
         $t.baseUrl    = '/api/gen/'  ;
         $t.moduleName = 'sysGen';
-        $t.history.push('/'); /*初始化时指向根目录*/
+        $t.history.push('/');  /*初始化时指向根目录*/
         $t.setGridInitParam({
             url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,

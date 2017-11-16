@@ -1,7 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import {Form} from 'antd';
-import FormComponent from '../../base/FormComponent'
+import FormComponent from '../../base/Form'
 import colModel from './colModel'
 
 class UserEditForm extends FormComponent{
@@ -22,21 +21,6 @@ class UserEditForm extends FormComponent{
     }
 }
 
-function mapStateToProps(state){
-    return {
+export default Form.create()(UserEditForm);
 
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {
-    }
-}
-
-const DictEdit = Form.create()(UserEditForm);
-
-export default connect(
-    mapStateToProps,
-    mapActionToProps
-)(DictEdit);
 

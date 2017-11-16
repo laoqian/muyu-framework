@@ -6,7 +6,7 @@ import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/ListComponent";
+import ListComponent from "../../base/History";
 import colModel from './colModel'
 
 class SyseUser extends ListComponent{

@@ -5,7 +5,7 @@ import {Form, Input, Modal} from 'antd'
 import {userGet} from '../../../redux/actions/user'
 import Loading from '../../../layouts/loading'
 import {notification} from 'antd'
-import BaseComponent from "../../base/ListComponent"
+import BaseComponent from "../../base/History"
 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;

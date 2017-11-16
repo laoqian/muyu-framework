@@ -6,7 +6,7 @@ import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/ListComponent";
+import ListComponent from "../../base/History";
 import u from '../../../utils'
 import colModel  from './colModel'
 
@@ -61,7 +61,7 @@ class SyseDict extends ListComponent{
         };
 
         $t.regEvent("保存",'save',()=>{
-           let list =  $t.getEditList();
+           let list =  $t.saveEditList();
            if(list){
                u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
            }
