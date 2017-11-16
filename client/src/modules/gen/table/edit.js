@@ -1,34 +1,35 @@
 import React                                    from 'react'
 import {connect}                                from 'react-redux'
-import {bindActionCreators}                     from 'redux'
-import {Form, Input, Modal, Row, Col,Select,Button}    from 'antd';
+import {Form, Input, Modal, Row, Col,Select}    from 'antd';
 import {userGet}                                from '../../../redux/actions/user'
 import {notification}                           from 'antd';
 import JqgridWrapper                            from '../../grid/index'
-import ListComponent                            from "../../base/ListComponent";
+import BaseComponent                            from "../../base/BaseComponent";
 import u                                        from '../../../utils'
-import colModel  from './colModel'
+import colModel                                 from './colModel'
+
 const FormItem  = Form.Item;
 const Option    = Select.Option;
 
-class GenEditForm extends ListComponent {
+class GenEditForm extends BaseComponent {
     constructor(props) {
         super(props);
         let $t = this;
 
-        $t.baseUrl = '/api/gen/';
-        $t.moduleName = 'sysGenEdit';
+        $t.extend("List","Form");
+        $t.baseUrl      = '/api/gen/';
+        $t.moduleName   = 'sysGenEdit';
 
         $t.setGridInitParam({
-            url       : $t.encodeUrl('findTableColumn'),
-            baseUrl   : $t.baseUrl,
-            gridName  : this.moduleName,
-            inlineEdit: true,
-            ExpandColumn: 'name',
-            pagerAble   : false,
-            rownumbers  : false,
-            colModel    : colModel,
-            ondblClickRow: null
+            url             : $t.encodeUrl('findTableColumn'),
+            baseUrl         : $t.baseUrl,
+            gridName        : this.moduleName,
+            inlineEdit      : true,
+            ExpandColumn    : 'name',
+            pagerAble       : false,
+            rownumbers      : false,
+            colModel        : colModel,
+            ondblClickRow   : null
         });
 
         this.state = {
@@ -117,10 +118,6 @@ class GenEditForm extends ListComponent {
         }
     }
 
-
-    componentWillMount() {
-    }
-
     componentDidMount() {
         this.bindDataOnce();
         this.register(this.props.form);
@@ -128,10 +125,6 @@ class GenEditForm extends ListComponent {
 
     componentWillReceiveProps(nextProps) {
         this.state.submiting = false;
-    }
-
-
-    componentWillUpdate(nextProps, nextState) {
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -253,22 +246,5 @@ class GenEditForm extends ListComponent {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        user: state.user
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {
-        userGet: bindActionCreators(userGet, dispatch)
-    }
-}
-
-const DictEdit = Form.create()(GenEditForm);
-
-export default connect(
-    mapStateToProps,
-    mapActionToProps
-)(DictEdit);
+export default  Form.create()(GenEditForm);
 

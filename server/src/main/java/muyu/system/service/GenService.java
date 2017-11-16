@@ -195,17 +195,18 @@ public class GenService extends CrudService<GenDao,Table>{
             }
             Class<?> c = null;
             switch (column.getJavaType()){
-                case "Date":
+                case "Date"     :
                     c = Date.class;
                     break;
 
                 case "BigDecimal" :
                     c = BigDecimal.class;
                     break;
-                case "String" :
-                case "Integer":
-                case "Double" :
-                case "Boolean" :
+                case "String"   :
+                case "Char"     :
+                case "Integer"  :
+                case "Double"   :
+                case "Boolean"  :
                     break;
                 default:
                     try {

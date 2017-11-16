@@ -1,8 +1,8 @@
 
 
 let colModel = [
-    {label: '公司', name: 'company', width: 200,editable:true,editrules:{required:true}},
-    {label: '部门', name: 'office', width: 150,editable:true,editrules:{required:true}},
+    {label: '公司', name: 'company.id', width: 200,editable:true,editrules:{required:true}},
+    {label: '部门', name: 'office.id', width: 150,editable:true,editrules:{required:true}},
     {label: '登录名', name: 'userName', width: 150,editable:true,editrules:{required:true}},
     {label: '工号', name: 'no', width: 150,editable:true,editrules:{required:true}},
     {label: '姓名', name: 'name', width: 150,editable:true,editrules:{required:true}},

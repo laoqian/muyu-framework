@@ -6,7 +6,7 @@ import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import RoleEdit from './edit'
 import RoleDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/ListComponent";
+import ListComponent from "../../base/History";
 import u from '../../../utils'
 import colModel  from './colModel'
 
