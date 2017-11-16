@@ -59,4 +59,4 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-.rdb
+redis-x64-2.8.2400/*.rdb

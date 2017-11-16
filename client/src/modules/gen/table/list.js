@@ -24,9 +24,13 @@ class GenTable extends BaseComponent{
             url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
             colModel: [
-                {label: '表名', name: 'value', width: 200},
-                {label: '说明', name: 'label', width: 300},
-                {label: '类名', name: 'type',  width: 150},
+                {label: '表名', name: 'name', width: 200},
+                {label: '说明', name: 'comments', width: 300},
+                {label: '类名', name: 'className',  width: 150},
+                {label: '包名', name: 'packageName',  width: 150},
+                {label: '类型', name: 'type',  width: 150},
+                {label: '编辑类型', name: 'editType',  width: 150},
+                {label: '生成类型', name: 'genType',  width: 150},
             ]
         });
 

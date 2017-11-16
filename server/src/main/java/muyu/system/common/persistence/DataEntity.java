@@ -45,7 +45,7 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     @JsonIgnore
     @Length(min = 1, max = 1)
-    protected String delFlag;    //删除标记（0：正常；1：删除；2：审核）
+    protected String delFlag="0";    //删除标记（0：正常；1：删除；2：审核）
 
     public DataEntity() {
         super();

@@ -177,7 +177,7 @@ public class GenService extends CrudService<GenDao,Table>{
         }
 
 
-        System.out.println("tplBasePath:"+tplBasePath);
+
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource resource = resolver.getResource(tplBasePath);
         cfg.setDirectoryForTemplateLoading(resource.getFile());
@@ -203,7 +203,7 @@ public class GenService extends CrudService<GenDao,Table>{
                     c = BigDecimal.class;
                     break;
                 case "String"   :
-                case "Char"     :
+                case "Character"     :
                 case "Integer"  :
                 case "Double"   :
                 case "Boolean"  :

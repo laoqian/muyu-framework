@@ -67,7 +67,7 @@ public class TableColumn extends DataEntity<TableColumn> {
 			case "numeric":
 				return "java.math.BigDecimal";
 			case "char":
-				return "Char";
+				return "Character";
 			case "varchar2":
 			case "nvarchar2":
 				return "String";

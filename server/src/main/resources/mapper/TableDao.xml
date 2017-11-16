@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.bus.dao.TableDao">
+
+    <sql id="TableColumns">
+        a.edit_type AS "editType";
+        a.gen_type AS "genType";
+        a.type AS "type";
+        a.id AS "id";
+        a.name AS "name";
+        a.comments AS "comments";
+        a.class_name AS "className";
+        a.create_by AS "createBy";
+        a.create_date AS "createDate";
+        a.update_by AS "updateBy";
+        a.update_date AS "updateDate";
+        a.remarks AS "remarks";
+        a.del_flag AS "delFlag";
+    </sql>
+
+    <sql id="TableJoins">
+    </sql>
+
+    <select id="get" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="query" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO gen_table(
+            edit_type,
+            gen_type,
+            type,
+            id,
+            name,
+            comments,
+            class_name,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{editType},
+            #{genType},
+            #{type},
+            #{id},
+            #{name},
+            #{comments},
+            #{className},
+            #{createBy},
+            #{createDate},
+            #{updateBy},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE gen_table SET
+            edit_type=#{editType},
+            gen_type=#{genType},
+            type=#{type},
+            id=#{id},
+            name=#{name},
+            comments=#{comments},
+            class_name=#{className},
+            create_by=#{createBy},
+            create_date=#{createDate},
+            update_by=#{updateBy},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM gen_table
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE gen_table SET del_flag = 1
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="muyu.system.dao.GenDao">
 
-    <select id="findList">
+    <select id="findOrigList">
         SELECT
           id AS "id",
           comments AS "comments",
@@ -33,49 +33,113 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="Dict">
-        INSERT INTO sys_dict
-        (
-              id,
-              value,
-              label,
-              type,
-              description,
-              sort,
-              create_by,
-              create_date,
-              update_by,
-              update_date,
-              remarks
-          )
-          VALUES (
-              #{id},
-              #{value},
-              #{label},
-              #{type},
-              #{description},
-              #{sort},
-              #{createBy.id},
-              #{createDate},
-              #{updateBy.id},
-              #{updateDate},
-              #{remarks}
-          )
+    <sql id="TableColumns">
+        a.edit_type AS "editType",
+        a.gen_type AS "genType",
+        a.type AS "type",
+        a.id AS "id",
+        a.name AS "name",
+        a.comments AS "comments",
+        a.class_name AS "className",
+        a.create_by AS "createBy.id",
+        a.create_date AS "createDate",
+        a.update_by AS "updateBy.id",
+        a.update_date AS "updateDate",
+        a.remarks AS "remarks",
+        a.del_flag AS "delFlag"
+    </sql>
+
+    <sql id="TableJoins">
+    </sql>
+
+    <select id="get" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="query" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Table">
+        SELECT
+        <include refid="TableColumns"/>
+        FROM gen_table a
+        <include refid="TableJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO gen_table(
+        edit_type,
+        gen_type,
+        type,
+        id,
+        name,
+        comments,
+        class_name,
+        create_by,
+        create_date,
+        update_by,
+        update_date,
+        remarks,
+        del_flag
+        ) VALUES (
+        #{editType},
+        #{genType},
+        #{type},
+        #{id},
+        #{name},
+        #{comments},
+        #{className},
+        #{createBy.id},
+        #{createDate},
+        #{updateBy.id},
+        #{updateDate},
+        #{remarks},
+        #{delFlag}
+        )
     </insert>
+
     <update id="update">
-        UPDATE sys_dict SET
-          value = #{value},
-          label =  #{label},
-          type = #{type},
-          description =   #{description},
-          sort =   #{sort},
-          parent_id =   #{parentId},
-          update_by =   #{updateBy.id},
-          update_date =   #{updateDate},
-          remarks =#{remarks}
-        WHERE id=#{id}
+        UPDATE gen_table SET
+        edit_type=#{editType},
+        gen_type=#{genType},
+        type=#{type},
+        id=#{id},
+        name=#{name},
+        comments=#{comments},
+        class_name=#{className},
+        update_by=#{updateBy.id},
+        update_date=#{updateDate},
+        remarks=#{remarks},
+        del_flag=#{delFlag}
+        WHERE id = #{id}
     </update>
-    <delete id="delete">
-      DELETE FROM sys_dict where id=#{id}
-    </delete>
+
+    <update id="delete">
+        DELETE FROM gen_table
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE gen_table SET del_flag = 1
+        WHERE id = #{id}
+    </update>
 </mapper>
