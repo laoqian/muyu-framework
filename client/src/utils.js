@@ -146,12 +146,11 @@ u.render.text = option=>(<Input placeholder={option.placeholder}/>);
 
 u.render.select = (options)=>{
     let ops = [];
-    ops.push(<Option value="">请选择</Option>);
     options.forEach(op=>{
         ops.push(<Option value={op.value}>{op.label}</Option>)
     });
 
-    return <Select children={ops}/>;
+    return <Select children={ops} allowClear placeholder="==请选择=="/>;
 };
 
 export default u;
