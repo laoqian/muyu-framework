@@ -1,17 +1,14 @@
 import React from 'react'
 import {Form} from 'antd';
-import FormComponent from '../../base/Form'
+import BaseComponent from '../../base/BaseComponent'
 import colModel from './colModel'
 
-class UserEditForm extends FormComponent{
+class UserEditForm extends BaseComponent{
     constructor(props) {
         super(props);
         let $t  = this;
 
-        $t.state = {
-            editData :null,
-            submiting:false
-        };
+        $t.extend("Form");
 
         $t.baseUrl      = '/api/user/';
         $t.groupNum     = 2;

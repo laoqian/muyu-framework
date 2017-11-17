@@ -8,7 +8,7 @@ export default class BaseComponent extends Component{
         this.u = u;
         this.baseUrl ='/api/';
         this.encodeUrl = (url)=>this.baseUrl+url;
-
+        this.state = {};
         this.extend = function(){
             for(let i=0;i<arguments.length;i++){
                 let func = require('./'+arguments[i]).default;

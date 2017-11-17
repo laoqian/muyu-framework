@@ -3,19 +3,20 @@ import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
 import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
-import DictEdit from './edit'
-import DictDelete from './delete'
+import MenuForm from './edit'
+import MenuDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/History";
-import u from '../../../utils'
+import BaseComponent from "../../base/BaseComponent";
 import colModel  from './colModel'
 
-class SyseDict extends ListComponent{
+export  default  class SysMenu extends BaseComponent{
 
     constructor(props) {
         super(props);
 
-        let $t = this;
+        let $t = this,u=this.u;
+        $t.extend("List");
+
         $t.baseUrl      = '/api/menu/'   ;
         $t.moduleName   = 'sys_menu'     ;
         $t.history.push('/'); /*初始化时指向根目录*/
@@ -75,8 +76,8 @@ class SyseDict extends ListComponent{
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history={this.history}>
                     <Switch>
-                        <Route path="/edit" component={DictEdit}/>
-                        <Route path="/delete" component={DictDelete}/>
+                        <Route path="/edit" component={MenuForm}/>
+                        <Route path="/delete" component={MenuDelete}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Router>
@@ -86,18 +87,6 @@ class SyseDict extends ListComponent{
 }
 
 const NoMatch = ({location}) => {
-    // notification.error({message:`路由匹配出错:${location.pathname}`});
     console.warn(`路由匹配出错:${location.pathname}`);
     return null;
 };
-
-function mapStateToProps(state) {
-    return {}
-}
-
-function mapActionToProps(dispatch) {
-    return {}
-}
-
-export default connect(mapStateToProps, mapActionToProps)(SyseDict);
-

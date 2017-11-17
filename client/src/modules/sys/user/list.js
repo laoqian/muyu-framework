@@ -6,15 +6,17 @@ import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/History";
+import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'
 
-class SyseUser extends ListComponent{
+export  default class SysUser extends BaseComponent{
 
     constructor(props){
         super(props);
 
         let $t = this;
+
+        $t.extend("List");
         $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
         $t.history.push('/');
@@ -70,15 +72,3 @@ const NoMatch = ({ location }) => {
     console.warn(`路由匹配出错:${location.pathname}`);
     return null;
 };
-
-function mapStateToProps(state) {
-    return {
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {}
-}
-
-export default connect(mapStateToProps, mapActionToProps)(SyseUser);
-

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Modal,notification} from 'antd'
 import {reloadGrid} from '../../../redux/actions/jqgrid'
 
-class DictDelete extends Component {
+class MenuDelete extends Component {
 
     constructor() {
         super();
@@ -78,5 +78,5 @@ function mapActionToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapActionToProps
-)(DictDelete);
+)(MenuDelete);
 

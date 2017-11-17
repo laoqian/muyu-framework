@@ -6,7 +6,7 @@ import {notification}                           from 'antd';
 import JqgridWrapper                            from '../../grid/index'
 import BaseComponent                            from "../../base/BaseComponent";
 import u                                        from '../../../utils'
-import colModel                                 from './colModel'
+import colModel                                 from './tableColModel'
 
 const FormItem  = Form.Item;
 const Option    = Select.Option;
@@ -32,19 +32,7 @@ class GenEditForm extends BaseComponent {
             ondblClickRow   : null
         });
 
-        this.state = {
-            tableList : [],
-            editData  : null,
-            submiting : false
-        };
-
-        this.modalClick = (type) => {
-            if (type === 'ok') {
-                this.saveData();
-            } else {
-                this.props.history.push('/');
-            }
-        };
+        this.state.tableList = [];
 
         this.saveData = () => {
             let data;
@@ -81,35 +69,11 @@ class GenEditForm extends BaseComponent {
             }
         };
 
-        this.bindDataOnce = () => {
-            let {row, type} = this.props.location;
-            const {setFieldsValue} = this.props.form;
-
-            if (!this.props.location.binded) {
-                this.props.location.binded = true;
-
-                switch (type) {
-                    case 'add':
-                        if (row) {
-                            this.state.editData = {parentId: row.parentId};
-                            setFieldsValue(row);
-                        } else {
-                            this.state.editData = {parentId: 1};
-                        }
-
-                        break;
-                    case 'modify':
-                        this.state.editData = row;
-                        setFieldsValue(row);
-                        break;
-                }
-            }
-        };
 
         /*获取tableList*/
         u.get($t.encodeUrl('getTableList'),(bean)=>{
             bean.success()?$t.setState({tableList:bean.data}):null;
-        })
+        });
 
         $t.loadTableInfo = (tableName)=>{
             let grid =$t.getGrid();
@@ -123,37 +87,16 @@ class GenEditForm extends BaseComponent {
         this.register(this.props.form);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.state.submiting = false;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        this.bindDataOnce();
-    }
-
     render() {
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {span: 6},
             wrapperCol: {span: 16},
         };
-        let title = '业务表添加';
-        let {type, binded} = this.props.location;
-
-        if (binded) {
-            switch (type) {
-                case 'modify':
-                    title = `业务表修改-${this.state.editData.id}`;
-                    break;
-                case 'add':
-                    title = '业务表添加';
-                    break;
-            }
-        }
 
         return (
             <Modal
-                title={title}
+                title={this.title()}
                 wrapClassName="vertical-center-modal"
                 visible={true}
                 onOk={() => this.modalClick('ok')}

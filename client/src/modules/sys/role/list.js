@@ -6,16 +6,19 @@ import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import RoleEdit from './edit'
 import RoleDelete from './delete'
 import {findDOMNode} from 'react-dom';
-import ListComponent from "../../base/History";
+import BaseComponent from "../../base/BaseComponent";
 import u from '../../../utils'
 import colModel  from './colModel'
 
-class SyseRole extends ListComponent{
+class SyseRole extends BaseComponent{
 
     constructor(props) {
         super(props);
 
         let $t = this;
+
+        $t.extend("List");
+
         $t.baseUrl      = '/api/role/'   ;
         $t.moduleName   = 'sys_role'     ;
         $t.history.push('/'); /*初始化时指向根目录*/
@@ -61,7 +64,7 @@ class SyseRole extends ListComponent{
         };
 
         $t.regEvent("保存",'save',()=>{
-           let list =  $t.getEditList();
+           let list =  $t.saveEditList();
            if(list){
                u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
            }

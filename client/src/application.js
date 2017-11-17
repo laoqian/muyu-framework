@@ -34,6 +34,7 @@ class App extends BaseComponent{
                 let Page = require('./modules'+href).default;
                 return <Page/>;
             }catch(err){
+                console.error(err);
                 return (
                     <div className="my-col-full flex-hvm" >
                         <div >
@@ -89,7 +90,6 @@ class App extends BaseComponent{
     }
 
     componentDidUpdate(prevProps, prevState){
-
         this.after();
     }
 

@@ -5,7 +5,9 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.entity.Dict;
 import muyu.system.service.DictService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +27,12 @@ public class DictController extends BaseController{
 
     @Autowired
     DictService dictService;
+
+    @ModelAttribute
+    public Dict preState(@RequestParam(required=false) String id){
+        Dict dict = dictService.get(id);
+        return dict!=null ? dict : new Dict();
+    }
 
     @RequestMapping("get")
     public ResultBean<Dict> get(Dict dict){
