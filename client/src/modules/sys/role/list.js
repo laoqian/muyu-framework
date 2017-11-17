@@ -7,15 +7,14 @@ import RoleEdit from './edit'
 import RoleDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
-import u from '../../../utils'
 import colModel  from './colModel'
 
-class SyseRole extends BaseComponent{
+export default class SyseRole extends BaseComponent{
 
     constructor(props) {
         super(props);
 
-        let $t = this;
+        let $t = this,u=this.u;
 
         $t.extend("List");
 
@@ -93,14 +92,3 @@ const NoMatch = ({location}) => {
     console.warn(`路由匹配出错:${location.pathname}`);
     return null;
 };
-
-function mapStateToProps(state) {
-    return {}
-}
-
-function mapActionToProps(dispatch) {
-    return {}
-}
-
-export default connect(mapStateToProps, mapActionToProps)(SyseRole);
-

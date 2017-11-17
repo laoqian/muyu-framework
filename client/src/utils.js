@@ -147,9 +147,12 @@ u.render.text = option=>(<Input placeholder={option.placeholder}/>);
 
 u.render.select = (options)=>{
     let ops = [];
-    options.forEach(op=>{
-        ops.push(<Option value={op.value}>{op.label}</Option>)
-    });
+
+    if(_.isArray(options)){
+        options.forEach(op=>{
+            ops.push(<Option value={op.value}>{op.label}</Option>)
+        });
+    }
 
     return <Select children={ops} allowClear placeholder="==请选择=="/>;
 };
@@ -159,7 +162,7 @@ u.renderFormCtrl = (form,col) => {
     let ctrl = null;
     let options;
     const formItemLayout = {
-        labelCol: {span: 6},
+        labelCol:   {span: 6},
         wrapperCol: {span: 16},
     };
 
@@ -176,6 +179,7 @@ u.renderFormCtrl = (form,col) => {
             ctrl = u.render.text(options);
     }
 
+    col.component = ctrl;
     return <FormItem label={col.label} {...formItemLayout}
                      children={getFieldDecorator(col.name, {required: true})(ctrl)}/>;
 };

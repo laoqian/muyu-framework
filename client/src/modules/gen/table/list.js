@@ -7,6 +7,7 @@ import GenTableEdit from './edit'
 import GenTableDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
+import colModel from './colModel'
 
 class GenTable extends BaseComponent{
 
@@ -15,23 +16,13 @@ class GenTable extends BaseComponent{
         let $t = this;
 
         $t.extend("List");
-
-        console.log($t);
         $t.baseUrl    = '/api/gen/'  ;
         $t.moduleName = 'sysGen';
         $t.history.push('/');  /*初始化时指向根目录*/
         $t.setGridInitParam({
             url:$t.encodeUrl('findPage'),
             gridName:this.moduleName,
-            colModel: [
-                {label: '表名', name: 'name', width: 200},
-                {label: '说明', name: 'comments', width: 300},
-                {label: '类名', name: 'className',  width: 150},
-                {label: '包名', name: 'packageName',  width: 150},
-                {label: '类型', name: 'type',  width: 150},
-                {label: '编辑类型', name: 'editType',  width: 150},
-                {label: '生成类型', name: 'genType',  width: 150},
-            ]
+            colModel
         });
 
         $t.toolBarOptions = {

@@ -26,7 +26,6 @@ let ListComponent = function(){
                 });
             }
         }
-
     };
 
     $t.history = createHistory({basename: '#user'});
@@ -42,22 +41,26 @@ let ListComponent = function(){
     $t.saveEditList = () => {
         let g = $t.getGrid();
         let list = g.getRowData(null, true);
-        let pass = true;
         let editList = g[0].p.editList;
         let eList = [];
 
-        editList.forEach(id => {
-            g.saveRow(id, null, null, null, null, (rowid, msg) => {
-                pass = false;
-                u.tip(msg, 'error');
+        try{
+            editList.forEach(id => {
+                g.saveRow(id, null, null, null, null, (rowid, msg) => {
+                    throw new Error(msg);
+                });
             });
-        });
+        }catch (err){
+            u.tip(msg, 'error');
+            return false;
+        }
 
         list.forEach(row => {
             $.inArray(row.id, editList) !== -1 ? eList.push(row) : null;
         });
 
-        return pass ? eList : null;
+        this.editList = eList;
+        return true;
     };
 
     $t.eventFunc = {};

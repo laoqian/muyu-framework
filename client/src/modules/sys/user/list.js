@@ -9,7 +9,7 @@ import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'
 
-export  default class SysUser extends BaseComponent{
+export default class SysUser extends BaseComponent{
 
     constructor(props){
         super(props);
