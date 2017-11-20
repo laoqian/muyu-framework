@@ -41,23 +41,28 @@ let FormComponent = function (){
             }
         };
 
-        return <Select children={ops} onChange={changeHander} allowClear placeholder="==请选择=="/>;
+        return <Select children={ops}
+                       onChange={changeHander}
+                       disabled={!!column.editoptions.readonly}
+                       allowClear
+                       placeholder="==请选择=="/>;
     };
 
     $t.renderFormCtrl = (form,col)=>{
         const {getFieldDecorator} = form;
         let ctrl = null;
-        let options;
+
         const formItemLayout = {
             labelCol:   {span: 6},
             wrapperCol: {span: 16},
         };
 
+        if(!col.editoptions){
+            col.editoptions ={};
+        }
+
         switch (col.edittype) {
             case 'sys_dict':
-                if(!col.editoptions){
-                    col.editoptions ={};
-                }
                 col.editoptions.value =u.getDict(col.editoptions.type);
                 col.edittype = 'select';
                 ctrl = $t.renderCtrls.select(col);
@@ -67,13 +72,21 @@ let FormComponent = function (){
                 break;
             case 'text':
             default:
-                options = {placeholder: col.label};
+                let options = {placeholder: col.label};
                 ctrl = $t.renderCtrls.text(options);
         }
 
         col.component = ctrl;
+
+        let options = {},{editrules} =col;
+        options.rules =[];
+
+        if(editrules && editrules.required){
+            options.rules.push({required:true,message:`${col.label}不能为空！`});
+        }
+
         return <FormItem label={col.label} {...formItemLayout}
-                         children={getFieldDecorator(col.name, {required: true})(ctrl)}/>;
+                         children={getFieldDecorator(col.name,options)(ctrl)}/>;
     };
 
     $t.renderRows = (form,colModel,groupNum)=>{
@@ -130,13 +143,13 @@ let FormComponent = function (){
                     $t.state.editData = {};
                 }
                 let data;
-                Object.assign($t.state.editData, values);
+                $t.state.editData = Object.assign($t.state.editData, values);
                 if (_.isFunction(beforeSave)) {
                     data = beforeSave($t.state.editData);
+                    console.log(data);
                 }else{
                     data = $t.state.editData;
                 }
-
                 u.get($t.encodeUrl(url ? url : 'save'), data, function (data) {
                     if (data.success()) {
                         u.success(data.msg);
@@ -161,19 +174,43 @@ let FormComponent = function (){
         if (!$t.props.location.binded) {
             $t.props.location.binded = true;
 
+            if(_.isFunction($t.beforeBindData)){
+                $t.beforeBindData(type,row);
+            }
+
             switch (type) {
                 case 'add':
-                    if (row) {
-                        $t.state.editData = {parentId: row.parentId};
-                        setFieldsValue($t.filter(row));
+                    if(_.isFunction($t.setDefaultData)){
+                        $t.state.editData = $t.setDefaultData(row);
+                    }else if(row){
+                        row.id = null;
+                        $t.state.editData = row;
                     }
+
+                    setFieldsValue($t.filterEditAble($t.state.editData));
                     break;
                 case 'modify':
                     $t.state.editData = row;
-                    setFieldsValue($t.filter(row));
+                    setFieldsValue($t.filterEditAble(row));
                     break;
             }
         }
+    };
+
+    $t.filterEditAble = (row)=>{
+        let columns =$t.state.colModel;
+        let data ={} ;
+        if(_.isArray(columns) &&　_.isObject(row)){
+            columns.forEach(col=>{
+                if(col.editable){
+                    data.col[name] = row[name];
+                }
+            })
+        }else if(_.isObject(row)){
+            data = row;
+        }
+
+        return data;
     };
 
     $t.title = () => {

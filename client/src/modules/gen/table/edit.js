@@ -33,13 +33,17 @@ class GenEditForm extends BaseComponent {
             let list;
             this.saveEditList();
             list = this.getGrid().getRowData(null,true);
-            this.defaultSaveData('save',data=>{data,list})
+            this.defaultSaveData('saveBatch',data=>({data,list}))
         };
 
 
-        $t.state.colModel.forEach(col=>{
+        $t.beforeBindData = (type,row)=>{
+            console.log(type,row);
+        };
 
-        });
+        $t.setDefaultData = (row)=>{
+            return null;
+        };
 
         $t.loadTableInfo = (tableName)=>{
             let grid =$t.getGrid();
@@ -50,7 +54,7 @@ class GenEditForm extends BaseComponent {
 
         $t.componentDidMount = () => {
             $t.bindDataOnce();
-            this.register(this.props.form);
+            $t.register(this.props.form);
 
             u.get($t.encodeUrl('getTableList'),(bean)=>{
                 if(bean.success()){

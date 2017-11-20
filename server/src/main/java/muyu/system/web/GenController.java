@@ -36,10 +36,8 @@ public class GenController extends BaseService{
     @Autowired
     private GenService genService;
 
-
     @RequestMapping("findPage")
     ResultPageBean<Table> findPage(HttpServletRequest request,Table table) {
-
         return genService.findPage(request,table);
     }
 
