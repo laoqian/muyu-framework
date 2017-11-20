@@ -3,9 +3,7 @@ import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import gridExtend from './modules/grid/extend'
 import React from 'react'
-import {Input,Select,Col,Row ,Form} from 'antd';
-const Option = Select.Option;
-const FormItem = Form.Item;
+
 
 let u = {
     baseUrl:'/api/',
@@ -141,77 +139,6 @@ u.outline = function(){
 };
 
 
-u.render ={};
 
-u.render.text = option=>(<Input placeholder={option.placeholder}/>);
-
-u.render.select = (options)=>{
-    let ops = [];
-
-    if(_.isArray(options)){
-        options.forEach(op=>{
-            ops.push(<Option value={op.value}>{op.label}</Option>)
-        });
-    }
-
-    return <Select children={ops} allowClear placeholder="==请选择=="/>;
-};
-
-u.renderFormCtrl = (form,col) => {
-    const {getFieldDecorator} = form;
-    let ctrl = null;
-    let options;
-    const formItemLayout = {
-        labelCol:   {span: 6},
-        wrapperCol: {span: 16},
-    };
-
-    switch (col.edittype) {
-        case 'sys_dict':
-            ctrl = u.render.select(u.getDict(col.editoptions.type));
-            break;
-        case 'select':
-            ctrl = u.render.select(u.editoptions.value);
-            break;
-        case 'text':
-        default:
-            options = {placeholder: col.label};
-            ctrl = u.render.text(options);
-    }
-
-    col.component = ctrl;
-    return <FormItem label={col.label} {...formItemLayout}
-                     children={getFieldDecorator(col.name, {required: true})(ctrl)}/>;
-};
-
-u.renderRows = (form,colModel,groupNum) => {
-    let rows = [];
-    let columns = [];
-
-    colModel.forEach(col => {
-        if (col.editable) {
-            columns.push(col);
-        }
-    });
-
-    if (!columns || columns.length === 0) {
-        return rows;
-    }
-
-    groupNum = !groupNum ? 1 : groupNum;
-
-    let list = _.chunk(columns, groupNum);
-
-    list.forEach(cols => {
-        let leafs = [];
-        cols.forEach(col => {
-            leafs.push(<Col span={24 / groupNum} children={u.renderFormCtrl(form,col)}/>);
-        });
-
-        rows.push(<Row children={leafs}/>);
-    });
-
-    return rows;
-};
 
 export default u;

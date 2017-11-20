@@ -1,5 +1,5 @@
 let colModel = [
-    {label: '表名', name: 'name', width: 200, editable: true,edittype:'sys_dict',editoptions:{}},
+    {label: '表名', name: 'name', width: 200, editable: true,edittype:'select',editoptions:{}},
     {label: '说明', name: 'comments', width: 300, editable: true},
     {label: '类名', name: 'className',  width: 150, editable: true},
     {label: '包名', name: 'packageName',  width: 150, editable: true},
