@@ -24,16 +24,24 @@ let FormComponent = function (){
 
     $t.renderCtrls.text = (option)=> (<Input placeholder={option.placeholder}/>);
 
-    $t.renderCtrls.select = (options)=>{
+    $t.renderCtrls.select = (column)=>{
         let ops = [];
+        let values = column.editoptions.value;
 
-        if(_.isArray(options)){
-            options.forEach(op=>{
+        if(_.isArray(values)){
+            values.forEach(op=>{
                 ops.push(<Option value={op.value}>{op.label}</Option>)
             });
         }
 
-        return <Select children={ops} allowClear placeholder="==请选择=="/>;
+        let changeHander = (value)=>{
+            let {change} = column.editoptions;
+            if(_.isFunction(change)){
+               change.call($t,{name:column.name,value});
+            }
+        };
+
+        return <Select children={ops} onChange={changeHander} allowClear placeholder="==请选择=="/>;
     };
 
     $t.renderFormCtrl = (form,col)=>{
@@ -47,10 +55,15 @@ let FormComponent = function (){
 
         switch (col.edittype) {
             case 'sys_dict':
-                ctrl = $t.renderCtrls.select(u.getDict(col.editoptions.type));
+                if(!col.editoptions){
+                    col.editoptions ={};
+                }
+                col.editoptions.value =u.getDict(col.editoptions.type);
+                col.edittype = 'select';
+                ctrl = $t.renderCtrls.select(col);
                 break;
             case 'select':
-                ctrl = $t.renderCtrls.select(col.editoptions.value);
+                ctrl = $t.renderCtrls.select(col);
                 break;
             case 'text':
             default:

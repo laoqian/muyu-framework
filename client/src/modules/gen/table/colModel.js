@@ -9,4 +9,9 @@ let colModel = [
     ];
 
 
+colModel[0].editoptions.change = function(data){
+    this.getGrid().setGridParam({postData: {tableName:data.value}});
+    this.getGrid().trigger('reloadGrid');
+}
+
 export  default colModel;

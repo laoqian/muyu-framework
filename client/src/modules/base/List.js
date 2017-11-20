@@ -129,7 +129,7 @@ let ListComponent = function(){
     $t.setQueryParam = () => {
         if ($t.serachForm) {
             let {validateFields} = $t.serachForm;
-            validateFields((err, values) => {
+            validateFields((err,values) => {
                 if (!err) {
                     $t.getGrid().setGridParam({postData: values})
                 }

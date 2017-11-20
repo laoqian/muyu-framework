@@ -29,7 +29,7 @@ class GenEditForm extends BaseComponent {
             ondblClickRow   : null
         });
 
-        this.saveData = () => {
+        this.saveData = () =>{
             let list;
             this.saveEditList();
             list = this.getGrid().getRowData(null,true);
@@ -37,6 +37,9 @@ class GenEditForm extends BaseComponent {
         };
 
 
+        $t.state.colModel.forEach(col=>{
+
+        });
 
         $t.loadTableInfo = (tableName)=>{
             let grid =$t.getGrid();
