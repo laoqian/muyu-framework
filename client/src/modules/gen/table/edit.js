@@ -13,65 +13,71 @@ class GenEditForm extends BaseComponent {
         super(props);
         let $t = this;
 
-        $t.extend("List","Form");
-        $t.baseUrl          = '/api/gen/';
-        $t.moduleName       = '业务表';
-        $t.state.colModel   = List(colModel).toJS();
+        $t.extend("List", "Form");
+        $t.baseUrl = '/api/gen/';
+        $t.moduleName = '业务表';
+        $t.state.colModel = List(colModel).toJS();
 
         $t.setGridInitParam({
-            url             : $t.encodeUrl('findTableColumn'),
-            baseUrl         : $t.baseUrl,
-            gridName        : "sysGenEdit",
-            inlineEdit      : true,
-            pagerAble       : false,
-            rownumbers      : false,
-            colModel        : tableColModel,
-            ondblClickRow   : null
+            url: $t.encodeUrl('findTableColumn'),
+            baseUrl: $t.baseUrl,
+            gridName: "sysGenEdit",
+            inlineEdit: true,
+            pagerAble: false,
+            rownumbers: false,
+            colModel: tableColModel,
+            ondblClickRow: null
         });
 
-        $t.saveData = () =>{
+        $t.saveData = () => {
             let list;
             $t.saveEditList();
-            list = $t.getGrid().getRowData(null,true);
-            $t.defaultSaveData('saveBatch','post',data=>({data,list}))
+            list = $t.getGrid().getRowData(null, true);
+            $t.defaultSaveData('saveBatch', 'post', data => ({data, list}), () => {
+                let {grid} = $t.props.location;
+                if (grid) {
+                    grid.trigger('reloadGrid');
+                }
+
+                $t.reload()
+            })
         };
 
 
-        $t.beforeBindData = (type,row)=>{
+        $t.beforeBindData = (type, row) => {
         };
 
-        $t.setDefaultData = (row)=>{
+        $t.setDefaultData = (row) => {
             return row;
         };
 
-        $t.loadTableInfo = (tableName)=>{
-            let grid =$t.getGrid();
+        $t.loadTableInfo = (tableName) => {
+            let grid = $t.getGrid();
             grid.setGridParam({postData: {tableName}});
             grid.trigger('reloadGrid');
         };
 
-
-        $t.componentDidMount = () => {
+        $t.regEvent('didMount', () => {
             $t.register($t.props.form);
-            u.get($t.encodeUrl('getTableList'),(bean)=>{
-                if(bean.success()){
-                    let column =_.find(colModel,col=>col.name ==='name');
-                    if(column) {
-                        let value =[];
+            u.get($t.encodeUrl('getTableList'), (bean) => {
+                if (bean.success()) {
+                    let column = _.find(colModel, col => col.name === 'name');
+                    if (column) {
+                        let value = [];
                         bean.data.forEach(op => {
-                            value.push({value:op,label:op});
+                            value.push({value: op, label: op});
                         });
 
-                       if(!column.editoptions){
-                           column.editoptions = {};
-                       }
+                        if (!column.editoptions) {
+                            column.editoptions = {};
+                        }
 
-                       column.editoptions.value = value;
-                       $t.state.colModel = List(colModel).toJS();
+                        column.editoptions.value = value;
+                        $t.setState({colModel: List(colModel).toJS()});
                     }
                 }
             });
-        };
+        })
     }
 
     render() {

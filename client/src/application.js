@@ -68,29 +68,29 @@ class App extends BaseComponent{
             let user = this.props.user;
 
             user.enabled?this.u.online.call(this):this.u.outline();
-        }
-    }
+        };
 
-    componentDidMount(){
-        let u = this.u;
-        let username = u.cookies.get('username');
-        let password = u.cookies.get('password');
-        if(username &&　password){
-            let {userAuth} = this.props;
-            userAuth({username,password});
-        }
+        this.regEvent('didMount',()=>{
+            let u = this.u;
+            let username = u.cookies.get('username');
+            let password = u.cookies.get('password');
+            if(username &&　password){
+                let {userAuth} = this.props;
+                userAuth({username,password});
+            }
 
-        /*通知框初始化*/
-        notification.config({
-            placement:'bottomRight',
-            bottom: 50,
-            duration: 3,
+            /*通知框初始化*/
+            notification.config({
+                placement:'bottomRight',
+                bottom: 50,
+                duration: 3,
+            });
+            this.after();
         });
-        this.after();
-    }
 
-    componentDidUpdate(prevProps, prevState){
-        this.after();
+        this.regEvent('didUpdate',()=>{
+            this.after();
+        });
     }
 
     render() {

@@ -12,11 +12,7 @@ create table GEN_TABLE
   update_by       VARCHAR2(64),
   update_date     TIMESTAMP(6),
   remarks         NVARCHAR2(255),
-  del_flag        CHAR(1) default '0' not null,
-  type            CHAR(1),
-  edit_type       CHAR(1),
-  gen_type        CHAR(1),
-  package_name    VARCHAR2(100)
+  del_flag        CHAR(1) default '0' not null
 )
 tablespace USERS
   pctfree 10
@@ -57,14 +53,6 @@ comment on column GEN_TABLE.remarks
   is '备注信息';
 comment on column GEN_TABLE.del_flag
   is '删除标记（0：正常；1：删除）';
-comment on column GEN_TABLE.type
-  is '列表类型';
-comment on column GEN_TABLE.edit_type
-  is '编辑类型';
-comment on column GEN_TABLE.gen_type
-  is '生成类型';
-comment on column GEN_TABLE.package_name
-  is '包名';
 -- Create/Recreate indexes 
 create index GEN_TABLE_DEL_FLAG on GEN_TABLE (DEL_FLAG)
   tablespace USERS

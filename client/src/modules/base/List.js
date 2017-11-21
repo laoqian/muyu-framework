@@ -4,7 +4,7 @@ import {findDOMNode} from 'react-dom';
 let ListComponent = function(){
     let $t = this;
     let u = this.u;
-
+    $t.componentCheck();
     $t.gridOptions = {
         setQueryParam: () => $t.setQueryParam(),
         ondblClickRow: function (id) {
@@ -63,11 +63,6 @@ let ListComponent = function(){
         return true;
     };
 
-    $t.eventFunc = {};
-
-    $t.regEvent = (cnName, enName, func) => {
-        $t.eventFunc[cnName] = $t[enName] = func;
-    }
 
     $t.eventFunc['修改'] = $t.editRow = async (id) => {
         let row;
@@ -117,7 +112,6 @@ let ListComponent = function(){
     };
 
     $t.eventFunc['重加载'] = $t.reload = () => {
-        $t.setQueryParam();
         $t.getGrid().trigger('reloadGrid')
     };
 

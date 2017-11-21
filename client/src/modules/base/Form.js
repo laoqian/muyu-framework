@@ -9,19 +9,17 @@ const FormItem = Form.Item;
 let FormComponent = function (){
     let $t  = this;
     let {u} = this;
+
+    $t.componentCheck();
+
     let state ={
         editData: null,
         submiting: false
     };
 
-    if($t.state){
-        Object.assign($t.state,state)
-    }else{
-        $t.state =state;
-    }
+    Object.assign($t.state,state);
 
     $t.renderCtrls ={};
-
     $t.renderCtrls.text = (option)=> (<Input placeholder={option.placeholder}/>);
 
     $t.renderCtrls.select = (column)=>{
@@ -84,7 +82,7 @@ let FormComponent = function (){
         if(editrules && editrules.required){
             let data = $t.state.editData;
 
-            options.initialValue =data &&data[col.name]?data[col.name].toString():null;
+            options.initialValue =data && data[col.name]!==undefined?data[col.name].toString():null;
             options.rules.push({required:true,message:`${col.label}不能为空！`});
         }
 
@@ -141,33 +139,14 @@ let FormComponent = function (){
 
         validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                if (!$t.state.editData) {
-                    $t.state.editData = {};
-                }
                 let data;
-                $t.state.editData = Object.assign($t.state.editData, values);
-                if (_.isFunction(beforeSave)) {
-                    data = beforeSave($t.state.editData);
-                    console.log(data);
-                }else{
-                    data = $t.state.editData;
-                }
-                if(!type){
-                    type = 'get';
-                }
 
-                u[type]($t.encodeUrl(url ? url : 'save'), data, function (data) {
-                    if (data.success()) {
-                        u.success(data.msg);
-                    }else{
-                        u.error(data.msg);
-                    }
+                $t.state.editData = Object.assign(!$t.state.editData?$t.state.editData:{}, values);
+                data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
 
-                    if(_.isFunction(afterSave)){
-                        afterSave(data);
-                    }
-
+                u[!type?'get':type]($t.encodeUrl(url ? url : 'save'), data, function (data) {
+                    u[data.success()?'success':'error'](data.msg);
+                    _.isFunction(afterSave)?afterSave(data):null;
                     $t.setState({submiting:false});
                 })
             }
@@ -179,18 +158,12 @@ let FormComponent = function (){
 
         if (!$t.props.location.binded) {
             $t.props.location.binded = true;
+            _.isFunction($t.beforeBindData)? $t.beforeBindData(type,row):null;
 
-            if(_.isFunction($t.beforeBindData)){
-                $t.beforeBindData(type,row);
-            }
             switch (type) {
                 case 'add':
-                    if(_.isFunction($t.setDefaultData)){
-                        $t.state.editData = $t.setDefaultData(row);
-                    }else if(row){
-                        row.id = null;
-                        $t.state.editData = row;
-                    }
+                    row?row.id=null:row={};
+                    $t.state.editData =_.isFunction($t.setDefaultData)? $t.setDefaultData(row):row;
                     break;
                 case 'modify':
                     $t.state.editData = row;
@@ -208,18 +181,16 @@ let FormComponent = function (){
         }
     };
 
-    $t.componentWillMount = () => {
+
+    $t.regEvent('willMount',()=>{
+        console.log('willMount');
         $t.bindDataOnce();
-    };
+    });
 
-    $t.componentDidUpdate = () => {
-
-    };
-
-    $t.componentWillReceiveProps = () => {
+    $t.regEvent('willReceiveProps',()=>{
         $t.bindDataOnce();
         $t.state.submiting = false;
-    };
+    });
 
     if(!$t.render){
         $t.render = () => {
