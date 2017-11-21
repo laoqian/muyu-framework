@@ -29,20 +29,19 @@ class GenEditForm extends BaseComponent {
             ondblClickRow   : null
         });
 
-        this.saveData = () =>{
+        $t.saveData = () =>{
             let list;
-            this.saveEditList();
-            list = this.getGrid().getRowData(null,true);
-            this.defaultSaveData('saveBatch',data=>({data,list}))
+            $t.saveEditList();
+            list = $t.getGrid().getRowData(null,true);
+            $t.defaultSaveData('saveBatch','post',data=>({data,list}))
         };
 
 
         $t.beforeBindData = (type,row)=>{
-            console.log(type,row);
         };
 
         $t.setDefaultData = (row)=>{
-            return null;
+            return row;
         };
 
         $t.loadTableInfo = (tableName)=>{
@@ -53,9 +52,7 @@ class GenEditForm extends BaseComponent {
 
 
         $t.componentDidMount = () => {
-            $t.bindDataOnce();
-            $t.register(this.props.form);
-
+            $t.register($t.props.form);
             u.get($t.encodeUrl('getTableList'),(bean)=>{
                 if(bean.success()){
                     let column =_.find(colModel,col=>col.name ==='name');
@@ -70,7 +67,7 @@ class GenEditForm extends BaseComponent {
                        }
 
                        column.editoptions.value = value;
-                       $t.setState({colModel:List(colModel).toJS()});
+                       $t.state.colModel = List(colModel).toJS();
                     }
                 }
             });

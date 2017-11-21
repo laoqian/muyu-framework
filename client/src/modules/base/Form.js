@@ -82,6 +82,9 @@ let FormComponent = function (){
         options.rules =[];
 
         if(editrules && editrules.required){
+            let data = $t.state.editData;
+
+            options.initialValue =data &&data[col.name]?data[col.name].toString():null;
             options.rules.push({required:true,message:`${col.label}不能为空！`});
         }
 
@@ -133,7 +136,7 @@ let FormComponent = function (){
         }
     };
 
-    $t.defaultSaveData = (url,beforeSave,afterSave) => {
+    $t.defaultSaveData = (url,type,beforeSave,afterSave) => {
         let {validateFields} = $t.props.form;
 
         validateFields((err, values) => {
@@ -150,7 +153,11 @@ let FormComponent = function (){
                 }else{
                     data = $t.state.editData;
                 }
-                u.get($t.encodeUrl(url ? url : 'save'), data, function (data) {
+                if(!type){
+                    type = 'get';
+                }
+
+                u[type]($t.encodeUrl(url ? url : 'save'), data, function (data) {
                     if (data.success()) {
                         u.success(data.msg);
                     }else{
@@ -169,7 +176,6 @@ let FormComponent = function (){
 
     $t.bindDataOnce = () => {
         let {row, type} = $t.props.location;
-        const {setFieldsValue} = $t.props.form;
 
         if (!$t.props.location.binded) {
             $t.props.location.binded = true;
@@ -177,7 +183,6 @@ let FormComponent = function (){
             if(_.isFunction($t.beforeBindData)){
                 $t.beforeBindData(type,row);
             }
-
             switch (type) {
                 case 'add':
                     if(_.isFunction($t.setDefaultData)){
@@ -186,60 +191,33 @@ let FormComponent = function (){
                         row.id = null;
                         $t.state.editData = row;
                     }
-
-                    setFieldsValue($t.filterEditAble($t.state.editData));
                     break;
                 case 'modify':
                     $t.state.editData = row;
-                    setFieldsValue($t.filterEditAble(row));
                     break;
             }
         }
-    };
-
-    $t.filterEditAble = (row)=>{
-        let columns =$t.state.colModel;
-        let data ={} ;
-        if(_.isArray(columns) &&　_.isObject(row)){
-            columns.forEach(col=>{
-                if(col.editable){
-                    data.col[name] = row[name];
-                }
-            })
-        }else if(_.isObject(row)){
-            data = row;
-        }
-
-        return data;
     };
 
     $t.title = () => {
-        let title = $t.moduleName + '添加';
         let {type,binded} = $t.props.location;
-
         if (binded) {
-            switch (type) {
-                case 'modify':
-                    title = $t.moduleName + `修改-${this.state.editData.id}`;
-                    break;
-                case 'add':
-                    title = $t.moduleName + '添加';
-                    break;
-            }
+           return $t.moduleName+(type==='modify'?`修改-${this.state.editData.id}`:'添加');
+        }else{
+            return $t.moduleName + '添加';
         }
-
-        return title;
     };
 
-    $t.componentDidMount = () => {
+    $t.componentWillMount = () => {
         $t.bindDataOnce();
     };
 
     $t.componentDidUpdate = () => {
-        $t.bindDataOnce();
+
     };
 
     $t.componentWillReceiveProps = () => {
+        $t.bindDataOnce();
         $t.state.submiting = false;
     };
 

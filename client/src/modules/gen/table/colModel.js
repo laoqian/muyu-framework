@@ -8,7 +8,7 @@ let colModel = [
         edittype:'sys_dict' ,editoptions:{type:'gen_type'},editrules:{required:true}},
     {label: '编辑类型', name: 'editType',  width: 150, editable: true, align:'center',
         formatter:'sys_dict',formatoptions:{type:'gen_edit_type'},
-        edittype:'sys_dict' ,editoptions:{type:'gen_edit_type'},editrules:{required:true}},
+        edittype :'sys_dict' ,editoptions:{type:'gen_edit_type'},editrules:{required:true}},
     {label: '生成类型', name: 'genType',  width: 150, editable: true, align:'center',
         formatter:'sys_dict',formatoptions:{type:'gen_gen_type'},
         edittype:'sys_dict' ,editoptions:{type:'gen_gen_type'},editrules:{required:true}},

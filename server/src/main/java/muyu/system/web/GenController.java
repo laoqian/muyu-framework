@@ -7,13 +7,12 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.beans.SubmitBatchBean;
 import muyu.system.common.service.BaseService;
 import muyu.system.entity.Table;
+import muyu.system.entity.Table;
 import muyu.system.entity.TableColumn;
 import muyu.system.entity.Menu;
 import muyu.system.service.GenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -35,6 +34,17 @@ public class GenController extends BaseService{
 
     @Autowired
     private GenService genService;
+
+    @ModelAttribute
+    public Table preState(@RequestParam(required=false) String id){
+        Table table = genService.get(id);
+        return table!=null ? table : new Table();
+    }
+
+    @RequestMapping("get")
+    public ResultBean<Table> get(Table table){
+        return genService.query(table);
+    }
 
     @RequestMapping("findPage")
     ResultPageBean<Table> findPage(HttpServletRequest request,Table table) {
