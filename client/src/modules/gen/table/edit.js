@@ -43,6 +43,13 @@ class GenEditForm extends BaseComponent {
             })
         };
 
+        $t.setQueryParam = () => {
+            let {getFieldValue} = $t.props.form;
+            let name = getFieldValue('name');
+            name =name?name:$t.state.editData.name;
+            $t.getGrid().setGridParam({postData: {genTableId:$t.state.editData.id,tableName:name}});
+        };
+
 
         $t.beforeBindData = (type, row) => {
         };
