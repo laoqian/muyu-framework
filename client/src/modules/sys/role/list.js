@@ -53,13 +53,13 @@ export default class SyseRole extends BaseComponent{
                 items: [
                     {name: '添加', path: '/add', icon: 'plus'},
                     {name: '修改', path: '/edit', icon: 'edit'},
-                    {name: '分配', path: '/allocation', icon: 'share-alt'},
+                    {name: '授权', path: '/allocation', icon: 'share-alt'},
                     {name: '删除', path: '/delete', icon: 'delete'  }
                 ]
             }
         };
 
-        $t.regDialog('/allocation',"分配");
+        $t.regDialog('/allocation',"授权");
     }
 
     render() {

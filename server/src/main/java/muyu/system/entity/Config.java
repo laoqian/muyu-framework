@@ -1,6 +1,7 @@
 package muyu.system.entity;
 
 import lombok.Data;
+import muyu.system.common.tree.TreeNode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,4 +22,11 @@ public class Config implements Serializable{
 
     List<Dict> dicts;
     List<TableColumn> tableColumns;
+    List<Menu> menuList;
+    TreeNode  menuTree;
+
+    public void setMenuList(String rootId,List<Menu> menuList) {
+        this.menuList = menuList;
+        this.menuTree = TreeNode.createTree(rootId,menuList);
+    }
 }

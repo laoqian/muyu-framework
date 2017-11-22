@@ -45,6 +45,26 @@
         </choose>
     </select>
 
+    <select id="findRoleMenuList" resultType="RoleMenu">
+        SELECT
+            a.id AS "id",
+            a.role_id AS "roleId",
+            a.menu_id AS "menuId"
+        FROM sys_role_menu a
+        WHERE a.role_id =#{roleId}
+    </select>
+
+    <insert id="insertRoleMenu">
+        INSERT INTO sys_role_menu(
+        id,
+        role_id,
+        menu_id
+        ) VALUES (
+        #{id},
+        #{roleId},
+        #{menuId}
+        )
+    </insert>
 
     <insert id="insert">
         INSERT INTO sys_role(

@@ -36,6 +36,12 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 		return bean;
 	}
 
+	public ResultBean<TreeNode> findTreeNode(String rootId) {
+		ResultBean<TreeNode> bean = new ResultBean<>();
+	 	bean.setData(TreeNode.createTree(rootId,dao.findTree(this.rootId)));
+	 	return bean;
+	}
+
 	protected List<T> genId(List<T> list){
 		list.forEach(t->{
 			if(t.getIsNewRecord()){
@@ -57,7 +63,7 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 	}
 
 	public ResultBean<T> transform(String ids,String type){
-		List<T> list    = dao.findTree(this.rootId);
+		List<T> list    	= dao.findTree(this.rootId);
 		Set<String> set 	= new HashSet<>(Arrays.asList(ids.split(",")));
 		TreeNode root = TreeNode.createTree(this.rootId,list);
 

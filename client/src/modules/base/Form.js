@@ -141,7 +141,7 @@ let FormComponent = function (){
             if (!err) {
                 let data;
 
-                $t.state.editData = Object.assign(!$t.state.editData?$t.state.editData:{}, values);
+                $t.state.editData = Object.assign($t.state.editData?$t.state.editData:{}, values);
                 data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
 
                 u[!type?'get':type]($t.encodeUrl(url ? url : 'save'), data, function (data) {
@@ -197,28 +197,30 @@ let FormComponent = function (){
         $t.state.submiting = false;
     });
 
-    if(!$t.render){
-        $t.render = () => {
-            let style = this.style;
-            if (!style) {
-                style = {width: '400px', height: '460px'};
-            }
+    $t.renderModel = (children)=>{
+        let style = this.style;
+        if (!style) {
+            style = {width: '400px', height: '460px'};
+        }
 
-            return (
-                <Modal
-                    title={this.title()}
-                    wrapClassName="vertical-center-modal"
-                    visible={true}
-                    onOk={() => this.modalClick('ok')}
-                    onCancel={() => this.modalClick('cancel')}
-                    confirmLoading={this.state.submiting}
-                >
-                    <Form ref="userForm" className="my-form-square" style={style} children={this.renderRows(this.props.form,this.colModel,this.groupNum)}/>
-                    {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
-                </Modal>
-            )
-        };
+        return (
+            <Modal
+                title={this.title()}
+                wrapClassName="vertical-center-modal"
+                visible={true}
+                onOk={() => this.modalClick('ok')}
+                onCancel={() => this.modalClick('cancel')}
+                confirmLoading={this.state.submiting}
+            >
+                <Form ref="userForm" className="my-form-square" style={style} children={children}/>
+                {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
+            </Modal>
+        )
     };
+
+    if(!$t.render){
+        $t.render = () => $t.renderModel(this.renderRows(this.props.form,this.colModel,this.groupNum));
+    }
 }
 
 

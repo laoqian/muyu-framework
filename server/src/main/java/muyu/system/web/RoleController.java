@@ -2,15 +2,16 @@ package muyu.system.web;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
+import muyu.system.common.beans.SubmitBatchBean;
+import muyu.system.entity.Menu;
 import muyu.system.entity.Role;
+import muyu.system.entity.RoleMenu;
 import muyu.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -41,6 +42,16 @@ public class RoleController extends BaseController{
     @RequestMapping("findPage")
     public ResultPageBean<Role> findPage(Role role, HttpServletRequest request){
         return roleService.findPage(request,role);
+    }
+
+    @RequestMapping("findRoleMenuList")
+    public ResultBean<List> findRoleMenuList(RoleMenu roleMenu){
+        return roleService.findRoleMenuList(roleMenu);
+    }
+
+    @RequestMapping("saveRoleMenuBatch")
+    public ResultBean<Role> saveRoleMenuBatch(@RequestBody SubmitBatchBean<Role,String> batchBean){
+        return roleService.saveRoleMenuBatch(batchBean);
     }
 
     @RequestMapping("save")

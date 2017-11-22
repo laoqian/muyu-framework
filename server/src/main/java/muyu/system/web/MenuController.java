@@ -3,6 +3,7 @@ package muyu.system.web;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.beans.SubmitBatchBean;
+import muyu.system.common.tree.TreeNode;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +53,11 @@ public class MenuController extends BaseController{
     @RequestMapping("findTree")
     public ResultPageBean<Menu> findTree(HttpServletRequest request){
         return menuService.findTreePage(request,"0");
+    }
+
+    @RequestMapping("findTreeNode")
+    public ResultBean<TreeNode> findTreeNode(HttpServletRequest request){
+        return menuService.findTreeNode("0");
     }
 
     @RequestMapping("save")

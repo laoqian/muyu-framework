@@ -82,6 +82,9 @@ u.getDict = (type)=>{
     return d;
 };
 
+u.getMenuList =()=>u.loadSuccess?u.system.menuList:null;
+u.getMenuTree =()=>u.loadSuccess?u.system.menuTree:null;
+
 u.getTableColumn = (tableName,columnName)=>{
     let column =null;
 

@@ -17,10 +17,14 @@ import muyu.system.common.persistence.DataEntity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Role extends DataEntity<Role> {
+public class RoleMenu extends DataEntity<RoleMenu> {
 	private static final long serialVersionUID = 1L;
-    String id;     //id
-    String name;   //name
-    String ename;  //ename
-    String type;   //type
+    String roleId;   //name
+    String menuId;   //ename
+
+    public RoleMenu(String id,String roleId,String menuId){
+        super(id);
+        this.roleId = roleId;
+        this.menuId = menuId;
+    }
 }

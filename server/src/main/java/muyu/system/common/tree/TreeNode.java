@@ -1,7 +1,12 @@
 package muyu.system.common.tree;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.persistence.TreeEntity;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +21,16 @@ import java.util.Set;
  * @version: 1.0.0
  */
 @Data
-public class TreeNode {
+public class TreeNode{
+
+    @JsonIgnore
     private String id;
+
     private TreeEntity node = null;
+
+    @JsonIgnore
     private TreeNode parentNode  = null;
-    private List<TreeNode> childList = new LinkedList<>();
+    private List<TreeNode> children = new LinkedList<>();
 
     private TreeNode(String id){
         this.id = id;
@@ -29,6 +39,11 @@ public class TreeNode {
         this.id           = n.getId();
         this.node         = n;
         this.parentNode   = p;
+    }
+
+    @Override
+    public String toString() {
+        return this.node !=null?this.node.toString():"";
     }
 
     public static TreeNode createTree(String rootId,List<?> list){
@@ -43,13 +58,13 @@ public class TreeNode {
             t = (TreeEntity)list.get(i);
 
             if(t.getParentId().equals(p.getId())){
-                p.getChildList().add(new TreeNode(t,p));
+                p.getChildren().add(new TreeNode(t,p));
                 list.remove(i--);
             }
         }
 
-        if(!list.isEmpty() && !p.childList.isEmpty()){
-            p.getChildList().forEach(c->addChild(c,list));
+        if(!list.isEmpty() && !p.children.isEmpty()){
+            p.getChildren().forEach(c->addChild(c,list));
         }
     }
 
@@ -66,12 +81,12 @@ public class TreeNode {
             System.out.println(stringBuilder.toString());
         }
 
-        root.getChildList().forEach(TreeNode::print);
+        root.getChildren().forEach(TreeNode::print);
     }
 
     public void upgrade(Set ids){
-        for(int i=0;i<this.childList.size();i++){
-            TreeNode c = this.childList.get(i);
+        for(int i=0;i<this.children.size();i++){
+            TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
                 c.upgrade();
                 ids.remove(c.getId());
@@ -85,8 +100,8 @@ public class TreeNode {
     }
 
     public void degrade(Set ids){
-        for(int i=0;i<this.childList.size();i++){
-            TreeNode c = this.childList.get(i);
+        for(int i=0;i<this.children.size();i++){
+            TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
                 c.degrade();
                 ids.remove(c.getId());
@@ -100,8 +115,8 @@ public class TreeNode {
     }
 
     public void up(Set ids){
-        for(int i=0;i<this.childList.size();i++){
-            TreeNode c = this.childList.get(i);
+        for(int i=0;i<this.children.size();i++){
+            TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
                 c.move(false);
                 ids.remove(c.getId());
@@ -115,8 +130,8 @@ public class TreeNode {
 
     public void down(Set ids){
 
-        for(int i=this.childList.size()-1;i>=0;i--){
-            TreeNode c = this.childList.get(i);
+        for(int i=this.children.size()-1;i>=0;i--){
+            TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
                 c.move(true);
                 ids.remove(c.getId());
@@ -130,7 +145,7 @@ public class TreeNode {
 
     public List getUpdateList(){
         List list = new LinkedList();
-        this.childList.forEach(c->{
+        this.children.forEach(c->{
             if(c.getNode().isUpdated()){
                 list.add(c.getNode());
             }
@@ -178,27 +193,27 @@ public class TreeNode {
         if(this.getParentNode()==null){
             return null;
         }
-        List<TreeNode> childList = this.getParentNode().getChildList();
+        List<TreeNode> children = this.getParentNode().getChildren();
         int i,k;
-        for(i=0;i<childList.size();i++){
-            if(childList.get(i).getId().equals(this.getId())){
+        for(i=0;i<children.size();i++){
+            if(children.get(i).getId().equals(this.getId())){
                 break;
             }
         }
 
         k = down?i+1:i-1;
 
-        return k>=0 && k<childList.size()? childList.get(k):null;
+        return k>=0 && k<children.size()? children.get(k):null;
     }
 
     private void remove(){
-        List<TreeNode> childList = this.getParentNode().getChildList();
+        List<TreeNode> children = this.getParentNode().getChildren();
         TreeNode n;
         int k = Integer.MAX_VALUE;
-        for(int i=0;i<childList.size();i++){
-            n = childList.get(i);
-            if(childList.get(i).getId().equals(this.getId())){
-                childList.remove(i--);
+        for(int i=0;i<children.size();i++){
+            n = children.get(i);
+            if(children.get(i).getId().equals(this.getId())){
+                children.remove(i--);
                 k = i;
             }else if(i>=k){
                 n.setSort(i);
@@ -207,15 +222,15 @@ public class TreeNode {
     }
 
     private void addChild(TreeNode c,int pos){
-        pos = pos==-1?this.childList.size():pos;
-        this.childList.add(pos,c);
+        pos = pos==-1?this.children.size():pos;
+        this.children.add(pos,c);
 
         c.setParentNode(this);
         c.getNode().setParentId(this.getId());
         c.setSort(pos);
 
-        for(int i =pos;i<this.childList.size();i++){
-            this.childList.get(i).setSort(i);
+        for(int i =pos;i<this.children.size();i++){
+            this.children.get(i).setSort(i);
         }
     }
 
@@ -228,10 +243,10 @@ public class TreeNode {
     }
 
     private int index(){
-        List<TreeNode> childList = this.getParentNode().getChildList();
+        List<TreeNode> children = this.getParentNode().getChildren();
         int k = -1;
-        for(int i=0;i<childList.size();i++){
-            if(childList.get(i).getId().equals(this.getId())){
+        for(int i=0;i<children.size();i++){
+            if(children.get(i).getId().equals(this.getId())){
                 k =i;
                 break;
             }
@@ -240,15 +255,15 @@ public class TreeNode {
     }
 
     private void swapChild(int a,int b){
-        if(a >=0 && a<this.childList.size() && b >=0 && b<this.childList.size() ){
-            TreeNode aNode  = this.childList.get(a);
-            TreeNode bNode  = this.childList.get(b);
+        if(a >=0 && a<this.children.size() && b >=0 && b<this.children.size() ){
+            TreeNode aNode  = this.children.get(a);
+            TreeNode bNode  = this.children.get(b);
 
             aNode.setSort(b);
             bNode.setSort(a);
 
-            this.childList.set(a,bNode);
-            this.childList.set(b,aNode);
+            this.children.set(a,bNode);
+            this.children.set(b,aNode);
         }
     }
 }

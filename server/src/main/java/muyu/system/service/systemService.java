@@ -2,8 +2,10 @@ package muyu.system.service;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.service.BaseService;
+import muyu.system.common.tree.TreeNode;
 import muyu.system.dao.DictDao;
 import muyu.system.dao.GenDao;
+import muyu.system.dao.MenuDao;
 import muyu.system.entity.Config;
 import muyu.system.entity.Dict;
 import muyu.system.entity.TableColumn;
@@ -36,12 +38,18 @@ public class SystemService extends BaseService{
     DictDao dictDao;
 
     @Autowired
+    MenuDao menuDao;
+
+    @Autowired
     GenDao genDao;
 
     public ResultBean<Config> getConfig(){
         Config config=  new Config();
-                config.setDicts(dictDao.findList(new Dict()));
-                config.setTableColumns(genDao.findTableColumn(new TableColumn()));
+        String rootId = "0";
+
+        config.setDicts(dictDao.findList(new Dict()));
+        config.setTableColumns(genDao.findTableColumn(new TableColumn()));
+        config.setMenuList(rootId,menuDao.findTree(rootId));
 
         return new ResultBean<>(config);
     }
