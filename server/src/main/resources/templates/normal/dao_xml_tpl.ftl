@@ -4,7 +4,7 @@
 
     <sql id="${entityName+"Columns"}">
     <#list list as column>
-        ${"a."+column["name"]} AS "${column["javaField"]}";
+        ${"a."+column["name"]} AS "${column["javaField"]}" <#if column_has_next>,</#if>
     </#list>
     </sql>
 

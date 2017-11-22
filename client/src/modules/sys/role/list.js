@@ -5,6 +5,7 @@ import JqgridWrapper from '../../grid/index'
 import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import RoleEdit from './edit'
 import RoleDelete from './delete'
+import RoleAllcationForm from './allocation'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel  from './colModel'
@@ -26,11 +27,8 @@ export default class SyseRole extends BaseComponent{
             url             : $t.encodeUrl('findPage'),
             baseUrl         : $t.baseUrl,
             gridName        : this.moduleName,
-            treeGrid        : true,
             inlineEdit      : true,
             muiltSelect     : true,
-            ExpandColumn    : 'name',
-            ExpNum          : 8,
             pagerAble       : true,
             rownumbers      : false,
             colModel        : colModel,
@@ -53,21 +51,15 @@ export default class SyseRole extends BaseComponent{
             reload: true,
             right: {
                 items: [
-                    // {name: '添加', path: '/add', icon: 'plus',},
-                    // {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    // {name: '修改', path: '/edit', icon: 'edit',},
-                    {name: '保存', path: '/save'  , icon: 'save',     },
-                    {name: '删除', path: '/delete', icon: 'delete',   }
+                    {name: '添加', path: '/add', icon: 'plus'},
+                    {name: '修改', path: '/edit', icon: 'edit'},
+                    {name: '分配', path: '/allocation', icon: 'share-alt'},
+                    {name: '删除', path: '/delete', icon: 'delete'  }
                 ]
             }
         };
 
-        $t.regEvent("保存",'save',()=>{
-           let list =  $t.saveEditList();
-           if(list){
-               u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
-           }
-        });
+        $t.regDialog('/allocation',"分配");
     }
 
     render() {
@@ -77,8 +69,9 @@ export default class SyseRole extends BaseComponent{
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history={this.history}>
                     <Switch>
-                        <Route path="/edit" component={RoleEdit}/>
-                        <Route path="/delete" component={RoleDelete}/>
+                        <Route path="/edit"         component={RoleEdit}/>
+                        <Route path="/allocation"   component={RoleAllcationForm}/>
+                        <Route path="/delete"       component={RoleDelete}/>
                         <Route component={NoMatch}/>
                     </Switch>
                 </Router>

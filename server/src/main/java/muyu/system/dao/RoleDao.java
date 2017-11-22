@@ -2,7 +2,6 @@ package muyu.system.dao;
 
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.entity.Role;
-import muyu.system.entity.User;
 import org.springframework.stereotype.Component;
 
 /**

@@ -6,71 +6,104 @@ export default class BaseComponent extends Component{
 
     constructor(props){
         super(props);
-        this.u = u;
-        this.baseUrl ='/api/';
-        this.encodeUrl = (url)=>this.baseUrl+url;
-        this.state = {};
-        this.extend = function(){
+        let $t = this;
+        $t.u = u;
+        $t.baseUrl ='/api/';
+        $t.encodeUrl = (url)=>$t.baseUrl+url;
+        $t.state = {};
+        $t.extend = function(){
             for(let i=0;i<arguments.length;i++){
                 let func = require('./'+arguments[i]).default;
                 if(func){
-                    func.call(this);
+                    func.call($t);
                 }
             }
         };
 
-        this.eventFunc = {};
-        this.state.componentType ='自定义组件';
-        this.componentCheck = ()=>{
-            if(this.state.componentType!=='自定义组件'){
+        $t.eventFunc = {};
+        $t.state.componentType ='自定义组件';
+        $t.componentCheck = ()=>{
+            if($t.state.componentType!=='自定义组件'){
                 throw new Error("自定义组件，不能绑定相关方法");
             }
         };
-        this.regEvent = (cnName,enName, func) => {
+
+        $t.openDialog = (url,type)=>$t.editRow(null,url,type);
+        $t.regDialog =(url,type)=>{
+            $t.eventFunc[type] = ()=>$t.openDialog(url,type);
+        };
+
+        $t.regEvent = (cnName,enName,func) => {
             let fun;
 
             if(_.isFunction(enName)){
                 fun = enName;
             }else{
-                fun = this[enName] = func;
+                fun = $t[enName] = func;
             }
 
-            if(_.isFunction(this.eventFunc[cnName])){
-                let beforeFunc = this.eventFunc[cnName];
-                this.eventFunc[cnName] = ()=>{
+            if(_.isFunction($t.eventFunc[cnName])){
+                let beforeFunc = $t.eventFunc[cnName];
+                $t.eventFunc[cnName] = ()=>{
                     beforeFunc();
                     fun();
                 }
             }else{
-                this.eventFunc[cnName] = fun;
+                $t.eventFunc[cnName] = fun;
             }
         };
 
-        this.eventFunc.callFunc = (name,args)=>{
-            let func = this.eventFunc[name];
+        $t.eventFunc['修改'] = $t.editRow = async (id,url,type) => {
+            let row;
+            if (!id) {
+                row = $t.getSelRowData();
+            } else {
+                row = $t.getGrid().getRowData(id);
+            }
+
+            id =row? row.id:null;
+
+            if (!id) {
+                return u.tip('未选中列', 'error');
+            } else {
+                try {
+                    type= type?type:'编辑';
+                    let bean = await $t.loadSelData(id);
+                    row = bean.data;
+                    u.success(type+'：' + row.id);
+                } catch (err) {
+                    return u.error(err.msg);
+                }
+            }
+
+            $t.history.push({pathname: url?url:'/edit', type, row, grid: $t.getGrid()});
+        };
+
+        $t.eventFunc.callFunc = (name,args)=>{
+            let func = $t.eventFunc[name];
             if(_.isFunction(func)){
                 _.isObject(args)?func(...args):func();
             }
         };
 
-        this.componentWillMount = ()=>{
-            this.eventFunc.callFunc('willMount');
+        $t.componentWillMount = ()=>{
+            $t.eventFunc.callFunc('willMount');
         };
 
-        this.componentDidMount = ()=>{
-            this.eventFunc.callFunc('didMount');
+        $t.componentDidMount = ()=>{
+            $t.eventFunc.callFunc('didMount');
         };
 
-        this.componentWillReceiveProps=(nextProps)=>{
-            this.eventFunc.callFunc('receiveProps',{nextProps});
+        $t.componentWillReceiveProps=(nextProps)=>{
+            $t.eventFunc.callFunc('receiveProps',{nextProps});
         };
 
-        this.componentWillUpdate = (nextProps,nextState) => {
-            this.eventFunc.callFunc('willUpdate',{nextProps,nextState});
+        $t.componentWillUpdate = (nextProps,nextState) => {
+            $t.eventFunc.callFunc('willUpdate',{nextProps,nextState});
         };
 
-        this.componentDidUpdate = (nextProps,nextState) => {
-            this.eventFunc.callFunc('didUpdate',{nextProps,nextState});
+        $t.componentDidUpdate = (nextProps,nextState) => {
+            $t.eventFunc.callFunc('didUpdate',{nextProps,nextState});
         };
     }
 

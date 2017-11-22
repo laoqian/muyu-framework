@@ -59,34 +59,12 @@ let ListComponent = function(){
             $.inArray(row.id, editList) !== -1 ? eList.push(row) : null;
         });
 
-        this.editList = eList;
+        $t.editList = eList;
         return true;
     };
 
 
-    $t.eventFunc['修改'] = $t.editRow = async (id) => {
-        let row;
-        if (!id) {
-            row = $t.getSelRowData();
-            id = row.id;
-        } else {
-            row = $t.getGrid().getRowData(id);
-        }
 
-        if (!id) {
-            return u.tip('未选择,要修改的菜单', 'error');
-        } else {
-            try {
-                let bean = await $t.loadSelData(id);
-                row = bean.data;
-                u.tip('编辑菜单：' + row.id);
-            } catch (err) {
-                return u.tip(err.msg, 'error');
-            }
-        }
-
-        this.history.push({pathname: '/edit', type: 'modify', row, grid: $t.getGrid()});
-    };
 
     $t.eventFunc['添加'] = $t.addRow = async () => {
         let row = $t.getSelRowData();
@@ -99,7 +77,7 @@ let ListComponent = function(){
             }
         }
 
-        $t.history.push({pathname: '/edit', type: 'add', row, grid: $t.getGrid()})
+        $t.history.push({pathname: '/edit', type: '添加', row, grid: $t.getGrid()})
     };
 
     $t.eventFunc['删除'] = $t.deleteRow = () => {

@@ -146,7 +146,15 @@ let FormComponent = function (){
 
                 u[!type?'get':type]($t.encodeUrl(url ? url : 'save'), data, function (data) {
                     u[data.success()?'success':'error'](data.msg);
-                    _.isFunction(afterSave)?afterSave(data):null;
+
+                    if(_.isFunction(afterSave)){
+                        afterSave(data)
+                    }
+                    let grid = $t.props.location.grid;
+                    if(grid){
+                        grid.trigger('reloadGrid');
+                    }
+
                     $t.setState({submiting:false});
                 })
             }
@@ -160,14 +168,11 @@ let FormComponent = function (){
             $t.props.location.binded = true;
             _.isFunction($t.beforeBindData)? $t.beforeBindData(type,row):null;
 
-            switch (type) {
-                case 'add':
-                    row?row.id=null:row={};
-                    $t.state.editData =_.isFunction($t.setDefaultData)? $t.setDefaultData(row):row;
-                    break;
-                case 'modify':
-                    $t.state.editData = row;
-                    break;
+            if(type==='添加'){
+                row?row.id=null:row={};
+                $t.state.editData =_.isFunction($t.setDefaultData)? $t.setDefaultData(row):row;
+            }else{
+                $t.state.editData = row;
             }
         }
     };
@@ -175,7 +180,7 @@ let FormComponent = function (){
     $t.title = () => {
         let {type,binded} = $t.props.location;
         if (binded) {
-           return $t.moduleName+(type==='modify'?`修改-${this.state.editData.id}`:'添加');
+           return $t.moduleName+(type!=='添加'?`${type}-${this.state.editData.id}`:'添加');
         }else{
             return $t.moduleName + '添加';
         }
@@ -208,7 +213,7 @@ let FormComponent = function (){
                     onCancel={() => this.modalClick('cancel')}
                     confirmLoading={this.state.submiting}
                 >
-                    <Form ref="userForm" className="my-form-square" style={style} children={this.u.renderRows(this.props.form,this.colModel,this.groupNum)}/>
+                    <Form ref="userForm" className="my-form-square" style={style} children={this.renderRows(this.props.form,this.colModel,this.groupNum)}/>
                     {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
                 </Modal>
             )

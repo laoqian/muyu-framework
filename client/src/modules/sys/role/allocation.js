@@ -4,7 +4,7 @@ import colModel from './colModel'
 import {Form} from 'antd';
 
 
-class RoleEditForm extends BaseComponent {
+class RoleAllcationForm extends BaseComponent {
     constructor(props) {
         super(props);
 
@@ -20,5 +20,5 @@ class RoleEditForm extends BaseComponent {
 }
 
 
-export default Form.create()(RoleEditForm);
+export default Form.create()(RoleAllcationForm);
 
