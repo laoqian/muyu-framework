@@ -396,25 +396,24 @@ class GridToolBar extends Component{
         let expBtn=null,expBtnChildren=[],opBtn=null,opBtnChildren=[];
 
         if(options.treeGrid){
-
-            if(edit){
-                let expNum = options.ExpNum>0?options.ExpNum:4;
-                for(let i=0;i<expNum;i++){
-                    expBtnChildren.push(this.renderBtn(i+1));
-                }
-
-                expBtn =<ButtonGroup children={expBtnChildren}/>;
+            let expNum = options.ExpNum>0?options.ExpNum:4;
+            for(let i=0;i<expNum;i++){
+                expBtnChildren.push(this.renderBtn(i+1));
             }
 
-            opList.forEach(t=>{
-                opBtnChildren.push(this.renderBtn(t.name,t.icon));
-            });
+            expBtn =<ButtonGroup children={expBtnChildren}/>;
 
-            opBtn = <ButtonGroup children={opBtnChildren}/>;
+            if(options.inlineEdit){
+                opList.forEach(t=>{
+                    opBtnChildren.push(this.renderBtn(t.name,t.icon));
+                });
+
+                opBtn = <ButtonGroup children={opBtnChildren}/>;
+            }
         }
 
         let btnGroup=null;
-        if(edit) {
+        if(options.inlineEdit) {
             btnGroup = <ButtonGroup children={this.renderBtn('添加','plus-circle-o')}/>
         }
 
