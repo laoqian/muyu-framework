@@ -9,9 +9,10 @@ class OfficeForm extends BaseComponent {
         
         this.extend("Form");
         this.baseUrl      = '/api/menu/';
-        this.moduleName   = "用户";
+        this.groupNum     = 2;
+        this.moduleName   = "机构";
         this.colModel     = colModel;
-        this.style ={width:'400px',height:'460px'};
+        this.style ={width:'800px',height:'360px'};
     }
 }
 
