@@ -4,7 +4,7 @@
 
     <sql id="OfficeColumns">
         a.id AS "id" ,
-        a.parent_id AS "parent" ,
+        a.parent_id AS "parentId" ,
         a.name AS "name" ,
         a.sort AS "sort" ,
         a.area_id AS "area" ,
@@ -47,7 +47,7 @@
         WHERE a.id = #{id}
     </select>
 
-    <select id="findTree" resultType="Menu">
+    <select id="findTree" resultType="Office">
         SELECT
           level             AS "level",
           connect_by_isleaf AS "leaf",
@@ -103,7 +103,7 @@
             del_flag
         ) VALUES (
             #{id},
-            #{parent},
+            #{parentId},
             #{name},
             #{sort},
             #{area},
@@ -131,7 +131,7 @@
     <update id="update">
         UPDATE sys_office SET
             id=#{id},
-            parent_id=#{parent},
+            parent_id=#{parentId},
             name=#{name},
             sort=#{sort},
             area_id=#{area},

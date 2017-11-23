@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.system.dao.AreaDao">
+
+    <sql id="AreaColumns">
+        a.id AS "id" ,
+        a.parent_id AS "parentId" ,
+        a.name AS "name" ,
+        a.sort AS "sort" ,
+        a.code AS "code" ,
+        a.type AS "type" ,
+        a.create_by AS "createBy.id" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy.id" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag" 
+    </sql>
+
+    <sql id="AreaJoins">
+    </sql>
+
+    <select id="get" resultType="Area">
+        SELECT
+        <include refid="AreaColumns"/>
+        FROM sys_area a
+        <include refid="AreaJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="query" resultType="Area">
+        SELECT
+        <include refid="AreaColumns"/>
+        FROM sys_area a
+        <include refid="AreaJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Area">
+        SELECT
+        <include refid="AreaColumns"/>
+        FROM sys_area a
+        <include refid="AreaJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findTree" resultType="Area">
+        SELECT
+        level             AS "level",
+        connect_by_isleaf AS "leaf",
+        <include refid="AreaColumns"/>
+        FROM sys_area a
+        START WITH a.parent_id  = #{rootId}
+        CONNECT BY PRIOR a.id   = a.parent_id
+        ORDER SIBLINGS BY sort
+    </select>
+
+    <insert id="insert">
+        INSERT INTO sys_area(
+            id,
+            parent_id,
+            name,
+            sort,
+            code,
+            type,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{id},
+            #{parentId},
+            #{name},
+            #{sort},
+            #{code},
+            #{type},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_area SET
+            id=#{id},
+            parent_id=#{parentId},
+            name=#{name},
+            sort=#{sort},
+            code=#{code},
+            type=#{type},
+            create_by=#{createBy.id},
+            create_date=#{createDate},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_area
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE sys_area SET del_flag = 1
+        WHERE id = #{id}
+    </update>
+</mapper>
