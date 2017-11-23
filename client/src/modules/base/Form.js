@@ -162,7 +162,7 @@ let FormComponent = function (){
     };
 
     $t.bindDataOnce = () => {
-        let {row, type} = $t.props.location;
+        let {row, type,data} = $t.props.location;
 
         if (!$t.props.location.binded) {
             $t.props.location.binded = true;
@@ -174,6 +174,8 @@ let FormComponent = function (){
             }else{
                 $t.state.editData = row;
             }
+
+            $t.state.data = data;
         }
     };
 
@@ -188,7 +190,6 @@ let FormComponent = function (){
 
 
     $t.regEvent('willMount',()=>{
-        console.log('willMount');
         $t.bindDataOnce();
     });
 

@@ -28,9 +28,9 @@ export default class BaseComponent extends Component{
             }
         };
 
-        $t.openDialog = (url,type)=>$t.editRow(null,url,type);
-        $t.regDialog =(url,type)=>{
-            $t.eventFunc[type] = ()=>$t.openDialog(url,type);
+        $t.openDialog = (url,type,promise)=>$t.editRow(null,url,type,promise);
+        $t.regDialog =(url,type,promise)=>{
+            $t.eventFunc[type] = ()=>$t.openDialog(url,type,promise);
         };
 
         $t.regEvent = (cnName,enName,func) => {
@@ -53,8 +53,8 @@ export default class BaseComponent extends Component{
             }
         };
 
-        $t.eventFunc['修改'] = $t.editRow = async (id,url,type) => {
-            let row;
+        $t.eventFunc['修改'] = $t.editRow = async (id,url,type,promise) => {
+            let row,data;
             if (!id) {
                 row = $t.getSelRowData();
             } else {
@@ -71,12 +71,15 @@ export default class BaseComponent extends Component{
                     let bean = await $t.loadSelData(id);
                     row = bean.data;
                     u.success(type+'：' + row.id);
+                    if(promise){
+                        data = await promise(row);
+                    }
                 } catch (err) {
-                    return u.error(err.msg);
+                    return u.error(err);
                 }
             }
 
-            $t.history.push({pathname: url?url:'/edit', type, row, grid: $t.getGrid()});
+            $t.history.push({pathname: url?url:'/edit', type, row, grid: $t.getGrid(),data});
         };
 
         $t.eventFunc.callFunc = (name,args)=>{
@@ -84,6 +87,18 @@ export default class BaseComponent extends Component{
             if(_.isFunction(func)){
                 _.isObject(args)?func(...args):func();
             }
+        };
+
+        $t.loadSelData = (id) => {
+            return new Promise((res, rej) => {
+                u.get($t.encodeUrl('get?id=' + id), function (bean) {
+                    if (bean.code === 0 && bean.data) {
+                        res(bean);
+                    } else {
+                        rej(bean);
+                    }
+                });
+            })
         };
 
         $t.componentWillMount = ()=>{

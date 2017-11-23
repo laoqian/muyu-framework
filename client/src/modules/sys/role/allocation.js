@@ -44,26 +44,15 @@ class RoleAllcationForm extends BaseComponent {
         $t.saveData = () => {
             $t.defaultSaveData('saveRoleMenuBatch', 'post', () => ({data:this.state.editData, list:this.state.checkedKeys}))
         };
-
-
-        $t.regEvent("didMount",()=>{
-            let u = this.u;
-            u.get($t.encodeUrl('findRoleMenuList?roleId='+$t.state.editData.id),(bean)=>{
-                let selectedKeys =[];
-                bean.data.forEach(item=>selectedKeys.push(item.menuId));
-                $t.setState({selectedKeys});
-            })
-        })
     }
 
     render(){
-
         let tree = (
             <Tree
                 checkable
                 defaultExpandAll
                 showLine
-                // selectedKeys={this.state.selectedKeys}
+                defaultCheckedKeys={this.state.data?this.state.data.selectedKeys:[]}
                 onCheck={this.onCheck}
 
                 ref="tree"

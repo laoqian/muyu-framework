@@ -111,17 +111,7 @@ let ListComponent = function(){
 
     $t.click = item => $t.eventFunc[item.name] ? $t.eventFunc[item.name]() : console.error('Warning:未定义的事件：' + item.name);
 
-    $t.loadSelData = (id) => {
-        return new Promise((res, rej) => {
-            u.get($t.encodeUrl('get?id=' + id), function (bean) {
-                if (bean.code === 0 && bean.data) {
-                    res(bean);
-                } else {
-                    rej(bean);
-                }
-            });
-        })
-    };
+
 
     $t.register = form => $t.serachForm = form;
 };
