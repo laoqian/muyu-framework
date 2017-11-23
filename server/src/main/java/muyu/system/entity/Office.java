@@ -1,41 +1,37 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+
 package muyu.system.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.persistence.TreeEntity;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
  * 孤舟蓑笠翁，独钓寒江雪。
- *
- * @author: 于其先
- * @date: 2017/9/14
- * @version: 1.0.0
+ * Office
+ * @author  于其先
+ * @version 2017-11-23 14:54:40
  */
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Office extends DataEntity<Office> {
-
+public class Office extends TreeEntity<Office> {
 	private static final long serialVersionUID = 1L;
-	private Area area;		// 归属区域
-	private String code; 	// 机构编码
-	private String type; 	// 机构类型（1：公司；2：部门；3：小组）
-	private String grade; 	// 机构等级（1：一级；2：二级；3：三级；4：四级）
-	private String address; // 联系地址
-	private String zipCode; // 邮政编码
-	private String master; 	// 负责人
-	private String phone; 	// 电话
-	private String fax; 	// 传真
-	private String email; 	// 邮箱
-	private String useable;//是否可用
-	private User primaryPerson;//主负责人
-	private User deputyPerson;//副负责人
-	private List<String> childDeptList;//快速添加子部门
+    String name;  //name
+    String area;  //area_id
+    String code;  //code
+    String type;  //type
+    String grade;  //grade
+    String address;  //address
+    String zipCode;  //zip_code
+    String phone;  //phone
+    String fax;  //fax
+    String email;  //email
+    String useable;  //useable
+    String primaryPerson;  //primary_person
+    String deputyPerson;  //deputy_person
 }

@@ -11,6 +11,7 @@ create table SYS_OFFICE
   grade          VARCHAR2(6) not null,
   address        NVARCHAR2(255),
   zip_code       VARCHAR2(100),
+  master         NVARCHAR2(100),
   phone          NVARCHAR2(200),
   fax            NVARCHAR2(200),
   email          NVARCHAR2(200),

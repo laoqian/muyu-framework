@@ -77,12 +77,15 @@ let FormComponent = function (){
         col.component = ctrl;
 
         let options = {},{editrules} =col;
+        let data = $t.state.editData;
+
         options.rules =[];
 
-        if(editrules && editrules.required){
-            let data = $t.state.editData;
+        if(data && data[col.name] ){
+            options.initialValue = data[col.name].toString();
+        }
 
-            options.initialValue =data && data[col.name]!==undefined?data[col.name].toString():null;
+        if(editrules && editrules.required){
             options.rules.push({required:true,message:`${col.label}不能为空！`});
         }
 
@@ -187,7 +190,6 @@ let FormComponent = function (){
             return $t.moduleName + '添加';
         }
     };
-
 
     $t.regEvent('willMount',()=>{
         $t.bindDataOnce();

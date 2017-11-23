@@ -1,7 +1,167 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="muyu.system.dao.OfficeDao">
-    <select id="findList" resultType="Menu">
-        select id AS "id",parent_id AS "parentId",name AS "name",href AS "href" from sys_menu where del_flag='0' order BY sort
+
+    <sql id="OfficeColumns">
+        a.id AS "id" ,
+        a.parent_id AS "parent" ,
+        a.name AS "name" ,
+        a.sort AS "sort" ,
+        a.area_id AS "area" ,
+        a.code AS "code" ,
+        a.type AS "type" ,
+        a.grade AS "grade" ,
+        a.address AS "address" ,
+        a.zip_code AS "zipCode" ,
+        a.master AS "master" ,
+        a.phone AS "phone" ,
+        a.fax AS "fax" ,
+        a.email AS "email" ,
+        a.useable AS "useable" ,
+        a.primary_person AS "primaryPerson" ,
+        a.deputy_person AS "deputyPerson" ,
+        a.create_by AS "createBy" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag" 
+    </sql>
+
+    <sql id="OfficeJoins">
+    </sql>
+
+    <select id="get" resultType="Office">
+        SELECT
+        <include refid="OfficeColumns"/>
+        FROM sys_office a
+        <include refid="OfficeJoins"/>
+        WHERE a.id = #{id}
     </select>
+
+    <select id="query" resultType="Office">
+        SELECT
+        <include refid="OfficeColumns"/>
+        FROM sys_office a
+        <include refid="OfficeJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findTree" resultType="Menu">
+        SELECT
+          level             AS "level",
+          connect_by_isleaf AS "leaf",
+          <include refid="OfficeColumns"/>
+        FROM sys_office a
+        START WITH a.parent_id  = #{rootId}
+        CONNECT BY PRIOR a.id   = a.parent_id
+        ORDER SIBLINGS BY sort
+    </select>
+
+    <select id="findList" resultType="Office">
+        SELECT
+        <include refid="OfficeColumns"/>
+        FROM sys_office a
+        <include refid="OfficeJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO sys_office(
+            id,
+            parent_id,
+            name,
+            sort,
+            area_id,
+            code,
+            type,
+            grade,
+            address,
+            zip_code,
+            master,
+            phone,
+            fax,
+            email,
+            useable,
+            primary_person,
+            deputy_person,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{id},
+            #{parent},
+            #{name},
+            #{sort},
+            #{area},
+            #{code},
+            #{type},
+            #{grade},
+            #{address},
+            #{zipCode},
+            #{master},
+            #{phone},
+            #{fax},
+            #{email},
+            #{useable},
+            #{primaryPerson},
+            #{deputyPerson},
+            #{createBy},
+            #{createDate},
+            #{updateBy},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_office SET
+            id=#{id},
+            parent_id=#{parent},
+            name=#{name},
+            sort=#{sort},
+            area_id=#{area},
+            code=#{code},
+            type=#{type},
+            grade=#{grade},
+            address=#{address},
+            zip_code=#{zipCode},
+            master=#{master},
+            phone=#{phone},
+            fax=#{fax},
+            email=#{email},
+            useable=#{useable},
+            primary_person=#{primaryPerson},
+            deputy_person=#{deputyPerson},
+            create_by=#{createBy},
+            create_date=#{createDate},
+            update_by=#{updateBy},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_office
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE sys_office SET del_flag = 1
+        WHERE id = #{id}
+    </update>
 </mapper>

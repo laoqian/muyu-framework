@@ -1,6 +1,6 @@
 package muyu.system.dao;
 
-import muyu.system.common.persistence.CrudDao;
+import muyu.system.common.persistence.TreeDao;
 import muyu.system.entity.Office;
 
 /**
@@ -11,6 +11,6 @@ import muyu.system.entity.Office;
  * @date: 2017/9/15
  * @version: 1.0.0
  */
-public interface OfficeDao extends CrudDao<Office>{
+public interface OfficeDao extends TreeDao<Office> {
 
 }
