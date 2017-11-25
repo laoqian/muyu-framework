@@ -22,26 +22,38 @@ export default class Ztree extends BaseComponent{
         super(props);
         let $t = this;
         $t.state ={
-            submiting:false,visible:true
+            submiting:false,node:null
         };
 
-        $t.modalClick = (type) => {
-            if (type === 'ok') {
-                $t.setState({submiting: true});
-            } else {
-                let {container,rootDiv} = this.props;
-                ReactDOM.unmountComponentAtNode(container);
-                container.parentNode.removeChild(container);
-                rootDiv.parentNode.removeChild(rootDiv);
-            }
+        $t.modelClose=()=>{
+            let {container,rootDiv} = this.props;
+            ReactDOM.unmountComponentAtNode(container);
+            container.parentNode.removeChild(container);
+            rootDiv.parentNode.removeChild(rootDiv);
         };
 
-        this.regEvent("didMount",()=>{
+        $t.modalClick = type => type==='ok'?$t.setState({submiting: true}): $t.modelClose();
+
+        $t.regEvent("didMount",()=>{
             let dom = ReactDOM.findDOMNode(this.refs.tree);
             let setting = this.props.setting || {};
-            setting.callback = {
-                onClick:(event, treeId, treeNode) =>console.log(treeNode)
+            setting.callback = setting.callback || {};
+            setting.callback.onClick =(event, treeId,treeNode) =>$t.state.node = treeNode;
+
+            setting.leafSelOnly = setting.leafSelOnly!==false;
+
+            let dbClick = setting.callback.onDblClick;
+            setting.callback.onDblClick =(event, treeId,treeNode) =>{
+                if(setting.leafSelOnly && treeNode.isParent){
+                   return $t.u.error('不能选择父目录');
+                }
+
+                $t.modelClose();
+                if(dbClick){
+                    dbClick(treeNode);
+                }
             };
+
             this.tree = $.fn.zTree.init($(dom), setting,this.props.zNodes);
         })
     }

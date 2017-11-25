@@ -39,7 +39,7 @@ public class TreeNode{
     }
     private TreeNode(TreeEntity n,TreeNode p){
         this.id           = n.getId();
-        this.name           = n.getName();
+        this.name         = n.getName();
         this.node         = n;
         this.parentNode   = p;
     }
