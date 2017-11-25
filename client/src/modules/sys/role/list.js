@@ -6,8 +6,9 @@ import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import RoleEdit from './edit'
 import RoleDelete from './delete'
 import RoleAllcationForm from './allocation'
-import {findDOMNode} from 'react-dom';
-import BaseComponent from "../../base/BaseComponent";
+import {findDOMNode} from 'react-dom'
+import BaseComponent from "../../base/BaseComponent"
+import Ztree from "../../base/Ztree"
 import colModel  from './colModel'
 
 export default class SyseRole extends BaseComponent{
@@ -53,12 +54,16 @@ export default class SyseRole extends BaseComponent{
                 items: [
                     {name: '添加', path: '/add', icon: 'plus'},
                     {name: '修改', path: '/edit', icon: 'edit'},
+                    {name: '测试', path: '/test', icon: 'edit'},
                     {name: '授权', path: '/allocation', icon: 'share-alt'},
                     {name: '删除', path: '/delete', icon: 'delete'  }
                 ]
             }
         };
 
+        $t.regEvent("测试",()=>{
+            Ztree.open();
+        });
         $t.regDialog('/allocation',"授权",row=>{
             return new Promise((res,rej)=>{
                 let u = this.u;

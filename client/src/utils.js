@@ -115,7 +115,8 @@ u.configuration = ()=>{
             console.log(`请求系统配置完成`,bean);
         }
     });
-}
+};
+
 u.online = function(){
     if(u.loadSuccess){
         return;
@@ -142,6 +143,9 @@ u.outline = function(){
 };
 
 
-
+u.randId= (()=>{
+    let id =0;
+    return ()=>('uid'+id++);
+})();
 
 export default u;
