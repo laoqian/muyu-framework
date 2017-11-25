@@ -1,8 +1,10 @@
 import React from 'react'
 import BaseComponent from './BaseComponent'
 import ReactDOM from 'react-dom'
-import {Modal}  from 'antd'
+import {Modal,Input,Button,Row,Col}  from 'antd'
+import  _ from 'lodash'
 
+const Search = Input.Search;
 export default class Ztree extends BaseComponent{
     static open(setting){
         let $t = new Ztree();
@@ -27,9 +29,10 @@ export default class Ztree extends BaseComponent{
 
         $t.modelClose=()=>{
             let {container,rootDiv} = this.props;
-            ReactDOM.unmountComponentAtNode(container);
-            container.parentNode.removeChild(container);
-            rootDiv.parentNode.removeChild(rootDiv);
+            $t.zTree.destroy();
+            // ReactDOM.unmountComponentAtNode(container);
+            document.body.removeChild(container);
+            document.body.removeChild(rootDiv);
         };
 
         $t.modalClick = type => type==='ok'?$t.setState({submiting: true}): $t.modelClose();
@@ -54,19 +57,35 @@ export default class Ztree extends BaseComponent{
                 }
             };
 
-            this.tree = $.fn.zTree.init($(dom), setting,this.props.zNodes);
-        })
+            $.fn.zTree.init($(dom), setting,this.props.zNodes);
+            $t.zTree = $.fn.zTree.getZTreeObj($t.treeId);
+        });
+
+        $t.hiddenNodes=[];
+
+        $t.treeFilter=(_keywords)=>{
+            $t.zTree.expandAll(true);
+            $t.zTree.showNodes($t.hiddenNodes);
+
+            //获取不符合条件的叶子结点
+            $t.hiddenNodes = $t.zTree.getNodesByFilter(node=>!(node.isParent || node.name.indexOf(_keywords) !== -1));
+
+            //隐藏不符合条件的叶子结点
+            $t.zTree.hideNodes($t.hiddenNodes);
+        };
+
+        $t.treeId = this.u.randId();
     }
 
     render(){
         let {setting} = this.props;
-        let bodyStyle ;
+        let bodyStyle ={};
         if(setting){
-            bodyStyle = setting.modelStyle;
+            bodyStyle = _.assign(bodyStyle,setting.modelStyle);
         }
-        if(!bodyStyle){
-            bodyStyle ={height:'400px'};
-        }
+        bodyStyle.height = bodyStyle.height ||'400px';
+        bodyStyle.width  =  bodyStyle.width ||'300px';
+
         return (
             <Modal
                 title={"树形"}
@@ -79,7 +98,8 @@ export default class Ztree extends BaseComponent{
                 bodyStyle={bodyStyle}
                 className="tree-wrapper"
             >
-                <div ref="tree" id={this.u.randId()} className="ztree" />
+                <Search placeholder="关键字" onSearch={this.treeFilter} onChange={(e)=>this.treeFilter(e.target.value)}/>
+                <div ref="tree" id={this.treeId} className="ztree" />
             </Modal>
         )
     }
