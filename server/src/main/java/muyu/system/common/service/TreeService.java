@@ -36,9 +36,9 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 		return bean;
 	}
 
-	public ResultBean<TreeNode> findTreeNode(String rootId) {
-		ResultBean<TreeNode> bean = new ResultBean<>();
-	 	bean.setData(TreeNode.createTree(rootId,dao.findTree(this.rootId)));
+	public ResultBean<List> findTreeNode(String rootId) {
+		ResultBean<List> bean = new ResultBean<>();
+	 	bean.setData(TreeNode.createTree(rootId,dao.findTree(this.rootId)).getChildren());
 	 	return bean;
 	}
 

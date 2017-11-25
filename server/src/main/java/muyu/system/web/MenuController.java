@@ -56,7 +56,7 @@ public class MenuController extends BaseController{
     }
 
     @RequestMapping("findTreeNode")
-    public ResultBean<TreeNode> findTreeNode(HttpServletRequest request){
+    public ResultBean<List> findTreeNode(){
         return menuService.findTreeNode("0");
     }
 

@@ -62,8 +62,9 @@ export default class SyseRole extends BaseComponent{
         };
 
         $t.regEvent("测试",()=>{
-            Ztree.open();
+            Ztree.open({url:$t.encodeBaseUrl('/menu/findTreeNode')});
         });
+
         $t.regDialog('/allocation',"授权",row=>{
             return new Promise((res,rej)=>{
                 let u = this.u;

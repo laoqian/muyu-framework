@@ -4,27 +4,18 @@ import ReactDOM from 'react-dom'
 import {Modal}  from 'antd'
 
 export default class Ztree extends BaseComponent{
-
     static open(setting){
-        // u.get(setting.url,bean=>{
-        //     if(bean.success()){
-        //         let data = bean.data;
-        //         render(<Ztree data={data} setting={setting}/>,
-        //             document.getElementsByName('body'));
-        //     }
-        // })
+        let $t = new Ztree();
+        $t.u.get(setting.url,bean=>{
+            if(bean.success()){
+                let data = bean.data;
 
-        let zNodes = [
-            {name:"test1", open:true, children:[
-                {name:"test1_1"}, {name:"test1_2"}]},
-            {name:"test2", open:true, children:[
-                {name:"test2_1"}, {name:"test2_2"}]}
-        ];
-
-        let div = document.createElement('div'),container=document.createElement('div');
-        document.body.appendChild(div);
-        document.body.appendChild(container);
-        ReactDOM.render(<Ztree container={container} setting={setting} rootDiv={div} zNodes={zNodes}/>,div);
+                let div = document.createElement('div'),container=document.createElement('div');
+                document.body.appendChild(div);
+                document.body.appendChild(container);
+                ReactDOM.render(<Ztree container={container} setting={setting} rootDiv={div} zNodes={data}/>,div);
+            }
+        })
     }
 
     constructor(props){
@@ -47,7 +38,11 @@ export default class Ztree extends BaseComponent{
 
         this.regEvent("didMount",()=>{
             let dom = ReactDOM.findDOMNode(this.refs.tree);
-            this.tree = $.fn.zTree.init($(dom), this.props.setting, this.props.zNodes);
+            let setting = this.props.setting || {};
+            setting.callback = {
+                onClick:(event, treeId, treeNode) =>console.log(treeNode)
+            };
+            this.tree = $.fn.zTree.init($(dom), setting,this.props.zNodes);
         })
     }
 
@@ -58,7 +53,7 @@ export default class Ztree extends BaseComponent{
             bodyStyle = setting.modelStyle;
         }
         if(!bodyStyle){
-            bodyStyle ={width:'200px',height:'400px'};
+            bodyStyle ={height:'400px'};
         }
         return (
             <Modal
