@@ -121,6 +121,10 @@ export default class BaseComponent extends Component{
         $t.componentDidUpdate = (nextProps,nextState) => {
             $t.eventFunc.callFunc('didUpdate',{nextProps,nextState});
         };
+
+        $t.componentWillUnmount = (nextProps,nextState) => {
+            $t.eventFunc.callFunc('willUnmount',{nextProps,nextState});
+        };
     }
 
 }

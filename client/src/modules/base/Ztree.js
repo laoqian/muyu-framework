@@ -55,7 +55,7 @@ export default class Ztree extends BaseComponent{
 
                 $t.modelClose();
                 if(dbClick){
-                    dbClick(treeNode);
+                    dbClick(event, treeId,treeNode);
                 }
             };
 
