@@ -6,8 +6,9 @@ import  _ from 'lodash'
 
 const Search = Input.Search;
 export default class Ztree extends BaseComponent{
+
     static open(setting){
-        let $t = new Ztree();
+        let $t = new BaseComponent();
         $t.u.get(setting.url,bean=>{
             if(bean.success()){
                 let data = bean.data;
@@ -48,7 +49,8 @@ export default class Ztree extends BaseComponent{
             let dbClick = setting.callback.onDblClick;
             setting.callback.onDblClick =(event, treeId,treeNode) =>{
                 if(setting.leafSelOnly && treeNode.isParent){
-                   return $t.u.error('不能选择父目录');
+                   // return $t.u.error('不能选择父目录');
+                   return;
                 }
 
                 $t.modelClose();

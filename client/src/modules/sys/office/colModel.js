@@ -3,7 +3,7 @@
 let colModel = [
     {label: '名称',       name: 'name'  , width: 200,editable:true,editrules:{required:true}},
     {label: '归属地', name: 'area.name'  , width: 150,editable:true,editrules:{required:true},
-        formatter:'sys_dict',formatoptions:{type:'sys_office_type'}, edittype:'treeselect',editoptions:{type:'sys_office_type'}
+        formatter:'treeselect',formatoptions:{type:'sys_office_type'}, edittype:'treeselect',editoptions:{type:'sys_office_type'}
     },
     {label: '编码', name: 'code'  , width: 100,editable:true,align:'center',editrules:{required:true}},
     {label: '类型', name: 'type'  , width: 100,editable:true,align:'center',editrules:{required:true},

@@ -2,9 +2,11 @@ import React from 'react'
 import {Row, Col, Form, Modal,Select,Input} from 'antd'
 import _ from 'lodash'
 import Loading from '../../layouts/loading'
+import ZtreeSelect from  './ZtreeSelect'
 
 const Option = Select.Option;
 const FormItem = Form.Item;
+
 
 let FormComponent = function (){
     let $t  = this;
@@ -46,6 +48,17 @@ let FormComponent = function (){
                        placeholder="==请选择=="/>;
     };
 
+    $t.renderCtrls.treeselect = (column)=>{
+
+        let focus =()=>{
+            console.log(1111111);
+        };
+
+        return <ZtreeSelect
+                       onClick={focus}
+                       allowClear
+                       placeholder="==请选择=="/>;
+    };
     $t.renderFormCtrl = (form,col)=>{
         const {getFieldDecorator} = form;
         let ctrl = null;
@@ -67,6 +80,9 @@ let FormComponent = function (){
                 break;
             case 'select':
                 ctrl = $t.renderCtrls.select(col);
+                break;
+            case 'treeselect':
+                ctrl = $t.renderCtrls.treeselect(col);
                 break;
             case 'text':
             default:
