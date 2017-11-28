@@ -30,13 +30,12 @@ export default class ZtreeSelect extends BaseComponent{
 
         });
 
-        $t.regEvent("didUpdate",()=>{
+        $t.regEvent("didUpdate",(prevProps,prevState)=>{
             let {option} = this.state;
-            if(option){
+
+            if(option!==prevState.option){
                 $('.ant-select-selection',$t.select).trigger('click','selected');
             }
-
-            console.log('didUpdate')
         });
 
         $t.container =  document.createElement('div');

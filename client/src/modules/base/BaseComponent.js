@@ -86,7 +86,7 @@ export default class BaseComponent extends Component{
         $t.eventFunc.callFunc = (name,args)=>{
             let func = $t.eventFunc[name];
             if(_.isFunction(func)){
-                _.isObject(args)?func(...args):func();
+                _.isObject(args)?func(args.props,args.state):func();
             }
         };
 
@@ -111,19 +111,19 @@ export default class BaseComponent extends Component{
         };
 
         $t.componentWillReceiveProps=(nextProps)=>{
-            $t.eventFunc.callFunc('receiveProps',{nextProps});
+            $t.eventFunc.callFunc('receiveProps',{props:nextProps});
         };
 
         $t.componentWillUpdate = (nextProps,nextState) => {
-            $t.eventFunc.callFunc('willUpdate',{nextProps,nextState});
+            $t.eventFunc.callFunc('willUpdate',{props:nextProps,state:nextState});
         };
 
-        $t.componentDidUpdate = (nextProps,nextState) => {
-            $t.eventFunc.callFunc('didUpdate',{nextProps,nextState});
+        $t.componentDidUpdate = (prevProps,prevState) => {
+            $t.eventFunc.callFunc('didUpdate',{props:prevProps,state:prevState});
         };
 
         $t.componentWillUnmount = (nextProps,nextState) => {
-            $t.eventFunc.callFunc('willUnmount',{nextProps,nextState});
+            $t.eventFunc.callFunc('willUnmount',{props:nextProps,state:nextState});
         };
     }
 

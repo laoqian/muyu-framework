@@ -50,12 +50,7 @@ let FormComponent = function (){
 
     $t.renderCtrls.treeselect = (column)=>{
 
-        let focus =()=>{
-            console.log(1111111);
-        };
-
         return <ZtreeSelect
-                       onClick={focus}
                        allowClear
                        placeholder="==请选择=="/>;
     };
