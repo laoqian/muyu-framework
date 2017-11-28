@@ -49,10 +49,9 @@ let FormComponent = function (){
     };
 
     $t.renderCtrls.treeselect = (column)=>{
-
         return <ZtreeSelect
                        allowClear
-                       placeholder="==请选择=="/>;
+                       placeholder="==请选择==" url={column.editoptions.url} />;
     };
     $t.renderFormCtrl = (form,col)=>{
         const {getFieldDecorator} = form;
@@ -99,9 +98,11 @@ let FormComponent = function (){
         if(editrules && editrules.required){
             options.rules.push({required:true,message:`${col.label}不能为空！`});
         }
-
+        let desc =getFieldDecorator(col.name,options);
+        let children =desc(ctrl);
+        console.log(children)
         return <FormItem label={col.label} {...formItemLayout}
-                         children={getFieldDecorator(col.name,options)(ctrl)}/>;
+                         children={children}/>;
     };
 
     $t.renderRows = (form,colModel,groupNum)=>{
@@ -136,7 +137,7 @@ let FormComponent = function (){
 
     $t.modalClick = (type) => {
         if (type === 'ok') {
-            $t.setState({submiting: true});
+            // $t.setState({submiting: true});
 
             if(!_.isFunction($t.saveData)){
                 $t.defaultSaveData();

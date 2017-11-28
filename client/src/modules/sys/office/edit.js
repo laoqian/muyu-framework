@@ -13,6 +13,13 @@ class OfficeForm extends BaseComponent {
         this.moduleName   = "机构";
         this.colModel     = colModel;
         this.style ={width:'800px',height:'360px'};
+
+        this.saveData =()=>{
+            let {getFieldValue} = this.props.form;
+            let name = getFieldValue('name');
+            let area = getFieldValue('area');
+            console.log(name,area);
+        }
     }
 }
 
