@@ -22,15 +22,15 @@ import java.util.Date;
 public class Office extends TreeEntity<Office> {
 	private static final long serialVersionUID = 1L;
     String name;  //name
-    String area;  //area_id
+    Area   area;  //area_id
     String code;  //code
     String type;  //type
     String grade;  //grade
     String address;  //address
     String zipCode;  //zip_code
-    String phone;  //phone
-    String fax;  //fax
-    String email;  //email
+    String phone;    //phone
+    String fax;      //fax
+    String email;    //email
     String useable;  //useable
     String primaryPerson;  //primary_person
     String deputyPerson;  //deputy_person

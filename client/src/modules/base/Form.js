@@ -164,7 +164,7 @@ let FormComponent = function (){
                         afterSave(data)
                     }
                     let grid = $t.props.location.grid;
-                    if(grid){
+                    if(grid && data.success()){
                         grid.trigger('reloadGrid');
                     }
 

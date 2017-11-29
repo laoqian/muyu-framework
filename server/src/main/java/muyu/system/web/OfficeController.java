@@ -42,7 +42,7 @@ public class OfficeController extends BaseController{
 
     @RequestMapping("findTree")
     public ResultPageBean<Office> findTree(HttpServletRequest request){
-            return officeService.findTreePage(request,"0");
+        return officeService.findTreePage(request,"0");
     }
 
     @RequestMapping("findPage")

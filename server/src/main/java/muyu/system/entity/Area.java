@@ -22,7 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Area extends TreeEntity<Area> {
 	private static final long serialVersionUID = 1L;
-    String name;  //name
-    String code;  //code
+    String name;    //name
+    String code;    //code
     Character type;  //type
 }
