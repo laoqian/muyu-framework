@@ -19,6 +19,7 @@ import java.util.Collection;
 
 @NoArgsConstructor
 public class SecurityUser extends User implements UserDetails {
+    private static final long serialVersionUID = 1L;
 
     public SecurityUser(String id) {
         super(id);
