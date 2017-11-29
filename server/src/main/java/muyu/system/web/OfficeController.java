@@ -7,10 +7,7 @@ import muyu.system.entity.Office;
 import muyu.system.service.OfficeService;
 import muyu.system.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,7 +48,7 @@ public class OfficeController extends BaseController{
     }
 
     @RequestMapping("save")
-    public ResultBean<Office> save(Office office){
+    public ResultBean<Office> save(@RequestBody Office office){
         return officeService.save(office);
     }
 

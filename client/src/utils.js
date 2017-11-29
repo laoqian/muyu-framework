@@ -25,7 +25,7 @@ u.ajax = (options)=>{
         url         :  options.url,
         type        :  options.type,
         data        :  JSON.stringify(options.data),
-        timeout     :  5000,
+        timeout     :  30000,
         contentType :  "application/json;charset=utf-8",
         dataType    :  "json",
         success     :  function(data) {

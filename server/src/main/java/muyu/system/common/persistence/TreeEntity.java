@@ -20,12 +20,12 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
     private boolean expanded = false;    //默认展开
     private boolean leaf;               //是否叶子节点
     private String name ;               //
-    private Integer sort; 	            // 排序
+    private Integer sort=10; 	            // 排序
 
     @JsonIgnore
     private boolean isUpdated = false;          //是否需要更新
 
-    private String parentId;
+    private String parentId="0";
 
     public TreeEntity(){
         super();

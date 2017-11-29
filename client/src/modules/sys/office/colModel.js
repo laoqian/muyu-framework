@@ -14,7 +14,6 @@ let colModel = [
     },
     {label: '地址', name: 'address'  , width: 100,editable:true,align:'center',editrules:{required:true}},
     {label: '邮政编码',   name: 'zipCode', width: 100,editable:true,align:'center'},
-    {label: '负责人', name: 'master', width: 100,editable:true,align:'center'},
     {label: '电话', name: 'phone', width: 100,editable:true,align:'center',editrules:{required:true}},
     {label: '传真', name: 'fax', width: 100,editable:true,align:'center'},
     {label: '邮箱', name: 'email', width: 100,editable:true,align:'center',editrules:{required:true}},
