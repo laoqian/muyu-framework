@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -40,6 +41,11 @@ public class OfficeController extends BaseController{
     @RequestMapping("findTree")
     public ResultPageBean<Office> findTree(HttpServletRequest request){
         return officeService.findTreePage(request,"0");
+    }
+
+    @RequestMapping("findTreeNode")
+    public ResultBean<List> findTreeNode(){
+        return officeService.findTreeNode("0");
     }
 
     @RequestMapping("findPage")

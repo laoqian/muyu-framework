@@ -39,7 +39,7 @@ class JqgridWrapper extends Component {
                 oper: "oper", editoper: "edit", addoper: "add", deloper: "del",
                 subgridid: "id", npage: null, totalrows: "pageCount"
             },
-            sortname: 'id',
+            sortname: 'a.id',
             viewrecords: true,
             lazyLoad: false,
             rownumbers: true,

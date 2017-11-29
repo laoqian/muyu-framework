@@ -28,7 +28,7 @@ class OfficeDelete extends Component {
 
             self.setState({loading:true});
 
-            $.get('/api/menu/delete?id=' + row.id, function (bean) {
+            $.get('/api/office/delete?id=' + row.id, function (bean) {
 
                 self.setState({loading:false});
                 if (bean.code === 0) {

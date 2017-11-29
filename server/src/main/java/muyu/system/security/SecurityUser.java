@@ -34,7 +34,7 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return super.getUserName();
+        return super.getLoginName();
     }
 
     @Override

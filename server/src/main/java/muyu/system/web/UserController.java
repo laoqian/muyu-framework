@@ -6,10 +6,7 @@ import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
 import muyu.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,8 +34,13 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("save")
-    ResultBean<User> save(User user){
+    ResultBean<User> save(@RequestBody User user){
         return userService.save(user);
+    }
+
+    @RequestMapping("delete")
+    ResultBean<User> delete(User user){
+        return userService.delete(user);
     }
 
     @RequestMapping("findPage")

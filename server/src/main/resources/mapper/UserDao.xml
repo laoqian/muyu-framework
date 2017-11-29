@@ -1,10 +1,152 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="muyu.system.dao.UserDao">
-    <select id="getUser" resultType="User">
-        select * from sys_user where ROWNUM = 1
-    </select>
+
+    <sql id="UserColumns">
+        a.id AS "id" ,
+        a.company_id AS "company.id" ,
+        c.name AS "company.name" ,
+        a.office_id AS "office.id" ,
+        d.name AS "office.name" ,
+        a.login_name AS "loginName" ,
+        a.password AS "password" ,
+        a.no AS "no" ,
+        a.name AS "name" ,
+        a.email AS "email" ,
+        a.phone AS "phone" ,
+        a.mobile AS "mobile" ,
+        a.user_type AS "userType" ,
+        a.photo AS "photo" ,
+        a.login_ip AS "loginIp" ,
+        a.login_date AS "loginDate" ,
+        a.login_flag AS "loginFlag" ,
+        a.create_by AS "createBy.id" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy.id" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag" 
+    </sql>
+
+    <sql id="UserJoins">
+        LEFT JOIN sys_office c ON c.id = a.company_id
+        LEFT JOIN sys_office d ON d.id = a.office_id
+    </sql>
+
     <select id="get" resultType="User">
-        select * from sys_user where id = #{id}
+        SELECT
+        <include refid="UserColumns"/>
+        FROM sys_user a
+        <include refid="UserJoins"/>
+        WHERE a.id = #{id}
     </select>
+
+    <select id="query" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM sys_user a
+        <include refid="UserJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="User">
+        SELECT
+        <include refid="UserColumns"/>
+        FROM sys_user a
+        <include refid="UserJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO sys_user(
+            id,
+            company_id,
+            office_id,
+            login_name,
+            password,
+            no,
+            name,
+            email,
+            phone,
+            mobile,
+            user_type,
+            photo,
+            login_ip,
+            login_date,
+            login_flag,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{id},
+            #{company.id},
+            #{office.id},
+            #{loginName},
+            #{password},
+            #{no},
+            #{name},
+            #{email},
+            #{phone},
+            #{mobile},
+            #{userType},
+            #{photo},
+            #{loginIp},
+            #{loginDate},
+            #{loginFlag},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_user SET
+            id=#{id},
+            company_id=#{company.id},
+            office_id=#{office.id},
+            login_name=#{loginName},
+            password=#{password},
+            no=#{no},
+            name=#{name},
+            email=#{email},
+            phone=#{phone},
+            mobile=#{mobile},
+            user_type=#{userType},
+            photo=#{photo},
+            login_ip=#{loginIp},
+            login_date=#{loginDate},
+            login_flag=#{loginFlag},
+            create_by=#{createBy.id},
+            create_date=#{createDate},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_user
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE sys_user SET del_flag = 1
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -28,7 +28,7 @@ u.ajax = (options)=>{
         timeout     :  30000,
         contentType :  "application/json;charset=utf-8",
         dataType    :  "json",
-        success     :  function(data) {
+        success     :  function(data){
             let {code} = data;
 
             if(code !== SUCCESS){

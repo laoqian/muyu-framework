@@ -36,7 +36,29 @@ export default class Ztree extends BaseComponent{
             document.body.removeChild(rootDiv);
         };
 
-        $t.modalClick = type => type==='ok'?$t.setState({submiting: true}): $t.modelClose();
+        $t.selectNode = ()=>{
+            let setting = $t.props.setting || {};
+            let dbClick = setting.callback.onDblClick;
+            let onOk = setting.callback.onOk;
+            let treeNodeList = $t.zTree.getSelectedNodes();
+            let treeNode ;
+
+            if(!treeNodeList || treeNodeList.length===0){
+                return $t.u.error('未选中节点');
+            }
+            if(treeNodeList.length===1){
+                treeNode = treeNodeList[0];
+            }
+
+            if(dbClick){
+                dbClick(null, null,treeNode);
+            }else if(onOk){
+                $t.modelClose();
+                onOk(treeNodeList);
+            }
+
+        };
+        $t.modalClick = type => type==='ok'?$t.selectNode() : $t.modelClose();
 
         $t.regEvent("didMount",()=>{
             let dom = ReactDOM.findDOMNode(this.refs.tree);
@@ -47,10 +69,9 @@ export default class Ztree extends BaseComponent{
             setting.leafSelOnly = setting.leafSelOnly!==false;
 
             let dbClick = setting.callback.onDblClick;
-            setting.callback.onDblClick =(event, treeId,treeNode) =>{
+            setting.callback.onDblClick = (event, treeId,treeNode) =>{
                 if(setting.leafSelOnly && treeNode.isParent){
-                   // return $t.u.error('不能选择父目录');
-                   return;
+                   return $t.u.error('不能选择父目录');
                 }
 
                 $t.modelClose();

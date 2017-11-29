@@ -11,6 +11,12 @@ let gridExtend =function(){
         return value;
     };
 
+    $.fn.fmatter.treeselect =function (cellval,opts) {
+        const {formatoptions} = opts.colModel;
+        let  label =formatoptions.label?formatoptions.label:'name';
+        return cellval[label];
+    };
+
     $.fn.fmatter.sys_dict =function (cellval,opts) {
         let {formatoptions} = opts.colModel;
         if(!formatoptions.value){
