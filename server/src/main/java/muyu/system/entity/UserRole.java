@@ -3,6 +3,7 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 /**
  * 千山鸟飞绝，万径人踪灭。
  * 孤舟蓑笠翁，独钓寒江雪。
@@ -24,5 +25,4 @@ public class UserRole {
         this.userId =userId;
         this.roleId =roleId;
     }
-
 }

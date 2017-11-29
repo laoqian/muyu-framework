@@ -4,6 +4,7 @@ import muyu.system.common.persistence.CrudDao;
 import muyu.system.entity.RoleMenu;
 import muyu.system.entity.User;
 import muyu.system.entity.UserRole;
+import muyu.system.security.SecurityUser;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -21,7 +22,8 @@ import java.util.List;
  */
 @Component
 public interface  UserDao extends CrudDao<User>{
-    User getUser();
+
+    SecurityUser getUser(String loginName);
 
     @Select("select user_id as \"userId\",role_id as \"roleId\" , id as \"id\" from sys_user_role where user_id =#{0} ")
     List<UserRole> findUserRoleList(String userId);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import muyu.system.common.persistence.DataEntity;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -17,10 +18,15 @@ import muyu.system.common.persistence.DataEntity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Role extends DataEntity<Role> {
+public class Role extends DataEntity<Role> implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
     String id;     //id
     String name;   //name
     String ename;  //ename
     String type;   //type
+
+    @Override
+    public String getAuthority() {
+        return ename;
+    }
 }

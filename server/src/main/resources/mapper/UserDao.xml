@@ -41,12 +41,12 @@
         WHERE a.id = #{id}
     </select>
 
-    <select id="query" resultType="User">
+    <select id="getUser" resultType="muyu.system.security.SecurityUser">
         SELECT
         <include refid="UserColumns"/>
         FROM sys_user a
         <include refid="UserJoins"/>
-        WHERE a.id = #{id}
+        WHERE a.login_name = #{loginName}
     </select>
 
     <select id="findList" resultType="User">

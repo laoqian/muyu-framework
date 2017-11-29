@@ -1,6 +1,7 @@
 package muyu.system.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
 import muyu.system.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,8 @@ import java.util.Collection;
  * @date: 2017/9/21
  * @version: 1.0.0
  */
+
+@NoArgsConstructor
 public class SecurityUser extends User implements UserDetails {
 
     public SecurityUser(String id) {
@@ -23,7 +26,7 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        return null;
+        return super.getRoleList();
     }
 
     @JsonIgnore

@@ -58,16 +58,17 @@ class Login extends BaseComponent {
             if(data){
                 $t.props.auth(data);
             }
-        }
+        };
+
+        $t.regEvent("didUpdate",prevProps=>{
+            let {user} = this.props;
+            let preUser  = prevProps.user;
+            if(user && user.authErrorNum>=3 && ( !this.state.varify ||preUser.authErrorNum!==user.authErrorNum)){
+                this.getVarifyImage();
+            }
+        })
     }
 
-    componentDidUpdate(prevProps, prevState){
-        let {user} = this.props;
-        let preUser  = prevProps.user;
-        if(user && user.authErrorNum>=3 && ( !this.state.varify ||preUser.authErrorNum!==user.authErrorNum)){
-            this.getVarifyImage();
-        }
-    }
     render() {
         let varifyHtml = null;
         if(this.state.varify){

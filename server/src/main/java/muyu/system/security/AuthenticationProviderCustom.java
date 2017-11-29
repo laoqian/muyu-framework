@@ -78,7 +78,7 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
             String code  = request.getParameter("code");
             String cachedCode = (String)CacheUtils.get(cacheName,"code");
 
-            if(!cachedCode.equals(code)){
+            if(cachedCode==null ||!cachedCode.equals(code)){
                 throw new MaxAuthedNumLimitException("验证码错误："+num);
             }
         }
