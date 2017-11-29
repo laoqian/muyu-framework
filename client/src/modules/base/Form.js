@@ -98,11 +98,9 @@ let FormComponent = function (){
         if(editrules && editrules.required){
             options.rules.push({required:true,message:`${col.label}不能为空！`});
         }
-        let desc =getFieldDecorator(col.name,options);
-        let children =desc(ctrl);
-        console.log(children)
+
         return <FormItem label={col.label} {...formItemLayout}
-                         children={children}/>;
+                         children={getFieldDecorator(col.name,options)(ctrl)}/>;
     };
 
     $t.renderRows = (form,colModel,groupNum)=>{

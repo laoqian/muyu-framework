@@ -8,18 +8,11 @@ class OfficeForm extends BaseComponent {
         super(props);
         
         this.extend("Form");
-        this.baseUrl      = '/api/menu/';
+        this.baseUrl      = '/api/office/';
         this.groupNum     = 2;
         this.moduleName   = "机构";
         this.colModel     = colModel;
         this.style ={width:'800px',height:'360px'};
-
-        this.saveData =()=>{
-            let {getFieldValue} = this.props.form;
-            let name = getFieldValue('name');
-            let area = getFieldValue('area');
-            console.log(name,area);
-        }
     }
 }
 
