@@ -6,8 +6,10 @@ import muyu.system.common.tree.TreeNode;
 import muyu.system.dao.DictDao;
 import muyu.system.dao.GenDao;
 import muyu.system.dao.MenuDao;
+import muyu.system.dao.RoleDao;
 import muyu.system.entity.Config;
 import muyu.system.entity.Dict;
+import muyu.system.entity.Role;
 import muyu.system.entity.TableColumn;
 import muyu.system.utils.CacheUtils;
 import muyu.system.utils.IdentifyCodeUtils;
@@ -41,6 +43,9 @@ public class SystemService extends BaseService{
     MenuDao menuDao;
 
     @Autowired
+    RoleDao roleDao;
+
+    @Autowired
     GenDao genDao;
 
     public ResultBean<Config> getConfig(){
@@ -50,6 +55,7 @@ public class SystemService extends BaseService{
         config.setDicts(dictDao.findList(new Dict()));
         config.setTableColumns(genDao.findTableColumn(new TableColumn()));
         config.setMenuList(rootId,menuDao.findTree(rootId));
+        config.setRoleList(roleDao.findList(new Role()));
 
         return new ResultBean<>(config);
     }

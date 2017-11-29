@@ -5,6 +5,7 @@ import JqgridWrapper from '../../grid/index'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
 import DictDelete from './delete'
+import AuthForm from './auth'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'
@@ -44,11 +45,23 @@ export default class SysUser extends BaseComponent{
             right:{
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
-                    {name: '删除',path:'/delete',icon: 'delete',  },
                     {name: '修改',path:'/edit',  icon: 'edit',    },
+                    {name: '授权',path:'/auth',  icon: 'edit',    },
+                    {name: '删除',path:'/delete',icon: 'delete',  },
                 ]
             }
         };
+
+        $t.regDialog('/auth',"授权",row=>{
+            return new Promise((res,rej)=>{
+                let u = this.u;
+                u.get($t.encodeUrl('findUserRoleList?userId='+row.id),(bean)=>{
+                    let selectedKeys =[];
+                    bean.data.forEach(item=>selectedKeys.push(item.roleId));
+                    bean.success()?res({selectedKeys}):rej(bean);
+                })
+            })
+        });
     }
 
     render() {
@@ -60,7 +73,8 @@ export default class SysUser extends BaseComponent{
                     <Switch>
                         <Route path="/edit"     component= {DictEdit}/>
                         <Route path="/delete"   component= {DictDelete}/>
-                        <Route                  component={NoMatch}/>
+                        <Route path="/auth"     component= {AuthForm}/>
+                        <Route                  component= {NoMatch}/>
                     </Switch>
                 </Router>
             </div>

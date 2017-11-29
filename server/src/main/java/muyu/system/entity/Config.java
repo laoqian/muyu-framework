@@ -24,6 +24,7 @@ public class Config implements Serializable{
     List<TableColumn> tableColumns;
     List<Menu> menuList;
     TreeNode  menuTree;
+    List<Role>  roleList;
 
     public void setMenuList(String rootId,List<Menu> menuList) {
         this.menuList = menuList;

@@ -84,6 +84,7 @@ u.getDict = (type)=>{
 
 u.getMenuList =()=>u.loadSuccess?u.system.menuList:null;
 u.getMenuTree =()=>u.loadSuccess?u.system.menuTree:null;
+u.getRoleList =()=>u.loadSuccess?u.system.roleList:null;
 
 u.getTableColumn = (tableName,columnName)=>{
     let column =null;
