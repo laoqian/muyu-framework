@@ -11,8 +11,11 @@ import muyu.system.entity.Config;
 import muyu.system.entity.Dict;
 import muyu.system.entity.Role;
 import muyu.system.entity.TableColumn;
+import muyu.system.security.SecurityUser;
 import muyu.system.utils.CacheUtils;
 import muyu.system.utils.IdentifyCodeUtils;
+import muyu.system.utils.UserUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -52,10 +57,16 @@ public class SystemService extends BaseService{
         Config config=  new Config();
         String rootId = "0";
 
-        config.setDicts(dictDao.findList(new Dict()));
-        config.setTableColumns(genDao.findTableColumn(new TableColumn()));
-        config.setMenuList(rootId,menuDao.findTree(rootId));
-        config.setRoleList(roleDao.findList(new Role()));
+        SecurityUser user  = (SecurityUser)UserUtils.getUser();
+
+        if(user!=null){
+            Set roles = new HashSet();
+            user.getRoleList().forEach(role -> roles.add(role.getId()));
+            config.setMenuList(rootId,menuDao.findTree(rootId));
+            config.setRoleList(roleDao.findList(new Role()));
+            config.setDicts(dictDao.findList(new Dict()));
+            config.setTableColumns(genDao.findTableColumn(new TableColumn()));
+        }
 
         return new ResultBean<>(config);
     }

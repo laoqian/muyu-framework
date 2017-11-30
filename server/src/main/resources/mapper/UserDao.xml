@@ -132,8 +132,6 @@
             login_ip=#{loginIp},
             login_date=#{loginDate},
             login_flag=#{loginFlag},
-            create_by=#{createBy.id},
-            create_date=#{createDate},
             update_by=#{updateBy.id},
             update_date=#{updateDate},
             remarks=#{remarks},

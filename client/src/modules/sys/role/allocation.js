@@ -54,7 +54,6 @@ class RoleAllcationForm extends BaseComponent {
                 showLine
                 defaultCheckedKeys={this.state.data?this.state.data.selectedKeys:[]}
                 onCheck={this.onCheck}
-
                 ref="tree"
             >
                 {this.renderTreeNodes(this.u.getMenuTree().children)}

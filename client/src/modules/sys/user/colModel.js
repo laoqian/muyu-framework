@@ -8,6 +8,8 @@ let colModel = [
         formatter:'treeselect',formatoptions:{type:'sys_office_type'}, edittype:'treeselect',editoptions:{url:'/office/findTreeNode'}
     },
     {label: '登录名', name: 'loginName', width: 150,editable:true,editrules:{required:true}},
+    {label: '密码', name: 'passWord', width: 150,editable:true,editrules:{required:true},hidden:true},
+    {label: '重复密码', name: 'passWord1', width: 150,editable:true,editrules:{required:true},hidden:true},
     {label: '工号', name: 'no', width: 150,editable:true,editrules:{required:true}},
     {label: '姓名', name: 'name', width: 150,editable:true,editrules:{required:true}},
     {label: '邮箱', name: 'email', width: 150,editable:true,editrules:{required:true}},

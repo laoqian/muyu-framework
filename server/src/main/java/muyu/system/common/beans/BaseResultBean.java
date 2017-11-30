@@ -26,7 +26,9 @@ public class BaseResultBean implements Serializable {
 
     public static final int NO_PERMISSION = 2;
 
-    public static final int MAX_AUTHED_NUM_LIMIT = 3; /*最大认证错误次数限制错误*/
+    public static final int MAX_AUTHED_NUM_LIMIT =3; /*最大认证错误次数限制错误*/
+
+    public static final int USER_NOT_FOUND= 4;
 
     private String msg = "成功";
 

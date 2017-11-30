@@ -2,6 +2,7 @@ package muyu.system.security;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.entity.User;
+import muyu.system.service.UserService;
 import muyu.system.utils.*;
 import muyu.system.entity.Menu;
 import muyu.system.service.MenuService;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,8 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
             ResultBean<SecurityUser> resultBean = new ResultBean<>();
             SecurityUser user  = (SecurityUser)authentication.getPrincipal();
-            MenuService   menuService = ContextUtils.getBean(MenuService.class);
-            user.setMenuList(menuService.findList(new Menu()));
+            UserService userService = ContextUtils.getBean(UserService.class);
+            ResultBean<List> bean = userService.findUserMenuList(user.getId());
+            user.setMenuList(bean.getData());
             resultBean.setData(user);
 
             RedisUtils.del(request.getRemoteAddr()); /*删除缓存的验证信息等*/
@@ -89,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/db/*").permitAll()
                 .antMatchers("/api/menu/*").permitAll()
-                .antMatchers("/api/role/*").hasAuthority("user")
+//                .antMatchers("/api/role/*").hasAuthority("user")
                 .and()
                 .formLogin()
                 .loginPage("/api/login")

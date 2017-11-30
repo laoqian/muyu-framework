@@ -29,11 +29,14 @@ public class CustomUserDetailsService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         SecurityUser securityUser = userDao.getUser(username);
-        List<UserRole> list = userDao.findUserRoleList(securityUser.getId());
-        List<Role> roleList = new ArrayList<>();
-        list.forEach(userRole ->roleList.add(roleDao.get(userRole.getRoleId())));
+        if(securityUser!=null){
+            List<UserRole> list = userDao.findUserRoleList(securityUser.getId());
+            List<Role> roleList = new ArrayList<>();
+            list.forEach(userRole ->roleList.add(roleDao.get(userRole.getRoleId())));
 
-        securityUser.setRoleList(roleList);
+            securityUser.setRoleList(roleList);
+        }
+
         return securityUser;
     }
 }

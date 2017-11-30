@@ -98,7 +98,8 @@ class JqgridWrapper extends Component {
             },
 
             loadError: function (data) {
-                console.log(data);
+                u.error(data.responseJSON.message);
+                console.error(data);
             },
         };
 

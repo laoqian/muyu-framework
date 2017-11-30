@@ -45,11 +45,11 @@ class UserDelete extends Component {
 
     render() {
         let {row} = this.props.location;
-        let text = `确定要删除:${row.label}吗？`;
+        let text = `确定要删除:${row.name}吗？`;
 
         return (
             <Modal
-                title= "字典删除"
+                title= "用户删除"
                 wrapClassName= "vertical-center-modal"
                 visible={true}
                 onOk ={() => this.modalClick('ok')}

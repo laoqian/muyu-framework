@@ -4,7 +4,10 @@ import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.TreeDao;
 import muyu.system.entity.Menu;
 import muyu.system.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -16,4 +19,5 @@ import org.springframework.stereotype.Component;
  */
 public interface MenuDao extends TreeDao<Menu> {
 
+    List<Menu> findRoleTree(@Param("rootId") String rootId,@Param("roleIds") String roleIds);
 }

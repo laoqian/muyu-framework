@@ -4,6 +4,7 @@ import muyu.system.utils.CacheUtils;
 import muyu.system.utils.ContextUtils;
 import muyu.system.utils.RedisUtils;
 import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -65,7 +67,8 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 
         long num = CacheUtils.increase(cacheName,"attempNum"); /*尝试次数*/
         //与authentication里面的credentials相比较
-        if(!password.equals(token.getCredentials())) {
+
+        if(!password.equals(DigestUtils.md5DigestAsHex(token.getCredentials().toString().getBytes()))) {
             if(num>MAX_ATTEMPTS){
                 throw new MaxAuthedNumLimitException("用户名/密码无效："+num);
             }

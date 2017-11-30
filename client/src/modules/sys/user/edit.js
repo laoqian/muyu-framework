@@ -11,10 +11,10 @@ class UserEditForm extends BaseComponent{
         $t.extend("Form");
 
         $t.baseUrl      = '/api/user/';
-        $t.groupNum     = 2;
+        $t.groupNum     = 1;
         $t.moduleName   = "用户";
         $t.colModel     = colModel;
-        $t.style ={width:'800px',height:'460px'};
+        $t.style ={width:'400px',height:'460px'};
     }
 }
 

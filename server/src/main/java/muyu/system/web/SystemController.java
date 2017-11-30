@@ -30,12 +30,6 @@ public class SystemController{
     @Autowired
     SystemService systemService;
 
-    public ResultBean<SecurityUser> login(HttpSession httpSession){
-
-        httpSession.setAttribute("11","2222222222");
-        return userService.getUser("111");
-    }
-
     @RequestMapping("getConfig")
     public ResultBean<Config> getConfig(){
        return systemService.getConfig();

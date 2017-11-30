@@ -42,6 +42,11 @@ public class UserController extends BaseController{
         return userService.save(user);
     }
 
+    @RequestMapping("findUserMenuList")
+    public ResultBean<List> findUserMenuList(String userId){
+        return userService.findUserMenuList(userId);
+    }
+
     @RequestMapping("findUserRoleList")
     public ResultBean<List> findUserRoleList(String userId){
         return userService.findUserRoleList(userId);

@@ -24,7 +24,11 @@ public class UserUtils{
 
 	public static User getUser(){
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return (SecurityUser) object;
+		if(object instanceof SecurityUser){
+			return (SecurityUser)object;
+		}else{
+			return null;
+		}
 	}
 
 	public static boolean Logout(){

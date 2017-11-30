@@ -122,6 +122,7 @@ u.online = function(){
     if(u.loadSuccess){
         return;
     }
+
     /*加载系统配置*/
     let  i = 1 ;
     console.log(`第${i++}次请求系统配置`);

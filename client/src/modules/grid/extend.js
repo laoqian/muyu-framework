@@ -13,8 +13,9 @@ let gridExtend =function(){
 
     $.fn.fmatter.treeselect =function (cellval,opts) {
         const {formatoptions} = opts.colModel;
-        let  label =formatoptions.label?formatoptions.label:'name';
-        return cellval[label];
+        let  label = formatoptions.label?formatoptions.label:'name';
+        let value = cellval[label];
+        return value?value:'';
     };
 
     $.fn.fmatter.sys_dict =function (cellval,opts) {
