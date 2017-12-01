@@ -52,9 +52,6 @@ export  default  class SysMenu extends BaseComponent{
             reload: true,
             right: {
                 items: [
-                    // {name: '添加', path: '/add', icon: 'plus',},
-                    // {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    // {name: '修改', path: '/edit', icon: 'edit',},
                     {name: '保存', path: '/save'  , icon: 'save',     },
                     {name: '删除', path: '/delete', icon: 'delete',   }
                 ]
@@ -62,9 +59,8 @@ export  default  class SysMenu extends BaseComponent{
         };
 
         $t.regEvent("保存",'save',()=>{
-           let list =  $t.saveEditList();
-           if(list){
-               u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
+           if($t.saveEditList()){
+               u.post($t.encodeUrl('saveBatch'),{list:$t.editList},data=>data.code===0?$t.reload():null);
            }
         });
     }

@@ -8,6 +8,7 @@
           name AS "name",
           icon AS "icon",
           is_show AS "isShow",
+          permission      AS "permission",
           href AS "href"
         from sys_menu
         where del_flag='0'
@@ -22,6 +23,7 @@
               is_show           AS "isShow",
               a.href            AS "href",
               a.sort            AS "sort",
+              a.permission      AS "permission",
               level             AS "level",
               connect_by_isleaf AS "leaf"
             FROM sys_menu a
@@ -39,6 +41,7 @@
         is_show           AS "isShow",
         a.href            AS "href",
         a.sort            AS "sort",
+        a.permission      AS "permission",
         level             AS "level",
         connect_by_isleaf AS "leaf"
         FROM sys_menu a
@@ -59,6 +62,7 @@
             a.name       AS "name",
             a.icon       AS "icon",
             a.sort       AS "sort",
+            a.permission AS "permission",
             a.href       AS "href"
         FROM sys_menu a
         WHERE a.id=#{id}
@@ -70,6 +74,7 @@
         name,
         icon,
         href,
+        permission,
         sort,
         is_show,
         create_by,
@@ -84,6 +89,7 @@
         #{name},
         #{icon},
         #{href},
+        #{permission},
         #{sort},
         #{isShow},
         #{createBy.id},
@@ -100,6 +106,7 @@
               icon=#{icon},
               sort=#{sort},
               href=#{href},
+              permission=#{permission},
               is_show=#{isShow},
               update_by =   #{updateBy.id},
               update_date =   #{updateDate},

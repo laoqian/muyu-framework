@@ -8,6 +8,7 @@
         a.name AS "name" ,
         a.sort AS "sort" ,
         a.area_id AS "area.id" ,
+        s.name AS "area.name" ,
         a.code AS "code" ,
         a.type AS "type" ,
         a.grade AS "grade" ,
@@ -28,6 +29,7 @@
     </sql>
 
     <sql id="OfficeJoins">
+        LEFT JOIN sys_area s on s.id = a.area_id
     </sql>
 
     <select id="get" resultType="Office">
@@ -52,9 +54,10 @@
           connect_by_isleaf AS "leaf",
           <include refid="OfficeColumns"/>
         FROM sys_office a
+        <include refid="OfficeJoins"/>
         START WITH a.parent_id  = #{rootId}
         CONNECT BY PRIOR a.id   = a.parent_id
-        ORDER SIBLINGS BY sort
+        ORDER SIBLINGS BY a.sort
     </select>
 
     <select id="findList" resultType="Office">
@@ -143,8 +146,6 @@
             useable=#{useable},
             primary_person=#{primaryPerson},
             deputy_person=#{deputyPerson},
-            create_by=#{createBy.id},
-            create_date=#{createDate},
             update_by=#{updateBy.id},
             update_date=#{updateDate},
             remarks=#{remarks},
