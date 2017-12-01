@@ -88,7 +88,8 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
             }
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
+//        return new UsernamePasswordAuthenticationToken(userDetails,password,userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails,password);
     }
 
     @Override

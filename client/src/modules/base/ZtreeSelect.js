@@ -10,7 +10,8 @@ export default class ZtreeSelect extends BaseComponent{
     constructor(props){
         super(props);
         let $t = this;
-        $t.state.option = null;
+        let {value} =this.props;
+        $t.state.option = value?value:null;
 
         $t.regEvent("didMount",()=>{
             $t.select  = ReactDom.findDOMNode($t.refs.select);
@@ -45,6 +46,8 @@ export default class ZtreeSelect extends BaseComponent{
         $t.container =  document.createElement('div');
         document.body.appendChild($t.container);
         $($t.container).hide();
+
+
     }
 
     componentWillUnmount(){
@@ -56,6 +59,7 @@ export default class ZtreeSelect extends BaseComponent{
         return(
             <Select
                 allowClear
+                defaultValue={option?option.id.toString():null}
                 ref="select"
                 getPopupContainer={()=>this.container}
                 placeholder={"==请选择=="}

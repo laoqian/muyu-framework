@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,8 +61,6 @@ public class SystemService extends BaseService{
         SecurityUser user  = (SecurityUser)UserUtils.getUser();
 
         if(user!=null){
-            Set roles = new HashSet();
-            user.getRoleList().forEach(role -> roles.add(role.getId()));
             config.setMenuList(rootId,menuDao.findTree(rootId));
             config.setRoleList(roleDao.findList(new Role()));
             config.setDicts(dictDao.findList(new Dict()));

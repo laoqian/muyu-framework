@@ -92,7 +92,7 @@ let FormComponent = function (){
         options.rules =[];
 
         if(data && data[col.name] ){
-            options.initialValue = data[col.name].toString();
+            options.initialValue = data[col.name];
         }
 
         if(editrules && editrules.required){
