@@ -18,7 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Role extends DataEntity<Role> implements GrantedAuthority {
+public class Role extends DataEntity<Role>  {
 	private static final long serialVersionUID = 1L;
     String id;          //id
     String name;        //name
@@ -26,11 +26,6 @@ public class Role extends DataEntity<Role> implements GrantedAuthority {
     String type;        //type
     Office company;     //公司
     Office office;      //部门
-
-    @Override
-    public String getAuthority() {
-        return ename;
-    }
 
     public String getEname() {
         return ename==null?null:ename.toUpperCase();

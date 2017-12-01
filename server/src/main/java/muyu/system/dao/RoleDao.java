@@ -24,4 +24,5 @@ public interface RoleDao extends CrudDao<Role>{
     void deleteRoleMenu(String roleId);
 
     void insertRoleMenu(RoleMenu roleMenu);
+
 }

@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 import muyu.system.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -27,7 +31,10 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        return super.getRoleList();
+        List<SimpleGrantedAuthority> List = new LinkedList<>();
+        this.getRoleList().forEach(role -> List.add(new SimpleGrantedAuthority("ROLE_"+role.getEname())));
+        this.getMenuList().stream().filter(menu -> menu.getPermission()!=null).forEach(menu -> List.add(new SimpleGrantedAuthority(menu.getPermission())));
+        return List;
     }
 
     @JsonIgnore

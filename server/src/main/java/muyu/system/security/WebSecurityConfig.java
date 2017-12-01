@@ -72,9 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
             ResultBean<SecurityUser> resultBean = new ResultBean<>();
             SecurityUser user  = (SecurityUser)authentication.getPrincipal();
-            UserService userService = ContextUtils.getBean(UserService.class);
-            ResultBean<List> bean = userService.findUserMenuList(user.getId());
-            user.setMenuList(bean.getData());
             resultBean.setData(user);
 
             RedisUtils.del(request.getRemoteAddr()); /*删除缓存的验证信息等*/
@@ -91,8 +88,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/api/db/*").permitAll()
-//                .antMatchers("/api/menu/*").permitAll()
-//                .antMatchers("/api/role/*").hasAuthority("user")
+//                .antMatchers("/api/user/*").hasRole("SUPER_ADMIN")
+                .antMatchers("/api/role/*").hasAuthority("user")
                 .and()
                 .formLogin()
                 .loginPage("/api/login")

@@ -4,6 +4,7 @@
 package muyu.system.common.persistence;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.github.pagehelper.Page;
 import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @author ThinkGem
  * @version 2014-05-16
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY )
 public abstract class BaseEntity<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

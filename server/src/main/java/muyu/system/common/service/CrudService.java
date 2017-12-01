@@ -120,8 +120,6 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 			entity.preUpdate();
 			dao.update(entity);
 		}
-
-
 	}
 
 	@Transactional(readOnly = false)

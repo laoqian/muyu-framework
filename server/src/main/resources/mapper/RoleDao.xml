@@ -46,6 +46,9 @@
         FROM sys_role a
         <include refid="RoleJoins"/>
         <where>
+            <if test="sqlMap.userId!=null and sqlMap.userId!=''">
+                a.id IN (SELECT s.role_id FROM sys_user_role s WHERE s.user_id =#{sqlMap.userId})
+            </if>
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">
