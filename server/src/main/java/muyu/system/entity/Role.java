@@ -20,13 +20,19 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 public class Role extends DataEntity<Role> implements GrantedAuthority {
 	private static final long serialVersionUID = 1L;
-    String id;     //id
-    String name;   //name
-    String ename;  //ename
-    String type;   //type
+    String id;          //id
+    String name;        //name
+    String ename;       //ename
+    String type;        //type
+    Office company;     //公司
+    Office office;      //部门
 
     @Override
     public String getAuthority() {
         return ename;
+    }
+
+    public String getEname() {
+        return ename==null?null:ename.toUpperCase();
     }
 }

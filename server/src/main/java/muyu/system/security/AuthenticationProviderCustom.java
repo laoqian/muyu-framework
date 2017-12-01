@@ -67,12 +67,14 @@ public class AuthenticationProviderCustom implements AuthenticationProvider {
 
         long num = CacheUtils.increase(cacheName,"attempNum"); /*尝试次数*/
         //与authentication里面的credentials相比较
-
-        if(!password.equals(DigestUtils.md5DigestAsHex(token.getCredentials().toString().getBytes()))) {
+        String dbPwd= DigestUtils.md5DigestAsHex(token.getCredentials().toString().getBytes());
+        if(!password.equals(dbPwd)) {
             if(num>MAX_ATTEMPTS){
                 throw new MaxAuthedNumLimitException("用户名/密码无效："+num);
             }
 
+            System.out.println(dbPwd);
+            System.out.println(password);
             throw new BadCredentialsException("用户名/密码无效："+num);
         }
 

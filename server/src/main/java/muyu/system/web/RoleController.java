@@ -10,6 +10,7 @@ import muyu.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * @date: 2017-11-22 09:23:54
  * @version: 1.0.0
  */
+
 
 @RestController
 @RequestMapping("${prefixPath}/role/")
@@ -55,7 +57,7 @@ public class RoleController extends BaseController{
     }
 
     @RequestMapping("save")
-    public ResultBean<Role> save(Role role){
+    public ResultBean<Role> save(@RequestBody Role role){
         return roleService.save(role);
     }
 

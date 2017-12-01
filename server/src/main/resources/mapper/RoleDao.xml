@@ -6,10 +6,22 @@
         a.id AS "id",
         a.name AS "name",
         a.ename AS "ename",
-        a.type AS "type"
+        a.company_id AS "company.id",
+        c.name AS "company.name" ,
+        a.office_id AS "office.id" ,
+        d.name AS "office.name" ,
+        a.type AS "type",
+        a.create_by AS "createBy.id" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy.id" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag"
     </sql>
 
     <sql id="RoleJoins">
+        LEFT JOIN sys_office c ON c.id = a.company_id
+        LEFT JOIN sys_office d ON d.id = a.office_id
     </sql>
 
     <select id="get" resultType="Role">
@@ -71,12 +83,28 @@
             id,
             name,
             ename,
-            type
+            office_id,
+            company_id,
+            type,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
         ) VALUES (
             #{id},
             #{name},
             #{ename},
-            #{type}
+            #{office.id},
+            #{company.id},
+            #{type},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
         )
     </insert>
 
@@ -85,7 +113,13 @@
             id=#{id},
             name=#{name},
             ename=#{ename},
-            type=#{type}
+            company_id=#{company.id},
+            office_id=#{office.id},
+            type = #{type},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
         WHERE id = #{id}
     </update>
 

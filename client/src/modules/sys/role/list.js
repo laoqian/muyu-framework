@@ -28,7 +28,6 @@ export default class SyseRole extends BaseComponent{
             url             : $t.encodeUrl('findPage'),
             baseUrl         : $t.baseUrl,
             gridName        : this.moduleName,
-            inlineEdit      : true,
             muiltSelect     : true,
             pagerAble       : true,
             rownumbers      : false,
