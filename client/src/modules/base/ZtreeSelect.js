@@ -46,8 +46,6 @@ export default class ZtreeSelect extends BaseComponent{
         $t.container =  document.createElement('div');
         document.body.appendChild($t.container);
         $($t.container).hide();
-
-
     }
 
     componentWillUnmount(){
