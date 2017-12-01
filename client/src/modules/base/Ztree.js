@@ -84,6 +84,10 @@ export default class Ztree extends BaseComponent{
             $t.zTree = $.fn.zTree.getZTreeObj($t.treeId);
         });
 
+        $t.regEvent("willUnmount",(prevProps,prevState)=>{
+            $t.modelClose();
+        });
+
         $t.hiddenNodes=[];
 
         $t.treeFilter=(_keywords)=>{

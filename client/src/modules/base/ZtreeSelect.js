@@ -43,14 +43,15 @@ export default class ZtreeSelect extends BaseComponent{
             }
         });
 
+        $t.regEvent("willUnmount",(prevProps,prevState)=>{
+            document.body.removeChild(this.container);
+        });
+
         $t.container =  document.createElement('div');
         document.body.appendChild($t.container);
         $($t.container).hide();
     }
 
-    componentWillUnmount(){
-        document.body.removeChild(this.container);
-    }
     render (){
         let {option} = this.state;
 

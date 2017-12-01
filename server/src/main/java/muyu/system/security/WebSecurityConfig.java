@@ -89,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/db/*").permitAll()
 //                .antMatchers("/api/user/*").hasRole("SUPER_ADMIN")
-                .antMatchers("/api/role/*").hasAuthority("user")
+//                .antMatchers("/api/role/*").hasAuthority("user")
                 .and()
                 .formLogin()
                 .loginPage("/api/login")
