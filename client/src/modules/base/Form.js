@@ -92,7 +92,12 @@ let FormComponent = function (){
         options.rules =[];
 
         if(data && data[col.name] ){
-            options.initialValue = _.isNumber(data[col.name])?data[col.name].toString():data[col.name];
+
+            if(col.edittype ==='password'){
+                options.initialValue = '';
+            }else{
+                options.initialValue = _.isNumber(data[col.name])?data[col.name].toString():data[col.name];
+            }
         }
 
         if(editrules && editrules.required){
