@@ -8,7 +8,8 @@
           a.name AS "name",
           a.icon AS "icon",
           a.is_show AS "isShow",
-          a.permission      AS "permission",
+          a.permission  AS "permission",
+          a.sort      AS "sort",
           a.href AS "href"
         from sys_menu a
         <where>
@@ -22,7 +23,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
-                ORDER BY a.id DESC
+                ORDER BY a.sort DESC
             </otherwise>
         </choose>
     </select>

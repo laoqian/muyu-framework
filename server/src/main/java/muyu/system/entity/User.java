@@ -4,8 +4,10 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.validator.CLength;
 import org.assertj.core.util.Lists;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +27,15 @@ public class User extends DataEntity<User> {
 
 	private Office company;	// 归属公司		--1
 	private Office office;	// 归属部门		--2
+
+	@NotNull
+	@CLength(min=2,max = 100,message = "用户名长度必须在2-100内")
 	private String loginName;// 登录名
+
+	@NotNull
+	@CLength(min=3, max = 100, message = "密码长度2-100")
 	private String password;// 密码
+
 	private String no;		// 工号
 	private String name;	// 姓名
 	private String email;	// 邮箱

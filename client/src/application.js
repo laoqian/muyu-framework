@@ -109,6 +109,8 @@ class App extends BaseComponent{
             </Menu>
         );
 
+       let navList = _.sortBy(this.getSubMenuList("0"),item=>item.sort);
+
         if(!user.enabled){
             return <Login/>
         }else{
@@ -124,7 +126,7 @@ class App extends BaseComponent{
                             onClick={this.navClick}
                         >
                             {
-                                this.getSubMenuList("0").map((menu)=>(
+                                navList.map((menu)=>(
                                     <Menu.Item key={menu.id}>
                                         <Icon type={menu.icon} />
                                         {menu.name}

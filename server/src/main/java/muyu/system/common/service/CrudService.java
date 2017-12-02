@@ -9,6 +9,7 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
 import muyu.system.utils.IdUtils;
+import muyu.system.utils.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,12 +125,23 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 
 	@Transactional(readOnly = false)
 	public ResultBean<T> save(T entity) {
+		if(!ValidationUtils.valid(entity)){
+			return new ResultBean(ValidationUtils.getErrorMsg(),false);
+		}
+
 		saveSingle(entity);
 		return new ResultBean<>();
 	}
 
 	@Transactional(readOnly = false)
 	public ResultBean<T> save(List<T> list) {
+
+		for (T t : list) {
+			if (!ValidationUtils.valid(t)) {
+				return new ResultBean(ValidationUtils.getErrorMsg(), false);
+			}
+		}
+
 		list.forEach(this::saveSingle);
 		return new ResultBean<>();
 	}
