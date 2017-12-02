@@ -24,16 +24,7 @@ public class UserUtils{
 
 	public static User getUser(){
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(object instanceof SecurityUser){
-			return (SecurityUser)object;
-		}else{
-			return null;
-		}
+		return object instanceof SecurityUser? (SecurityUser)object:null;
 	}
 
-	public static boolean Logout(){
-		Session session = ContextUtils.getBean(Session.class);
-
-		return true;
-	}
 }

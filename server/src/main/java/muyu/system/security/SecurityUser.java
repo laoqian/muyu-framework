@@ -35,7 +35,6 @@ public class SecurityUser extends User implements UserDetails {
         this.getRoleList().forEach(role -> List.add(new SimpleGrantedAuthority("ROLE_"+role.getEname())));
         this.getMenuList().stream().filter(menu -> menu.getPermission()!=null).forEach(menu -> List.add(new SimpleGrantedAuthority(menu.getPermission())));
 
-        System.out.println(List);
         return List;
     }
 
