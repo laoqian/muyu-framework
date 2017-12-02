@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/db/*").permitAll()
+                .antMatchers("/api/*").authenticated()
                 .antMatchers("/api/user/*").hasRole("SUPER_ADMIN")
 //                .antMatchers("/api/role/*").hasAuthority("user")
                 .and()
