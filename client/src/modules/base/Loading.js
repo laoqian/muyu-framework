@@ -33,7 +33,6 @@ export default class Loading extends BaseComponent{
                 </div>
             </div>
         )
-
     }
 }
 

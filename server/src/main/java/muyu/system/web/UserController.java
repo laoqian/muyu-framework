@@ -8,6 +8,7 @@ import muyu.system.entity.RoleMenu;
 import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
 import muyu.system.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,11 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("save")
-    ResultBean<User> save(@RequestBody User user){
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+    ResultBean<User> save(User user){
+        if(StringUtils.isNotBlank(user.getPassword())){
+            user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        }
+
         return userService.save(user);
     }
 

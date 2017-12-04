@@ -65,14 +65,11 @@ class ToolBar extends Component {
 
     }
 
-
-
     render() {
         let {left,right,reload,click,register} = this.props;
-
         return (
             <div className="my-tb">
-                <SearchToolBarForm tools={left} register={register} click={click}/>
+                {left?<SearchToolBarForm tools={left} register={register} click={click}/>:<div/>}
                 <div className="my-tb-right">
                     {reload?<Button icon="reload" onClick={()=>click({name:'重加载'})}/>:''}
                     <ButtonGroup>

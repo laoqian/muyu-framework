@@ -157,7 +157,7 @@ let FormComponent = function (){
                 $t.state.editData = Object.assign($t.state.editData?$t.state.editData:{}, values);
                 data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
 
-                u[!type?'post':type]($t.encodeUrl(url ? url : 'save'),data, function (data) {
+                u[!type?'get':type]($t.encodeUrl(url ? url : 'save'),data, function (data) {
                     u[data.success()?'success':'error'](data.msg);
 
                     if(_.isFunction(afterSave)){

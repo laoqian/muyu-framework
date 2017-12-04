@@ -1,6 +1,8 @@
 
 package muyu.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
@@ -34,6 +36,7 @@ public class User extends DataEntity<User> {
 
 	@NotNull
 	@CLength(min=3, max = 100, message = "密码长度2-100")
+	@JsonIgnore
 	private String password;// 密码
 
 	private String no;		// 工号
@@ -43,6 +46,8 @@ public class User extends DataEntity<User> {
 	private String mobile;	// 手机
 	private String userType;	// 用户类型
 	private String loginIp;	// 最后登陆IP
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date   loginDate;  // 最后登陆日期
 	private String loginFlag;  // 是否允许登陆
 	private String photo;	   // 头像
@@ -51,6 +56,7 @@ public class User extends DataEntity<User> {
 	private String newPassword;	// 新密码
 	
 	private String oldLoginIp;		// 上次登陆IP
+
 	private Date   oldLoginDate;		// 上次登陆日期
 	private Integer authErrorNum; 	// 认证错误次数
 	private Role role;	// 根据角色查询用户条件
