@@ -9,6 +9,7 @@ import muyu.system.utils.UserUtils;
 import muyu.system.entity.User;
 import muyu.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,7 @@ public class UserController extends BaseController{
 
     @RequestMapping("save")
     ResultBean<User> save(@RequestBody User user){
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         return userService.save(user);
     }
 

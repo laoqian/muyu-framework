@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col, Form, Modal,Select,Input} from 'antd'
 import _ from 'lodash'
-import Loading from '../../layouts/loading'
+import Loading from './Loading'
 import ZtreeSelect from  './ZtreeSelect'
 
 const Option = Select.Option;
@@ -92,12 +92,7 @@ let FormComponent = function (){
         options.rules =[];
 
         if(data && data[col.name] ){
-
-            if(col.edittype ==='password'){
-                options.initialValue = '';
-            }else{
-                options.initialValue = _.isNumber(data[col.name])?data[col.name].toString():data[col.name];
-            }
+            options.initialValue = _.isNumber(data[col.name])?data[col.name].toString():data[col.name];
         }
 
         if(editrules && editrules.required){

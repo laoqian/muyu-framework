@@ -73,7 +73,7 @@ public class UserService extends CrudService<UserDao,User>{
 
     @Override
     public ResultBean<User> save(User user) {
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+
         return  super.save(user);
     }
 }

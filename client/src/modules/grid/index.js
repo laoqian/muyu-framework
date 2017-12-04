@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {Link} from 'react-router'
-import Loading from '../../layouts/loading'
+import Loading from '../base/Loading'
 import {connect} from 'react-redux'
 import {findDOMNode,render} from 'react-dom';
 import { Button } from 'antd';
@@ -13,11 +13,7 @@ class JqgridWrapper extends Component {
     constructor() {
         super();
         let __this = this;
-
-        this.state = {
-            loading: false
-        };
-
+        this.state = {};
         this.state.defaultOptions = {
             url: 'api/menu/findPage',
             editurl:'clientArray',
@@ -64,8 +60,7 @@ class JqgridWrapper extends Component {
 
                 setQueryParam ? setQueryParam() : null;
                 $('.ui-jqgrid .loading', grid).remove();
-                __this.setState({loading: true});
-
+                Loading.show("拼命加载中");
                 /*缓存上一次的数据*/
                 if(this.p && this.p.data){
                     __this.cacheList = this.p.data;
@@ -83,7 +78,6 @@ class JqgridWrapper extends Component {
                 }
             },
             loadComplete: function () {
-                __this.setState({loading: false});
                 if(this.p.muiltSelect){
                     let selList = this.p.selectedList;
                     selList.forEach(id=>{
@@ -92,9 +86,10 @@ class JqgridWrapper extends Component {
                 }else{
                     $('#'+this.p.selrow,this).addClass('success');
                 }
+                Loading.hide();
             },
             gridComplete: function () {
-
+                Loading.hide();
             },
 
             loadError: function (data) {
@@ -245,7 +240,6 @@ class JqgridWrapper extends Component {
             <div className='my-grid-wrapper' ref="gridWrapper">
                 <table ref="gridTable" id={talbleId}/>
                 {pagerAble?<div id={pager}/>:null}
-                {this.state.loading ? <Loading text={'正在拼命加载中...'}/> : null}
             </div>
         )
     }
