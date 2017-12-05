@@ -13,6 +13,7 @@ logging:
 spring:
     http:
         multipart:
+            enabled:  true
             maxFileSize: 10Mb
             maxRequestSize: 10Mb
 

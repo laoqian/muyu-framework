@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import gridExtend from './modules/grid/extend'
 import React from 'react'
+import fetch from 'isomorphic-fetch'
 
 
 let u = {
@@ -20,13 +21,20 @@ u.ajax = (options)=>{
     const SUCCESS           =  0;
     const FAIL              =  1;
     const NO_PERMISSION     =  2;
+    let data = options.data;
+    let url;
+    if(options.type==='post'&& data && data.id){
+        url = options.url+"?id="+data.id;
+    }else{
+        url = options.url;
+    }
 
     $.ajax({
-        url         :  options.url,
+        url         :  url,
         type        :  options.type,
         data        :  JSON.stringify(options.data),
+        contentType : "application/json; charset=utf-8",
         timeout     :  30000,
-        contentType :  "application/json;charset=utf-8",
         dataType    :  "json",
         success     :  function(data){
             let {code} = data;
@@ -70,6 +78,7 @@ u.get   = (url,data,success)=>{
         u.ajax({url,type:'get',success});
     }
 };
+
 u.post  = (url,data,success)=>u.ajax({url,type:'post',data,success});
 u.getDict = (type)=>{
     let d =[];

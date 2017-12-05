@@ -40,7 +40,7 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("save")
-    ResultBean<User> save(User user){
+    ResultBean<User> save(@RequestBody User user){
         if(StringUtils.isNotBlank(user.getPassword())){
             user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         }
@@ -59,7 +59,7 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping("saveUserRoleBatch")
-    public ResultBean<User> saveRoleMenuBatch(@RequestBody SubmitBatchBean<User,String> batchBean){
+    public ResultBean<User> saveRoleMenuBatch(SubmitBatchBean<User,String> batchBean){
         return userService.saveRoleMenuBatch(batchBean);
     }
 

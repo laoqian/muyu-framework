@@ -19,8 +19,8 @@ public abstract class TreeEntity<T> extends DataEntity<T> {
     private static final long serialVersionUID = 1L;
 
     private Integer level;                  //当前层级
-    private Integer expanded = 1;    //默认展开
-    private Integer leaf;               //是否叶子节点
+    private Boolean expanded = true;    //默认展开
+    private Boolean leaf;               //是否叶子节点
     private String name ;               //
     private Integer sort=10; 	            // 排序
 
