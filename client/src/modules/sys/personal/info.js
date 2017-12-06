@@ -1,7 +1,8 @@
 import React from 'react'
+import ReactDom from 'react-dom'
 import {connect} from 'react-redux'
 import BaseComponent from "../../base/BaseComponent";
-import {Form,Upload,Icon} from 'antd'
+import {Form,Upload,Icon,Button} from 'antd'
 
 class UserInfo extends BaseComponent{
 
@@ -11,6 +12,8 @@ class UserInfo extends BaseComponent{
         $t.bindDataOnce = ()=>{};
         $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
+
+        $t.state.photoUrl = null;
 
         $t.toolBarOptions = {
             right:{
@@ -29,10 +32,15 @@ class UserInfo extends BaseComponent{
         };
 
         $t.handleChange = (info) => {
-            if (info.file.status === 'done') {
-                getBase64(info.file.originFileObj,imageUrl => this.setState({ imageUrl }));
+            const bean = info.file.response;
+
+            if (info.file.status === 'done' && $t.u.authVarify(bean.code)) {
+                let attach = bean.data;
+                let state ={photoUrl:$t.encodeFileUrl("/"+attach.name)};
+                console.log(state);
+                $t.setState(state);
             }
-        }
+        };
 
         $t.beforeUpload =(file)=>{
             const isJPG = file.type === 'image/jpeg';
@@ -68,19 +76,17 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
+                                <img src={this.state.photoUrl} alt="" className="my-user-photo" />
                                 <Upload
-                                    className="avatar-uploader"
                                     name="file"
                                     showUploadList={false}
                                     action={this.encodeBaseUrl('/attach/upload')}
                                     beforeUpload={this.beforeUpload}
                                     onChange={this.handleChange}
                                 >
-                                    {
-                                        imageUrl ?
-                                            <img src={imageUrl} alt="" className="avatar" /> :
-                                            <Icon type="plus" className="avatar-uploader-trigger" />
-                                    }
+                                    <Button>
+                                        <Icon type="upload" />上传头像
+                                    </Button>
                                 </Upload>
                             </div>
                         </div>
@@ -121,7 +127,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="邮箱" value={user.email} id="email"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="邮箱" defaultValue={user.email} id="email"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
                     </div>
@@ -131,7 +137,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="电话" value={user.phone} id="phone"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="电话" defaultValue={user.phone} id="phone"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
                     </div>
@@ -141,7 +147,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="手机" value={user.mobile} id="mobile"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="手机" defaultValue={user.mobile} id="mobile"  className="ant-input ant-input-lg"/>
 
                             </div>
                         </div>
@@ -152,7 +158,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <textarea type="text" placeholder="备注" value={user.remarks} id="mobile"  className="ant-input ant-input-lg"/>
+                                <textarea type="text" placeholder="备注" defaultValue={user.remarks} id="mobile"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
                     </div>

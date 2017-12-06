@@ -37,19 +37,21 @@ public class AttachService extends CrudService<AttachDao,Attach>{
         extendName = ExtendUtils.getFileExtension(name);
         if(extendName!=null){
             fileName = name.substring(0,name.lastIndexOf("."));
-            fileName = this.filePath+fileName+"_"+now+"."+extendName;
+            fileName = fileName+"_"+now+"."+extendName;
         }else{
-            fileName = this.filePath+ file.getName()+"_"+now;
+            fileName = name+"_"+now;
         }
 
-        File attachFile = new File(fileName);
+        File attachFile = new File(this.filePath+fileName);
         try {
             file.transferTo(attachFile);
         } catch (IOException e) {
             return new ResultBean("附件保存失败,路径不正确！",false);
         }
 
-        Attach attach = new Attach(name,file.getSize(),fileName);
+        Attach attach = new Attach(fileName,file.getSize(),fileName);
+        attach.setOriginName(name);
+        attach.setExtendName(extendName==null?"none":extendName);
         super.save(attach);
 
         return new ResultBean(attach);

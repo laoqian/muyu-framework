@@ -5,6 +5,8 @@
     <sql id="AttachColumns">
         a.id AS "id" ,
         a.name AS "name" ,
+        a.origin_name AS "originName" ,
+        a.extend_name AS "extendName" ,
         a.file_size AS "fileSize" ,
         a.save_path AS "savePath" ,
         a.create_by AS "createBy.id" ,
@@ -55,6 +57,8 @@
         INSERT INTO sys_attach(
             id,
             name,
+            origin_name,
+            extend_name,
             file_size,
             save_path,
             create_by,
@@ -67,6 +71,8 @@
         ) VALUES (
             #{id},
             #{name},
+            #{originName},
+            #{extendName},
             #{fileSize},
             #{savePath},
             #{createBy.id},
@@ -82,7 +88,9 @@
     <update id="update">
         UPDATE sys_attach SET
             id=#{id},
-            name=#{name},
+            extend_name=#{name},
+            origin_name=#{originName},
+            name=#{extendName},
             file_size=#{fileSize},
             save_path=#{savePath},
             create_by=#{createBy},

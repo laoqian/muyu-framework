@@ -23,6 +23,8 @@ import java.util.Date;
 public class Attach extends DataEntity<Attach> {
 	private static final long serialVersionUID = 1L;
     String name;  //name
+    String originName;  //name
+    String extendName;  //name
     Long fileSize;  //file_size
     String savePath;  //save_path
     String extension;  //extension

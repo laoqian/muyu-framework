@@ -38,9 +38,7 @@ u.ajax = (options)=>{
         dataType    :  "json",
         success     :  function(data){
             let {code} = data;
-
             if(code !== SUCCESS){
-                // notification.success({message:data.msg});
                 /*请求时，收到未认证消息就退出登录*/
 
                 if(code===NO_LOGIN){
@@ -69,6 +67,17 @@ u.ajax = (options)=>{
         }
     });
 };
+
+u.authVarify = code=>{
+    const NO_LOGIN          = -1;
+    if(code===-1){
+        store.dispatch({
+            type:def.USER_LOGOUT
+        })
+    }
+
+    return code!==-1;
+}
 
 u.get   = (url,data,success)=>{
     if(_.isFunction(data)){

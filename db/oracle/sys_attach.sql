@@ -11,7 +11,9 @@ create table SYS_ATTACH
   update_date TIMESTAMP(6) not null,
   remarks     NVARCHAR2(255),
   del_flag    CHAR(1) default 0 not null,
-  extension   VARCHAR2(40)
+  extension   VARCHAR2(40),
+  extend_name VARCHAR2(20),
+  origin_name VARCHAR2(200)
 )
 tablespace DATA
   pctfree 10
@@ -20,6 +22,7 @@ tablespace DATA
   storage
   (
     initial 64K
+    next 1M
     minextents 1
     maxextents unlimited
   );
@@ -46,3 +49,7 @@ comment on column SYS_ATTACH.del_flag
   is '删除标记';
 comment on column SYS_ATTACH.extension
   is '扩展信息';
+comment on column SYS_ATTACH.extend_name
+  is '扩展名';
+comment on column SYS_ATTACH.origin_name
+  is '原始名字';

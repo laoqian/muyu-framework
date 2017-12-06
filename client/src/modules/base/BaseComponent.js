@@ -11,6 +11,7 @@ export default class BaseComponent extends Component{
         $t.baseUrl ='/api/';
         $t.encodeUrl = (url)=>$t.baseUrl+url;
         $t.encodeBaseUrl = (url)=>'/api'+url;
+        $t.encodeFileUrl = (url)=>'/files'+url;
         $t.state = {};
         $t.extend = function(){
             for(let i=0;i<arguments.length;i++){
