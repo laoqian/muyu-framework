@@ -1,9 +1,12 @@
 package muyu.system.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import muyu.system.common.beans.ResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 
 /**
@@ -21,24 +24,18 @@ public class BaseController {
      */
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    /**
-     * 验证Bean实例对象
-     */
-//    @Autowired
-//    protected Validator validator;
 
-    /**
-     * 管理基础路径
-     */
-//    @Value("${adminPath}")
-    protected String adminPath;
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public ResultBean<String> ExceptionHandler(Exception ex) throws JsonProcessingException {
+        ResultBean<String> resultBean ;
 
-    @ExceptionHandler
-    public ResultBean<Exception> exception(Exception ex){
-        ResultBean<Exception> bean = new ResultBean<>();
+        if (ex instanceof MaxUploadSizeExceededException) {
+            resultBean = new ResultBean<>("文件导入超过最大字节限制",false);
+        }else {
+            resultBean = new ResultBean<>("出现异常信息:"+ex.getLocalizedMessage(),false);
+        }
 
-        bean.setCode(ResultBean.FAIL);
-        bean.setMsg(ex.getMessage());
-        return bean;
+        return resultBean;
     }
 }

@@ -15,7 +15,8 @@ logs/
 *.log
 *.iml
 
-
+#sql缓存文件
+*.~sql
 .DS_Store
 npm-debug.log
 dist

@@ -33,19 +33,21 @@ class UserInfo extends BaseComponent{
                 getBase64(info.file.originFileObj,imageUrl => this.setState({ imageUrl }));
             }
         }
+
+        $t.beforeUpload =(file)=>{
+            const isJPG = file.type === 'image/jpeg';
+            if (!isJPG) {
+                return $t.u.error('只能上传jpg格式头像!');
+            }
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            if (!isLt2M) {
+                return $t.u.error('头像大小不能超过2MB!');
+            }
+            return isJPG && isLt2M;
+        }
     }
 
-    beforeUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
-            this.u.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            this.u.error('Image must smaller than 2MB!');
-        }
-        return isJPG && isLt2M;
-    }
+
 
     render() {
 
@@ -70,7 +72,7 @@ class UserInfo extends BaseComponent{
                                     className="avatar-uploader"
                                     name="file"
                                     showUploadList={false}
-                                    action={this.encodeBaseUrl('/upload')}
+                                    action={this.encodeBaseUrl('/attach/upload')}
                                     beforeUpload={this.beforeUpload}
                                     onChange={this.handleChange}
                                 >

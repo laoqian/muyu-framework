@@ -1,5 +1,7 @@
 package muyu.system.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,5 +49,13 @@ public class ExtendUtils {
             sb.append(matcher.end() == line.length() ? "" : "_");
         }
         return sb.toString();
+    }
+
+
+    public static String getFileExtension(String fileName) {
+        if ((fileName == null) || (fileName.lastIndexOf(".") == -1) || (fileName.lastIndexOf(".") == fileName.length() - 1)) {
+            return null;
+        }
+        return StringUtils.lowerCase(fileName.substring(fileName.lastIndexOf(".") + 1));
     }
 }

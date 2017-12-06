@@ -77,3 +77,5 @@ pageSize  : 50
 #Tree 参数
 rootId :  0
 
+#文件上传路径
+filePath: E:\\files\

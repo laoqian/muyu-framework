@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.system.dao.AttachDao">
+
+    <sql id="AttachColumns">
+        a.id AS "id" ,
+        a.name AS "name" ,
+        a.file_size AS "fileSize" ,
+        a.save_path AS "savePath" ,
+        a.create_by AS "createBy.id" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy.id" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag" ,
+        a.extension AS "extension" 
+    </sql>
+
+    <sql id="AttachJoins">
+    </sql>
+
+    <select id="get" resultType="Attach">
+        SELECT
+        <include refid="AttachColumns"/>
+        FROM sys_attach a
+        <include refid="AttachJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="query" resultType="Attach">
+        SELECT
+        <include refid="AttachColumns"/>
+        FROM sys_attach a
+        <include refid="AttachJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Attach">
+        SELECT
+        <include refid="AttachColumns"/>
+        FROM sys_attach a
+        <include refid="AttachJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+    <insert id="insert">
+        INSERT INTO sys_attach(
+            id,
+            name,
+            file_size,
+            save_path,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag,
+            extension
+        ) VALUES (
+            #{id},
+            #{name},
+            #{fileSize},
+            #{savePath},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag},
+            #{extension}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_attach SET
+            id=#{id},
+            name=#{name},
+            file_size=#{fileSize},
+            save_path=#{savePath},
+            create_by=#{createBy},
+            create_date=#{createDate.id},
+            update_by=#{updateBy},
+            update_date=#{updateDate.id},
+            remarks=#{remarks},
+            del_flag=#{delFlag},
+            extension=#{extension}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_attach
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE sys_attach SET del_flag = 1
+        WHERE id = #{id}
+    </update>
+</mapper>

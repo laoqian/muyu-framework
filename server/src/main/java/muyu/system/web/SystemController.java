@@ -44,9 +44,4 @@ public class SystemController{
         return systemService.getCachedCode(request);
     }
 
-    @RequestMapping("upload")
-    public ResultBean<String> upload(@RequestBody MultipartFile file){
-        return new ResultBean<>();
-    }
-
 }
