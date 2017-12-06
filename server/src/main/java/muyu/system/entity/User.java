@@ -30,11 +30,11 @@ public class User extends DataEntity<User> {
 	private Office company;	// 归属公司		--1
 	private Office office;	// 归属部门		--2
 
-	@NotNull
+	@NotNull(message = "用户名不能为空")
 	@CLength(min=2,max = 100,message = "用户名长度必须在2-100内")
 	private String loginName;// 登录名
 
-	@NotNull
+	@NotNull(message = "密码不能为空")
 	@CLength(min=3, max = 100, message = "密码长度2-100")
 	@JsonIgnore
 	private String password;// 密码

@@ -12,9 +12,7 @@ class UserInfo extends BaseComponent{
         $t.bindDataOnce = ()=>{};
         $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
-
-        $t.state.photoUrl = null;
-
+        $t.state.photoUrl = this.props.user.photo;
         $t.toolBarOptions = {
             right:{
                 items :[
@@ -23,10 +21,8 @@ class UserInfo extends BaseComponent{
             }
         };
 
-        $t.state.editData  = $t.props.user;
-
         $t.getBase64 = (img,callback)=> {
-            const reader = new FileReader();
+            const reader = new FileReader()
             reader.addEventListener('load', () => callback(reader.result));
             reader.readAsDataURL(img);
         };
@@ -37,7 +33,6 @@ class UserInfo extends BaseComponent{
             if (info.file.status === 'done' && $t.u.authVarify(bean.code)) {
                 let attach = bean.data;
                 let state ={photoUrl:$t.encodeFileUrl("/"+attach.name)};
-                console.log(state);
                 $t.setState(state);
             }
         };
@@ -52,10 +47,25 @@ class UserInfo extends BaseComponent{
                 return $t.u.error('头像大小不能超过2MB!');
             }
             return isJPG && isLt2M;
+        };
+
+        $t.saveUser = ()=>{
+
+            let user = {
+                photo:$t.state.photoUrl,
+                email:$t.refs.email.value,
+                phone:$t.refs.phone.value,
+                mobile:$t.refs.mobile.value,
+                remarks:$t.refs.remarks.value
+            };
+            user = Object.assign({},this.props.user,user);
+            $t.u.post($t.encodeBaseUrl('/user/save'),user,bean=>{
+                if(bean.success()){
+                    $t.u.success(bean.msg);
+                }
+            })
         }
     }
-
-
 
     render() {
 
@@ -85,7 +95,7 @@ class UserInfo extends BaseComponent{
                                     onChange={this.handleChange}
                                 >
                                     <Button>
-                                        <Icon type="upload" />上传头像
+                                        <Icon type="upload" />上传
                                     </Button>
                                 </Upload>
                             </div>
@@ -127,7 +137,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="邮箱" defaultValue={user.email} id="email"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="邮箱" defaultValue={user.email} ref="email"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
                     </div>
@@ -137,7 +147,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="电话" defaultValue={user.phone} id="phone"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="电话" defaultValue={user.phone} ref="phone"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
                     </div>
@@ -147,7 +157,7 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <input type="text" placeholder="手机" defaultValue={user.mobile} id="mobile"  className="ant-input ant-input-lg"/>
+                                <input type="text" placeholder="手机" defaultValue={user.mobile} ref="mobile"  className="ant-input ant-input-lg"/>
 
                             </div>
                         </div>
@@ -158,9 +168,21 @@ class UserInfo extends BaseComponent{
                         </div>
                         <div className="ant-col-16 ant-form-item-control-wrapper">
                             <div className="ant-form-item-control ">
-                                <textarea type="text" placeholder="备注" defaultValue={user.remarks} id="mobile"  className="ant-input ant-input-lg"/>
+                                <textarea type="text" placeholder="备注" defaultValue={user.remarks} ref="remarks"  className="ant-input ant-input-lg"/>
                             </div>
                         </div>
+                    </div>
+                    <div className="ant-row ant-form-item">
+                        <div className="ant-col-8 ant-form-item-label">
+                        </div>
+                        <div className="ant-col-16 ant-form-item-control-wrapper">
+                            <div className="ant-form-item-control ">
+                                <Button onClick={()=>this.saveUser()}>
+                                    <Icon type="save" />保存
+                                </Button>
+                            </div>
+                        </div>
+
                     </div>
                 </Form>
             </div>

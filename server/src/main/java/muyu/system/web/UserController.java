@@ -23,12 +23,6 @@ public class UserController extends BaseController{
     @Autowired
     UserService userService;
 
-    @ModelAttribute
-    public User preState(@RequestParam(required=false) String id){
-        User user = userService.get(id);
-        return user!=null ? user : new User();
-    }
-
     @RequestMapping("getAuthedUser")
     ResultBean<User> getAuthedUser(User user){
         return new ResultBean<>(UserUtils.getUser());

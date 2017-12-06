@@ -1,7 +1,14 @@
 package muyu.system.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.BeansException;
 
+import java.beans.PropertyDescriptor;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,5 +64,33 @@ public class ExtendUtils {
             return null;
         }
         return StringUtils.lowerCase(fileName.substring(fileName.lastIndexOf(".") + 1));
+    }
+
+    public static String[] getNullProps(Object source,boolean ignoreEmptyString){
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        PropertyDescriptor[] propertyDescriptors = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<String>();
+
+        for(PropertyDescriptor propDesc : propertyDescriptors) {
+
+            Object srcValue = src.getPropertyValue(propDesc.getName());
+            if (srcValue == null) {
+                emptyNames.add(propDesc.getName());
+            }else{
+                //如果是空字符串，同样不合并。
+                if(srcValue instanceof String){
+                    if(StringUtils.isBlank((String)srcValue) && ignoreEmptyString){
+                        emptyNames.add(propDesc.getName());
+                    }
+                }
+            }
+        }
+
+        return emptyNames.toArray(new String[emptyNames.size()]);
+    }
+
+    public static void copyPropertiesIgnoreNull(Object source,Object target) throws BeansException {
+        BeanUtils.copyProperties(source,target,ExtendUtils.getNullProps(source,false));
     }
 }

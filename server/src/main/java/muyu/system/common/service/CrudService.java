@@ -8,6 +8,7 @@ import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.utils.ExtendUtils;
 import muyu.system.utils.IdUtils;
 import muyu.system.utils.ValidationUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -125,6 +126,14 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 
 	@Transactional(readOnly = false)
 	public ResultBean<T> save(T entity) {
+		if(!entity.getIsNewRecord()){
+			T target = dao.get(entity.getId());
+			if(target!=null){
+				ExtendUtils.copyPropertiesIgnoreNull(entity,target);
+				entity = target;
+			}
+		}
+
 		if(!ValidationUtils.valid(entity)){
 			return new ResultBean(ValidationUtils.getErrorMsg(),false);
 		}
@@ -136,7 +145,17 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 	@Transactional(readOnly = false)
 	public ResultBean<T> save(List<T> list) {
 
-		for (T t : list) {
+		for (int i=0;i<list.size();i++) {
+			T t = list.get(i);
+			if(!t.getIsNewRecord()){
+				T target = dao.get(t.getId());
+				if(target!=null){
+					ExtendUtils.copyPropertiesIgnoreNull(t,target);
+					t = target;
+					list.set(i,target);
+				}
+			}
+
 			if (!ValidationUtils.valid(t)) {
 				return new ResultBean(ValidationUtils.getErrorMsg(), false);
 			}
