@@ -7,6 +7,7 @@ import muyu.system.entity.*;
 import muyu.system.security.SecurityUser;
 import muyu.system.common.service.CrudService;
 import muyu.system.dao.UserDao;
+import muyu.system.utils.EncoderUtils;
 import muyu.system.utils.IdUtils;
 import muyu.system.utils.UserUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,9 +72,23 @@ public class UserService extends CrudService<UserDao,User>{
         return new ResultBean(batchBean.getData());
     }
 
-    @Override
-    public ResultBean<User> save(User user) {
+    public ResultBean<String> changePassword(User user,String newPassword) {
+        if(StringUtils.isBlank(user.getId())||StringUtils.isBlank(user.getPassword())){
+            return new ResultBean<>("输入原始密码为空！",false);
+        }
 
-        return  super.save(user);
+        if(StringUtils.isBlank(newPassword)){
+            return new ResultBean<>("输入新密码不能为空！",false);
+        }
+
+        User dbUser = dao.get(user);
+        String password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
+        if(!password.equals(dbUser.getPassword())){
+            return new ResultBean<>("原密码校验失败！",false);
+        }
+
+        dbUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+        super.save(dbUser);
+        return new ResultBean<>("修改密码成功！",true);
     }
 }

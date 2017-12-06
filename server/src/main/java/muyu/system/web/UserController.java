@@ -42,6 +42,11 @@ public class UserController extends BaseController{
         return userService.save(user);
     }
 
+    @RequestMapping("changePassword")
+    ResultBean<String> changePassword(User user,String newPassword){
+        return userService.changePassword(user,newPassword);
+    }
+
     @RequestMapping("findUserMenuList")
     public ResultBean<List> findUserMenuList(String userId){
         return userService.findUserMenuList(userId);

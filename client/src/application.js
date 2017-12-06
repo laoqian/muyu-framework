@@ -136,7 +136,7 @@ class App extends BaseComponent{
                         </Menu>
                         <div className="my-user">
                             <div className="my-user-info">
-                                <img src="./images/yu.jpg"/>
+                                <img src={user.photo}/>
                                 <Dropdown overlay={dropMenu} placement="bottomRight">
                                     <span>超级用户</span>
                                 </Dropdown>

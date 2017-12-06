@@ -22,7 +22,7 @@ let FormComponent = function (){
     Object.assign($t.state,state);
 
     $t.renderCtrls ={};
-    $t.renderCtrls.text = (option)=> (<Input placeholder={option.placeholder}/>);
+    $t.renderCtrls.text = (option)=> (<Input placeholder={option.placeholder} type={option.type}/>);
 
     $t.renderCtrls.select = (column)=>{
         let ops = [];
@@ -80,7 +80,8 @@ let FormComponent = function (){
                 break;
             case 'text':
             default:
-                let options = {placeholder: col.label};
+                let type = col.editoptions.type?col.editoptions.type:'text';
+                let options = {placeholder: col.label,type};
                 ctrl = $t.renderCtrls.text(options);
         }
 
@@ -95,9 +96,36 @@ let FormComponent = function (){
             options.initialValue = _.isNumber(data[col.name])?data[col.name].toString():data[col.name];
         }
 
-        if(editrules && editrules.required){
-            options.rules.push({required:true,message:`${col.label}不能为空！`});
+        if(editrules){
+
+            if(editrules.required){
+                options.rules.push({required:true,message:`${col.label}不能为空！`});
+            }
+
+            if(editrules.minLength){
+                options.rules.push({min:editrules.minLength,message:`${col.label}长度不能少于${editrules.minLength}！`});
+            }
+
+            if(editrules.maxLength){
+                options.rules.push({max:editrules.maxLength,message:`${col.label}长度不能大于${editrules.maxLength}！`});
+            }
+
+            if(editrules.equal){
+                options.rules.push({validator:(rule, value,callback)=>{
+                    let {getFieldValue} = form;
+                    let value1 = getFieldValue(editrules.equal);
+                    let success = false;
+                    if(_.isString(value) && _.isString(value1) && value===value1){
+                        success = true;
+                    }else if(_.isObject(value) && _.isObject(value1) && value.id === value1.id){
+                        success = true;
+                    }
+
+                    callback(success?undefined:`两次输入的值不相等`);
+                }});
+            }
         }
+
 
         return <FormItem label={col.label} {...formItemLayout}
                          children={getFieldDecorator(col.name,options)(ctrl)}/>;

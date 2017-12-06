@@ -93,4 +93,8 @@ public class ExtendUtils {
     public static void copyPropertiesIgnoreNull(Object source,Object target) throws BeansException {
         BeanUtils.copyProperties(source,target,ExtendUtils.getNullProps(source,false));
     }
+
+    public static void copyPropertiesIgnoreEmpty(Object source,Object target) throws BeansException {
+        BeanUtils.copyProperties(source,target,ExtendUtils.getNullProps(source,true));
+    }
 }

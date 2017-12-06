@@ -1,31 +1,17 @@
 import React from 'react'
-import ReactDom from 'react-dom'
 import {connect} from 'react-redux'
 import BaseComponent from "../../base/BaseComponent";
 import {Form,Upload,Icon,Button} from 'antd'
+import Loading from '../../base/Loading'
 
 class UserInfo extends BaseComponent{
 
     constructor(props){
         super(props);
         let $t = this;
-        $t.bindDataOnce = ()=>{};
         $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
         $t.state.photoUrl = this.props.user.photo;
-        $t.toolBarOptions = {
-            right:{
-                items :[
-                    {name: '保存',path:'/add',   icon: 'save',    },
-                ]
-            }
-        };
-
-        $t.getBase64 = (img,callback)=> {
-            const reader = new FileReader()
-            reader.addEventListener('load', () => callback(reader.result));
-            reader.readAsDataURL(img);
-        };
 
         $t.handleChange = (info) => {
             const bean = info.file.response;
@@ -59,10 +45,13 @@ class UserInfo extends BaseComponent{
                 remarks:$t.refs.remarks.value
             };
             user = Object.assign({},this.props.user,user);
+            Loading.show("保存用户数据");
             $t.u.post($t.encodeBaseUrl('/user/save'),user,bean=>{
                 if(bean.success()){
                     $t.u.success(bean.msg);
                 }
+
+                Loading.hide();
             })
         }
     }

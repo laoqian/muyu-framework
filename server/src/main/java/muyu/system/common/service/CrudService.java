@@ -29,160 +29,166 @@ import javax.servlet.http.HttpServletRequest;
 @Transactional(readOnly = true)
 public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>> extends BaseService {
 
-	/**
-	 * 持久层对象
-	 */
-	@Autowired
-	protected D dao;
+    /**
+     * 持久层对象
+     */
+    @Autowired
+    protected D dao;
 
 
+    /**
+     * 获取单条数据
+     *
+     * @param id
+     * @return
+     */
+    public T get(String id) {
+        return (StringUtils.isNotBlank(id)) ? dao.get(id) : null;
+    }
+
+    /**
+     * 获取单条数据
+     *
+     * @param entity
+     * @return
+     */
+
+    public T get(T entity) {
+        return dao.get(entity);
+    }
+
+    /**
+     * 获取单挑数据
+     *
+     * @param t
+     * @return
+     */
+    public ResultBean<T> query(T t) {
+        ResultBean<T> bean = new ResultBean<>();
+        T t1 = dao.get(t);
+
+        if (t1 == null) {
+            bean.setMsg("查询失败，ID=" + t.getId());
+            bean.setCode(ResultBean.FAIL);
+        } else {
+            bean.setData(t1);
+        }
+
+        return bean;
+    }
+
+    /**
+     * 查询列表数据
+     *
+     * @param entity
+     * @return
+     */
+    public List<T> findList(T entity) {
+        return dao.findList(entity);
+    }
+
+    /**
+     * 查询分页数据
+     *
+     * @param request 分页对象
+     * @param entity
+     * @return
+     */
+    public ResultPageBean<T> findPage(HttpServletRequest request, T entity) {
+        ResultPageBean<T> bean = new ResultPageBean<>(request);
+
+        Page page = PageHelper.startPage(bean.getPageNum(), bean.getPageSize(), true, true, true);
+        page.setOrderBy(bean.getOrderBy());
+        bean.setList(findList(entity));
+        bean.setPageCount(page.getPages());
+        bean.setTotal(page.getTotal());
+
+        return bean;
+    }
 
 
-	/**
-	 * 获取单条数据
-	 * @param id
-	 * @return
-	 */
-	public T get(String id) {
-		return (StringUtils.isNotBlank(id))?dao.get(id):null;
-	}
+    /**
+     * 保存数据（插入或更新）
+     *
+     * @param entity
+     */
+    @Transactional(readOnly = false)
+    public void saveSingle(T entity) {
+        if (entity.getIsNewRecord()) {
 
-	/**
-	 * 获取单条数据
-	 * @param entity
-	 * @return
-	 */
+            if (StringUtils.isBlank(entity.getId())) {
+                entity.setId(IdUtils.genId());
+            }
 
-	public T get(T entity) {
-		return dao.get(entity);
-	}
+            entity.preInsert();
+            dao.insert(entity);
+        } else {
+            entity.preUpdate();
+            dao.update(entity);
+        }
+    }
 
-	/**
-	 * 获取单挑数据
-	 * @param t
-	 * @return
-	 */
-	public ResultBean<T> query(T t){
-		ResultBean<T> bean = new ResultBean<>();
-		T t1 = dao.get(t);
+    @Transactional(readOnly = false)
+    public ResultBean<T> save(T entity) {
+        if (!entity.getIsNewRecord()) {
+            T target = dao.get(entity.getId());
+            if (target != null) {
+                ExtendUtils.copyPropertiesIgnoreNull(entity, target);
+                entity = target;
+            }
+        }
 
-		if(t1==null){
-			bean.setMsg("查询失败，ID="+t.getId());
-			bean.setCode(ResultBean.FAIL);
-		}else{
-			bean.setData(t1);
-		}
+        if (!ValidationUtils.valid(entity)) {
+            return new ResultBean(ValidationUtils.getErrorMsg(), false);
+        }
 
-		return bean;
-	}
-	
-	/**
-	 * 查询列表数据
-	 * @param entity
-	 * @return
-	 */
-	public List<T> findList(T entity) {
-		return dao.findList(entity);
-	}
-	
-	/**
-	 * 查询分页数据
-	 * @param request 分页对象
-	 * @param entity
-	 * @return
-	 */
-	public ResultPageBean<T> findPage(HttpServletRequest request, T entity) {
-		ResultPageBean<T> bean = new ResultPageBean<>(request);
+        saveSingle(entity);
+        return new ResultBean<>();
+    }
 
-		Page page = PageHelper.startPage(bean.getPageNum(),bean.getPageSize(),true,true,true);
-		page.setOrderBy(bean.getOrderBy());
-		bean.setList(findList(entity));
-		bean.setPageCount(page.getPages());
-		bean.setTotal(page.getTotal());
+    @Transactional(readOnly = false)
+    public ResultBean<T> save(List<T> list) {
 
-		return bean;
-	}
+        for (int i = 0; i < list.size(); i++) {
+            T t = list.get(i);
+            if (!t.getIsNewRecord()) {
+                T target = dao.get(t.getId());
+                if (target != null) {
+                    ExtendUtils.copyPropertiesIgnoreNull(t, target);
+                    t = target;
+                    list.set(i, target);
+                }
+            }
 
+            if (!ValidationUtils.valid(t)) {
+                return new ResultBean(ValidationUtils.getErrorMsg(), false);
+            }
+        }
 
-	/**
-	 * 保存数据（插入或更新）
-	 * @param entity
-	 */
-	@Transactional(readOnly = false)
-	public void saveSingle(T entity) {
-		if (entity.getIsNewRecord()){
+        list.forEach(this::saveSingle);
+        return new ResultBean<>();
+    }
 
-			if(StringUtils.isBlank(entity.getId())){
-				entity.setId(IdUtils.genId());
-			}
+    /**
+     * 删除数据
+     *
+     * @param entity
+     */
+    @Transactional(readOnly = false)
+    public ResultBean<T> delete(T entity) {
+        dao.delete(entity);
+        return new ResultBean<>(entity);
+    }
 
-			entity.preInsert();
-			dao.insert(entity);
-		}else{
-			entity.preUpdate();
-			dao.update(entity);
-		}
-	}
-
-	@Transactional(readOnly = false)
-	public ResultBean<T> save(T entity) {
-		if(!entity.getIsNewRecord()){
-			T target = dao.get(entity.getId());
-			if(target!=null){
-				ExtendUtils.copyPropertiesIgnoreNull(entity,target);
-				entity = target;
-			}
-		}
-
-		if(!ValidationUtils.valid(entity)){
-			return new ResultBean(ValidationUtils.getErrorMsg(),false);
-		}
-
-		saveSingle(entity);
-		return new ResultBean<>();
-	}
-
-	@Transactional(readOnly = false)
-	public ResultBean<T> save(List<T> list) {
-
-		for (int i=0;i<list.size();i++) {
-			T t = list.get(i);
-			if(!t.getIsNewRecord()){
-				T target = dao.get(t.getId());
-				if(target!=null){
-					ExtendUtils.copyPropertiesIgnoreNull(t,target);
-					t = target;
-					list.set(i,target);
-				}
-			}
-
-			if (!ValidationUtils.valid(t)) {
-				return new ResultBean(ValidationUtils.getErrorMsg(), false);
-			}
-		}
-
-		list.forEach(this::saveSingle);
-		return new ResultBean<>();
-	}
-
-	/**
-	 * 删除数据
-	 * @param entity
-	 */
-	@Transactional(readOnly = false)
-	public ResultBean<T> delete(T entity) {
-		dao.delete(entity);
-		return new ResultBean<>(entity);
-	}
-
-	/**
-	 * 删除数据
-	 * @param entity
-	 */
-	@Transactional(readOnly = false)
-	public ResultBean<T> logicDelete(T entity) {
-		dao.logicDelete(entity);
-		return new ResultBean<>(entity);
-	}
+    /**
+     * 删除数据
+     *
+     * @param entity
+     */
+    @Transactional(readOnly = false)
+    public ResultBean<T> logicDelete(T entity) {
+        dao.logicDelete(entity);
+        return new ResultBean<>(entity);
+    }
 
 }
