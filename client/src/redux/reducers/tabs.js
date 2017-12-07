@@ -1,5 +1,5 @@
 
-import {TAB_ADD,TAB_DELETE,TAB_SEL} from '../actions/def'
+import {TAB_ADD,TAB_DELETE,TAB_SEL,TAB_CLEAR,USER_AUTH} from '../actions/def'
 import immutable from 'immutable'
 import _ from 'lodash'
 
@@ -57,6 +57,10 @@ function tab_reducer(state=tabs.toJS(),action) {
             break;
         case TAB_SEL:
             tabs = tabs.merge({penes,activeKey:pene.id});
+            break;
+        case TAB_CLEAR:
+        case USER_AUTH:
+            tabs = tabs.merge({penes:[],activeKey:undefined});
     }
 
     return tabs.toJS();
