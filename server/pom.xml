@@ -21,7 +21,7 @@
         <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <validator.version>6.0.2.Final</validator.version>
-        <activiti.version>5.17.0</activiti.version>
+        <activiti.version>5.22.0</activiti.version>
     </properties>
 
     <dependencies>
@@ -77,7 +77,7 @@
         </dependency>
         <dependency>
             <groupId>org.activiti</groupId>
-            <artifactId>spring-boot-starter-basic</artifactId>
+            <artifactId>activiti-spring-boot-starter-basic</artifactId>
             <version>${activiti.version}</version>
         </dependency>
         <!--mybatis-->

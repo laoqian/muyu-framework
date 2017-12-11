@@ -10,7 +10,6 @@ import org.activiti.spring.boot.DataSourceProcessEngineAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -64,7 +63,7 @@ public class JpaProcessEngineAutoConfiguration {
             config.setTransactionManager(transactionManager);
             config.setJpaHandleTransaction(false);
             config.setJpaCloseEntityManager(false);
-            config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE);
+            config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
             config.setDatabaseSchema("MUYU");
             config.setIdGenerator(new IdUtils());
 

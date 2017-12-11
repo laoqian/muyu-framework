@@ -1,7 +1,10 @@
-package muyu.system.security;
+package muyu.system.config;
 
 import muyu.system.common.beans.ResultBean;
 import muyu.system.entity.User;
+import muyu.system.security.AuthenticationProviderCustom;
+import muyu.system.security.CustomUserDetailsService;
+import muyu.system.security.SecurityUser;
 import muyu.system.service.UserService;
 import muyu.system.utils.*;
 import muyu.system.entity.Menu;
