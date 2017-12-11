@@ -37,8 +37,6 @@ class UserPassword extends BaseComponent{
             width: '100%',
             'paddingTop': '20px'
         };
-        const imageUrl = this.state.imageUrl;
-        let {user} = this.props;
 
         return (
             <div className="my-col-full" >
