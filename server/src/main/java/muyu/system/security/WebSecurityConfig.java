@@ -40,7 +40,7 @@ import java.util.Map;
  * @date: 2017/9/21
  * @version: 1.0.0
  */
-@Order(101)
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled=true,jsr250Enabled = true)

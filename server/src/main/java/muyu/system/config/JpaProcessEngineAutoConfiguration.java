@@ -64,7 +64,7 @@ public class JpaProcessEngineAutoConfiguration {
             config.setTransactionManager(transactionManager);
             config.setJpaHandleTransaction(false);
             config.setJpaCloseEntityManager(false);
-            config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE);
+            config.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE);
             config.setDatabaseSchema("MUYU");
             config.setIdGenerator(new IdUtils());
 
