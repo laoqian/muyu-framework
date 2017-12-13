@@ -23,7 +23,6 @@
         <validator.version>6.0.2.Final</validator.version>
         <activiti.version>5.22.0</activiti.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,6 +77,35 @@
         <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-spring-boot-starter-basic</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-modeler</artifactId>
+            <version>${activiti.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-explorer</artifactId>
+            <version>${activiti.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>vaadin</artifactId>
+                    <groupId>com.vaadin</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>dcharts-widget</artifactId>
+                    <groupId>org.vaadin.addons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>activiti-simple-workflow</artifactId>
+                    <groupId>org.activiti</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.activiti</groupId>
+            <artifactId>activiti-diagram-rest</artifactId>
             <version>${activiti.version}</version>
         </dependency>
         <!--mybatis-->

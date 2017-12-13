@@ -3,6 +3,8 @@ package muyu;
 import muyu.system.utils.ContextUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date: 2017/9/14
  * @version: 1.0.0
  */
+
 
 @SpringBootApplication
 public class Application {

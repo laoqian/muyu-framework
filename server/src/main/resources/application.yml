@@ -65,6 +65,9 @@ spring:
       timeout:  900  #15分钟超时
     mvc:
       date-format: yyyy-MM-dd HH:mm:ss
+      view:
+        suffix: .html
+        prefix: static
 
 management:
     security:
