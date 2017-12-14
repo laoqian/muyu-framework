@@ -1,8 +1,13 @@
-package muyu.activiti;
+package muyu.activiti.web;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import muyu.activiti.Status;
+import muyu.activiti.ToWeb;
+import muyu.system.common.beans.ResultBean;
+import muyu.system.common.beans.ResultPageBean;
+import muyu.system.web.BaseController;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -11,9 +16,9 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -21,12 +26,13 @@ import java.util.List;
  * Created by liuruijie on 2017/4/20.
  * 模型管理
  */
-@Controller
-@RequestMapping("static")
-public class ModelerController implements RestServiceController<Model, String>{
+@RestController
+@RequestMapping("${prefixPath}/model/")
+public class ModelController extends BaseController {
 
     @Autowired
     RepositoryService repositoryService;
+
     @Autowired
     ObjectMapper objectMapper;
 
@@ -35,28 +41,11 @@ public class ModelerController implements RestServiceController<Model, String>{
      * @return
      * @throws UnsupportedEncodingException
      */
-    @RequestMapping("newModel")
-    public Object newModel() throws UnsupportedEncodingException {
-        //初始化一个空模型
-        Model model = repositoryService.newModel();
+    @RequestMapping("save")
+    public ResultBean<Model> save(Model model) throws UnsupportedEncodingException {
 
-        //设置一些默认信息
-        String name = "new-process";
-        String description = "";
-        int revision = 1;
-        String key = "process";
-
-        ObjectNode modelNode = objectMapper.createObjectNode();
-        modelNode.put(ModelDataJsonConstants.MODEL_NAME, name);
-        modelNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);
-        modelNode.put(ModelDataJsonConstants.MODEL_REVISION, revision);
-
-        model.setName(name);
-        model.setKey(key);
-        model.setMetaInfo(modelNode.toString());
-
+        model.setVersion(1);
         repositoryService.saveModel(model);
-        String id = model.getId();
 
         //完善ModelEditorSource
         ObjectNode editorNode = objectMapper.createObjectNode();
@@ -64,10 +53,10 @@ public class ModelerController implements RestServiceController<Model, String>{
         editorNode.put("resourceId", "canvas");
         ObjectNode stencilSetNode = objectMapper.createObjectNode();
         stencilSetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
-        editorNode.put("stencilset", stencilSetNode);
-        repositoryService.addModelEditorSource(id,editorNode.toString().getBytes("utf-8"));
+        editorNode.set("stencilset", stencilSetNode);
+        repositoryService.addModelEditorSource(model.getId(),editorNode.toString().getBytes("utf-8"));
 
-        return "modeler.html";
+        return new ResultBean<>(model);
     }
 
 
@@ -110,44 +99,22 @@ public class ModelerController implements RestServiceController<Model, String>{
         return ToWeb.buildResult().refresh();
     }
 
-    @Override
-    public Object getOne(@PathVariable("id") String id) {
-        Model model = repositoryService.createModelQuery().modelId(id).singleResult();
-        return ToWeb.buildResult().setObjData(model);
+    @RequestMapping("get")
+    public ResultBean<Model> get(Model model) {
+        return  new ResultBean<>((repositoryService.createModelQuery().modelId(model.getId()).singleResult()));
     }
 
-    @Override
-    public Object getList(@RequestParam(value = "rowSize", defaultValue = "1000", required = false) Integer rowSize, @RequestParam(value = "page", defaultValue = "1", required = false) Integer page) {
-        List<Model> list = repositoryService.createModelQuery().listPage(rowSize * (page - 1)
-                , rowSize);
-        long count = repositoryService.createModelQuery().count();
+    @RequestMapping("findPage")
+    public ResultPageBean<Model> findPage(HttpServletRequest request) {
+        ResultPageBean<Model> bean = new ResultPageBean<>(request);
+        List<Model> list = repositoryService.createModelQuery().listPage( bean.getPageSize()*(bean.getPageNum()-1),bean.getPageSize());
 
-        return ToWeb.buildResult().setRows(
-                ToWeb.Rows.buildRows().setCurrent(page)
-                        .setTotalPages((int) (count/rowSize+1))
-                        .setTotalRows(count)
-                        .setList(list)
-                        .setRowSize(rowSize)
-        );
+        bean.setList(list);
+        return bean;
     }
 
-    public Object deleteOne(@PathVariable("id")String id){
-        repositoryService.deleteModel(id);
-        return ToWeb.buildResult().refresh();
-    }
-
-    @Override
-    public Object postOne(@RequestBody Model entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Object putOne(@PathVariable("id") String s, @RequestBody Model entity) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Object patchOne(@PathVariable("id") String s, @RequestBody Model entity) {
-        throw new UnsupportedOperationException();
+    public ResultBean<Model> delete(Model model){
+        repositoryService.deleteModel(model.getId());
+        return new ResultBean<>("删除模型成功",true);
     }
 }
