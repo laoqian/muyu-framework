@@ -3,21 +3,21 @@ package muyu.activiti.web;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import muyu.activiti.Status;
-import muyu.activiti.ToWeb;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.web.BaseController;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ModelEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -67,24 +67,22 @@ public class ModelController extends BaseController {
      * @return
      * @throws Exception
      */
-    @PostMapping("{id}/deployment")
-    public Object deploy(@PathVariable("id")String id) throws Exception {
+    @GetMapping("deploy")
+    public ResultBean deploy(String id) throws Exception {
 
         //获取模型
         Model modelData = repositoryService.getModel(id);
         byte[] bytes = repositoryService.getModelEditorSource(modelData.getId());
 
         if (bytes == null) {
-            return ToWeb.buildResult().status(Status.FAIL)
-                    .msg("模型数据为空，请先设计流程并成功保存，再进行发布。");
+            return new ResultBean("模型数据为空，请先设计流程并成功保存，再进行发布。",false);
         }
 
         JsonNode modelNode = new ObjectMapper().readTree(bytes);
 
         BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
         if(model.getProcesses().size()==0){
-            return ToWeb.buildResult().status(Status.FAIL)
-                    .msg("数据模型不符要求，请至少设计一条主线流程。");
+            return new ResultBean("数据模型不符要求，请至少设计一条主线流程。",false);
         }
         byte[] bpmnBytes = new BpmnXMLConverter().convertToXML(model);
 
@@ -97,7 +95,7 @@ public class ModelController extends BaseController {
         modelData.setDeploymentId(deployment.getId());
         repositoryService.saveModel(modelData);
 
-        return ToWeb.buildResult().refresh();
+        return new ResultBean("发布成功",true);
     }
 
     @RequestMapping("get")
