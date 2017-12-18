@@ -28,7 +28,7 @@ class UserDelete extends Component {
 
             self.setState({loading:true});
 
-            $.get('/api/user/delete?id=' + row.id, function (bean) {
+            $.get('/api/model/delete?id=' + row.id, function (bean) {
                 self.setState({loading:false});
                 if (bean.code === 0) {
                     let {grid} = self.props.location;

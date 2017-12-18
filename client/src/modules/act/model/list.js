@@ -44,13 +44,18 @@ export default class SysModel extends BaseComponent{
             right:{
                 items :[
                     {name: '添加',path:'/add',   icon: 'plus',    },
-                    {name: '修改',path:'/edit',  icon: 'edit',    },
+                    {name: '编辑',path:'/modeler',  icon: 'edit',    },
                     {name: '授权',path:'/auth',  icon: 'edit',    },
                     {name: '删除',path:'/delete',icon: 'delete',  },
                 ]
             }
         };
 
+
+        $t.regDialog('/modeler',"编辑",row=>{
+          let win =  window.open('./modeler.html?modelId='+row.id);
+          win.focus();
+        });
     }
 
     render() {

@@ -13,6 +13,7 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.impl.persistence.entity.ModelEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class ModelController extends BaseController {
      * @throws UnsupportedEncodingException
      */
     @RequestMapping("save")
-    public ResultBean<Model> save(Model model) throws UnsupportedEncodingException {
+    public ResultBean<Model> save(@RequestBody ModelEntity model) throws UnsupportedEncodingException {
 
         model.setVersion(1);
         repositoryService.saveModel(model);
@@ -113,6 +114,7 @@ public class ModelController extends BaseController {
         return bean;
     }
 
+    @RequestMapping("delete")
     public ResultBean<Model> delete(Model model){
         repositoryService.deleteModel(model.getId());
         return new ResultBean<>("删除模型成功",true);

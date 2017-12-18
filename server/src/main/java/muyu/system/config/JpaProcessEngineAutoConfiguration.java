@@ -67,6 +67,7 @@ public class JpaProcessEngineAutoConfiguration {
             config.setDatabaseSchema("MUYU");
             config.setIdGenerator(new IdUtils());
             config.setJobExecutorActivate(false);/*关闭定时任务*/
+            config.setAsyncExecutorActivate(false);/*关闭异步定时任务*/
 
             return config;
         }
