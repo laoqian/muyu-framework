@@ -23,10 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+
 /**
- * Created by liuruijie on 2017/4/20.
- * 模型管理
+ * 千山鸟飞绝，万径人踪灭。
+ * 孤舟蓑笠翁，独钓寒江雪。
+ *
+ * @author: 于其先
+ * @date: 2017年12月19日09:34:42
+ * @version: 1.0.0
  */
+
 @RestController
 @RequestMapping("${prefixPath}/model/")
 public class ModelController extends BaseController {

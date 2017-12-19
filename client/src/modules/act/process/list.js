@@ -17,8 +17,8 @@ export default class SysModel extends BaseComponent{
         let $t = this;
 
         $t.extend("List");
-        $t.baseUrl    = '/api/processDef/';
-        $t.moduleName = 'actProcessDef';
+        $t.baseUrl    = '/api/process/';
+        $t.moduleName = 'actProcess';
         $t.history.push('/');
 
         $t.setGridInitParam({

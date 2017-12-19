@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -47,15 +48,11 @@ public class JpaProcessEngineAutoConfiguration {
     @EnableConfigurationProperties(ActivitiProperties.class)
     public static class JpaConfiguration extends AbstractProcessEngineAutoConfiguration {
 
-        @Bean
-        public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-            return new JpaTransactionManager(emf);
-        }
 
         @Bean
         public SpringProcessEngineConfiguration springProcessEngineConfiguration(
                 DataSource dataSource, EntityManagerFactory entityManagerFactory,
-                PlatformTransactionManager transactionManager, SpringAsyncExecutor springAsyncExecutor) throws IOException {
+                DataSourceTransactionManager transactionManager, SpringAsyncExecutor springAsyncExecutor) throws IOException {
 
             SpringProcessEngineConfiguration config = this.baseSpringProcessEngineConfiguration(dataSource,
                     transactionManager, springAsyncExecutor);
