@@ -1,12 +1,12 @@
-import React                                    from 'react'
-import {connect}                                from 'react-redux'
+import React            from 'react'
+import {connect}        from 'react-redux'
 import {Form, Modal}    from 'antd';
-import JqgridWrapper                            from '../../grid/index'
-import BaseComponent                            from "../../base/BaseComponent";
-import u                                        from '../../../utils'
-import colModel                                 from './colModel'
-import tableColModel                            from './tableColModel'
-import {List}                                   from 'immutable'
+import JqgridWrapper    from '../../grid/index'
+import BaseComponent    from "../../base/BaseComponent";
+import u                from '../../../utils'
+import colModel         from './colModel'
+import tableColModel    from './tableColModel'
+import {List}           from 'immutable'
 
 class GenEditForm extends BaseComponent {
     constructor(props) {

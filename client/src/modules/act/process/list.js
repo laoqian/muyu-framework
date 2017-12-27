@@ -5,9 +5,9 @@ import JqgridWrapper from '../../grid/index'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
-import DictEdit from './edit'
 import DictDelete from './delete'
 import colModel from './colModel'
+
 
 export default class SysModel extends BaseComponent{
 
@@ -44,18 +44,23 @@ export default class SysModel extends BaseComponent{
             right:{
                 items :[
                     {name: '启动'     ,path:'/start',        icon: 'plus',       },
-                    {name: '转为模型' , path:'/start',        icon: 'rollback',       },
+                    {name: '转为模型' , path:'/toModel',        icon: 'rollback',       },
+                    {name: '测试' , path:'/test',        icon: 'rollback',       },
                     {name: '删除',path:'/delete',     icon: 'delete',     },
                 ]
             }
         };
 
+        $t.regDialog('/test',"测试",row=>{
+            // MobileModal.open(<div>1111</div>);
+            console.log(row);
+        });
 
-        $t.regDialog('/deploy',"发布",row=>{
+        $t.regDialog('/toModel',"转为模型",row=>{
             $t.u.get($t.encodeUrl('deploy?id='+row.id),bean=>console.log(bean));
         });
 
-        $t.regDialog('/modeler',"编辑",row=>{
+        $t.regDialog('/start',"启动",row=>{
             window.open('./modeler.html?modelId='+row.id,row.name).focus();
         });
     }
@@ -67,7 +72,6 @@ export default class SysModel extends BaseComponent{
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
                 <Router history= {this.history}>
                     <Switch>
-                        <Route path="/edit"     component= {DictEdit}/>
                         <Route path="/delete"   component= {DictDelete}/>
                         <Route                  component= {NoMatch}/>
                     </Switch>

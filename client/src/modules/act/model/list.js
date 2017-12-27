@@ -8,6 +8,7 @@ import BaseComponent from "../../base/BaseComponent";
 import DictEdit from './edit'
 import DictDelete from './delete'
 import colModel from './colModel'
+import MobileModal from "../../base/MobileModal"
 
 export default class SysModel extends BaseComponent{
 
@@ -47,11 +48,16 @@ export default class SysModel extends BaseComponent{
                     {name: '修改',path:'/edit',       icon: 'edit',       },
                     {name: '编辑',path:'/modeler',    icon: 'edit',       },
                     {name: '发布',path:'/deploy',     icon: 'edit',       },
+                    {name: '测试',path:'/test',       icon: 'edit',       },
                     {name: '删除',path:'/delete',     icon: 'delete',     },
                 ]
             }
         };
 
+
+        $t.regDialog('/test',"测试",row=>{
+            MobileModal.open(<div>1111</div>);
+        });
 
         $t.regDialog('/deploy',"发布",row=>{
             $t.u.get($t.encodeUrl('deploy?id='+row.id),bean=>console.log(bean));
