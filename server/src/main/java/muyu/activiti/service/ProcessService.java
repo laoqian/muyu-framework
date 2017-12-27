@@ -42,11 +42,11 @@ public class ProcessService extends BaseService{
 
     public ResultPageBean<ProcessDef> findPage(HttpServletRequest request){
         ResultPageBean<ProcessDef> bean = new ResultPageBean<>(request);
-        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().listPage( bean.getPageSize()*(bean.getPageNum()-1),bean.getPageSize());
+        List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().latestVersion().listPage( bean.getPageSize()*(bean.getPageNum()-1),bean.getPageSize());
         List<ProcessDef> result = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
+        for (ProcessDefinition aList : list) {
             ProcessDef processDef = new ProcessDef();
-            ProcessDefinitionEntity process = (ProcessDefinitionEntity)list.get(i);
+            ProcessDefinitionEntity process = (ProcessDefinitionEntity) aList;
 
             processDef.setId(process.getId());
             processDef.setDeploymentId(process.getDeploymentId());

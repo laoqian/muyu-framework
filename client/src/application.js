@@ -66,7 +66,7 @@ class App extends BaseComponent{
         this.after = ()=>{
 
             let user = this.props.user;
-
+            this.u.user = user;
             user.enabled?this.u.online.call(this):this.u.outline();
         };
 

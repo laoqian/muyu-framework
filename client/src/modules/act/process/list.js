@@ -43,10 +43,8 @@ export default class SysModel extends BaseComponent{
             reload:true,
             right:{
                 items :[
-                    {name: '添加',path:'/add',        icon: 'plus',       },
-                    {name: '修改',path:'/edit',       icon: 'edit',       },
-                    {name: '编辑',path:'/modeler',    icon: 'edit',       },
-                    {name: '发布',path:'/deploy',     icon: 'edit',       },
+                    {name: '启动'     ,path:'/start',        icon: 'plus',       },
+                    {name: '转为模型' , path:'/start',        icon: 'rollback',       },
                     {name: '删除',path:'/delete',     icon: 'delete',     },
                 ]
             }
