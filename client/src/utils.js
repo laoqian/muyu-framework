@@ -77,7 +77,7 @@ u.authVarify = code=>{
     }
 
     return code!==-1;
-}
+};
 
 u.get   = (url,data,success)=>{
     if(_.isFunction(data)){
@@ -167,5 +167,44 @@ u.randId= (()=>{
     let id =0;
     return ()=>('uid'+id++);
 })();
+
+u.moveable = (m,h)=>{
+    let header=  $(h),modal = $(m);
+    let move = false,offsetX =0,offsetY=0;
+
+    header.mousedown(function(e) {
+        move = true;
+        offsetX = e.clientX-getLeft(e.target);
+        offsetY = e.clientY-getTop(e.target);
+    });
+
+    header.mouseup(()=>{
+        move = false;
+    });
+
+    function getTop(e){
+        let offset= e.offsetTop;
+        if(e.offsetParent!==null) offset+=getTop(e.offsetParent);
+        return offset;
+    }
+
+    function getLeft(e){
+        let offset=e.offsetLeft;
+        if(e.offsetParent!==null) offset+=getLeft(e.offsetParent);
+        return offset;
+    }
+
+    $(document).mousemove(function (event) {
+        if(move){
+            let  x =  event.clientX;
+            let  y =  event.clientY;
+
+            modal.css('left', x-offsetX);
+            modal.css('top', y-offsetY);
+            modal.css('position', 'absolute');
+        }
+    });
+};
+
 
 export default u;
