@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDom from 'react-dom'
 import {Row, Col, Form, Modal,Select,Input} from 'antd'
 import _ from 'lodash'
 import Loading from './Loading'
@@ -163,7 +164,6 @@ let FormComponent = function (){
 
     $t.modalClick = (type) => {
         if (type === 'ok') {
-            // $t.setState({submiting: true});
 
             if(!_.isFunction($t.saveData)){
                 $t.defaultSaveData();
@@ -228,10 +228,17 @@ let FormComponent = function (){
             return $t.moduleName + '添加';
         }
     };
-
     $t.regEvent('willMount',()=>{
         $t.bindDataOnce();
     });
+
+    $t.regEvent('didMount',()=>{
+        u.moveable($('.ant-modal',this.container),$('.ant-modal-header',this.container));
+    });
+
+    // $t.regEvent('willUnmount',()=>{
+    //     document.body.removeChild(this.container);
+    // });
 
     $t.regEvent('willReceiveProps',()=>{
         $t.bindDataOnce();
@@ -243,6 +250,8 @@ let FormComponent = function (){
         if (!style) {
             style = {width: '400px', height: '460px'};
         }
+        this.container = document.createElement('div');
+        document.body.appendChild(this.container);
 
         return (
             <Modal
@@ -251,6 +260,7 @@ let FormComponent = function (){
                 visible={true}
                 onOk={() => this.modalClick('ok')}
                 onCancel={() => this.modalClick('cancel')}
+                getContainer    = {()=>this.container}
                 confirmLoading={this.state.submiting}
             >
                 <Form ref="userForm" className="my-form-square" style={style} children={children}/>
