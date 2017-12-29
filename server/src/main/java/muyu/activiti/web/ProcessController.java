@@ -8,11 +8,14 @@ import muyu.activiti.service.ProcessService;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.web.BaseController;
+import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.stream.XMLStreamException;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -32,7 +35,7 @@ public class ProcessController extends BaseController {
     ProcessService processService;
 
     @RequestMapping("get")
-    public ResultBean<ProcessDefinition> get(ProcessDefinition processDefinition) {
+    public ResultBean<ProcessDef> get(ProcessDefinition processDefinition) {
         return  processService.get(processDefinition);
     }
 
@@ -40,6 +43,13 @@ public class ProcessController extends BaseController {
     public ResultPageBean<ProcessDef> findPage(HttpServletRequest request) {
         return processService.findPage(request);
     }
+
+    @RequestMapping("toModel")
+    public ResultBean<Model> toModel(String id) throws UnsupportedEncodingException, XMLStreamException {
+        return processService.toModel(id);
+    }
+
+
 
     @RequestMapping("delete")
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){

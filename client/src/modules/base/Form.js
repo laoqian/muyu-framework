@@ -236,10 +236,6 @@ let FormComponent = function (){
         u.moveable($('.ant-modal',this.container),$('.ant-modal-header',this.container));
     });
 
-    // $t.regEvent('willUnmount',()=>{
-    //     document.body.removeChild(this.container);
-    // });
-
     $t.regEvent('willReceiveProps',()=>{
         $t.bindDataOnce();
         $t.state.submiting = false;

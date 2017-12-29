@@ -4,7 +4,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.utils.ContextUtils;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 
@@ -31,6 +35,24 @@ public class ProcessDef extends DataEntity<ProcessDef> implements ProcessDefinit
     String deploymentId;
     String diagramResourceName;
     String tenantId;
+
+
+    public ProcessDef(ProcessDefinition processDefinition){
+        this.setId(processDefinition.getId());
+        this.setDeploymentId(processDefinition.getDeploymentId());
+        this.setDescription(processDefinition.getDescription());
+        this.setVersion(processDefinition.getVersion());
+        this.setKey(processDefinition.getKey());
+        this.setCategory(processDefinition.getCategory());
+        this.setDiagramResourceName(processDefinition.getDiagramResourceName());
+
+        this.setResourceName(processDefinition.getResourceName());
+
+        RepositoryService repositoryService = ContextUtils.getBean(RepositoryService.class);
+        Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
+        this.setCreateDate(deployment.getDeploymentTime());
+        this.setName(deployment.getName());
+    }
 
     @Override
     public boolean hasStartFormKey() {

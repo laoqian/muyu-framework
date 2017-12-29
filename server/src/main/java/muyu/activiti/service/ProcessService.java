@@ -1,17 +1,30 @@
 package muyu.activiti.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import muyu.activiti.entity.ProcessDef;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.service.BaseService;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +44,14 @@ public class ProcessService extends BaseService{
     RepositoryService repositoryService;
 
 
-    public ResultBean<ProcessDefinition> get(ProcessDefinition processDefinition) {
-        return  new ResultBean<>((repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult()));
+    public ResultBean<ProcessDef> get(ProcessDefinition processDefinition) {
+        ProcessDefinition process = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult();
+        return  new ResultBean<>(new ProcessDef(process));
     }
 
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){
-        repositoryService.deleteDeployment(processDefinition.getDeploymentId());
+        ProcessDefinition process = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult();
+        repositoryService.deleteDeployment(process.getDeploymentId(),true); /*级联删除流程实例*/
         return new ResultBean<>("删除流程成功",true);
     }
 
@@ -45,27 +60,43 @@ public class ProcessService extends BaseService{
         List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery().latestVersion().listPage( bean.getPageSize()*(bean.getPageNum()-1),bean.getPageSize());
         List<ProcessDef> result = new ArrayList<>();
         for (ProcessDefinition aList : list) {
-            ProcessDef processDef = new ProcessDef();
-            ProcessDefinitionEntity process = (ProcessDefinitionEntity) aList;
-
-            processDef.setId(process.getId());
-            processDef.setDeploymentId(process.getDeploymentId());
-            processDef.setDescription(process.getDescription());
-            processDef.setVersion(process.getVersion());
-            processDef.setKey(process.getKey());
-            processDef.setCategory(process.getCategory());
-            processDef.setDiagramResourceName(process.getDiagramResourceName());
-
-            processDef.setResourceName(process.getResourceName());
-
-            Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(process.getDeploymentId()).singleResult();
-            processDef.setCreateDate(deployment.getDeploymentTime());
-            processDef.setName(deployment.getName());
-
+            ProcessDef processDef = new ProcessDef(aList);
             result.add(processDef);
         }
 
         bean.setList(result);
         return bean;
+    }
+
+    public ResultBean<Model> toModel(String  procDefId) throws UnsupportedEncodingException, XMLStreamException {
+
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId).singleResult();
+        InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(),
+                processDefinition.getResourceName());
+        XMLInputFactory xif = XMLInputFactory.newInstance();
+        InputStreamReader in = new InputStreamReader(bpmnStream, "UTF-8");
+        XMLStreamReader xtr = xif.createXMLStreamReader(in);
+        BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+
+        BpmnJsonConverter converter = new BpmnJsonConverter();
+        ObjectNode modelNode = converter.convertToJson(bpmnModel);
+        org.activiti.engine.repository.Model modelData = repositoryService.newModel();
+        modelData.setKey(processDefinition.getKey());
+        modelData.setName(processDefinition.getResourceName());
+        modelData.setCategory(processDefinition.getCategory());//.getDeploymentId());
+        modelData.setDeploymentId(processDefinition.getDeploymentId());
+        modelData.setVersion(Integer.parseInt(String.valueOf(repositoryService.createModelQuery().modelKey(modelData.getKey()).count()+1)));
+
+        ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, processDefinition.getName());
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, modelData.getVersion());
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, processDefinition.getDescription());
+        modelData.setMetaInfo(modelObjectNode.toString());
+
+        repositoryService.saveModel(modelData);
+
+        repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+
+        return new ResultBean<>(modelData);
     }
 }

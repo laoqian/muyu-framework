@@ -17,11 +17,9 @@ export default class MobileModal extends BaseComponent{
 
     constructor(){
         super();
-        let $t = this;
-        let u = this.u;
 
-        $t.regEvent('didMount',()=>{
-            u.moveable($('.ant-modal',this.props.container),$('.ant-modal-header',this.props.container));
+        this.regEvent('didMount',()=>{
+            this.u.moveable($('.ant-modal',this.props.container),$('.ant-modal-header',this.props.container));
         })
     }
 

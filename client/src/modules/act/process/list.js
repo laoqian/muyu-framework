@@ -45,19 +45,13 @@ export default class SysModel extends BaseComponent{
                 items :[
                     {name: '启动'     ,path:'/start',        icon: 'plus',       },
                     {name: '转为模型' , path:'/toModel',        icon: 'rollback',       },
-                    {name: '测试' , path:'/test',        icon: 'rollback',       },
                     {name: '删除',path:'/delete',     icon: 'delete',     },
                 ]
             }
         };
 
-        $t.regDialog('/test',"测试",row=>{
-            // MobileModal.open(<div>1111</div>);
-            console.log(row);
-        });
-
         $t.regDialog('/toModel',"转为模型",row=>{
-            $t.u.get($t.encodeUrl('deploy?id='+row.id),bean=>console.log(bean));
+            $t.u.get($t.encodeUrl('toModel?id='+row.id),bean=>console.log(bean));
         });
 
         $t.regDialog('/start',"启动",row=>{
