@@ -49,8 +49,6 @@ public class ProcessController extends BaseController {
         return processService.toModel(id);
     }
 
-
-
     @RequestMapping("delete")
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){
         return  processService.delete(processDefinition);
