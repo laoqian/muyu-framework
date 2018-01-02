@@ -170,16 +170,16 @@ u.randId= (()=>{
 
 u.moveable = (m,h)=>{
     let header=  $(h),modal = $(m);
-    let move = false,offsetX =0,offsetY=0;
+    let ctrl ={move:false,offsetX:0,offsetY:0};
 
     header.mousedown(function(e) {
-        move = true;
-        offsetX = e.clientX-getLeft(e.target);
-        offsetY = e.clientY-getTop(e.target);
+        ctrl.move = true;
+        ctrl.offsetX = e.clientX-getLeft(e.target);
+        ctrl.offsetY = e.clientY-getTop(e.target);
     });
 
-    header.mouseup(()=>{
-        move = false;
+    header.mouseup(function(e) {
+        ctrl.move = false;
     });
 
     function getTop(e){
@@ -195,15 +195,17 @@ u.moveable = (m,h)=>{
     }
 
     $(document).mousemove(function (event) {
-        if(move){
+        if(ctrl.move){
             let  x =  event.clientX;
             let  y =  event.clientY;
 
-            modal.css('left', x-offsetX);
-            modal.css('top', y-offsetY);
+            modal.css('left', x-ctrl.offsetX);
+            modal.css('top', y-ctrl.offsetY);
             modal.css('position', 'absolute');
         }
     });
+
+    return ctrl;
 };
 
 
