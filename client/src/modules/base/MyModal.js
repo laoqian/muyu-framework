@@ -4,14 +4,14 @@ import ReactDOM from 'react-dom'
 import BaseComponent from './BaseComponent'
 
 
-export default class MobileModal extends BaseComponent{
+export default class MyModal extends BaseComponent{
 
     static open(component,props){
         let div = document.createElement('div'),container=document.createElement('div');
         document.body.appendChild(div);
         document.body.appendChild(container);
         $(container).addClass('my-mobile-modal');
-        ReactDOM.render(<MobileModal container={container} {...props} component={component}/>,div);
+        ReactDOM.render(<MyModal container={container} {...props} component={component}/>,div);
         return container;
     }
 
@@ -22,14 +22,12 @@ export default class MobileModal extends BaseComponent{
             this.u.moveable($('.ant-modal',this.props.container),$('.ant-modal-header',this.props.container));
         });
 
-        this.zoomNormal = ()=>{
-            console.log('zoomNormal');
-            this.setState({modalClass:null});
-        };
-
-        this.zoomMax = ()=>{
-            console.log('zoomMax');
-            this.setState({modalClass:'my-full-screen'});
+        this.zoom = (max)=>{
+            if(max){
+                this.setState({modalClass:'my-full-screen'});
+            }else{
+                this.setState({modalClass:null});
+            }
         }
     }
 
@@ -41,7 +39,7 @@ export default class MobileModal extends BaseComponent{
                 closable        = {false}
                 wrapClassName   = "vertical-center-modal"
                 getContainer    = {()=>this.props.container}
-                visible={true}
+                visible         = {true}
             >
                 <div style={this.props.style}>
                     {this.props.component}
@@ -54,9 +52,12 @@ export default class MobileModal extends BaseComponent{
 class TiTle extends BaseComponent{
     constructor(){
         super();
+        this.state.zoomMax = false;
 
-        this.zoomMax =()=>this.props.parent.zoomMax();
-        this.zoomNormal =()=>this.props.parent.zoomNormal();
+        this.zoom = max=>{
+            this.setState({zoomMax:max});
+            this.props.parent.zoom(max);
+        }
     }
 
     render(){
@@ -66,9 +67,10 @@ class TiTle extends BaseComponent{
                     {this.props.title}
                 </span>
                 <div>
-                    <Button icon="minus"  onClick={this.zoomNormal}/>
-                    <Button icon="folder" onClick={this.zoomMax}/>
-                    <Button icon="close"/>
+                    {
+                        this.state.zoomMax?<Button icon="minus" onClick={()=>this.zoom(false)}/>:<Button icon="folder" onClick={()=>this.zoom(true)}/>
+                    }
+                    <Button icon="close" onClick={()=>this.props.parent.close()}/>
                 </div>
             </div>
         )

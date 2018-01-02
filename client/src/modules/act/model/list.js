@@ -8,7 +8,7 @@ import BaseComponent from "../../base/BaseComponent";
 import DictEdit from './edit'
 import DictDelete from './delete'
 import colModel from './colModel'
-import MobileModal from "../../base/MobileModal"
+import MyModal from "../../base/MyModal"
 
 export default class SysModel extends BaseComponent{
 
@@ -56,7 +56,7 @@ export default class SysModel extends BaseComponent{
 
 
         $t.regDialog('/test',"测试",row=>{
-            MobileModal.open(<div>1111</div>,{title:'测试'});
+            MyModal.open(<div>1111</div>,{title:'测试'});
         });
 
         $t.regDialog('/deploy',"发布",row=>{
