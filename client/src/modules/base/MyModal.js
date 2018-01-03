@@ -6,10 +6,10 @@ import BaseComponent from './BaseComponent'
 
 export default class MyModal extends BaseComponent{
 
-    static open(component,props){
+    static open(children,props){
         let div = document.createElement('div');
         document.body.appendChild(div);
-        return  ReactDOM.render(<MyModal {...props} component={component}/>,div);
+        return  ReactDOM.render(<MyModal {...props} children={children}/>,div);
     }
 
     constructor(){
@@ -26,21 +26,40 @@ export default class MyModal extends BaseComponent{
         this.zoom = (max)=>{
             this.setState({modalClass:max?'my-full-screen':null});
             max?this.modalCtrl.move=false:null;
+        };
+
+        this.close = () =>{
+            document.body.removeChild(this.container);
+        };
+
+        this.ok = async ()=>{
+            this.setState({loading:true});
+
+            try {
+                await this.props.children.ok();
+            }catch (e){
+                this.u.error(e);
+            }
+
+            this.setState({loading:false});
         }
     }
 
     render(){
         return (
             <Modal {...this.props}
-                className       = {this.state.modalClass}
-                title           = {<TiTle parent= {this} title={this.props.title}/>}
-                closable        = {false}
-                wrapClassName   = "vertical-center-modal"
-                getContainer    = {()=>this.container}
-                visible         = {true}
+                    className       = {this.state.modalClass}
+                    title           = {<TiTle parent= {this} title={this.props.title}/>}
+                    closable        = {false}
+                    wrapClassName   = "vertical-center-modal"
+                    getContainer    = {() => this.container}
+                    onOk            = {() => this.ok()}
+                    onCancel        = {() => this.close()}
+                    visible         = {true}
+                    confirmLoading  = {this.state.loading}
             >
                 <div style={this.props.style}>
-                    {this.props.component}
+                    {this.props.children}
                 </div>
             </Modal>
         )

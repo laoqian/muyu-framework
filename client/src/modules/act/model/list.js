@@ -56,7 +56,7 @@ export default class SysModel extends BaseComponent{
 
 
         $t.regDialog('/test',"测试",row=>{
-            MyModal.open(<div>1111</div>,{title:'测试'});
+            MyModal.open(<Test/>,{title:'测试'});
         });
 
         $t.regDialog('/deploy',"发布",row=>{
@@ -85,6 +85,20 @@ export default class SysModel extends BaseComponent{
     }
 }
 
+class Test extends BaseComponent{
+    constructor(){
+        super();
+        this.ok =()=>{
+            return new Promise((res,rej)=>{
+                console.log(res);
+            })
+        }
+    }
+
+    render(){
+        return <div>1222</div>
+    }
+}
 const NoMatch = ({ location }) => {
     console.warn(`路由匹配出错:${location.pathname}`);
     return null;
