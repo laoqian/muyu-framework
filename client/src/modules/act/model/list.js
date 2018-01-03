@@ -5,10 +5,9 @@ import JqgridWrapper from '../../grid/index'
 import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
-import DictEdit from './edit'
-import DictDelete from './delete'
+import ModelForm from './edit'
 import colModel from './colModel'
-import MyModal from "../../base/MyModal"
+import Modal from "../../base/Modal"
 
 export default class SysModel extends BaseComponent{
 
@@ -20,7 +19,6 @@ export default class SysModel extends BaseComponent{
         $t.extend("List");
         $t.baseUrl    = '/api/model/';
         $t.moduleName = 'sysModel';
-        $t.history.push('/');
 
         $t.setGridInitParam({
             url:$t.encodeUrl('findPage'),
@@ -54,17 +52,19 @@ export default class SysModel extends BaseComponent{
             }
         };
 
+        $t.regEvent("didMount",()=>{
 
-        $t.regDialog('/test',"测试",row=>{
-            MyModal.open(<Test/>,{title:'测试'});
-        });
+            $t.regDialog('/test',"测试",data=>{
+                Modal.open(<ModelForm/>,{childProps:{data,grid:$t.getGrid()}});
+            });
 
-        $t.regDialog('/deploy',"发布",row=>{
-            $t.u.get($t.encodeUrl('deploy?id='+row.id),bean=>console.log(bean));
-        });
+            $t.regDialog('/deploy',"发布",row=>{
+                $t.u.get($t.encodeUrl('deploy?id='+row.id),bean=>console.log(bean));
+            });
 
-        $t.regDialog('/modeler',"编辑",row=>{
-            window.open('./modeler.html?modelId='+row.id,row.name).focus();
+            $t.regDialog('/modeler',"编辑",row=>{
+                window.open('./modeler.html?modelId='+row.id,row.name).focus();
+            });
         });
     }
 
@@ -73,13 +73,6 @@ export default class SysModel extends BaseComponent{
             <div className="my-col-full" >
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history= {this.history}>
-                    <Switch>
-                        <Route path="/edit"     component= {DictEdit}/>
-                        <Route path="/delete"   component= {DictDelete}/>
-                        <Route                  component= {NoMatch}/>
-                    </Switch>
-                </Router>
             </div>
         )
     }
@@ -90,16 +83,17 @@ class Test extends BaseComponent{
         super();
         this.ok =()=>{
             return new Promise((res,rej)=>{
-                console.log(res);
+                res("success");
             })
-        }
+        };
+
+        this.regEvent("willMount",()=>{
+            this.props.setOkHander(this.ok);
+        })
     }
 
     render(){
         return <div>1222</div>
     }
 }
-const NoMatch = ({ location }) => {
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};
+

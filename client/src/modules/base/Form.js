@@ -127,7 +127,6 @@ let FormComponent = function (){
             }
         }
 
-
         return <FormItem label={col.label} {...formItemLayout}
                          children={getFieldDecorator(col.name,options)(ctrl)}/>;
     };
@@ -162,83 +161,35 @@ let FormComponent = function (){
         return rows;
     };
 
-    $t.modalClick = (type) => {
-        if (type === 'ok') {
-
-            if(!_.isFunction($t.saveData)){
-                $t.defaultSaveData();
-            }else{
-                $t.saveData();
-            }
-        } else {
-            $t.props.history.push('/');
-        }
-    };
-
     $t.defaultSaveData = (url,type,beforeSave,afterSave) => {
         let {validateFields} = $t.props.form;
 
-        validateFields((err, values) => {
+        validateFields((err,values) => {
             if (!err) {
                 let data;
 
-                $t.state.editData = Object.assign($t.state.editData?$t.state.editData:{}, values);
+                $t.state.editData = Object.assign($t.state.editData||{}, values);
+
                 data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
 
-                u[!type?'post':type]($t.encodeUrl(url ? url : 'save'),data, function (data) {
+                u[type||'post']($t.encodeUrl(url||'save'),data,function(data) {
                     u[data.success()?'success':'error'](data.msg);
 
                     if(_.isFunction(afterSave)){
                         afterSave(data)
                     }
-                    let grid = $t.props.location.grid;
+
+                    let grid = $t.props.grid;
                     if(grid && data.success()){
                         grid.trigger('reloadGrid');
                     }
-
-                    $t.setState({submiting:false});
                 })
             }
         });
     };
 
-    $t.bindDataOnce = () => {
-        let {row, type,data} = $t.props.location;
-
-        if (!$t.props.location.binded) {
-            $t.props.location.binded = true;
-            _.isFunction($t.beforeBindData)? $t.beforeBindData(type,row):null;
-
-            if(type==='添加'){
-                row?row.id=null:row={};
-                $t.state.editData =_.isFunction($t.setDefaultData)? $t.setDefaultData(row):row;
-            }else{
-                $t.state.editData = row;
-            }
-
-            $t.state.data = data;
-        }
-    };
-
-    $t.title = () => {
-        let {type,binded} = $t.props.location;
-        if (binded) {
-           return $t.moduleName+(type!=='添加'?`${type}-${this.state.editData.id}`:'添加');
-        }else{
-            return $t.moduleName + '添加';
-        }
-    };
     $t.regEvent('willMount',()=>{
-        $t.bindDataOnce();
-    });
-
-    $t.regEvent('didMount',()=>{
-        u.moveable($('.ant-modal',this.container),$('.ant-modal-header',this.container));
-    });
-
-    $t.regEvent('willReceiveProps',()=>{
-        $t.bindDataOnce();
-        $t.state.submiting = false;
+        $t.state.editData = this.props.data;
     });
 
     $t.renderModel = (children)=>{
@@ -246,23 +197,8 @@ let FormComponent = function (){
         if (!style) {
             style = {width: '400px', height: '460px'};
         }
-        this.container = document.createElement('div');
-        document.body.appendChild(this.container);
 
-        return (
-            <Modal
-                title={this.title()}
-                wrapClassName="vertical-center-modal"
-                visible={true}
-                onOk={() => this.modalClick('ok')}
-                onCancel={() => this.modalClick('cancel')}
-                getContainer    = {()=>this.container}
-                confirmLoading={this.state.submiting}
-            >
-                <Form ref="userForm" className="my-form-square" style={style} children={children}/>
-                {this.loadingData ? <Loading isLayerHide={true} text={this.state.loadingText}/> : ''}
-            </Modal>
-        )
+        return <Form ref="userForm" className="my-form-square" style={style} children={children}/>;
     };
 
     if(!$t.render){

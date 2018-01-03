@@ -3,7 +3,7 @@ import {Form} from 'antd';
 import BaseComponent from '../../base/BaseComponent'
 import colModel from './colModel'
 
-class UserEditForm extends BaseComponent{
+class ModelForm extends BaseComponent{
     constructor(props) {
         super(props);
         let $t  = this;
@@ -15,9 +15,13 @@ class UserEditForm extends BaseComponent{
         $t.moduleName   = "模型";
         $t.colModel     = colModel;
         $t.style ={width:'400px',height:'460px'};
+
+        $t.regEvent("willMount",()=>{
+            $t.props.setOkHander($t.defaultSaveData);
+        })
     }
 }
 
-export default Form.create()(UserEditForm);
+export default Form.create()(ModelForm);
 
 

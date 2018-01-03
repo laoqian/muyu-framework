@@ -319,9 +319,27 @@ input, select, button {
     padding: 0 5px 0 10px!important;
     .flex-vm;
   }
-  .ant-modal-title{
+  .ant-modal-title,.ant-modal-footer{
     .flex-vm;
     width: 100%;
+  }
+
+  .ant-modal-footer{
+    padding: 2px 10px ;
+  }
+  .my-modal-footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    div:nth-child(1){
+      .flex-vm;
+      font-size: 13px;
+    }
+    button{
+      height: 32px;
+    }
   }
   .my-modal-title{
     display: flex;
