@@ -1,18 +1,20 @@
 import {Component} from 'react'
 import u from '../../utils'
 import _ from 'lodash'
+import Modal from './Modal'
 
 export default class BaseComponent extends Component{
 
     constructor(props){
         super(props);
-        let $t = this;
-        $t.u = u;
-        $t.baseUrl ='/api/';
-        $t.encodeUrl = (url)=>$t.baseUrl+url;
+        let $t           = this;
+        $t.u             = u;
+        $t.baseUrl       ='/api/';
+        $t.encodeUrl     = (url)=>$t.baseUrl+url;
         $t.encodeBaseUrl = (url)=>'/api'+url;
         $t.encodeFileUrl = (url)=>'/files'+url;
-        $t.state = {};
+        $t.state         = {};
+        $t.eventFunc     =   {};
         $t.extend = function(){
             for(let i=0;i<arguments.length;i++){
                 let func = require('./'+arguments[i]).default;
@@ -22,66 +24,37 @@ export default class BaseComponent extends Component{
             }
         };
 
-        $t.eventFunc = {};
-        $t.state.componentType ='自定义组件';
+        $t.state.componentType  =   '自定义组件';
         $t.componentCheck = ()=>{
             if($t.state.componentType!=='自定义组件'){
                 throw new Error("自定义组件，不能绑定相关方法");
             }
         };
 
-        $t.openDialog = (url,type,promise)=>$t.editRow(null,url,type,promise);
-        $t.regDialog =(url,type,promise)=>{
-            $t.eventFunc[type] = ()=>$t.openDialog(url,type,promise);
+        $t.regEvent = (event,func) => {
+            let beforeFunc = $t.eventFunc[event];
+            $t.eventFunc[event] = _.isFunction(beforeFunc)?()=>{beforeFunc();func();}:func;
         };
 
-        $t.regEvent = (cnName,enName,func) => {
-            let fun;
-
-            if(_.isFunction(enName)){
-                fun = enName;
-            }else{
-                fun = $t[enName] = func;
+        $t.dialog =(name,hander,getId)=>$t.regDialog({name,hander,getId});
+        $t.regDialog  = (options)=>$t.eventFunc[options.name] = ()=>$t.openDialog(options);
+        $t.openDialog = async (options)=>{
+            let {props,hander,getId} = options;
+            props = props|| {};
+            if(getId){
+                let bean = await $t.getData(_.isFunction(getId)?getId():getId);
+                props.row = bean.data;
             }
 
-            if(_.isFunction($t.eventFunc[cnName])){
-                let beforeFunc = $t.eventFunc[cnName];
-                $t.eventFunc[cnName] = ()=>{
-                    beforeFunc();
-                    fun();
-                }
-            }else{
-                $t.eventFunc[cnName] = fun;
-            }
-        };
-
-        $t.eventFunc['修改'] = $t.editRow = async (id,url,type,promise) => {
-            let row,data;
-            if (!id) {
-                row = $t.getSelRowData();
-            } else {
-                row = $t.getGrid().getRowData(id);
+            if(_.isFunction(hander)){
+                props.data = await hander(props.row);
             }
 
-            id =row? row.id:null;
-
-            if (!id) {
-                return u.tip('未选中列', 'error');
-            } else {
-                try {
-                    type= type?type:'编辑';
-                    let bean = await $t.loadSelData(id);
-                    row = bean.data;
-                    u.success(type+'：' + row.id);
-                    if(promise){
-                        data = await promise(row);
-                    }
-                } catch (err) {
-                    return u.error(err);
-                }
+            if(options.reactNode){
+                props.afterOk     = options.afterOk;
+                props.afterCancel = options.afterCancel;
+                Modal.open(options.reactNode,props);
             }
-
-            $t.history.push({pathname: url?url:'/edit', type, row, grid: $t.getGrid(),data});
         };
 
         $t.eventFunc.callFunc = (name,args)=>{
@@ -91,7 +64,7 @@ export default class BaseComponent extends Component{
             }
         };
 
-        $t.loadSelData = (id) => {
+        $t.getData = id => {
             return new Promise((res, rej) => {
                 u.get($t.encodeUrl('get?id=' + id), function (bean) {
                     if (bean.code === 0 && bean.data) {
@@ -127,5 +100,4 @@ export default class BaseComponent extends Component{
             $t.eventFunc.callFunc('willUnmount',{props:nextProps,state:nextState});
         };
     }
-
 }

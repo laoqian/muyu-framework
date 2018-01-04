@@ -16,9 +16,6 @@ const TabPane = Tabs.TabPane;
 const { Header, Content,Sider } = Layout;
 const { SubMenu } = Menu;
 
-
-
-
 class App extends BaseComponent{
     constructor(props) {
         super(props);

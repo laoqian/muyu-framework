@@ -230,6 +230,11 @@ class JqgridWrapper extends Component {
                 render(<GridToolBar {...props} />,e);
             }
         }
+
+        let {regGrid} = this.props;
+        if(regGrid){
+            regGrid(grid);
+        }
     }
 
     render() {

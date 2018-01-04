@@ -1,10 +1,10 @@
 import {Modal,Button,Switch} from 'antd'
-import React from 'react'
+import React ,{Component}from 'react'
 import ReactDOM from 'react-dom'
-import BaseComponent from './BaseComponent'
+import u from '../../utils'
 
 
-export default class MyModal extends BaseComponent{
+export default class MyModal extends Component{
 
     static open(children,props){
         let div = document.createElement('div');
@@ -12,22 +12,24 @@ export default class MyModal extends BaseComponent{
         return  ReactDOM.render(<MyModal {...props} rootDiv={div} children={children}/>,div);
     }
 
+    static confirm(text,props){
+        return MyModal.open(text,Object.assign(props||{},{hideConfirmBtn:true,hideZoomBtn:true}));
+    }
+
     constructor(){
         super();
-
+        this.state = {};
         this.container = document.createElement('div');
         this.container.setAttribute('class','my-mobile-modal');
         document.body.appendChild(this.container);
 
-        this.regEvent('willMount',()=>{
-            let props =this.props.childProps || {};
-            props.setOkHander = (ok)=>this.okHander=ok;
-            this.childrenWithProps = React.cloneElement(this.props.children,props)
-        });
+        this.componentWillMount = ()=>{
+            this.childrenWithProps = React.cloneElement(this.props.children,{setOkHander:(ok)=>this.okHander=ok})
+        };
 
-        this.regEvent('didMount',()=>{
-            this.modalCtrl = this.u.moveable($('.ant-modal',this.container),$('.ant-modal-header',this.container));
-        });
+        this.componentDidMount = ()=>{
+            this.modalCtrl = u.moveable($('.ant-modal',this.container),$('.ant-modal-header',this.container));
+        };
 
         this.zoom = (max)=>{
             this.setState({modalClass:max?'my-full-screen':null});
@@ -49,7 +51,6 @@ export default class MyModal extends BaseComponent{
             }
 
             this.setState({loading:false});
-            console.log(colse);
             if(colse){
                 this.close();
             }
@@ -60,8 +61,8 @@ export default class MyModal extends BaseComponent{
         return (
             <Modal {...this.props}
                     className       = {this.state.modalClass}
-                    title           = {<TiTle parent= {this} title={this.props.title}/>}
-                    footer          = {<Footer parent= {this}/>}
+                    title           = {<TiTle parent= {this} title={this.props.title} hideZoomBtn={this.props.hideZoomBtn} />}
+                    footer          = {<Footer parent= {this} hideConfirmBtn={this.props.hideConfirmBtn} />}
                     closable        = {false}
                     wrapClassName   = "vertical-center-modal"
                     getContainer    = {() => this.container}
@@ -79,10 +80,10 @@ export default class MyModal extends BaseComponent{
 }
 
 
-class TiTle extends BaseComponent{
+class TiTle extends Component{
     constructor(){
         super();
-        this.state.zoomMax = false;
+        this.state={zoomMax:false};
 
         this.zoom = max=>{
             this.setState({zoomMax:max});
@@ -92,13 +93,14 @@ class TiTle extends BaseComponent{
 
     render(){
         let icon = this.state.zoomMax?'minus':'folder';
+        let zoomBtn = <Button icon={icon} onClick={()=>this.zoom(!this.state.zoomMax)}/>;
         return(
             <div className='my-modal-title' onDoubleClick={()=>this.zoom(!this.state.zoomMax)}>
                 <span>
                     {this.props.title}
                 </span>
                 <div>
-                    <Button icon={icon} onClick={()=>this.zoom(!this.state.zoomMax)}/>
+                    {this.props.hideZoomBtn?null:zoomBtn}
                     <Button icon="close" onClick={()=>this.props.parent.close()}/>
                 </div>
             </div>
@@ -106,17 +108,18 @@ class TiTle extends BaseComponent{
     }
 }
 
-class Footer extends BaseComponent{
+class Footer extends Component{
     constructor(){
         super();
-        this.state.checked=true;
+        this.state = {checked:true};
    }
 
     render(){
         let icon = this.props.loading?"loading":null;
+
         return(
             <div className='my-modal-footer' onDoubleClick={()=>this.zoom(!this.state.zoomMax)}>
-                <div>
+                <div style={this.props.hideConfirmBtn?{visibility:'hidden'}:null}>
                     <Switch size="small" defaultChecked onChange={(checked)=>this.setState({checked})}/>
                     &nbsp;确认并关闭
                 </div>

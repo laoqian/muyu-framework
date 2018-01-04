@@ -1,5 +1,7 @@
+import React from 'react'
 import createHistory from 'history/createBrowserHistory'
 import {findDOMNode} from 'react-dom';
+import Modal from './Modal'
 
 let ListComponent = function(){
     let $t = this;
@@ -28,18 +30,32 @@ let ListComponent = function(){
         }
     };
 
-    $t.history = createHistory({basename: '#user'});
 
-    $t.getGrid = () => $('.ui-jqgrid-btable', findDOMNode($t.refs.grid));
-
-    $t.getSelectedId = () => $t.getGrid().getGridParam('selrow');
-    $t.getSelRowData = () => {
-        let id = $t.getSelectedId();
-        return id ? Object.assign($t.getGrid().getRowData(id), {id}) : null;
+    $t.getSelectedId = () =>{
+        return $t.grid?$t.grid.getGridParam('selrow'):null;
     };
 
+    $t.getSelRowData = () => {
+        let id = $t.getSelectedId();
+        return id ? Object.assign($t.grid.getRowData(id), {id}) : null;
+    };
+
+    $t.dialog("修改",row=>{
+        Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"修改："+row.id});
+    },$t.getSelectedId);
+
+    $t.dialog("添加",row=>{
+        row?row.id=null:null;
+        console.log("添加");
+        Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"添加"});
+    },$t.getSelectedId);
+
+    $t.dialog('删除',$t.getSelectedId(),row=>Modal.confirm(`确定删除-${row.id}`,{afterOk:$t.reload,title:$t.titlePrefix+"删除"}),$t.getSelectedId());
+
+    $t.eventFunc['重加载'] = $t.reload = () =>$t.grid.trigger('reloadGrid');
+
     $t.saveEditList = () => {
-        let g = $t.getGrid();
+        let g = $t.grid;
         let list = g.getRowData(null, true);
         let editList = g[0].p.editList;
         let eList = [];
@@ -63,35 +79,7 @@ let ListComponent = function(){
         return true;
     };
 
-
-
-
-    $t.eventFunc['添加'] = $t.addRow = async () => {
-        let row = $t.getSelRowData();
-        if (row) {
-            try {
-                let bean = await $t.loadSelData(row.id);
-                row = bean.data;
-            } catch (err) {
-                u.tip(err.msg, 'error');
-            }
-        }
-
-        $t.history.push({pathname: '/edit', type: '添加', row, grid: $t.getGrid()})
-    };
-
-    $t.eventFunc['删除'] = $t.deleteRow = () => {
-        let row = $t.getSelRowData();
-        if (!row) {
-            return u.tip('未选择要删除的列', 'error');
-        }
-
-        $t.history.push({pathname: '/delete', row, grid: $t.getGrid()});
-    };
-
-    $t.eventFunc['重加载'] = $t.reload = () => {
-        $t.getGrid().trigger('reloadGrid')
-    };
+    $t.click = item => $t.eventFunc[item.name] ? $t.eventFunc[item.name]() : console.error('Warning:未定义的事件：' + item.name);
 
     $t.regEvent("升级", 'upgradeRow', () => $t.chgLevel(0));
     $t.regEvent("降级", 'degradeRow', () => $t.chgLevel(1));
@@ -99,21 +87,22 @@ let ListComponent = function(){
     $t.regEvent("下移", 'shiftDownRow', () => $t.chgLevel(3));
 
     $t.setQueryParam = () => {
-        if ($t.serachForm) {
-            let {validateFields} = $t.serachForm;
-            validateFields((err,values) => {
-                if (!err) {
-                    $t.getGrid().setGridParam({postData: values})
-                }
-            })
-        }
+        // if ($t.serachForm) {
+        //     let {validateFields} = $t.serachForm;
+        //     validateFields((err,values) => {
+        //         if (!err) {
+        //             $t.getGrid().setGridParam({postData: values})
+        //         }
+        //     })
+        // }
     };
 
-    $t.click = item => $t.eventFunc[item.name] ? $t.eventFunc[item.name]() : console.error('Warning:未定义的事件：' + item.name);
+    $t.regGrid  = grid => {
+        console.log(grid);
+        $t.grid=grid;
+    };
 
-
-
-    $t.register = form => $t.serachForm = form;
+    $t.register = form   => $t.serachForm = form;
 };
 
 export default ListComponent;
