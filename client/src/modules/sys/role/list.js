@@ -6,7 +6,7 @@ import RoleEdit from './edit'
 import RoleAllcationForm from './allocation'
 import {findDOMNode} from 'react-dom'
 import BaseComponent from "../../base/BaseComponent"
-import Ztree from "../../base/Ztree"
+import Modal from "../../base/Modal"
 import colModel  from './colModel'
 
 export default class SyseRole extends BaseComponent{
@@ -50,22 +50,21 @@ export default class SyseRole extends BaseComponent{
             reload: true,
             right: {
                 items: [
-                    {name: '添加', path: '/add', icon: 'plus'},
-                    {name: '修改', path: '/edit', icon: 'edit'},
-                    {name: '授权', path: '/allocation', icon: 'share-alt'},
-                    {name: '删除', path: '/delete', icon: 'delete'  }
+                    {name: '添加', icon: 'plus'},
+                    {name: '修改', icon: 'edit'},
+                    {name: '授权', icon: 'share-alt'},
+                    {name: '删除', icon: 'delete'  }
                 ]
             }
         };
 
-        $t.regDialog('/allocation',"授权",row=>{
-            return new Promise((res,rej)=>{
-                let u = this.u;
-                u.get($t.getBaseUrl('findRoleMenuList?roleId='+row.id),(bean)=>{
+        $t.dialog('授权',row=>{
+            $t.getWithTip('findRoleMenuList?roleId='+row.id,(bean)=>{
+                if(bean.success()){
                     let selectedKeys =[];
                     bean.data.forEach(item=>selectedKeys.push(item.menuId));
-                    bean.success()?res({selectedKeys}):rej(bean);
-                })
+                    Modal.open(<RoleAllcationForm selectedKeys={selectedKeys} row={row}/>)
+                }
             })
         });
     }

@@ -9,12 +9,11 @@ class RoleAllcationForm extends BaseComponent {
     constructor(props) {
         super(props);
 
-        let $t  = this,u=this.u;
+        let $t  = this;
 
         $t.extend("Form");
 
-        $t.state.checkedKeys =[];
-        $t.state.selectedKeys =[];
+        $t.state.checkedKeys = [];
 
         $t.baseUrl      = '/api/role/';
         $t.moduleName   = "角色";
@@ -37,13 +36,8 @@ class RoleAllcationForm extends BaseComponent {
             });
         };
 
-        $t.onCheck = (checkedKeys) => {
-            this.setState({checkedKeys });
-        };
-
-        $t.saveData = () => {
-            $t.defaultSaveData('saveRoleMenuBatch', 'post', () => ({data:this.state.editData, list:this.state.checkedKeys}))
-        };
+        $t.onCheck = checkedKeys=>this.setState({checkedKeys});
+        $t.regEvent("willMount",()=>$t.props.setOkHander(()=>$t.postWithTip('saveRoleMenuBatch',{data:this.props.row,list:this.state.checkedKeys})))
     }
 
     render(){
@@ -52,7 +46,7 @@ class RoleAllcationForm extends BaseComponent {
                 checkable
                 defaultExpandAll
                 showLine
-                defaultCheckedKeys={this.state.data?this.state.data.selectedKeys:[]}
+                defaultCheckedKeys={this.props.selectedKeys}
                 onCheck={this.onCheck}
                 ref="tree"
             >
