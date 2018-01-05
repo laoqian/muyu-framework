@@ -29,7 +29,7 @@ export default class MyModal extends Component{
                 this.childrenWithProps = children;
                 this.okHander = this.props.okHander;
             }else{
-                this.childrenWithProps = React.cloneElement(children,{setOkHander:(ok)=>this.okHander=ok})
+                this.childrenWithProps = React.cloneElement(children,{setOkHander:(ok)=>this.okHander=ok,isDialog:true})
             }
         };
 

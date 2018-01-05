@@ -189,8 +189,10 @@ let FormComponent = function (){
     };
 
     $t.regEvent('willMount',()=>{
-        $t.state.editData = this.props.row||{};
-        $t.props.setOkHander($t.defaultSaveData);
+        if($t.props.isDialog){
+            $t.state.editData = this.props.row||{};
+            $t.props.setOkHander($t.defaultSaveData);
+        }
     });
 
     $t.renderModel = (children)=>{
