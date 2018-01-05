@@ -12,7 +12,6 @@ class UserPassword extends BaseComponent{
 
         this.extend("Form");
 
-        $t.bindDataOnce = ()=>{};
         $t.moduleName = 'sysUser';
 
         $t.colModel = [

@@ -18,7 +18,6 @@ export default class SysModel extends BaseComponent{
         $t.baseUrl     = '/api/process/';
         $t.titlePrefix = "流程";
         $t.moduleName  = 'actProcess';
-
         $t.setGridInitParam({
             url:$t.getBaseUrl('findPage'),
             gridName:this.moduleName,
@@ -48,7 +47,7 @@ export default class SysModel extends BaseComponent{
             }
         };
 
-        $t.confirm('转为模型',row=>`确定将流程-${row.name}转为模型吗？`,row=>$t.u.getWithTip($t.getBaseUrl("/toModel?id="+row.id)));
+        $t.confirm('转为模型',row=>`确定将流程-${row.name}转为模型吗？`,row=>$t.getWithTip("/toModel?id="+row.id));
     }
 
     render() {

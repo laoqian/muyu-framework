@@ -21,7 +21,7 @@ export  default  class SysMenu extends BaseComponent{
         $t.editForm = MenuForm;
 
         $t.setGridInitParam({
-            url             : 'api/menu/findTree',
+            url             : $t.getBaseUrl('findTree'),
             baseUrl         : $t.baseUrl,
             gridName        : this.moduleName,
             treeGrid        : true,
@@ -57,9 +57,9 @@ export  default  class SysMenu extends BaseComponent{
             }
         };
 
-        $t.regEvent("保存",'save',()=>{
+        $t.dialog("保存",()=>{
            if($t.saveEditList()){
-               u.post($t.getBaseUrl('saveBatch'),{list:$t.editList}, data=>data.code===0?$t.reload():null);
+               $t.postWithTip('saveBatch',{list:$t.editList},$t.reload());
            }
         });
     }
@@ -73,8 +73,3 @@ export  default  class SysMenu extends BaseComponent{
         )
     }
 }
-
-const NoMatch = ({location}) => {
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};

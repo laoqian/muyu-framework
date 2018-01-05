@@ -53,7 +53,7 @@ export default class SysModel extends BaseComponent{
         };
 
         $t.regEvent("didMount",()=>{
-            $t.confirm('发布',row=>`确定发布模型-${row.name}？`,(row)=>$t.u.getWithTip($t.getBaseUrl('deploy?id='+row.id)));
+            $t.confirm('发布',row=>`确定发布模型-${row.name}？`,(row)=>$t.getWithTip('deploy?id='+row.id));
             $t.dialog('编辑',row=>window.open('./modeler.html?modelId='+row.id,row.name).focus());
         });
     }

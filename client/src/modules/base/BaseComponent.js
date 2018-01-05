@@ -10,11 +10,14 @@ export default class BaseComponent extends Component{
         let $t              =   this;
         $t.u                =   u;
         $t.baseUrl          =   '/api/';
-        $t.getBaseUrl        =   (url)=>$t.baseUrl+url;
+        $t.getBaseUrl       =   (url)=>$t.baseUrl+url;
         $t.getUrl           =   (url)=>'/api'+url;
         $t.getFileUrl       =   (url)=>'/files'+url;
         $t.state            =   {componentType:'自定义组件'};
         $t.eventFunc        =   {};
+        $t.getWithTip       =   (url,data,cb)=>$t.u.getWithTip($t.getBaseUrl(url),data,cb);
+        $t.postWithTip      =   (url,data,cb)=>$t.u.postWithTip($t.getBaseUrl(url),data,cb);
+
         $t.extend = function(){
             for(let i=0;i<arguments.length;i++){
                 let func = require('./'+arguments[i]).default;

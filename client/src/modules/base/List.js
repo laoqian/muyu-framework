@@ -59,7 +59,7 @@ let ListComponent = function(){
         {
             afterOk:$t.reload,
             title:$t.titlePrefix+"删除",
-            okHander:()=>u.get($t.getBaseUrl("/delete?id="+row.id), bean=>u.success(bean.msg))
+            okHander:()=>$t.getWithTip("delete?id="+row.id)
         })
     );
 
@@ -82,7 +82,7 @@ let ListComponent = function(){
                 });
             });
         }catch (err){
-            u.tip(msg, 'error');
+            u.error(err.toString());
             return false;
         }
 
