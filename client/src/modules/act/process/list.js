@@ -2,10 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
-import DictDelete from './delete'
 import colModel from './colModel'
 
 
@@ -17,9 +15,9 @@ export default class SysModel extends BaseComponent{
         let $t = this;
 
         $t.extend("List");
-        $t.baseUrl    = '/api/process/';
-        $t.moduleName = 'actProcess';
-        $t.history.push('/');
+        $t.baseUrl     = '/api/process/';
+        $t.titlePrefix = "流程";
+        $t.moduleName  = 'actProcess';
 
         $t.setGridInitParam({
             url:$t.geBaseUrl('findPage'),
@@ -41,41 +39,31 @@ export default class SysModel extends BaseComponent{
                 }
             },
             reload:true,
-            right:{
+            right :{
                 items :[
-                    {name: '启动'     ,path:'/start',        icon: 'plus',       },
-                    {name: '转为模型' , path:'/toModel',        icon: 'rollback',       },
-                    {name: '删除',path:'/delete',     icon: 'delete',     },
+                    {name: '启动'      ,  icon: 'plus',       },
+                    {name: '转为模型'  ,   icon: 'rollback',   },
+                    {name: '删除'      ,  icon: 'delete',     },
                 ]
             }
         };
 
-        $t.regDialog('/toModel',"转为模型",row=>{
-            $t.u.get($t.geBaseUrl('toModel?id='+row.id), bean=>console.log(bean));
-        });
 
-        $t.regDialog('/start',"启动",row=>{
-            window.open('./modeler.html?modelId='+row.id,row.name).focus();
-        });
+        $t.dialog('转为模型',row=>Modal.confirm(`确定将流程-${row.name}转为模型吗？`,
+            {
+                afterOk:$t.reload,
+                title:$t.titlePrefix+"转为模型",
+                okHander:()=>u.get($t.geBaseUrl("/toModel?id="+row.id), bean=>u.success(bean.msg))
+            }),$t.getSelectedId);
     }
 
     render() {
         return (
             <div className="my-col-full" >
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
-                <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history= {this.history}>
-                    <Switch>
-                        <Route path="/delete"   component= {DictDelete}/>
-                        <Route                  component= {NoMatch}/>
-                    </Switch>
-                </Router>
+                <JqgridWrapper options={this.gridOptions}/>
             </div>
         )
     }
 }
 
-const NoMatch = ({ location }) => {
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};

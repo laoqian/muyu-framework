@@ -89,19 +89,10 @@ class GenEditForm extends BaseComponent {
 
     render() {
         return (
-            <Modal
-                title={this.title()}
-                wrapClassName="vertical-center-modal"
-                visible={true}
-                onOk={() => this.modalClick('ok')}
-                onCancel={() => this.modalClick('cancel')}
-                confirmLoading={this.state.submiting}
-            >
-                <div style={{width: '1200px', height: '600px'}} className="flex-vs">
-                    <Form ref="form" className="my-form-square" children={this.renderRows(this.props.form,this.state.colModel,4)}/>
-                    <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                </div>
-            </Modal>
+            <div style={{width: '1200px', height: '600px'}} className="flex-vs">
+                <Form ref="form" className="my-form-square" children={this.renderRows(this.props.form,this.state.colModel,4)}/>
+                <JqgridWrapper options={this.gridOptions} ref="grid"/>
+            </div>
         )
     }
 }

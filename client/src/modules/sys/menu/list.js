@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import MenuForm from './edit'
-import MenuDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel  from './colModel'
@@ -18,8 +16,9 @@ export  default  class SysMenu extends BaseComponent{
         $t.extend("List");
 
         $t.baseUrl      = '/api/menu/'   ;
-        $t.moduleName   = 'sys_menu'     ;
-        $t.history.push('/'); /*初始化时指向根目录*/
+        $t.moduleName   = 'sysMenu'     ;
+        $t.titlePrefix = "菜单";
+        $t.editForm = MenuForm;
 
         $t.setGridInitParam({
             url             : 'api/menu/findTree',
@@ -69,14 +68,7 @@ export  default  class SysMenu extends BaseComponent{
         return (
             <div className="my-col-full">
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register}/>
-                <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history={this.history}>
-                    <Switch>
-                        <Route path="/edit" component={MenuForm}/>
-                        <Route path="/delete" component={MenuDelete}/>
-                        <Route component={NoMatch}/>
-                    </Switch>
-                </Router>
+                <JqgridWrapper options={this.gridOptions}/>
             </div>
         )
     }

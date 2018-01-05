@@ -14,10 +14,6 @@ class EditForm extends BaseComponent{
         $t.groupNum     = 1;
         $t.colModel     = colModel;
         $t.style = {width:'400px',height:'460px'};
-
-        $t.regEvent("willMount",()=>{
-            $t.props.setOkHander($t.defaultSaveData);
-        })
     }
 }
 

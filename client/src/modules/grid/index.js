@@ -1,18 +1,18 @@
 import React, {Component, PropTypes} from 'react'
-import {Link} from 'react-router'
 import Loading from '../base/Loading'
 import {connect} from 'react-redux'
 import {findDOMNode,render} from 'react-dom';
 import { Button } from 'antd';
-const ButtonGroup = Button.Group;
 import _ from 'lodash'
 import u from '../../utils'
 import {notification} from 'antd';
 
-class JqgridWrapper extends Component {
+const ButtonGroup = Button.Group;
+
+export default class JqgridWrapper extends Component {
     constructor() {
         super();
-        let __this = this;
+        let $t = this;
         this.state = {};
         this.state.defaultOptions = {
             url: 'api/menu/findPage',
@@ -55,22 +55,22 @@ class JqgridWrapper extends Component {
             rowList: [25, 50, 100, 200],
 
             beforeRequest: function () {
-                let grid = __this.state.gridTable;
-                let {setQueryParam} = __this.state.curOptions;
+                let grid = $t.state.gridTable;
+                let {setQueryParam} = $t.state.curOptions;
 
                 setQueryParam ? setQueryParam() : null;
                 $('.ui-jqgrid .loading', grid).remove();
                 Loading.show("拼命加载中");
                 /*缓存上一次的数据*/
                 if(this.p && this.p.data){
-                    __this.cacheList = this.p.data;
+                    $t.cacheList = this.p.data;
                 }
             },
             beforAddJsonData:function(data,rcnt,more,adjust){
-                if(__this.cacheList && data.list && data.list.length>0){
+                if($t.cacheList && data.list && data.list.length>0){
                     let list = data.list;
                     list.forEach(data=>{
-                        let cache = _.find(__this.cacheList,(chr)=>chr['_id_'] ===data.id)
+                        let cache = _.find($t.cacheList,(chr)=>chr['_id_'] ===data.id)
                         if(cache){
                             data.expanded = cache.expanded;
                         }
@@ -231,7 +231,7 @@ class JqgridWrapper extends Component {
             }
         }
 
-        let {regGrid} = this.props;
+        let {regGrid} = this.state.curOptions;
         if(regGrid){
             regGrid(grid);
         }
@@ -250,19 +250,6 @@ class JqgridWrapper extends Component {
     }
 }
 
-
-JqgridWrapper.propTypes = {};
-
-
-function mapStateToProps(state) {
-    return {
-        grid: state.grid
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {}
-}
 
 
 class GridToolBar extends Component{
@@ -426,7 +413,3 @@ class GridToolBar extends Component{
         )
     }
 }
-
-
-export default connect(mapStateToProps, mapActionToProps)(JqgridWrapper);
-

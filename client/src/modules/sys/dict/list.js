@@ -2,14 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
 import DictEdit from './edit'
-import DictDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel  from './colModel'
 
-class SyseDict extends BaseComponent{
+export default  class SyseDict extends BaseComponent{
 
     constructor(props){
         super(props);
@@ -19,7 +17,9 @@ class SyseDict extends BaseComponent{
         $t.extend('List');
         $t.baseUrl      = '/api/dict/'   ;
         $t.moduleName = 'sysDict';
-        $t.history.push('/'); /*初始化时指向根目录*/
+        $t.titlePrefix = "字典";
+        $t.editForm = DictEdit;
+
         $t.setGridInitParam({
             url:'api/dict/findPage',
             gridName:this.moduleName,
@@ -55,32 +55,7 @@ class SyseDict extends BaseComponent{
             <div className="my-col-full" >
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history= {this.history}>
-                    <Switch>
-                        <Route path="/edit"     component= {DictEdit}/>
-                        <Route path="/delete"   component= {DictDelete}/>
-                        <Route                  component={NoMatch}/>
-                    </Switch>
-                </Router>
             </div>
         )
     }
 }
-
-const NoMatch = ({ location }) => {
-    // notification.error({message:`路由匹配出错:${location.pathname}`});
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};
-
-function mapStateToProps(state) {
-    return {
-    }
-}
-
-function mapActionToProps(dispatch) {
-    return {}
-}
-
-export default connect(mapStateToProps, mapActionToProps)(SyseDict);
-

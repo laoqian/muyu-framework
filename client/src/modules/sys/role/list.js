@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import RoleEdit from './edit'
-import RoleDelete from './delete'
 import RoleAllcationForm from './allocation'
 import {findDOMNode} from 'react-dom'
 import BaseComponent from "../../base/BaseComponent"
@@ -22,7 +20,8 @@ export default class SyseRole extends BaseComponent{
 
         $t.baseUrl      = '/api/role/'   ;
         $t.moduleName   = 'sys_role'     ;
-        $t.history.push('/'); /*初始化时指向根目录*/
+        $t.titlePrefix = "模型";
+        $t.editForm = RoleEdit;
 
         $t.setGridInitParam({
             url             : $t.geBaseUrl('findPage'),
@@ -75,22 +74,8 @@ export default class SyseRole extends BaseComponent{
         return (
             <div className="my-col-full">
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register}/>
-                <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history={this.history}>
-                    <Switch>
-                        <Route path="/edit"         component={RoleEdit}/>
-                        <Route path="/allocation"   component={RoleAllcationForm}/>
-                        <Route path="/delete"       component={RoleDelete}/>
-                        <Route component={NoMatch}/>
-                    </Switch>
-                </Router>
+                <JqgridWrapper options={this.gridOptions} />
             </div>
         )
     }
 }
-
-const NoMatch = ({location}) => {
-    // notification.error({message:`路由匹配出错:${location.pathname}`});
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};

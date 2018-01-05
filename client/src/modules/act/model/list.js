@@ -57,15 +57,13 @@ export default class SysModel extends BaseComponent{
             $t.dialog('发布',row=>$t.u.get($t.geBaseUrl('deploy?id='+row.id), bean=>console.log(bean)));
             $t.dialog('编辑',row=>window.open('./modeler.html?modelId='+row.id,row.name).focus());
         });
-
-
     }
 
     render() {
         return (
             <div className="my-col-full" >
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
-                <JqgridWrapper options={this.gridOptions} regGrid= {this.regGrid}/>
+                <JqgridWrapper options={this.gridOptions} />
             </div>
         )
     }

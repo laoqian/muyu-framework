@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route,IndexRoute,Switch} from 'react-router-dom'
-import DictEdit from './edit'
-import DictDelete from './delete'
+import UserEditForm from './edit'
 import AuthForm from './auth'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
@@ -20,7 +18,8 @@ export default class SysUser extends BaseComponent{
         $t.extend("List");
         $t.baseUrl    = '/api/user/';
         $t.moduleName = 'sysUser';
-        $t.history.push('/');
+        $t.editForm = UserEditForm;
+        $t.titlePrefix = "用户";
 
         $t.setGridInitParam({
             url:$t.geBaseUrl('findPage'),
@@ -68,21 +67,8 @@ export default class SysUser extends BaseComponent{
         return (
             <div className="my-col-full" >
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register} />
-                <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history= {this.history}>
-                    <Switch>
-                        <Route path="/edit"     component= {DictEdit}/>
-                        <Route path="/delete"   component= {DictDelete}/>
-                        <Route path="/auth"     component= {AuthForm}/>
-                        <Route                  component= {NoMatch}/>
-                    </Switch>
-                </Router>
+                <JqgridWrapper options={this.gridOptions}/>
             </div>
         )
     }
 }
-
-const NoMatch = ({ location }) => {
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};

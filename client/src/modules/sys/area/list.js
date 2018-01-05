@@ -2,9 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import {Router, Route, IndexRoute, Switch} from 'react-router-dom'
 import AreaForm from './edit'
-import AreaDelete from './delete'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel  from './colModel'
@@ -17,9 +15,10 @@ export  default  class SysArea extends BaseComponent{
         let $t = this,u=this.u;
         $t.extend("List");
 
-        $t.baseUrl      = '/api/area/'   ;
-        $t.moduleName   = 'sys_area'     ;
-        $t.history.push('/'); /*初始化时指向根目录*/
+        $t.baseUrl      = '/api/area/';
+        $t.titlePrefix  = "区域";
+        $t.moduleName   = 'sysArea';
+        $t.editForm     = AreaForm;
 
         $t.setGridInitParam({
             url             : 'api/area/findTree',
@@ -52,21 +51,19 @@ export  default  class SysArea extends BaseComponent{
             reload: true,
             right: {
                 items: [
-                    // {name: '添加', path: '/add', icon: 'plus',},
-                    // {name: '插入', path: '/add', icon: 'plus-square-o',},
-                    // {name: '修改', path: '/edit', icon: 'edit',},
-                    {name: '保存', path: '/save'  , icon: 'save',     },
-                    {name: '删除', path: '/delete', icon: 'delete',   }
+                    {name: '保存',  icon: 'save',     },
+                    {name: '删除',  icon: 'delete',   }
                 ]
             }
         };
 
-        $t.regEvent("保存",'save',()=>{
-           let list =  $t.saveEditList();
-           if(list){
-               u.post($t.geBaseUrl('saveBatch'),{list}, data=>data.code===0?$t.reload():null);
-           }
+        $t.confirm('保存','是否保存区域编辑？',()=>{
+            let list =  $t.saveEditList();
+            if(list){
+                u.post($t.geBaseUrl('saveBatch'),{list}, data=>data.code===0?$t.reload():null);
+            }
         });
+
     }
 
     render() {
@@ -74,19 +71,7 @@ export  default  class SysArea extends BaseComponent{
             <div className="my-col-full">
                 <ToolBar {...this.toolBarOptions} click={this.click} register={this.register}/>
                 <JqgridWrapper options={this.gridOptions} ref="grid"/>
-                <Router history={this.history}>
-                    <Switch>
-                        <Route path="/edit" component={AreaForm}/>
-                        <Route path="/delete" component={AreaDelete}/>
-                        <Route component={NoMatch}/>
-                    </Switch>
-                </Router>
             </div>
         )
     }
 }
-
-const NoMatch = ({location}) => {
-    console.warn(`路由匹配出错:${location.pathname}`);
-    return null;
-};
