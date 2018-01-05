@@ -31,8 +31,7 @@ let ListComponent = function(){
         }
     };
 
-
-    $t.getSelectedId = () =>{
+    $t.getId = $t.getSelectedId = () =>{
         return $t.grid?$t.grid.getGridParam('selrow'):null;
     };
 
@@ -46,7 +45,7 @@ let ListComponent = function(){
             throw new Error("未定义编辑表单组件");
         }
         Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"修改："+row.id});
-    },$t.getSelectedId);
+    });
 
     $t.dialog("添加",row=>{
         row?row.id=null:null;
@@ -54,17 +53,18 @@ let ListComponent = function(){
             throw new Error("未定义编辑表单组件");
         }
         Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"添加"});
-    },$t.getSelectedId);
+    });
 
     $t.dialog('删除',row=>Modal.confirm(`确定删除-${row.id}`,
         {
             afterOk:$t.reload,
             title:$t.titlePrefix+"删除",
-            okHander:()=>u.get($t.geBaseUrl("/delete?id="+row.id), bean=>u.success(bean.msg))
-        }),$t.getSelectedId);
+            okHander:()=>u.get($t.getBaseUrl("/delete?id="+row.id), bean=>u.success(bean.msg))
+        })
+    );
 
     $t.confirm = (name,text,ok)=>{
-        $t.dialog(name,row=>Modal.confirm(text, {title:"提示", okHander:()=>ok(row)}),$t.getSelectedId);
+        $t.dialog(name,row=>Modal.confirm(_.isFunction(text)?text(row):text,{title:"提示",okHander:()=>ok(row)}));
     };
 
     $t.eventFunc['重加载'] = $t.reload = () =>$t.grid.trigger('reloadGrid');

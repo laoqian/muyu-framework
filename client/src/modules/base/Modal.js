@@ -57,12 +57,13 @@ export default class MyModal extends Component{
                     afterOk();
                 }
             }catch (e){
-                this.u.error(e);
+                throw e;
             }
 
-            this.setState({loading:false});
             if(colse){
                 this.close();
+            }else{
+                this.setState({loading:false});
             }
         };
     }

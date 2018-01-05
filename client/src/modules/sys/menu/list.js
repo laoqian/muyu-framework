@@ -59,7 +59,7 @@ export  default  class SysMenu extends BaseComponent{
 
         $t.regEvent("保存",'save',()=>{
            if($t.saveEditList()){
-               u.post($t.geBaseUrl('saveBatch'),{list:$t.editList}, data=>data.code===0?$t.reload():null);
+               u.post($t.getBaseUrl('saveBatch'),{list:$t.editList}, data=>data.code===0?$t.reload():null);
            }
         });
     }

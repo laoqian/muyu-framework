@@ -20,7 +20,7 @@ export default class SysModel extends BaseComponent{
         $t.moduleName  = 'actProcess';
 
         $t.setGridInitParam({
-            url:$t.geBaseUrl('findPage'),
+            url:$t.getBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });
@@ -48,13 +48,7 @@ export default class SysModel extends BaseComponent{
             }
         };
 
-
-        $t.dialog('转为模型',row=>Modal.confirm(`确定将流程-${row.name}转为模型吗？`,
-            {
-                afterOk:$t.reload,
-                title:$t.titlePrefix+"转为模型",
-                okHander:()=>u.get($t.geBaseUrl("/toModel?id="+row.id), bean=>u.success(bean.msg))
-            }),$t.getSelectedId);
+        $t.confirm('转为模型',row=>`确定将流程-${row.name}转为模型吗？`,row=>$t.u.getWithTip($t.getBaseUrl("/toModel?id="+row.id)));
     }
 
     render() {

@@ -24,7 +24,7 @@ export default class SyseRole extends BaseComponent{
         $t.editForm = RoleEdit;
 
         $t.setGridInitParam({
-            url             : $t.geBaseUrl('findPage'),
+            url             : $t.getBaseUrl('findPage'),
             baseUrl         : $t.baseUrl,
             gridName        : this.moduleName,
             muiltSelect     : true,
@@ -61,7 +61,7 @@ export default class SyseRole extends BaseComponent{
         $t.regDialog('/allocation',"授权",row=>{
             return new Promise((res,rej)=>{
                 let u = this.u;
-                u.get($t.geBaseUrl('findRoleMenuList?roleId='+row.id),(bean)=>{
+                u.get($t.getBaseUrl('findRoleMenuList?roleId='+row.id),(bean)=>{
                     let selectedKeys =[];
                     bean.data.forEach(item=>selectedKeys.push(item.menuId));
                     bean.success()?res({selectedKeys}):rej(bean);

@@ -3,8 +3,6 @@ import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import gridExtend from './modules/grid/extend'
 import React from 'react'
-import fetch from 'isomorphic-fetch'
-
 
 let u = {
     baseUrl:'/api/',
@@ -86,6 +84,33 @@ u.get   = (url,data,success)=>{
         url = url+'?'+$.param(data);
         u.ajax({url,type:'get',success});
     }
+};
+
+u.getWithTip=(url,data,success)=>{
+    let cb = (bean)=>{
+        if(bean.success()){
+            u.success(bean.msg);
+        }
+
+        if(_.isFunction(data)){
+            data(bean);
+        }else if(_.isFunction(success)){
+            success(bean);
+        }
+    };
+
+    _.isFunction(data)||!data ? u.get(url,cb):u.get(url,data,cb);
+};
+
+u.postWithTip=(url,data,success)=>{
+    let cb = (bean)=>{
+        if(bean.success()){
+            u.success(bean.msg);
+        }
+        success(bean);
+    };
+
+    u.post(url,data,cb);
 };
 
 u.post  = (url,data,success)=>u.ajax({url,type:'post',data,success});

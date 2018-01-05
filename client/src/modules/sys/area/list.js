@@ -60,7 +60,7 @@ export  default  class SysArea extends BaseComponent{
         $t.confirm('保存','是否保存区域编辑？',()=>{
             let list =  $t.saveEditList();
             if(list){
-                u.post($t.geBaseUrl('saveBatch'),{list}, data=>data.code===0?$t.reload():null);
+                u.post($t.getBaseUrl('saveBatch'),{list}, data=>data.code===0?$t.reload():null);
             }
         });
 

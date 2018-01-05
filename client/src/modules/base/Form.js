@@ -172,7 +172,7 @@ let FormComponent = function (){
 
                 data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
 
-                u[type||'post']($t.geBaseUrl(url||'save'),data,function(data) {
+                u[type||'post']($t.getBaseUrl(url||'save'),data,function(data) {
                     u[data.success()?'success':'error'](data.msg);
 
                     if(_.isFunction(afterSave)){

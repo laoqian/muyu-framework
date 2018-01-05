@@ -10,7 +10,7 @@ export default class BaseComponent extends Component{
         let $t              =   this;
         $t.u                =   u;
         $t.baseUrl          =   '/api/';
-        $t.geBaseUrl        =   (url)=>$t.baseUrl+url;
+        $t.getBaseUrl        =   (url)=>$t.baseUrl+url;
         $t.getUrl           =   (url)=>'/api'+url;
         $t.getFileUrl       =   (url)=>'/files'+url;
         $t.state            =   {componentType:'自定义组件'};
@@ -40,6 +40,10 @@ export default class BaseComponent extends Component{
         $t.openDialog = async (options)=>{
             let {props,hander,getId} = options;
             props = props|| {};
+            if(!getId){
+                getId = $t.getId;
+            }
+
             if(getId){
                 let bean = await $t.getData(_.isFunction(getId)?getId():getId);
                 props.row = bean.data;
@@ -64,7 +68,7 @@ export default class BaseComponent extends Component{
 
         $t.getData = id => {
             return new Promise((res, rej) => {
-                u.get($t.geBaseUrl('get?id=' + id), function (bean) {
+                u.get($t.getBaseUrl('get?id=' + id), function (bean) {
                     if (bean.code === 0 && bean.data) {
                         res(bean);
                     } else {

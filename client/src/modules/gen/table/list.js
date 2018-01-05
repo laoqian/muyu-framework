@@ -19,7 +19,7 @@ class GenTable extends BaseComponent{
         $t.moduleName = 'sysGen';
         $t.editForm = GenTableEdit;
         $t.setGridInitParam({
-            url:$t.geBaseUrl('findPage'),
+            url:$t.getBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });

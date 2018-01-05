@@ -22,7 +22,7 @@ export default class SysModel extends BaseComponent{
         $t.editForm = ModelForm;
 
         $t.setGridInitParam({
-            url:$t.geBaseUrl('findPage'),
+            url:$t.getBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });
@@ -53,8 +53,7 @@ export default class SysModel extends BaseComponent{
         };
 
         $t.regEvent("didMount",()=>{
-            $t.dialog('测试',row=>Modal.confirm(<ModelForm row={row}/>));
-            $t.dialog('发布',row=>$t.u.get($t.geBaseUrl('deploy?id='+row.id), bean=>console.log(bean)));
+            $t.confirm('发布',row=>`确定发布模型-${row.name}？`,(row)=>$t.u.getWithTip($t.getBaseUrl('deploy?id='+row.id)));
             $t.dialog('编辑',row=>window.open('./modeler.html?modelId='+row.id,row.name).focus());
         });
     }
