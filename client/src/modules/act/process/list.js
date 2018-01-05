@@ -22,7 +22,7 @@ export default class SysModel extends BaseComponent{
         $t.history.push('/');
 
         $t.setGridInitParam({
-            url:$t.encodeUrl('findPage'),
+            url:$t.geBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });
@@ -51,7 +51,7 @@ export default class SysModel extends BaseComponent{
         };
 
         $t.regDialog('/toModel',"转为模型",row=>{
-            $t.u.get($t.encodeUrl('toModel?id='+row.id),bean=>console.log(bean));
+            $t.u.get($t.geBaseUrl('toModel?id='+row.id), bean=>console.log(bean));
         });
 
         $t.regDialog('/start',"启动",row=>{

@@ -19,7 +19,7 @@ class GenEditForm extends BaseComponent {
         $t.state.colModel = List(colModel).toJS();
 
         $t.setGridInitParam({
-            url: $t.encodeUrl('findTableColumn'),
+            url: $t.geBaseUrl('findTableColumn'),
             baseUrl: $t.baseUrl,
             gridName: "sysGenEdit",
             inlineEdit: true,
@@ -66,7 +66,7 @@ class GenEditForm extends BaseComponent {
 
         $t.regEvent('didMount', () => {
             $t.register($t.props.form);
-            u.get($t.encodeUrl('getTableList'), (bean) => {
+            u.get($t.geBaseUrl('getTableList'), (bean) => {
                 if (bean.success()) {
                     let column = _.find(colModel, col => col.name === 'name');
                     if (column) {

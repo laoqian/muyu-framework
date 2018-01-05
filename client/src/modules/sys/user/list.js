@@ -23,7 +23,7 @@ export default class SysUser extends BaseComponent{
         $t.history.push('/');
 
         $t.setGridInitParam({
-            url:$t.encodeUrl('findPage'),
+            url:$t.geBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });
@@ -55,7 +55,7 @@ export default class SysUser extends BaseComponent{
         $t.regDialog('/auth',"授权",row=>{
             return new Promise((res,rej)=>{
                 let u = this.u;
-                u.get($t.encodeUrl('findUserRoleList?userId='+row.id),(bean)=>{
+                u.get($t.geBaseUrl('findUserRoleList?userId='+row.id),(bean)=>{
                     let selectedKeys =[];
                     bean.data.forEach(item=>selectedKeys.push(item.roleId));
                     bean.success()?res({selectedKeys}):rej(bean);

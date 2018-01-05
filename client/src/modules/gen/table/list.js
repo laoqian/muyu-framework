@@ -20,7 +20,7 @@ class GenTable extends BaseComponent{
         $t.moduleName = 'sysGen';
         $t.history.push('/');  /*初始化时指向根目录*/
         $t.setGridInitParam({
-            url:$t.encodeUrl('findPage'),
+            url:$t.geBaseUrl('findPage'),
             gridName:this.moduleName,
             colModel
         });

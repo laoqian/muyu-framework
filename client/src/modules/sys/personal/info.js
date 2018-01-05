@@ -18,7 +18,7 @@ class UserInfo extends BaseComponent{
 
             if (info.file.status === 'done' && $t.u.authVarify(bean.code)) {
                 let attach = bean.data;
-                let state ={photoUrl:$t.encodeFileUrl("/"+attach.name)};
+                let state ={photoUrl:$t.getFileUrl("/"+attach.name)};
                 $t.setState(state);
             }
         };
@@ -46,7 +46,7 @@ class UserInfo extends BaseComponent{
             };
             user = Object.assign({},this.props.user,user);
             Loading.show("保存用户数据");
-            $t.u.post($t.encodeBaseUrl('/user/save'),user,bean=>{
+            $t.u.post($t.getUrl('/user/save'),user, bean=>{
                 if(bean.success()){
                     $t.u.success(bean.msg);
                 }
@@ -79,7 +79,7 @@ class UserInfo extends BaseComponent{
                                 <Upload
                                     name="file"
                                     showUploadList={false}
-                                    action={this.encodeBaseUrl('/attach/upload')}
+                                    action={this.getUrl('/attach/upload')}
                                     beforeUpload={this.beforeUpload}
                                     onChange={this.handleChange}
                                 >

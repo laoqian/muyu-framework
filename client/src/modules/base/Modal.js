@@ -24,7 +24,13 @@ export default class MyModal extends Component{
         document.body.appendChild(this.container);
 
         this.componentWillMount = ()=>{
-            this.childrenWithProps = React.cloneElement(this.props.children,{setOkHander:(ok)=>this.okHander=ok})
+            let {children} = this.props;
+            if(_.isString(children)){
+                this.childrenWithProps = children;
+                this.okHander = this.props.okHander;
+            }else{
+                this.childrenWithProps = React.cloneElement(children,{setOkHander:(ok)=>this.okHander=ok})
+            }
         };
 
         this.componentDidMount = ()=>{
@@ -46,6 +52,10 @@ export default class MyModal extends Component{
 
             try {
                 await this.okHander();
+                let {afterOk} = this.props;
+                if(_.isFunction(afterOk)){
+                    afterOk();
+                }
             }catch (e){
                 this.u.error(e);
             }

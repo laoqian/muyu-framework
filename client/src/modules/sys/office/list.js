@@ -62,7 +62,7 @@ export  default  class SysOffice extends BaseComponent{
         $t.regEvent("保存",'save',()=>{
            let list =  $t.saveEditList();
            if(list){
-               u.post($t.encodeUrl('saveBatch'),{list},data=>data.code===0?$t.reload():null);
+               u.post($t.geBaseUrl('saveBatch'),{list}, data=>data.code===0?$t.reload():null);
            }
         });
     }

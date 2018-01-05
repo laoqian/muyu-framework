@@ -7,14 +7,14 @@ export default class BaseComponent extends Component{
 
     constructor(props){
         super(props);
-        let $t           = this;
-        $t.u             = u;
-        $t.baseUrl       ='/api/';
-        $t.encodeUrl     = (url)=>$t.baseUrl+url;
-        $t.encodeBaseUrl = (url)=>'/api'+url;
-        $t.encodeFileUrl = (url)=>'/files'+url;
-        $t.state         = {};
-        $t.eventFunc     =   {};
+        let $t              =   this;
+        $t.u                =   u;
+        $t.baseUrl          =   '/api/';
+        $t.geBaseUrl        =   (url)=>$t.baseUrl+url;
+        $t.getUrl           =   (url)=>'/api'+url;
+        $t.getFileUrl       =   (url)=>'/files'+url;
+        $t.state            =   {componentType:'自定义组件'};
+        $t.eventFunc        =   {};
         $t.extend = function(){
             for(let i=0;i<arguments.length;i++){
                 let func = require('./'+arguments[i]).default;
@@ -24,10 +24,9 @@ export default class BaseComponent extends Component{
             }
         };
 
-        $t.state.componentType  =   '自定义组件';
         $t.componentCheck = ()=>{
             if($t.state.componentType!=='自定义组件'){
-                throw new Error("自定义组件，不能绑定相关方法");
+                throw new Error("非自定义组件，不能绑定相关方法");
             }
         };
 
@@ -52,7 +51,6 @@ export default class BaseComponent extends Component{
 
             if(options.reactNode){
                 props.afterOk     = options.afterOk;
-                props.afterCancel = options.afterCancel;
                 Modal.open(options.reactNode,props);
             }
         };
@@ -66,7 +64,7 @@ export default class BaseComponent extends Component{
 
         $t.getData = id => {
             return new Promise((res, rej) => {
-                u.get($t.encodeUrl('get?id=' + id), function (bean) {
+                u.get($t.geBaseUrl('get?id=' + id), function (bean) {
                     if (bean.code === 0 && bean.data) {
                         res(bean);
                     } else {

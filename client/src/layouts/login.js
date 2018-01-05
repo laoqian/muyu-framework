@@ -16,7 +16,7 @@ class Login extends BaseComponent {
         };
 
         $t.getVarifyImage = ()=>{
-            $t.u.get($t.encodeUrl('getCachedCode'),function (bean) {
+            $t.u.get($t.geBaseUrl('getCachedCode'),function (bean) {
                 if(bean.success()){
                     $t.setState({varify:bean.data});
                 }

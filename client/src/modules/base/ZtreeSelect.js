@@ -22,7 +22,7 @@ export default class ZtreeSelect extends BaseComponent{
                     },100);
                 }else{
                     if(!$(arguments[0].target).hasClass("ant-select-selection__clear")){
-                        Ztree.open({url:$t.encodeBaseUrl($t.props.url),callback:{onDblClick:(event, treeId, treeNode)=>{
+                        Ztree.open({url:$t.getUrl($t.props.url),callback:{onDblClick:(event, treeId, treeNode)=>{
                             $t.setState({option:treeNode.node});
                             const onChange = $t.props.onChange;
                             if(onChange){

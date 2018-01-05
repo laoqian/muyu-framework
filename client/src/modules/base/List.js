@@ -46,11 +46,15 @@ let ListComponent = function(){
 
     $t.dialog("添加",row=>{
         row?row.id=null:null;
-        console.log("添加");
         Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"添加"});
     },$t.getSelectedId);
 
-    $t.dialog('删除',$t.getSelectedId(),row=>Modal.confirm(`确定删除-${row.id}`,{afterOk:$t.reload,title:$t.titlePrefix+"删除"}),$t.getSelectedId());
+    $t.dialog('删除',row=>Modal.confirm(`确定删除-${row.id}`,
+        {
+            afterOk:$t.reload,
+            title:$t.titlePrefix+"删除",
+            okHander:()=>u.get($t.geBaseUrl("/delete?id="+row.id), bean=>u.success(bean.msg))
+        }),$t.getSelectedId);
 
     $t.eventFunc['重加载'] = $t.reload = () =>$t.grid.trigger('reloadGrid');
 
@@ -98,7 +102,6 @@ let ListComponent = function(){
     };
 
     $t.regGrid  = grid => {
-        console.log(grid);
         $t.grid=grid;
     };
 
