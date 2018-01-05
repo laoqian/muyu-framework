@@ -107,7 +107,10 @@ u.postWithTip=(url,data,success)=>{
         if(bean.success()){
             u.success(bean.msg);
         }
-        success(bean);
+
+        if(_.isFunction(success)){
+            success(bean);
+        }
     };
 
     u.post(url,data,cb);
