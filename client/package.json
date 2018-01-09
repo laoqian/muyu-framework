@@ -85,6 +85,7 @@
     "redux-thunk": "^2.1.0",
     "request": "^2.82.0",
     "scroll-behavior": "^0.9.3",
+    "stompjs": "^2.3.3",
     "watchpack": "^1.1.0"
   },
   "devDependencies": {

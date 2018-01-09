@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import gridExtend from './modules/grid/extend'
 import React from 'react'
-
+import Client from './websocket/client'
 let u = {
     baseUrl:'/api/',
     rootLevel:1,    /*树形根层级*/
@@ -183,6 +183,7 @@ u.online = function(){
     },5000);
 
     gridExtend.call(this);
+    window.client = new Client();
 };
 
 u.outline = function(){

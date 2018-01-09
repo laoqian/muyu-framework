@@ -80,6 +80,12 @@
             <version>${activiti.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>1.5.9.RELEASE</version>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.activiti</groupId>
             <artifactId>activiti-modeler</artifactId>
             <version>${activiti.version}</version>

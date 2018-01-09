@@ -1,6 +1,7 @@
 package muyu;
 
 import muyu.system.utils.ContextUtils;
+import muyu.system.websocket.ServerInitListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,6 +22,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class Application {
 
     public static void main(String[] args) {
-        ContextUtils.ctx = SpringApplication.run(Application.class, args);
+        SpringApplication application = new SpringApplication(Application.class);
+        application.addListeners(new ServerInitListener());
+        ContextUtils.ctx = application.run(args);
     }
 }
