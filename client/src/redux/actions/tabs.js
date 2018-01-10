@@ -1,7 +1,11 @@
 import {TAB_ADD,TAB_DELETE,TAB_SEL} from './def'
-
+let id = 1;
 
 export function tabAdd(data) {
+    if(!data.id){
+        data.id = (id++).toString();
+    }
+
     return {
         type:TAB_ADD,
         data

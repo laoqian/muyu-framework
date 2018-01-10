@@ -10,6 +10,8 @@ import Login from './layouts/login'
 import {tabAdd,tabDelete,tabSel} from './redux/actions/tabs'
 import {userAuth,userLogout} from './redux/actions/user'
 import { notification } from 'antd';
+import IndexContainer from './modules/sys/index/index'
+import gridExtend from './modules/grid/extend'
 
 const TabPane = Tabs.TabPane;
 
@@ -20,7 +22,7 @@ class App extends BaseComponent{
     constructor(props) {
         super(props);
         this.state = {collapsed: false,activeMenu:"1"};
-        let {tabAdd} = this.props;
+        let {tabAdd} = this.props,$t = this,gridExtendInit = gridExtend.bind(this);
 
         this.onCollapse = collapsed => this.setState({collapsed});
         this.navClick = menu =>this.setState({activeMenu:menu.key});
@@ -61,15 +63,35 @@ class App extends BaseComponent{
         this.dropHander.logout = ()=>this.props.userLogout();
 
         this.after = ()=>{
-
             let user = this.props.user;
             this.u.user = user;
 
             if(user.enabled){
-                this.u.online.call(this);
+                this.u.online(()=>{
+                    gridExtendInit();
+                    $t.websocketStart();
+                    tabAdd({href:'/sys/index/index',fixed:true,name:'系统主页'});
+                });
             }else{
                 this.u.outline();
             }
+        };
+
+        this.websocketStart = function(){
+            let baseUrl = location.href;
+            baseUrl = baseUrl.replace('http','ws');
+            let url = baseUrl+'/muyu-websocket';
+            let ws  = new WebSocket(url);
+            $t.client = Stomp.over(ws);
+            $t.client.debug = ()=>{}; //重置stomp控制台输出
+            $t.client.connect({}, ()=>{
+                $t.client.subscribe('/topic/syncTime', function(frame){
+                    let msg  = JSON.parse(frame.body);
+                    $t.setState({serverDate:msg.date});
+                });
+            },(err)=>{
+                console.log('连接服务器失败',err);
+            });
         };
 
         this.regEvent('didMount',()=>{

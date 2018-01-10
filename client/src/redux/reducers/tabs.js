@@ -34,11 +34,14 @@ function tab_reducer(state=tabs.toJS(),action) {
                 return tabs.toJS();
             }
 
-            let delKey = penes[__i].id;
+            let delKey = penes[__i].id,delPene =penes[__i] ;
 
-            _.remove(penes,chr=>{
-                return chr.id === pene.id
-            });
+            /*固定页不能被删除*/
+            if(delPene.fixed){
+                return tabs.toJS();
+            }
+
+            _.remove(penes,chr=>chr.id === pene.id);
 
             if(penes.length===0){
                 tabs = tabs.merge({penes,activeKey:undefined});

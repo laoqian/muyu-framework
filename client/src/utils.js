@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { notification } from 'antd';
 import Cookies from 'js-cookie';
-import gridExtend from './modules/grid/extend'
 import React from 'react'
 let u = {
     baseUrl:'/api/',
@@ -153,56 +152,31 @@ u.tip       = (message,type)=>notification[type?type:'success']({message});
 u.success   = (msg) =>u.tip(msg,'success');
 u.error     = (msg) =>u.tip(msg,'error');
 
-u.configuration = ()=>{
+u.configuration = (cb)=>{
     u.get('api/getConfig',bean=>{
         if(bean.success()){
             u.system   = bean.data;
             u.loadSuccess = true;
-            console.log(`请求系统配置完成`,bean);
+            cb();
         }
     });
 };
 
-u.websocketStart = function(){
-    let baseUrl = location.href;
-    baseUrl = baseUrl.replace('http','ws');
-    let url = baseUrl+'/muyu-websocket';
-    let ws  = new WebSocket(url);
-    let $t  = this;
-    $t.client = Stomp.over(ws);
-    $t.client.debug = ()=>{}; //重置stomp控制台输出
-    $t.client.connect({}, ()=>{
-        $t.client.subscribe('/topic/syncTime', function(frame){
-            let msg  = JSON.parse(frame.body);
-            $t.setState({serverDate:msg.date});
-        });
-    },(err)=>{
-        console.log('连接服务器失败',err);
-    });
-};
 
-u.online = function(){
+
+u.online = function(cb){
     if(u.loadSuccess){
         return;
     }
 
-    /*加载系统配置*/
-    let  i = 1 ;
-    console.log(`第${i++}次请求系统配置`);
-    u.configuration();
-    u.websocketStart.call(this);
-
+    u.configuration(cb);
     let t = setInterval(function(){
         if(!u.loadSuccess){
-            console.log(`第${i++}次请求系统配置`);
-            u.configuration();
-            u.websocketStart.call(this);
+            u.configuration(cb);
         }else{
             clearInterval(t);
         }
     },5000);
-
-    gridExtend.call(this);
 };
 
 u.outline = function(){
