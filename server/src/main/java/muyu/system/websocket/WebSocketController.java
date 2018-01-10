@@ -2,6 +2,7 @@ package muyu.system.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import muyu.system.web.BaseController;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.messaging.handler.annotation.Header;
@@ -9,6 +10,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +46,12 @@ public class WebSocketController extends BaseController {
         return new SocketMessage("I am a msg from User."+msg.getInfo());
     }
 
-
+    @Scheduled(fixedRate = 1000)
+    public void syncTime(){
+        SocketMessage msg  = new SocketMessage();
+        msg.setDate(DateFormatUtils.format(new Date(),"yyyy-MM-DD HH:mm:ss"));
+        simpMessageSendingOperations.convertAndSend( "/topic/syncTime",msg);
+    }
 
     /**
      * 测试对指定用户发送消息方法

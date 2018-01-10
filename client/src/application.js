@@ -64,7 +64,12 @@ class App extends BaseComponent{
 
             let user = this.props.user;
             this.u.user = user;
-            user.enabled?this.u.online.call(this):this.u.outline();
+
+            if(user.enabled){
+                this.u.online.call(this);
+            }else{
+                this.u.outline();
+            }
         };
 
         this.regEvent('didMount',()=>{
@@ -132,6 +137,9 @@ class App extends BaseComponent{
                             }
                         </Menu>
                         <div className="my-user">
+                            <div style={{marginRight:"5px"}}>
+                                {this.state.serverDate}
+                            </div>
                             <div className="my-user-info">
                                 <img src={user.photo}/>
                                 <Dropdown overlay={dropMenu} placement="bottomRight">
@@ -194,6 +202,7 @@ class App extends BaseComponent{
 App =  connect(state=>(
     {
         user        :   state.user,
+        serverTime  :   state.serverTime,
         tabs        :   state.tabs
     }),dispatch=>({
     userAuth        :   bindActionCreators(userAuth   ,   dispatch),
