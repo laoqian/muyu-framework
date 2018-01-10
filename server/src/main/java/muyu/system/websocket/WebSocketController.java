@@ -1,7 +1,9 @@
 package muyu.system.websocket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import muyu.system.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -25,16 +29,19 @@ import java.util.Date;
  */
 @RestController
 public class WebSocketController extends BaseController {
+
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
 
     /**
      *
      */
-    @MessageMapping("/topic")
-    @SendTo("/topic")
-    public SocketMessage msg(String msg) {
-        return new SocketMessage("I am a msg from Topic.");
+    @MessageMapping("/topic/msg")
+    @SendTo("/user/msg")
+    public SocketMessage msg(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        SocketMessage msg  = mapper.readValue(json,SocketMessage.class);
+        return new SocketMessage("I am a msg from User."+msg.getInfo());
     }
 
 

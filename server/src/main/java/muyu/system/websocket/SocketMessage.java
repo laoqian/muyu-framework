@@ -1,6 +1,9 @@
 package muyu.system.websocket;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -12,12 +15,13 @@ import lombok.Data;
  */
 
 @Data
-public class SocketMessage {
+@NoArgsConstructor
+public class SocketMessage implements Serializable {
 
-    public String message;
+    public String info;
     public String date;
 
-    public SocketMessage(String msg){
-        this.message = msg;
+    public SocketMessage(String info){
+        this.info = info;
     }
 }

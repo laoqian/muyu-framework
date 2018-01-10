@@ -25,7 +25,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        //应用程序以/app为前缀，代理目的地以/topic、/user为前缀
+
         registry.enableSimpleBroker("/topic", "/user");
         registry.setApplicationDestinationPrefixes("/app");
         registry.setUserDestinationPrefix("/user");
