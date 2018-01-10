@@ -380,3 +380,83 @@ input, select, button {
     }
   }
 }
+
+.my-wrapper{
+  padding: 10px 20px;
+  *{color: #777;font-family: '微软雅黑', '宋体', Arial, Helvetica, Verdana, 'sans-serif'}
+  justify-content: flex-start;
+  .my-index-ws{
+    margin-bottom: 20px;
+    .my-task{
+      font-weight: bold;
+      .flex;
+      justify-content: space-between;
+
+      a,span{
+        color: black!important;
+        font-size: 12px;
+      }
+      a:hover{
+        color: red!important;
+      }
+    }
+  }
+  i{
+    margin-right: 10px;
+  }
+  hr{
+    margin: 10px 0;
+    border-top:solid 1px #ccc;
+  }
+
+  .ant-row .ant-col-6{
+    padding:0 5px;
+  }
+}
+.my-index-count{
+  height: 100px;
+  .flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 3px;
+
+  *{
+    color: #eee;
+  }
+
+  i:first-child::before{
+    font-size: 50px;
+  }
+  i:last-child::before{
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .my-more{
+    background: #eee;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    padding-left: 2px;
+  }
+
+  .my-count-header{
+    flex:1;
+    padding: 0 10px;
+    .flex-hvm;
+
+
+    div:first-child{
+      width: 100%;
+    }
+  }
+
+  .my-count-footer{
+    height: 24px;
+    padding: 0 10px;
+    .flex-hvm;
+
+    div:first-child{
+      width: 100%;
+    }
+  }
+}
