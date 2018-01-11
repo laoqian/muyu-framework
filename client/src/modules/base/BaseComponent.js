@@ -43,13 +43,17 @@ export default class BaseComponent extends Component{
         $t.openDialog = async (options)=>{
             let {props,hander,getId} = options;
             props = props|| {};
+
             if(!getId){
                 getId = $t.getId;
             }
 
             if(getId){
-                let bean = await $t.getData(_.isFunction(getId)?getId():getId);
-                props.row = bean.data;
+                let id = _.isFunction(getId)?getId():getId;
+                if(id){
+                    let bean = await $t.getData();
+                    props.row = bean.data;
+                }
             }
 
             if(_.isFunction(hander)){

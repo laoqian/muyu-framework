@@ -43,10 +43,9 @@ export default class SysUser extends BaseComponent{
             reload:true,
             right:{
                 items :[
-                    {name: '添加',path:'/add',   icon: 'plus',    },
-                    {name: '修改',path:'/edit',  icon: 'edit',    },
-                    {name: '授权',path:'/auth',  icon: 'edit',    },
-                    {name: '删除',path:'/delete',icon: 'delete',  },
+                    {name: '添加',icon: 'plus',    },
+                    {name: '修改',icon: 'edit',    },
+                    {name: '删除',icon: 'delete',  },
                 ]
             }
         };
