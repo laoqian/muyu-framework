@@ -18,13 +18,13 @@ export default class IndexContainer extends BaseComponent{
         $t.regEvent("didMount",()=>{
             $t.getData();
             setInterval(()=>{
-                // $t.getData();
+                $t.getData();
             },10000);
         });
 
         $t.getData =()=>{
             $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({taskList:bean.list}));
-            $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({notifyList:bean.list}));
+            $t.u.get($t.getBaseUrl('notify/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({notifyList:bean.list}));
         }
     }
 
@@ -73,11 +73,11 @@ export default class IndexContainer extends BaseComponent{
                         </Col>
                         <Col span={12}>
                             <ul>
-                                {this.state.taskList.map(task=>(
-                                    <li key={task.id}>
+                                {this.state.notifyList.map(notify=>(
+                                    <li key={notify.id}>
                                         <div className="my-task">
-                                            <a href="">{'['+task.name+'] '+"迪拜计划耗资10亿美元建世界最高塔"}</a>
-                                            <span>{task.createDate}</span>
+                                            <a href="">{'['+this.u.getDict('sys_notify_type',notify.type)+'] '+notify.title}</a>
+                                            <span>{notify.createDate}</span>
                                         </div>
                                         <hr/>
                                     </li>

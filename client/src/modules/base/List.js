@@ -67,7 +67,9 @@ let ListComponent = function(){
         $t.dialog(name,row=>Modal.confirm(_.isFunction(text)?text(row):text,{title:"提示",okHander:()=>ok(row)}));
     };
 
-    $t.eventFunc['重加载'] = $t.reload = () =>$t.grid.trigger('reloadGrid');
+    $t.eventFunc['重加载'] = $t.reload = ()=>{
+        $t.grid.trigger('reloadGrid');
+    };
 
     $t.saveEditList = () => {
         let g = $t.grid;

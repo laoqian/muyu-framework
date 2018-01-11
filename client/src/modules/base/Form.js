@@ -191,7 +191,7 @@ let FormComponent = function (){
     $t.regEvent('willMount',()=>{
         if($t.props.isDialog){
             $t.state.editData = this.props.row||{};
-            $t.props.setOkHander($t.defaultSaveData);
+            $t.props.setOkHander($t.saveData||$t.defaultSaveData);
         }
     });
 

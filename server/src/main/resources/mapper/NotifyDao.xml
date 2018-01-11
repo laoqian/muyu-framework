@@ -10,14 +10,18 @@
         a.user_id AS "userId",
         a.status AS "status",
         a.create_by AS "createBy.id" ,
+        u1.name AS "createBy.name" ,
         a.create_date AS "createDate" ,
         a.update_by AS "updateBy.id" ,
+        u2.name  AS "updateBy.name" ,
         a.update_date AS "updateDate" ,
         a.remarks AS "remarks" ,
         a.del_flag AS "delFlag" 
     </sql>
 
     <sql id="NotifyJoins">
+        LEFT JOIN sys_user u1 ON u1.id = a.create_by
+        LEFT JOIN sys_user u2 ON u2.id = a.update_by
     </sql>
 
     <select id="get" resultType="Notify">

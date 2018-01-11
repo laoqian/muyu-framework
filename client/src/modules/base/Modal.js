@@ -81,6 +81,7 @@ export default class MyModal extends Component{
                     onCancel        = {() => this.close()}
                     visible         = {true}
                     confirmLoading  = {this.state.loading}
+                   maskClosable     = {false}
             >
                 <div style={this.props.style}>
                     {this.childrenWithProps}

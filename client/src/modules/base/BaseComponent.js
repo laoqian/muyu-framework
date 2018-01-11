@@ -51,7 +51,7 @@ export default class BaseComponent extends Component{
             if(getId){
                 let id = _.isFunction(getId)?getId():getId;
                 if(id){
-                    let bean = await $t.getData();
+                    let bean = await $t.getData(id);
                     props.row = bean.data;
                 }
             }

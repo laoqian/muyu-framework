@@ -115,14 +115,20 @@ u.postWithTip=(url,data,success)=>{
 };
 
 u.post  = (url,data,success)=>u.ajax({url,type:'post',data,success});
-u.getDict = (type)=>{
+u.getDict = (type,value)=>{
     let d =[];
 
     if(u.loadSuccess){
         let {dicts} = u.system;
         dicts?dicts.forEach(v=>v.type===type?d.push(v):null):null;
     }
-
+    if(value){
+        for(let i in d){
+            if(d[i].value===value){
+                return d[i].label
+            }
+        }
+    }
     return d;
 };
 

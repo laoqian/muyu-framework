@@ -50,10 +50,10 @@
         })(jQuery);
 
         /*屏蔽页面shift选中文字功能*/
-        document.onselectstart=function(event){
-            event = window.event||event;
-            event.returnValue = false;
-        }
+//        document.onselectstart=function(event){
+//            event = window.event||event;
+//            event.returnValue = false;
+//        }
 
     </script>
     <style type="text/css">
@@ -106,7 +106,7 @@
             background: orange;
         }
 
-        #status{
+        .my-status{
             background: url(../images/timg.gif) center center no-repeat;
             height:150px;
             width:150px;
@@ -118,7 +118,7 @@
     <div class="loader-left"></div>
     <div class="loader-right"></div>
     <div class="wrapper">
-        <div id="status"></div>
+        <div class="my-status"></div>
         <div style="width: 150px;height: 2px;background: #f0f0f0;">
             <div class="loading"></div>
         </div>
