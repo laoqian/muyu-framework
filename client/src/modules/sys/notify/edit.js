@@ -23,6 +23,10 @@ class UserEditForm extends BaseComponent{
             let {wangEditor} = window;
             $t.editor =new wangEditor("#my-editor");
             $t.editor.create();
+            let data = $t.state.editData;
+            if(data && data.content){
+                $t.editor.txt.html(data.content);
+            }
         });
 
         $t.render =()=>{

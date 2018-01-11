@@ -21,6 +21,7 @@ import org.springframework.session.Session;
 public class UserUtils{
 
 	public static final String USER_CACHE = "userCache";
+	public static int onlineCount = 0;
 
 	public static User getUser(){
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
