@@ -18,7 +18,7 @@ export default class IndexContainer extends BaseComponent{
         $t.regEvent("didMount",()=>{
             $t.getData();
             setInterval(()=>{
-                $t.getData();
+                // $t.getData();
             },10000);
         });
 
@@ -61,7 +61,7 @@ export default class IndexContainer extends BaseComponent{
                         <Col span={12}>
                             <ul>
                                 {this.state.taskList.map(task=>(
-                                    <li>
+                                    <li key={task.id}>
                                         <div className="my-task">
                                             <a href="">{'['+task.name+'] '+"迪拜计划耗资10亿美元建世界最高塔"}</a>
                                             <span>{task.createDate}</span>
@@ -74,7 +74,7 @@ export default class IndexContainer extends BaseComponent{
                         <Col span={12}>
                             <ul>
                                 {this.state.taskList.map(task=>(
-                                    <li>
+                                    <li key={task.id}>
                                         <div className="my-task">
                                             <a href="">{'['+task.name+'] '+"迪拜计划耗资10亿美元建世界最高塔"}</a>
                                             <span>{task.createDate}</span>

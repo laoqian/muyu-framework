@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="muyu.system.dao.NotifyDao">
+
+    <sql id="NotifyColumns">
+        a.id AS "id" ,
+        a.title AS "title" ,
+        a.content AS "content" ,
+        a.type AS "type",
+        a.user_id AS "userId",
+        a.status AS "status",
+        a.create_by AS "createBy.id" ,
+        a.create_date AS "createDate" ,
+        a.update_by AS "updateBy.id" ,
+        a.update_date AS "updateDate" ,
+        a.remarks AS "remarks" ,
+        a.del_flag AS "delFlag" 
+    </sql>
+
+    <sql id="NotifyJoins">
+    </sql>
+
+    <select id="get" resultType="Notify">
+        SELECT
+        <include refid="NotifyColumns"/>
+        FROM sys_notify a
+        <include refid="NotifyJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Notify">
+        SELECT
+        <include refid="NotifyColumns"/>
+        FROM sys_notify a
+        <include refid="NotifyJoins"/>
+        <where>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY a.update_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO sys_notify(
+            id,
+            title,
+            type,
+            content,
+            user_id,
+            status,
+            create_by,
+            create_date,
+            update_by,
+            update_date,
+            remarks,
+            del_flag
+        ) VALUES (
+            #{id},
+            #{title},
+            #{type},
+            #{content},
+            #{userId},
+            #{status},
+            #{createBy.id},
+            #{createDate},
+            #{updateBy.id},
+            #{updateDate},
+            #{remarks},
+            #{delFlag}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE sys_notify SET
+            id=#{id},
+            title=#{title},
+            type=#{type},
+            content=#{content},
+            user_id=#{userId},
+            status=#{status},
+            update_by=#{updateBy.id},
+            update_date=#{updateDate},
+            remarks=#{remarks},
+            del_flag=#{delFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM sys_notify
+        WHERE id =  #{id}
+    </update>
+    <update id="logicDelete">
+        UPDATE sys_notify SET del_flag = 1
+        WHERE id = #{id}
+    </update>
+</mapper>
