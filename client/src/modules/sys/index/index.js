@@ -38,7 +38,7 @@ export default class IndexContainer extends BaseComponent{
                     </Row>
                     <hr/>
                     <Row>
-                        <Col span={6}><CountComponent icon="user" name={'在线人数'} background="#006699"/></Col>
+                        <Col span={6}><CountComponent icon="user" name={'在线人数'} background="#006699" href="/onlineCount"/></Col>
                         <Col span={6}><CountComponent icon="picture" name={'在线人数'} background="#660033"/></Col>
                         <Col span={6}><CountComponent icon="star" name={'在线人数'} background="#FF0066"/></Col>
                         <Col span={6}><CountComponent icon="line-chart" name={'在线人数'} background="#FF33FF"/></Col>
@@ -108,8 +108,8 @@ class CountComponent extends BaseComponent{
         });
 
         this.getCount = ()=>{
-            this.u.get(this.props.href,(bean)=>{
-                this.setState({count:bean.data.count});
+            this.u.get('/api'+this.props.href,(bean)=>{
+                this.setState({count:bean.data});
             })
         }
     }

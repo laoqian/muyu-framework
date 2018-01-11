@@ -1,6 +1,7 @@
 package muyu.system.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import muyu.system.common.beans.ResultBean;
 import muyu.system.utils.UserUtils;
 import muyu.system.web.BaseController;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -50,9 +51,9 @@ public class WebSocketController extends BaseController {
         simpMessageSendingOperations.convertAndSend( "/topic/syncTime",msg);
     }
 
-    @Scheduled(fixedRate = 10000)
-    public void stat(){
-        System.out.println("在线用户数量："+ UserUtils.onlineCount);
+    @RequestMapping("/api/onlineCount")
+    public ResultBean stat(){
+        return new ResultBean<>(UserUtils.onlineCount);
     }
 
     /**

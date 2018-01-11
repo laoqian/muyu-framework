@@ -23,7 +23,7 @@ public class OnlineEventPublisher extends HttpSessionEventPublisher {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
-        UserUtils.onlineCount++;
+        UserUtils.onlineCount--;
         super.sessionDestroyed(event);
     }
 }
