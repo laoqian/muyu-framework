@@ -10,7 +10,6 @@ import Login from './layouts/login'
 import {tabAdd,tabDelete,tabSel} from './redux/actions/tabs'
 import {userAuth,userLogout} from './redux/actions/user'
 import { notification } from 'antd';
-import IndexContainer from './modules/sys/index/index'
 import gridExtend from './modules/grid/extend'
 
 const TabPane = Tabs.TabPane;

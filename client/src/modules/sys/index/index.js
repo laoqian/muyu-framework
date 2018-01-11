@@ -23,8 +23,8 @@ export default class IndexContainer extends BaseComponent{
         });
 
         $t.getData =()=>{
-            $t.u.get($t.getBaseUrl('/area/findPage?pageNum=0&pageSize=5'),bean=>$t.setState({taskList:bean.list}));
-            $t.u.get($t.getBaseUrl('/area/findPage?pageNum=0&pageSize=5'),bean=>$t.setState({notifyList:bean.list}));
+            $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({taskList:bean.list}));
+            $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({notifyList:bean.list}));
         }
     }
 
@@ -48,11 +48,11 @@ export default class IndexContainer extends BaseComponent{
                     <Row>
                         <Col span={12}>
                             <Icon type="team" />
-                            代办任务&nbsp;(Top5)
+                            代办任务&nbsp;(Top15)
                         </Col>
                         <Col span={12}>
                             <Icon type="tag" />
-                            通知/公告&nbsp;(Top5)
+                            通知/公告&nbsp;(Top15)
                         </Col>
                     </Row>
                     <hr/>
@@ -83,23 +83,6 @@ export default class IndexContainer extends BaseComponent{
                                     </li>
                                 ))}
                             </ul>
-                        </Col>
-                    </Row>
-                </div>
-                <div className="my-index-ws">
-                    <Row>
-                        <Col span={24}>
-                            <Icon type="pie-chart" />
-                            系统统计饼图&nbsp;
-                        </Col>
-                    </Row>
-                    <hr/>
-                    <Row>
-                        <Col span={12}>
-                            col-12
-                        </Col>
-                        <Col span={12}>
-                            col-12
                         </Col>
                     </Row>
                 </div>
