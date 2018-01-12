@@ -22,6 +22,7 @@ class UserEditForm extends BaseComponent{
         $t.regEvent("didMount",()=>{
             let {wangEditor} = window;
             $t.editor =new wangEditor("#my-editor");
+            $t.editor.customConfig.uploadImgShowBase64 = true;
             $t.editor.create();
             let data = $t.state.editData;
             if(data && data.content){
@@ -33,7 +34,7 @@ class UserEditForm extends BaseComponent{
             let form  = $t.renderModel(this.renderRows(this.props.form,this.colModel,this.groupNum));
             return(<div>
                         {form}
-                        <div id="my-editor"/>
+                        <div id="my-editor" />
                     </div>)
         }
     }
