@@ -35,12 +35,12 @@
 
                 step = (100 - percent)/(timeout/tick);
                 max=100;
-                setTimeout(()=>{
+                setTimeout(function(){
                     $('.loading').css({'width':'100%'});
                     clearInterval(timer);
                 },timeout);
 
-                setTimeout(()=>{
+                setTimeout(function(){
                     $('.wrapper').hide();
                     $('#preloader').delay(timeout).fadeOut();
                     $('.loader-left').animate({'right':'100%'},timeout);
