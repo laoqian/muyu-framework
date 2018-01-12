@@ -25,4 +25,5 @@ public class Notify extends DataEntity<Notify>  {
     String content;
     String userId;
     String status;
+    Integer browseVolume;
 }

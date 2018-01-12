@@ -2,6 +2,7 @@ package muyu.system.dao;
 
 import muyu.system.common.persistence.CrudDao;
 import muyu.system.entity.Notify;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 
@@ -16,4 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface NotifyDao extends CrudDao<Notify>{
 
+    @Update("update sys_notify set browse_volume=nvl(browse_volume,0)+1 where id = #{id}")
+    void browseVolumeIncrease(Notify notify);
 }

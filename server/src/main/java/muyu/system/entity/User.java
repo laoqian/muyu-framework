@@ -3,6 +3,7 @@ package muyu.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
@@ -24,6 +25,8 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+
+@JsonIgnoreProperties({"createBy","updateBy"})
 public class User extends DataEntity<User> {
 	private static final long serialVersionUID = 1L;
 

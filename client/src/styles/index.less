@@ -22,12 +22,16 @@ input::-moz-placeholder { /* Mozilla Firefox 19+ */
   color:#444;
 }
 
+html {
+  height: 100%;
+}
 
 body {
   margin: 0;
   padding: 0;
   background: #f6f6f6;
   letter-spacing: 1px;
+  height: 100%;
 }
 
 * {
@@ -462,8 +466,8 @@ input, select, button {
 }
 
 .my-notify-read-wrapper{
-   padding: 10px;
-   justify-content: flex-start;
+    padding: 10px;
+    justify-content: flex-start;
 
   hr{
     margin: 3px 0;
@@ -490,9 +494,19 @@ input, select, button {
   .change{
     span:before {
       content: "•";
+      font-size: 13px!important;
+      margin: 0 3px;
+    }
+    label{}
+    *{
+      color:#444;
+      font-size: 12px;
     }
   }
+
   .content{
     padding:10px;
+    flex: 1;
+    overflow: scroll;
   }
 }

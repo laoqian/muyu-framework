@@ -1,5 +1,6 @@
 package muyu.system.service;
 
+import muyu.system.common.beans.ResultBean;
 import muyu.system.common.service.CrudService;
 import muyu.system.dao.NotifyDao;
 import muyu.system.entity.Notify;
@@ -17,4 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class NotifyService  extends CrudService<NotifyDao,Notify> {
+    public ResultBean browseVolumeIncrease(Notify notify){
+        dao.browseVolumeIncrease(notify);
+        return new ResultBean("成功",true);
+    }
 }

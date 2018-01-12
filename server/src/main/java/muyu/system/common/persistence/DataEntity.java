@@ -28,14 +28,12 @@ public abstract class DataEntity<T> extends BaseEntity<T> {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonIgnore
     protected User createBy;    // 创建者
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected Date createDate;    // 创建日期
 
 
-    @JsonIgnore
     protected User updateBy;    // 更新者
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

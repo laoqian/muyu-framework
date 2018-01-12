@@ -36,6 +36,11 @@ public class NotifyController extends BaseController{
         return notifyService.save(notify);
     }
 
+    @RequestMapping("browseVolumeIncrease")
+    ResultBean browseVolumeIncrease(Notify notify){
+        return notifyService.browseVolumeIncrease(notify);
+    }
+
     @RequestMapping("delete")
     ResultBean<Notify> delete(Notify notify){
         return notifyService.delete(notify);

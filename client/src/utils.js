@@ -79,7 +79,10 @@ u.get   = (url,data,success)=>{
     if(_.isFunction(data)){
         u.ajax({url,type:'get',success:data});
     }else{
-        url = url+'?'+$.param(data);
+        if(data){
+            url = url+'?'+$.param(data);
+        }
+
         u.ajax({url,type:'get',success});
     }
 };
