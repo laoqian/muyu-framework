@@ -14,8 +14,11 @@ import {tabAdd} from '../../../redux/actions/tabs'
         let $t = this,{tabAdd} = this.props;
         $t.moduleName  = 'sysIndex';
         $t.titlePrefix = "主页";
-        $t.state.taskList =[];
+        $t.state.taskList = [];
+        $t.state.taskNum = 0;
         $t.state.notifyList =[];
+        $t.state.notifyNum = 0;
+        $t.pageSize = 15;
 
         $t.regEvent("didMount",()=>{
             $t.getData();
@@ -25,8 +28,8 @@ import {tabAdd} from '../../../redux/actions/tabs'
         });
 
         $t.getData =()=>{
-            $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({taskList:bean.list}));
-            $t.u.get($t.getBaseUrl('notify/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({notifyList:bean.list}));
+            $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize='+$t.pageSize),bean=>$t.setState({taskList:bean.list,taskNum:bean.total}));
+            $t.u.get($t.getBaseUrl('notify/findPage?pageNum=0&pageSize='+$t.pageSize),bean=>$t.setState({notifyList:bean.list,notifyNum:bean.total}));
         };
 
         $t.openLink = (name,href)=>tabAdd({href,name});
@@ -52,11 +55,11 @@ import {tabAdd} from '../../../redux/actions/tabs'
                     <Row>
                         <Col span={12}>
                             <Icon type="team" />
-                            代办任务&nbsp;(Top15)
+                            代办任务&nbsp;(Top{this.pageSize})
                         </Col>
                         <Col span={12}>
                             <Icon type="tag" />
-                            通知/公告&nbsp;(Top15)
+                            通知/公告&nbsp;(Top{this.pageSize})
                         </Col>
                     </Row>
                     <hr/>
@@ -73,6 +76,9 @@ import {tabAdd} from '../../../redux/actions/tabs'
                                         <hr/>
                                     </li>
                                 ))}
+                                <li style={{display:this.state.taskNum>this.pageSize?'list-item':'none'}}>
+                                    <a href="#" style={{float:'right',fontStyle:'oblique'}}>...查看更多</a>
+                                </li>
                             </ul>
                         </Col>
                         <Col span={12}>
@@ -88,6 +94,9 @@ import {tabAdd} from '../../../redux/actions/tabs'
                                         <hr/>
                                     </li>
                                 ))}
+                                <li style={{display:this.state.notifyNum>this.pageSize?'list-item':'none'}}>
+                                    <a href="#" style={{float:'right',fontStyle:'oblique'}}>...查看更多</a>
+                                </li>
                             </ul>
                         </Col>
                     </Row>
