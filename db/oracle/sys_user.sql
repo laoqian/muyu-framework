@@ -21,7 +21,8 @@ create table SYS_USER
   update_by   NVARCHAR2(64) not null,
   update_date TIMESTAMP(6) not null,
   remarks     NVARCHAR2(255),
-  del_flag    CHAR(1) default 0 not null
+  del_flag    CHAR(1) default 0 not null,
+  login_count NUMBER(10) default 0
 )
 tablespace DATA
   pctfree 10
@@ -80,6 +81,8 @@ comment on column SYS_USER.remarks
   is '备注信息';
 comment on column SYS_USER.del_flag
   is '删除标记';
+comment on column SYS_USER.login_count
+  is '累计登陆次数';
 -- Create/Recreate indexes 
 create index IND_SYS_USER_COMPANY_ID on SYS_USER (COMPANY_ID)
   tablespace DATA

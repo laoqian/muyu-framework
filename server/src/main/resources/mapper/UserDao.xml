@@ -20,6 +20,7 @@
         a.login_ip AS "loginIp" ,
         a.login_date AS "loginDate" ,
         a.login_flag AS "loginFlag" ,
+        a.login_count AS "loginCount" ,
         a.create_by AS "createBy.id" ,
         a.create_date AS "createDate" ,
         a.update_by AS "updateBy.id" ,

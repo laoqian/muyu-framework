@@ -54,14 +54,12 @@ public class User extends DataEntity<User> {
 	private Date   loginDate;  // 最后登陆日期
 	private String loginFlag;  // 是否允许登陆
 	private String photo;	   // 头像
-
 	private String oldLoginName;// 原登录名
 	private String newPassword;	// 新密码
-	
 	private String oldLoginIp;		// 上次登陆IP
-
-	private Date   oldLoginDate;		// 上次登陆日期
+	private Date   oldLoginDate;    // 上次登陆日期
 	private Integer authErrorNum; 	// 认证错误次数
+	private Integer loginCount; 	// 登陆次数
 	private Role role;	// 根据角色查询用户条件
 	
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表

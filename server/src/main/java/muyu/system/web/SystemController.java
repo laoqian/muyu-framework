@@ -43,8 +43,13 @@ public class SystemController{
     }
 
     @RequestMapping(value = "onlineCount",method = RequestMethod.GET)
-    public ResultBean stat(){
+    public ResultBean onlineCount(){
         return new ResultBean<>(UserUtils.getOnlineCount());
+    }
+
+    @RequestMapping(value = "loginCount",method = RequestMethod.GET)
+    public ResultBean loginCount(){
+        return new ResultBean<>(UserUtils.getUser().getLoginCount());
     }
 
 

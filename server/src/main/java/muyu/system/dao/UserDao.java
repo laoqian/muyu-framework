@@ -8,6 +8,7 @@ import muyu.system.security.SecurityUser;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface  UserDao extends CrudDao<User>{
 
     @Insert("insert into sys_user_role (id,user_id,role_id) values(#{id},#{userId},#{roleId})")
     void insertUserRole(UserRole userRole);
+
+    @Update("update sys_user set login_count= nvl(login_count,0)+1 where id=#{id}")
+    void loginCountIncrease(User user);
 }

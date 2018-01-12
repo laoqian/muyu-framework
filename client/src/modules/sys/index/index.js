@@ -46,7 +46,7 @@ import {tabAdd} from '../../../redux/actions/tabs'
                     <hr/>
                     <Row>
                         <Col span={6}><CountComponent icon="user" name={'在线人数'} background="#006699" href="/onlineCount"/></Col>
-                        <Col span={6}><CountComponent icon="picture" name={'在线人数'} background="#660033"/></Col>
+                        <Col span={6}><CountComponent icon="picture" name={'登陆次数'} background="#660033" href="/loginCount"/></Col>
                         <Col span={6}><CountComponent icon="star" name={'在线人数'} background="#FF0066"/></Col>
                         <Col span={6}><CountComponent icon="line-chart" name={'在线人数'} background="#FF33FF"/></Col>
                     </Row>

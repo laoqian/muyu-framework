@@ -88,6 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             user.setLoginDate(new Date());
             user.setLoginIp(request.getRemoteAddr());
             userService.save(user);
+            userService.loginCountIncrease(user);
             HttpUtils.sendResponse(response,resultBean);
         }
     }

@@ -91,4 +91,8 @@ public class UserService extends CrudService<UserDao,User>{
         super.save(dbUser);
         return new ResultBean<>("修改密码成功！",true);
     }
+
+    public void loginCountIncrease(User user){
+        dao.loginCountIncrease(user);
+    }
 }
