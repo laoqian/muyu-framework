@@ -54,12 +54,12 @@ import {tabAdd} from '../../../redux/actions/tabs'
                 <div className="my-index-ws">
                     <Row>
                         <Col span={12}>
-                            <Icon type="team" />
-                            代办任务&nbsp;(Top{this.pageSize})
+                                <Icon type="team" />
+                                <a href="#" >代办任务&nbsp;(Top{this.pageSize})</a>
                         </Col>
                         <Col span={12}>
                             <Icon type="tag" />
-                            通知/公告&nbsp;(Top{this.pageSize})
+                            <a href="#" >通知/公告&nbsp;(Top{this.pageSize})</a>
                         </Col>
                     </Row>
                     <hr/>
@@ -76,9 +76,6 @@ import {tabAdd} from '../../../redux/actions/tabs'
                                         <hr/>
                                     </li>
                                 ))}
-                                <li style={{display:this.state.taskNum>this.pageSize?'list-item':'none'}}>
-                                    <a href="#" style={{float:'right',fontStyle:'oblique'}}>...查看更多</a>
-                                </li>
                             </ul>
                         </Col>
                         <Col span={12}>
@@ -94,9 +91,7 @@ import {tabAdd} from '../../../redux/actions/tabs'
                                         <hr/>
                                     </li>
                                 ))}
-                                <li style={{display:this.state.notifyNum>this.pageSize?'list-item':'none'}}>
-                                    <a href="#" style={{float:'right',fontStyle:'oblique'}}>...查看更多</a>
-                                </li>
+
                             </ul>
                         </Col>
                     </Row>
