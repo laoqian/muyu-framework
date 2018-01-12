@@ -88,6 +88,10 @@ class App extends BaseComponent{
                     let msg  = JSON.parse(frame.body);
                     $t.setState({serverDate:msg.date});
                 });
+
+                $t.client.subscribe('/topic/instantMessage', function(frame){
+                    notification.warn({message:frame.body});
+                });
             },(err)=>{
                 console.log('连接服务器失败',err);
             });

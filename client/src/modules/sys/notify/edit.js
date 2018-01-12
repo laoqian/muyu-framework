@@ -17,7 +17,11 @@ class UserEditForm extends BaseComponent{
         $t.colModel     = colModel;
         $t.style ={width:'800px',height:'30px'};
 
-        $t.saveData = ()=>$t.defaultSaveData(null,null,data=>Object.assign(data,{content:$t.editor.txt.html()}));
+        $t.saveData = ()=>$t.defaultSaveData(null,null,data=>{
+            /*发送即时消息时，只能是文本*/
+            let content = data.type==='4'?$t.editor.txt.text():$t.editor.txt.html();
+            return Object.assign(data,{content})
+        });
 
         $t.regEvent("didMount",()=>{
             let {wangEditor} = window;

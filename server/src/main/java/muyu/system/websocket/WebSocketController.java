@@ -2,6 +2,7 @@ package muyu.system.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import muyu.system.common.beans.ResultBean;
+import muyu.system.utils.MessageUtils;
 import muyu.system.utils.UserUtils;
 import muyu.system.web.BaseController;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -45,10 +46,11 @@ public class WebSocketController extends BaseController {
     }
 
     @Scheduled(fixedRate = 1000)
-    public void syncTime(){
+    public void loopEvent(){
         SocketMessage msg  = new SocketMessage();
         msg.setDate(DateFormatUtils.format(new Date(),"yyyy-MM-DD HH:mm:ss"));
         simpMessageSendingOperations.convertAndSend( "/topic/syncTime",msg);
+        MessageUtils.instantMessageLoop();
     }
 
 
