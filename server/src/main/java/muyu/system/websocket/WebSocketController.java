@@ -51,10 +51,6 @@ public class WebSocketController extends BaseController {
         simpMessageSendingOperations.convertAndSend( "/topic/syncTime",msg);
     }
 
-    @RequestMapping("/api/onlineCount")
-    public ResultBean stat(){
-        return new ResultBean<>(UserUtils.onlineCount);
-    }
 
     /**
      * 测试对指定用户发送消息方法

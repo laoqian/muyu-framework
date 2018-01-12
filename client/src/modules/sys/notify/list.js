@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
 import UserEditForm from './edit'
-import AuthForm from './auth'
+import AuthForm from './reading'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'

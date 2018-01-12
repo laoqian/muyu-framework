@@ -5,11 +5,9 @@ import muyu.system.security.SecurityUser;
 import muyu.system.entity.Config;
 import muyu.system.service.SystemService;
 import muyu.system.service.UserService;
+import muyu.system.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,5 +41,11 @@ public class SystemController{
     public ResultBean<String> getCachedCode(HttpServletRequest request) throws IOException {
         return systemService.getCachedCode(request);
     }
+
+    @RequestMapping(value = "onlineCount",method = RequestMethod.GET)
+    public ResultBean stat(){
+        return new ResultBean<>(UserUtils.onlineCount);
+    }
+
 
 }

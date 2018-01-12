@@ -27,10 +27,10 @@ class App extends BaseComponent{
         this.navClick = menu =>this.setState({activeMenu:menu.key});
         this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr => chr.id === menu.key));
         this.getSubMenuList = id => _.filter(this.props.user.menuList, m => m.parentId === id);
-        this.getPage = href=>{
+        this.getPage = pene=>{
             try{
-                let Page = require('./modules'+href).default;
-                return <Page/>;
+                let Page = require('./modules'+pene.href).default;
+                return <Page data={pene.data}/>;
             }catch(err){
                 console.error(err);
                 return (
@@ -77,7 +77,7 @@ class App extends BaseComponent{
         };
 
         this.websocketStart = function(){
-            let baseUrl = location.href;
+            let baseUrl = location.origin;
             baseUrl = baseUrl.replace('http','ws');
             let url = baseUrl+'/muyu-websocket';
             let ws  = new WebSocket(url);
@@ -208,7 +208,7 @@ class App extends BaseComponent{
                                 animated={true}
                             >
                                 {penes.map(pane =><TabPane tab={pane.name} key={pane.id} closable={true}>
-                                    {this.getPage(pane.href)}
+                                    {this.getPage(pane)}
                                 </TabPane>)}
                             </Tabs>
                         </Content>

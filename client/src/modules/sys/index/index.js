@@ -4,12 +4,14 @@ import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import {Row,Col,Icon}  from 'antd'
 import Color from 'color'
+import {bindActionCreators} from 'redux'
+import {tabAdd} from '../../../redux/actions/tabs'
 
-export default class IndexContainer extends BaseComponent{
+ class IndexContainer extends BaseComponent{
 
     constructor(props){
         super(props);
-        let $t = this;
+        let $t = this,{tabAdd} = this.props;
         $t.moduleName  = 'sysIndex';
         $t.titlePrefix = "主页";
         $t.state.taskList =[];
@@ -25,7 +27,9 @@ export default class IndexContainer extends BaseComponent{
         $t.getData =()=>{
             $t.u.get($t.getBaseUrl('area/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({taskList:bean.list}));
             $t.u.get($t.getBaseUrl('notify/findPage?pageNum=0&pageSize=15'),bean=>$t.setState({notifyList:bean.list}));
-        }
+        };
+
+        $t.openLink = (name,href)=>tabAdd({href,name});
     }
 
     render() {
@@ -76,7 +80,9 @@ export default class IndexContainer extends BaseComponent{
                                 {this.state.notifyList.map(notify=>(
                                     <li key={notify.id}>
                                         <div className="my-task">
-                                            <a href="">{'['+this.u.getDict('sys_notify_type',notify.type)+'] '+notify.title}</a>
+                                            <a href="#" onClick={()=>this.props.tabAdd({href:'/sys/notify/reading',name:'通知查看',data:notify})}>
+                                                {'['+this.u.getDict('sys_notify_type',notify.type)+'] '+notify.title}
+                                            </a>
                                             <span>{notify.createDate}</span>
                                         </div>
                                         <hr/>
@@ -91,6 +97,8 @@ export default class IndexContainer extends BaseComponent{
     }
 }
 
+
+export default connect(state=>({}),dispatch=>({tabAdd:bindActionCreators(tabAdd,dispatch),}))(IndexContainer);
 
 class CountComponent extends BaseComponent{
 
