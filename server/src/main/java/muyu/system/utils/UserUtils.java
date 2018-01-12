@@ -20,12 +20,24 @@ import org.springframework.session.Session;
  */
 public class UserUtils{
 
-	public static final String USER_CACHE = "userCache";
-	public static int onlineCount = 0;
+	private static int onlineCount = 0;
 
 	public static User getUser(){
 		Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return object instanceof SecurityUser? (SecurityUser)object:null;
 	}
 
+	public static void online(){
+		onlineCount++;
+	}
+
+	public static void offline(){
+		if(onlineCount>0){
+			onlineCount--;
+		}
+	}
+
+	public static int getOnlineCount(){
+		return onlineCount;
+	}
 }

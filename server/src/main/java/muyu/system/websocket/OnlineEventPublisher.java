@@ -18,12 +18,12 @@ public class OnlineEventPublisher extends HttpSessionEventPublisher {
     @Override
     public void sessionCreated(HttpSessionEvent event) {
         super.sessionCreated(event);
-        UserUtils.onlineCount++;
+        UserUtils.online();
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
-        UserUtils.onlineCount--;
+        UserUtils.offline();
         super.sessionDestroyed(event);
     }
 }
