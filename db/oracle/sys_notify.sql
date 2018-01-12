@@ -1,20 +1,19 @@
--- Drop table
-drop table SYS_NOTIFY cascade constraints;
 -- Create table
 create table SYS_NOTIFY
 (
-  id          NUMBER(20) not null,
-  title       VARCHAR2(200) not null,
-  type        CHAR(1) not null,
-  content     CLOB not null,
-  user_id     NUMBER(20),
-  status      CHAR(1),
-  create_by   NVARCHAR2(64) not null,
-  create_date TIMESTAMP(6) not null,
-  update_by   NVARCHAR2(64) not null,
-  update_date TIMESTAMP(6) not null,
-  remarks     NVARCHAR2(255),
-  del_flag    CHAR(1) default 0 not null
+  id            NUMBER(20) not null,
+  title         VARCHAR2(200) not null,
+  type          CHAR(1) not null,
+  content       CLOB not null,
+  user_id       NUMBER(20),
+  status        CHAR(1),
+  create_by     NVARCHAR2(64) not null,
+  create_date   TIMESTAMP(6) not null,
+  update_by     NVARCHAR2(64) not null,
+  update_date   TIMESTAMP(6) not null,
+  remarks       NVARCHAR2(255),
+  del_flag      CHAR(1) default '0' not null,
+  browse_volume NUMBER(10) default 0
 )
 tablespace DATA
   pctfree 10
@@ -23,6 +22,7 @@ tablespace DATA
   storage
   (
     initial 64K
+    next 1M
     minextents 1
     maxextents unlimited
   );
@@ -51,3 +51,5 @@ comment on column SYS_NOTIFY.remarks
   is '备注信息';
 comment on column SYS_NOTIFY.del_flag
   is '删除标记';
+comment on column SYS_NOTIFY.browse_volume
+  is '浏览量';
