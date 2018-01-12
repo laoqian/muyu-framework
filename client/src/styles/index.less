@@ -412,10 +412,21 @@ input, select, button {
   i{
     margin-right: 10px;
   }
-  hr{
-    margin: 10px 0;
-    border-top:solid 1px #ccc;
+
+  @media screen and (max-width: 1920px) {
+    hr{
+      margin: 10px 0;
+      border-top:solid 1px #ccc;
+    }
   }
+
+  @media screen and (max-width: 2560px) {
+    hr{
+      margin: 8px 0;
+      border-top:solid 1px #ccc;
+    }
+  }
+
 
   .ant-row .ant-col-6{
     padding:0 5px;
