@@ -22,9 +22,9 @@ import {tabAdd} from '../../../redux/actions/tabs'
 
         $t.regEvent("didMount",()=>{
             $t.getData();
-            setInterval(()=>{
-                $t.getData();
-            },10000);
+            // setInterval(()=>{
+            //     $t.getData();
+            // },10000);
         });
 
         $t.getData =()=>{
@@ -113,9 +113,9 @@ class CountComponent extends BaseComponent{
         this.regEvent("didMount",()=>{
             if(this.props.href){
                 this.getCount();
-                setInterval(()=>{
-                    this.getCount();
-                },10000);
+                // setInterval(()=>{
+                //     this.getCount();
+                // },10000);
             }
         });
 

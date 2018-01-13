@@ -15,14 +15,13 @@ import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,22 @@ public class ProcessService extends BaseService{
     public ResultBean<ProcessDef> get(ProcessDefinition processDefinition) {
         ProcessDefinition process = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult();
         return  new ResultBean<>(new ProcessDef(process));
+    }
+
+    public ResultBean<String> getImage(ProcessDefinition processDefinition) throws IOException {
+        ProcessDefinition process    = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult();
+        InputStream resourceAsStream = repositoryService.getResourceAsStream(process.getDeploymentId(),process.getDiagramResourceName());
+        BASE64Encoder encoder = new BASE64Encoder();
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+
+        byte[] buff = new byte[100];
+        int rc;
+        while ((rc = resourceAsStream.read(buff, 0, 100)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] imageBytes = swapStream.toByteArray();
+
+        return  new ResultBean<>(encoder.encode(imageBytes));
     }
 
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){

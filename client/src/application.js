@@ -32,7 +32,6 @@ class App extends BaseComponent{
                 let Page = require('./modules'+pene.href).default;
                 return <Page data={pene.data}/>;
             }catch(err){
-                console.error(err);
                 return (
                     <div className="my-col-full flex-hvm" >
                         <div >

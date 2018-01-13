@@ -34,7 +34,7 @@ let gridExtend =function(){
 
     $.unformat.sys_dict =function (cellval,options,pos,cnt) {
         return $.unformat.select(cellval,options,pos,cnt);
-    }
+    };
 
     $.jgrid.beforeCreateEl = function(colModel,opt){
         let {edittype,editoptions} = colModel;
@@ -43,7 +43,8 @@ let gridExtend =function(){
             opt.value = colModel.editoptions.value;
             colModel.edittype = 'select';
         }
-    }
+    };
+
 };
 
 

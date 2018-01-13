@@ -16,7 +16,6 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <!--  依赖版本  -->
         <commons-io.version>2.4</commons-io.version>
         <oracle.driver.version>10.2.0.4.0</oracle.driver.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>

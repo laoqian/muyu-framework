@@ -1,5 +1,8 @@
 import {TAB_ADD,TAB_DELETE,TAB_SEL} from './def'
+import store from '../store/configure'
+
 let id = 1;
+
 
 export function tabAdd(data) {
     if(!data.id){
@@ -25,3 +28,11 @@ export function tabSel(data) {
         data,
     }
 }
+
+const tab = {
+    add     :data=>store.dispatch(tabAdd(data))     ,
+    delete  :data=>store.dispatch(tabDelete(data))  ,
+    active  :data=>store.dispatch(tabSel(data))
+};
+
+export default tab;
