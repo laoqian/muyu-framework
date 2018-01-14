@@ -56,9 +56,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     @Autowired
     DataSource dataSource;
 
-    static private SqlSessionFactoryBean sqlSession;
-
-
     @Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
@@ -70,7 +67,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         try {
             bean.setConfigLocation(resolver.getResource("classpath:mybatis-config.xml"));
             bean.setMapperLocations(resolver.getResources("classpath:mapper/**/*.xml"));
-            this.sqlSession = bean;
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();

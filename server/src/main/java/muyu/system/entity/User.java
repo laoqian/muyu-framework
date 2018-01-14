@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import muyu.system.common.persistence.DataEntity;
+import muyu.system.common.tree.TreeNode;
 import muyu.system.validator.CLength;
 import org.assertj.core.util.Lists;
 
@@ -63,7 +64,8 @@ public class User extends DataEntity<User> {
 	private Role role;	// 根据角色查询用户条件
 	
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
-	private List<Menu> menuList = Lists.newArrayList(); // 拥有角色列表
+	private List<Menu> menuList = Lists.newArrayList(); // 用户菜单列表
+	private TreeNode menuTree; // 用户菜单树
 
 	public User(){
 		super();

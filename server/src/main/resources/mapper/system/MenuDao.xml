@@ -81,6 +81,7 @@
         FROM sys_menu a
         WHERE a.id=#{id}
     </select>
+
     <insert id="insert">
         INSERT INTO sys_menu
         (id,

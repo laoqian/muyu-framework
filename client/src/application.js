@@ -20,13 +20,22 @@ const { SubMenu } = Menu;
 class App extends BaseComponent{
     constructor(props) {
         super(props);
-        this.state = {collapsed: false,activeMenu:"1"};
+        this.state = Object.assign(this.state,{collapsed: false,activeNavKey:"1",navList:[]});
         let {tabAdd} = this.props,$t = this,gridExtendInit = gridExtend.bind(this);
+
+        this.regEvent("willUpdate",(props)=>{
+            let {user} = props;
+            if(user.enabled){
+                let {menuList} = user;
+                this.state.navList = _.sortBy(_.filter(menuList, m=>m.parentId === "0"),menu=>menu.sort);
+                this.state.activeNavKey = this.state.navList[0].id.toString();
+            }
+        });
 
         this.onCollapse = collapsed => this.setState({collapsed});
         this.navClick = menu =>this.setState({activeMenu:menu.key});
         this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr => chr.id === menu.key));
-        this.getSubMenuList = id => _.filter(this.props.user.menuList, m => m.parentId === id);
+        this.getSubMenuList = id =>_.sortBy(_.filter(this.props.user.menuList, m => m.parentId === id),menu=>menu.sort);
         this.getPage = pene=>{
             try{
                 let Page = require('./modules'+pene.href).default;
@@ -135,24 +144,22 @@ class App extends BaseComponent{
             </Menu>
         );
 
-       let navList = _.sortBy(this.getSubMenuList("0"),item=>item.sort);
 
         if(!user.enabled){
             return <Login/>
         }else{
             let penes = this.props.tabs.penes;
-
             return (
                 <Layout style={{ minHeight: '100vh' }}>
                     <Header>
                         <div className="my-logo" ><h4>木鱼快速开发框架</h4></div>
                         <Menu
                             mode="horizontal"
-                            defaultSelectedKeys={['1']}
+                            defaultSelectedKeys={[this.state.activeNavKey]}
                             onClick={this.navClick}
                         >
                             {
-                                navList.map((menu)=>(
+                                this.state.navList.map((menu)=>(
                                     <Menu.Item key={menu.id}>
                                         <Icon type={menu.icon} />
                                         {menu.name}
@@ -184,7 +191,7 @@ class App extends BaseComponent{
                                 mode="inline"
                             >
                                 {
-                                    this.getSubMenuList(this.state.activeMenu).map((menu)=>(
+                                    this.getSubMenuList(this.state.activeNavKey).map((menu)=>(
                                         <SubMenu key={menu.id} title={
                                             <span>
                                                 <Icon type={menu.icon}/>
