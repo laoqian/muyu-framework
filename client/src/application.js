@@ -33,9 +33,9 @@ class App extends BaseComponent{
         });
 
         this.onCollapse = collapsed => this.setState({collapsed});
-        this.navClick = menu =>this.setState({activeMenu:menu.key});
-        this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr => chr.id === menu.key));
-        this.getSubMenuList = id =>_.sortBy(_.filter(this.props.user.menuList, m => m.parentId === id),menu=>menu.sort);
+        this.navClick = menu =>this.setState({activeNavKey:menu.key});
+        this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr =>chr.id === menu.key));
+        this.getSubMenuList = id =>_.sortBy(_.filter(this.props.user.menuList,m =>m.parentId === id),menu=>menu.sort);
         this.getPage = pene=>{
             try{
                 let Page = require('./modules'+pene.href).default;

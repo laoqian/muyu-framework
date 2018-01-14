@@ -20,7 +20,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface ActDao extends CrudDao<Act> {
 
-	public int updateProcInsIdByBusinessId(Act act);
+	public int updateProcInsIdByBusinessId(Act task);
 
     void updateRunTasks(@Param("procDefId") String procDefId,
                         @Param("key") String key,

@@ -65,4 +65,8 @@ public class ResultPageBean<T> extends BaseResultBean implements Serializable {
 
     }
 
+    public ResultPageBean(String msg,boolean state){
+        super(msg,state);
+    }
+
 }
