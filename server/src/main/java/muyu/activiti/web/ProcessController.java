@@ -61,4 +61,10 @@ public class ProcessController extends BaseController {
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){
         return  processService.delete(processDefinition);
     }
+
+    @RequestMapping("deleteProcIns")
+    public ResultBean<String> deleteProcIns(String procInsId, String reason){
+        return  processService.deleteProcIns(procInsId,reason);
+    }
+
 }

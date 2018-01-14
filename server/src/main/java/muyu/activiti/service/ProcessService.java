@@ -11,10 +11,12 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,8 @@ public class ProcessService extends BaseService{
     @Autowired
     RepositoryService repositoryService;
 
+    @Autowired
+    RuntimeService runtimeService;
 
     public ResultBean<ProcessDef> get(ProcessDefinition processDefinition) {
         ProcessDefinition process = repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinition.getId()).singleResult();
@@ -111,5 +115,11 @@ public class ProcessService extends BaseService{
         repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
 
         return new ResultBean<>(modelData);
+    }
+
+    @Transactional(readOnly = false)
+    public ResultBean<String> deleteProcIns(String procInsId, String deleteReason) {
+        runtimeService.deleteProcessInstance(procInsId, deleteReason);
+        return new ResultBean<>("删除成功");
     }
 }

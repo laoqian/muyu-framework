@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="muyu.activiti.dao.ActDao">
+    
+	<update id="updateProcInsIdByBusinessId">
+		UPDATE ${businessTable} SET 
+			proc_ins_id = #{procInsId}
+		WHERE id = #{businessId}
+	</update>
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateRunTasks" >
+        <![CDATA[
+			update act_ru_task set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+		]]>
+    </update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateExecutes" >
+        <![CDATA[
+			update act_ru_execution set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+		]]>
+    </update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateJobs" >
+        <![CDATA[
+			update act_ru_job set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+		]]>
+    </update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateIdentitylinks" >
+        <![CDATA[
+			update act_ru_identitylink set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+		]]>
+    </update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateTaskinsts" >
+        <![CDATA[
+			update act_hi_taskinst set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+			 		  and END_TIME_ is null
+		]]>
+    </update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateProcinsts" >
+        <![CDATA[
+			update act_hi_procinst set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+			 and END_TIME_ is null
+		]]></update>
+
+    <!--将流程所有活动任务对应的流程版本更新到最新的版本-->
+    <update id="updateActinsts" >
+        <![CDATA[
+			update act_hi_actinst set PROC_DEF_ID_ = #{procDefId}
+			 	where PROC_DEF_ID_ in (select id_ from act_re_procdef where key_ = #{key} and version_ < #{version})
+			 and END_TIME_ is null
+		]]>
+    </update>
+
+
+
+
+
+</mapper>
