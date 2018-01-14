@@ -2,7 +2,7 @@ import tab from '../../../redux/actions/tabs'
 
 
 window.diagramShow=id=>{
-    tab.add({href:'/act/process/diagram',fixed:true,name:'流程图片',data:{id}});
+    tab.add({href:'/act/process/diagram',name:'流程图片',data:{id}});
 };
 
 let colModel = [
