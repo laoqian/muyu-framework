@@ -44,7 +44,7 @@ let ListComponent = function(){
         if(!$t.editForm){
             throw new Error("未定义编辑表单组件");
         }
-        Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"修改："+row.id});
+        Modal.open(<$t.editForm row={row}/>,{afterOk:$t.reload,title:$t.titlePrefix+"修改-"+row.id});
     });
 
     $t.dialog("添加",row=>{

@@ -51,10 +51,10 @@ export default class MyModal extends Component{
             this.setState({loading:true});
 
             try {
-                await this.okHander();
+                let bean = await this.okHander();
                 let {afterOk} = this.props;
                 if(_.isFunction(afterOk)){
-                    afterOk();
+                    afterOk(bean);
                 }
             }catch (e){
                 throw e;

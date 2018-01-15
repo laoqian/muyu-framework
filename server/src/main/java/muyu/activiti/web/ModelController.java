@@ -4,14 +4,11 @@ import muyu.activiti.service.ModelService;
 import muyu.system.common.beans.ResultBean;
 import muyu.system.common.beans.ResultPageBean;
 import muyu.system.web.BaseController;
-import org.activiti.engine.impl.persistence.entity.ModelEntity;
 import org.activiti.engine.repository.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
@@ -25,6 +22,7 @@ import java.io.UnsupportedEncodingException;
  * @version: 1.0.0
  */
 
+@RolesAllowed("ROLE_SUPER_ADMIN")
 @RestController
 @RequestMapping("${prefixPath}/model/")
 public class ModelController extends BaseController {
@@ -32,9 +30,14 @@ public class ModelController extends BaseController {
     @Autowired
     ModelService modelService;
 
-    @RequestMapping("save")
-    public ResultBean<Model> save(@RequestBody ModelEntity model) throws UnsupportedEncodingException {
-        return modelService.save(model);
+    @GetMapping("create")
+    public ResultBean<Model> create(String name, String key, String description, String category) throws UnsupportedEncodingException {
+        return modelService.create(name, key, description, category);
+    }
+
+    @GetMapping("save")
+    public ResultBean<Model> save(String name, String key, String description, String category) throws UnsupportedEncodingException {
+        return modelService.create(name, key, description, category);
     }
 
     @GetMapping("deploy")
@@ -42,17 +45,17 @@ public class ModelController extends BaseController {
         return modelService.deploy(id);
     }
 
-    @RequestMapping("get")
+    @GetMapping("get")
     public ResultBean<Model> get(Model model){
         return  modelService.get(model);
     }
 
-    @RequestMapping("findPage")
+    @GetMapping("findPage")
     public ResultPageBean<Model> findPage(HttpServletRequest request) {
         return modelService.findPage(request);
     }
 
-    @RequestMapping("delete")
+    @GetMapping("delete")
     public ResultBean<Model> delete(Model model){
        return  modelService.delete(model);
     }

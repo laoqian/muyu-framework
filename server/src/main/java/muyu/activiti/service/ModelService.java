@@ -10,12 +10,14 @@ import muyu.system.common.beans.ResultPageBean;
 import muyu.system.common.service.BaseService;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ModelEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,18 +46,30 @@ public class ModelService extends BaseService{
     @Autowired
     ActDao actDao;
 
-    public ResultBean<Model> save(@RequestBody ModelEntity model) throws UnsupportedEncodingException {
-
-        model.setVersion(1);
-        repositoryService.saveModel(model);
-
-        //完善ModelEditorSource
+    public ResultBean<Model> create(String name, String key, String description, String category) throws UnsupportedEncodingException {
         ObjectNode editorNode = objectMapper.createObjectNode();
         editorNode.put("id", "canvas");
         editorNode.put("resourceId", "canvas");
-        ObjectNode stencilSetNode = objectMapper.createObjectNode();
-        stencilSetNode.put("namespace","http://b3mn.org/stencilset/bpmn2.0#");
-        editorNode.set("stencilset", stencilSetNode);
+        ObjectNode properties = objectMapper.createObjectNode();
+        properties.put("process_author", "deeevilyu");
+        editorNode.set("properties", properties);
+        ObjectNode stencilset = objectMapper.createObjectNode();
+        stencilset.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
+        editorNode.set("stencilset", stencilset);
+
+        Model model = repositoryService.newModel();
+        model.setKey(StringUtils.defaultString(key));
+        model.setName(name);
+        model.setCategory(category);
+        model.setVersion(Integer.parseInt(String.valueOf(repositoryService.createModelQuery().modelKey(model.getKey()).count()+1)));
+
+        ObjectNode modelObjectNode = objectMapper.createObjectNode();
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, name);
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, model.getVersion());
+        modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION,StringUtils.defaultString(description));
+        model.setMetaInfo(modelObjectNode.toString());
+
+        repositoryService.saveModel(model);
         repositoryService.addModelEditorSource(model.getId(),editorNode.toString().getBytes("utf-8"));
 
         return new ResultBean<>(model);

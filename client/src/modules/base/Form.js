@@ -161,31 +161,22 @@ let FormComponent = function (){
         return rows;
     };
 
-    $t.defaultSaveData = (url,type,beforeSave,afterSave) => {
+    $t.defaultSaveData = (url,type,beforeSave) => {
         let {validateFields} = $t.props.form;
+        return new Promise((resolve,reject)=>{
+            validateFields((err,values) => {
+                if (!err) {
+                    let data;
+                    $t.state.editData = Object.assign($t.state.editData||{}, values);
+                    data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
+                    u[type||'post']($t.getBaseUrl(url||'save'),data,function(data) {
+                        u[data.success()?'success':'error'](data.msg);
+                        data.success()?resolve(data):reject(data);
+                    })
+                }
+            });
+        })
 
-        validateFields((err,values) => {
-            if (!err) {
-                let data;
-
-                $t.state.editData = Object.assign($t.state.editData||{}, values);
-
-                data =_.isFunction(beforeSave)? beforeSave($t.state.editData):$t.state.editData;
-
-                u[type||'post']($t.getBaseUrl(url||'save'),data,function(data) {
-                    u[data.success()?'success':'error'](data.msg);
-
-                    if(_.isFunction(afterSave)){
-                        afterSave(data)
-                    }
-
-                    let grid = $t.props.grid;
-                    if(grid && data.success()){
-                        grid.trigger('reloadGrid');
-                    }
-                })
-            }
-        });
     };
 
     $t.regEvent('willMount',()=>{

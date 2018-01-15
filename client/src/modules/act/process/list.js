@@ -7,7 +7,7 @@ import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'
 
 
-export default class SysModel extends BaseComponent{
+ class ActProcess extends BaseComponent{
 
     constructor(props){
         super(props);
@@ -41,11 +41,20 @@ export default class SysModel extends BaseComponent{
             right :{
                 items :[
                     {name: '启动'      ,  icon: 'plus',       },
-                    {name: '转为模型'  ,   icon: 'rollback',   },
                     {name: '删除'      ,  icon: 'delete',     },
                 ]
             }
         };
+
+        $t.regEvent("willMount",()=>{
+            let {user} = this.props;
+            if(user && user.enabled){
+                let role = _.find(user.roleList,role=>role.ename==="SUPER_ADMIN");
+                if(role){
+                    $t.toolBarOptions.right.items.push({name: '转为模型'  ,   icon: 'rollback',   });
+                }
+            }
+        });
 
         $t.confirm('转为模型',row=>`确定将流程-${row.name}转为模型吗？`,row=>$t.getWithTip("/toModel?id="+row.id));
     }
@@ -60,3 +69,6 @@ export default class SysModel extends BaseComponent{
     }
 }
 
+export default connect(state=>({
+    user        :   state.user,
+}),dispatch=>({}))(ActProcess);
