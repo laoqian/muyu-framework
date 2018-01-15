@@ -20,22 +20,23 @@ const { SubMenu } = Menu;
 class App extends BaseComponent{
     constructor(props) {
         super(props);
-        this.state = Object.assign(this.state,{collapsed: false,activeNavKey:"1",navList:[]});
+        this.state = Object.assign(this.state,{collapsed: false,activeNav:null,navList:[],activeNavKey:null});
         let {tabAdd} = this.props,$t = this,gridExtendInit = gridExtend.bind(this);
 
         this.regEvent("willUpdate",(props)=>{
             let {user} = props;
             if(user.enabled){
-                let {menuList} = user;
-                this.state.navList = _.sortBy(_.filter(menuList, m=>m.parentId === "0"),menu=>menu.sort);
-                this.state.activeNavKey = this.state.navList[0].id.toString();
+                let {menuTree} = user;
+                this.state.navList = menuTree.children;
+                this.state.activeNav = this.state.navList[0];
+                this.state.activeNavKey = this.state.activeNav.node.id;
             }
         });
 
         this.onCollapse = collapsed => this.setState({collapsed});
-        this.navClick = menu =>this.setState({activeNavKey:menu.key});
-        this.handleClick = menu => tabAdd(_.find(this.props.user.menuList, chr =>chr.id === menu.key));
-        this.getSubMenuList = id =>_.sortBy(_.filter(this.props.user.menuList,m =>m.parentId === id),menu=>menu.sort);
+        this.navClick  = menu=>this.setState({activeNav:_.find(this.state.navList,chr =>chr.node.id === menu.key)});
+        this.menuClick = menu =>tabAdd(_.find(this.props.user.menuList,chr =>chr.id === menu.key));
+
         this.getPage = pene=>{
             try{
                 let Page = require('./modules'+pene.href).default;
@@ -160,8 +161,8 @@ class App extends BaseComponent{
                         >
                             {
                                 this.state.navList.map((menu)=>(
-                                    <Menu.Item key={menu.id}>
-                                        <Icon type={menu.icon} />
+                                    <Menu.Item key={menu.node.id}>
+                                        <Icon type={menu.node.icon} />
                                         {menu.name}
                                     </Menu.Item>
                                 ))
@@ -185,23 +186,19 @@ class App extends BaseComponent{
                                  onCollapse={this.onCollapse}
                         >
                             <Menu
-                                onClick={this.handleClick}
+                                onClick={this.menuClick}
                                 defaultSelectedKeys={['1']}
                                 defaultOpenKeys={['1']}
                                 mode="inline"
                             >
                                 {
-                                    this.getSubMenuList(this.state.activeNavKey).map((menu)=>(
-                                        <SubMenu key={menu.id} title={
+                                    this.state.activeNav.children.map((menu)=>(
+                                        <SubMenu key={menu.node.id} title={
                                             <span>
-                                                <Icon type={menu.icon}/>
-                                                <span>{menu.name}</span>
+                                                <Icon type={menu.node.icon}/>
+                                                <span>{menu.node.name}</span>
                                             </span>}>
-                                            {
-                                                this.getSubMenuList(menu.id).map((sub)=>(
-                                                    <Menu.Item key={sub.id}>{sub.name}</Menu.Item>
-                                                ))
-                                            }
+                                            { menu.children.map((sub)=>(<Menu.Item key={sub.node.id}>{sub.node.name}</Menu.Item>)) }
                                         </SubMenu>
                                     ))
                                 }
@@ -259,7 +256,7 @@ if (__DEV__) {
     );
 
     Perf.start();
-    setTimeout(()=>{
+    setInterval(()=>{
         Perf.printInclusive();
     },10000);
 } else {

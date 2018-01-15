@@ -2,18 +2,15 @@ package muyu.system.common.tree;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.persistence.TreeEntity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -53,13 +50,26 @@ public class TreeNode implements Serializable{
         return this.node !=null?this.node.toString():"";
     }
 
+    @Override
     public int hashCode(){
         return this.node !=null?this.node.hashCode():0;
     }
 
-    public static TreeNode createTree(String rootId,List<?> list){
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TreeNode treeNode = (TreeNode) o;
+
+        return node.equals(treeNode.node);
+    }
+
+    public static TreeNode createTree(String rootId, List<?> list){
         TreeNode root = new TreeNode(rootId);
-        addChild(root,list);
+        List<Object> nodeList = new LinkedList<>();
+        nodeList.addAll(list);
+        addChild(root,nodeList);
         return root;
     }
 
@@ -73,9 +83,11 @@ public class TreeNode implements Serializable{
                 list.remove(i--);
             }
         }
-
-        if(!list.isEmpty() && !p.children.isEmpty()){
-            p.getChildren().forEach(c->addChild(c,list));
+        if(!p.children.isEmpty()){
+            p.children = p.children.stream().sorted(Comparator.comparingInt(s->s.getNode().getSort())).collect(Collectors.toList());
+            if(!list.isEmpty()){
+                p.getChildren().forEach(c->addChild(c,list));
+            }
         }
     }
 
@@ -95,7 +107,7 @@ public class TreeNode implements Serializable{
         root.getChildren().forEach(TreeNode::print);
     }
 
-    public void upgrade(Set ids){
+    public void upgrade(Set<String> ids){
         for(int i=0;i<this.children.size();i++){
             TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
@@ -110,7 +122,7 @@ public class TreeNode implements Serializable{
         }
     }
 
-    public void degrade(Set ids){
+    public void degrade(Set<String> ids){
         for(int i=0;i<this.children.size();i++){
             TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
@@ -125,7 +137,7 @@ public class TreeNode implements Serializable{
         }
     }
 
-    public void up(Set ids){
+    public void up(Set<String> ids){
         for(int i=0;i<this.children.size();i++){
             TreeNode c = this.children.get(i);
             if(ids.contains(c.getId())){
@@ -139,7 +151,7 @@ public class TreeNode implements Serializable{
         }
     }
 
-    public void down(Set ids){
+    public void down(Set<String> ids){
 
         for(int i=this.children.size()-1;i>=0;i--){
             TreeNode c = this.children.get(i);
