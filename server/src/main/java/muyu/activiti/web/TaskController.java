@@ -41,4 +41,9 @@ public class TaskController extends BaseController {
         return actTaskService.findPage(act,request);
     }
 
+    @RequestMapping("claim")
+    public ResultBean<String> claim(Act act) {
+        return actTaskService.claim(act.getTaskId(),act.getAssignee());
+    }
+
 }
