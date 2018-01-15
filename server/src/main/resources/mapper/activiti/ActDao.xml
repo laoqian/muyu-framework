@@ -64,9 +64,4 @@
 			 and END_TIME_ is null
 		]]>
     </update>
-
-
-
-
-
 </mapper>
