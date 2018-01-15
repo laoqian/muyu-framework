@@ -2,12 +2,15 @@ package muyu.system.common.tree;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import muyu.system.common.persistence.DataEntity;
 import muyu.system.common.persistence.TreeEntity;
+
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +24,8 @@ import java.util.Set;
  * @version: 1.0.0
  */
 @Data
-public class TreeNode{
+public class TreeNode implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @JsonIgnore
     private String id;
@@ -47,6 +51,10 @@ public class TreeNode{
     @Override
     public String toString() {
         return this.node !=null?this.node.toString():"";
+    }
+
+    public int hashCode(){
+        return this.node !=null?this.node.hashCode():0;
     }
 
     public static TreeNode createTree(String rootId,List<?> list){

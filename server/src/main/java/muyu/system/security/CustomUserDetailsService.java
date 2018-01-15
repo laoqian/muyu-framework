@@ -1,5 +1,6 @@
 package muyu.system.security;
 
+import muyu.system.common.tree.TreeNode;
 import muyu.system.dao.MenuDao;
 import muyu.system.dao.RoleDao;
 import muyu.system.dao.UserDao;
@@ -49,6 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService{
                 List<Menu> menuList = menuDao.findList(menu);
 
                 securityUser.setMenuList(menuList);
+                securityUser.setMenuTree(TreeNode.createTree("0",menuList));
             }
         }
 

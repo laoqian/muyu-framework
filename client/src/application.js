@@ -130,6 +130,7 @@ class App extends BaseComponent{
 
     render() {
         let user = this.props.user;
+
         const dropMenu = (
             <Menu onClick={this.dropClick}>
                 <Menu.Item key="set">
@@ -143,7 +144,6 @@ class App extends BaseComponent{
                 </Menu.Item>
             </Menu>
         );
-
 
         if(!user.enabled){
             return <Login/>
@@ -245,7 +245,9 @@ App =  connect(state=>(
 
 
 if (__DEV__) {
-    let DevTools = require('./layouts/dev-tools')
+    let DevTools = require('./layouts/dev-tools');
+    window.Perf = require('react-addons-perf');
+
     render(
         <Provider store={store}>
             <div>
@@ -255,6 +257,11 @@ if (__DEV__) {
         </Provider>,
         document.getElementById('root')
     );
+
+    Perf.start();
+    setTimeout(()=>{
+        Perf.printInclusive();
+    },10000);
 } else {
     render(
         <Provider store={store}>

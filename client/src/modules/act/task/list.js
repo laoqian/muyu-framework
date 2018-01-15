@@ -16,7 +16,7 @@ export default class SysModel extends BaseComponent{
         let $t = this;
 
         $t.extend("List");
-        $t.baseUrl     = '/api/model/';
+        $t.baseUrl     = '/api/task/';
         $t.titlePrefix = "模型";
         $t.moduleName  = 'sysModel';
         $t.editForm = ModelForm;
