@@ -20,12 +20,12 @@ const { SubMenu } = Menu;
 class App extends BaseComponent{
     constructor(props) {
         super(props);
-        this.state = Object.assign(this.state,{collapsed: false,activeNav:null,navList:[],activeNavKey:null});
+        this.state = Object.assign(this.state,{collapsed: false,activeNav:null,navList:null,activeNavKey:null});
         let {tabAdd} = this.props,$t = this,gridExtendInit = gridExtend.bind(this);
 
         this.regEvent("willUpdate",(props)=>{
             let {user} = props;
-            if(user.enabled){
+            if(user.enabled && this.state.navList===null){
                 let {menuTree} = user;
                 this.state.navList = menuTree.children;
                 this.state.activeNav = this.state.navList[0];
@@ -243,7 +243,6 @@ App =  connect(state=>(
 
 if (__DEV__) {
     let DevTools = require('./layouts/dev-tools');
-    window.Perf = require('react-addons-perf');
 
     render(
         <Provider store={store}>
@@ -255,10 +254,6 @@ if (__DEV__) {
         document.getElementById('root')
     );
 
-    Perf.start();
-    setInterval(()=>{
-        Perf.printInclusive();
-    },10000);
 } else {
     render(
         <Provider store={store}>
