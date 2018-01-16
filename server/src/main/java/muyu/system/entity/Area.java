@@ -4,10 +4,9 @@ package muyu.system.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import muyu.system.common.persistence.DataEntity;
+
 import muyu.system.common.persistence.TreeEntity;
 
-import java.util.Date;
 
 /**
  * 千山鸟飞绝，万径人踪灭。

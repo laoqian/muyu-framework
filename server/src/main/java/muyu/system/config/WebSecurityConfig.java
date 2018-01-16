@@ -7,13 +7,12 @@ import muyu.system.security.CustomUserDetailsService;
 import muyu.system.security.SecurityUser;
 import muyu.system.service.UserService;
 import muyu.system.utils.*;
-import muyu.system.entity.Menu;
-import muyu.system.service.MenuService;
 import muyu.system.websocket.OnlineEventPublisher;
+import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,12 +30,9 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 千山鸟飞绝，万径人踪灭。
@@ -50,6 +46,7 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled=true,jsr250Enabled = true)
+@AutoConfigureAfter(MybatisAutoConfiguration.class)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private class LogoutSucessHandle implements LogoutSuccessHandler{
