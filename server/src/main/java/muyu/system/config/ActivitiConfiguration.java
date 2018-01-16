@@ -41,7 +41,7 @@ import java.io.IOException;
 @Configuration
 @AutoConfigureBefore(DataSourceProcessEngineAutoConfiguration.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
-public class JpaProcessEngineAutoConfiguration {
+public class ActivitiConfiguration {
 
     @Configuration
     @ConditionalOnClass(name= "javax.persistence.EntityManagerFactory")
@@ -65,7 +65,9 @@ public class JpaProcessEngineAutoConfiguration {
             config.setIdGenerator(new IdUtils());
             config.setJobExecutorActivate(false);/*关闭定时任务*/
             config.setAsyncExecutorActivate(false);/*关闭异步定时任务*/
-
+            config.setActivityFontName("宋体");
+            config.setLabelFontName("宋体");
+            config.setAnnotationFontName("宋体");
             return config;
         }
     }

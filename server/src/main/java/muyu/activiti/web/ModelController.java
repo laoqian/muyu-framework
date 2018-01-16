@@ -35,11 +35,6 @@ public class ModelController extends BaseController {
         return modelService.create(name, key, description, category);
     }
 
-    @GetMapping("save")
-    public ResultBean<Model> save(String name, String key, String description, String category) throws UnsupportedEncodingException {
-        return modelService.create(name, key, description, category);
-    }
-
     @GetMapping("deploy")
     public ResultBean deploy(String id) throws Exception {
         return modelService.deploy(id);

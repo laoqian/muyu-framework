@@ -43,7 +43,7 @@ public class ProcessDef extends DataEntity<ProcessDef> implements ProcessDefinit
         this.setDescription(processDefinition.getDescription());
         this.setVersion(processDefinition.getVersion());
         this.setKey(processDefinition.getKey());
-        this.setCategory(processDefinition.getCategory());
+
         this.setDiagramResourceName(processDefinition.getDiagramResourceName());
 
         this.setResourceName(processDefinition.getResourceName());
@@ -51,6 +51,7 @@ public class ProcessDef extends DataEntity<ProcessDef> implements ProcessDefinit
         RepositoryService repositoryService = ContextUtils.getBean(RepositoryService.class);
         Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
         this.setCreateDate(deployment.getDeploymentTime());
+        this.setCategory(deployment.getCategory());
         this.setName(deployment.getName());
     }
 

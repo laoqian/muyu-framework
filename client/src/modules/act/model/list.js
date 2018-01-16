@@ -44,9 +44,8 @@ export default class SysModel extends BaseComponent{
             right:{
                 items :[
                     {name: '添加', icon: 'plus',    },
-                    {name: '修改', icon: 'edit',    },
                     {name: '编辑', icon: 'edit',    },
-                    {name: '发布', icon: 'edit',    },
+                    {name: '发布', icon: 'rocket',  },
                     {name: '删除', icon: 'delete',  },
                 ]
             }

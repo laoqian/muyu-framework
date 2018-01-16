@@ -13,6 +13,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.stream.XMLStreamException;
@@ -52,16 +53,19 @@ public class ProcessController extends BaseController {
         return processService.findPage(request);
     }
 
+    @RolesAllowed("ROLE_SUPER_ADMIN")
     @RequestMapping("toModel")
     public ResultBean<Model> toModel(String id) throws UnsupportedEncodingException, XMLStreamException {
         return processService.toModel(id);
     }
 
+    @RolesAllowed("ROLE_SUPER_ADMIN")
     @RequestMapping("delete")
     public ResultBean<ProcessDefinition> delete(ProcessDefinition processDefinition){
         return  processService.delete(processDefinition);
     }
 
+    @RolesAllowed("ROLE_SUPER_ADMIN")
     @RequestMapping("deleteProcIns")
     public ResultBean<String> deleteProcIns(String procInsId, String reason){
         return  processService.deleteProcIns(procInsId,reason);

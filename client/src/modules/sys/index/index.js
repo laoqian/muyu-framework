@@ -58,7 +58,7 @@ import {tabAdd} from '../../../redux/actions/tabs'
                                 <a href="#" >代办任务&nbsp;(Top{this.pageSize})</a>
                         </Col>
                         <Col span={12}>
-                            <Icon type="tag" />
+                            <Icon type="notification" />
                             <a href="#" >通知/公告&nbsp;(Top{this.pageSize})</a>
                         </Col>
                     </Row>
