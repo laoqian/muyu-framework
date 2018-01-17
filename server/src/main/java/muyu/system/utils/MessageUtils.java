@@ -25,11 +25,11 @@ public class MessageUtils {
     private static long second = 0;
     private static final int MSG_INTERVAL_SECOND = 3;
     private static final int MSG_SEND_MAX = 3;
-    private static final SimpMessageSendingOperations smsp = ContextUtils.getBean(SimpMessageSendingOperations.class);
-    private static final List<Message> MsgList = new ArrayList<>();
+    private static final SimpMessageSendingOperations SMSP = ContextUtils.getBean(SimpMessageSendingOperations.class);
+    private static final List<Message> MSG_LIST = new ArrayList<>();
 
     public static void addMsg(String msg){
-            MsgList.add(new Message(msg));
+            MSG_LIST.add(new Message(msg));
     }
 
     public static void instantMessageLoop(){
@@ -37,11 +37,11 @@ public class MessageUtils {
             return;
         }
 
-        for(int i=0;i<MsgList.size();i++){
-            Message message = MsgList.get(i);
-            smsp.convertAndSend("/topic/instantMessage",message.getMsg());
+        for(int i=0;i<MSG_LIST.size();i++){
+            Message message = MSG_LIST.get(i);
+            SMSP.convertAndSend("/topic/instantMessage",message.getMsg());
             if(message.increase()>=MSG_SEND_MAX){
-                MsgList.remove(i--);
+                MSG_LIST.remove(i--);
             }
         }
     }

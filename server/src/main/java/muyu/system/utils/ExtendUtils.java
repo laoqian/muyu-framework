@@ -27,7 +27,7 @@ public class ExtendUtils {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        Pattern pattern = Pattern.compile("([A-Za-z\\d]+)(_)?");
+        final Pattern pattern = Pattern.compile("([A-Za-z\\d]+)(_)?");
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
             String word = matcher.group();
@@ -48,7 +48,7 @@ public class ExtendUtils {
         }
         line = String.valueOf(line.charAt(0)).toUpperCase().concat(line.substring(1));
         StringBuilder sb = new StringBuilder();
-        Pattern pattern = Pattern.compile("[A-Z]([a-z\\d]+)?");
+        final Pattern pattern = Pattern.compile("[A-Z]([a-z\\d]+)?");
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
             String word = matcher.group();

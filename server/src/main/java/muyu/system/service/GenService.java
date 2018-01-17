@@ -129,6 +129,8 @@ public class GenService extends CrudService<GenDao,Table>{
             case 3:
                 genServerCode(request,batchBean);
                 genClientCode(request,batchBean);
+                break;
+            default:
         }
 
         return new ResultBean<>();

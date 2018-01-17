@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService{
+public class CustomUserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
     UserDao userDao;

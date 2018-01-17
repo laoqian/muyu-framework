@@ -50,7 +50,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
   @ResponseStatus(value = HttpStatus.OK)
   public void saveModel(@PathVariable String modelId
           , String name, String description
-          , String json_xml, String svg_xml) {
+          , String jsonXml, String svgXml) {
     try {
       
       Model model = repositoryService.getModel(modelId);
@@ -64,9 +64,9 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
       
       repositoryService.saveModel(model);
       
-      repositoryService.addModelEditorSource(model.getId(), json_xml.getBytes("utf-8"));
+      repositoryService.addModelEditorSource(model.getId(), jsonXml.getBytes("utf-8"));
       
-      InputStream svgStream = new ByteArrayInputStream(svg_xml.getBytes("utf-8"));
+      InputStream svgStream = new ByteArrayInputStream(svgXml.getBytes("utf-8"));
       TranscoderInput input = new TranscoderInput(svgStream);
       
       PNGTranscoder transcoder = new PNGTranscoder();

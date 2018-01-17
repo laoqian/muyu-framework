@@ -27,7 +27,7 @@ public class BaseController {
 
     @ResponseBody
     @ExceptionHandler(Exception.class)
-    public ResultBean<String> ExceptionHandler(Exception ex) throws JsonProcessingException {
+    public ResultBean<String> exceptionHandler(Exception ex) throws JsonProcessingException {
         ResultBean<String> resultBean ;
 
         if (ex instanceof MaxUploadSizeExceededException) {

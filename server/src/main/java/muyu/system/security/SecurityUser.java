@@ -31,11 +31,11 @@ public class SecurityUser extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        List<SimpleGrantedAuthority> List = new LinkedList<>();
-        this.getRoleList().forEach(role -> List.add(new SimpleGrantedAuthority("ROLE_"+role.getEname())));
-        this.getMenuList().stream().filter(menu -> menu.getPermission()!=null).forEach(menu -> List.add(new SimpleGrantedAuthority(menu.getPermission())));
+        List<SimpleGrantedAuthority> list = new LinkedList<>();
+        this.getRoleList().forEach(role -> list.add(new SimpleGrantedAuthority("ROLE_"+role.getEname())));
+        this.getMenuList().stream().filter(menu -> menu.getPermission()!=null).forEach(menu -> list.add(new SimpleGrantedAuthority(menu.getPermission())));
 
-        return List;
+        return list;
     }
 
     @JsonIgnore

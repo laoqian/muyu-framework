@@ -27,7 +27,9 @@ public class NotifyService  extends CrudService<NotifyDao,Notify> {
 
     @Override
     public ResultBean<Notify> save(Notify notify) {
-        if(notify.getType().equals("4")) MessageUtils.addMsg(notify.getContent());
+        if("4".equals(notify.getType())) {
+            MessageUtils.addMsg(notify.getContent());
+        }
 
         return super.save(notify);
     }

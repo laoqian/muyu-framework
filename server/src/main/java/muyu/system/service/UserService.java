@@ -50,7 +50,7 @@ public class UserService extends CrudService<UserDao,User>{
             return bean;
         }
 
-        if(user.getLoginName().equals("yu")){
+        if("yu".equals(user.getLoginName())){
             bean.setData( menuDao.findTree("0"));
         }else{
             List<UserRole> userRoleList = dao.findUserRoleList(userId);
