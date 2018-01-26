@@ -16,8 +16,8 @@ let colModel = [
 
 colModel[0].editoptions = {};
 colModel[0].editoptions.change = function(data){
-    this.getGrid().setGridParam({postData: {tableName:data.value}});
-    this.getGrid().trigger('reloadGrid');
+    this.grid.setGridParam({postData: {tableName:data.value}});
+    this.grid.trigger('reloadGrid');
 };
 
 

@@ -2,22 +2,22 @@ import React from 'react'
 import {connect} from 'react-redux'
 import ToolBar from '../../../layouts/toolBar'
 import JqgridWrapper from '../../grid/index'
-import GenTableEdit from './edit'
 import {findDOMNode} from 'react-dom';
 import BaseComponent from "../../base/BaseComponent";
 import colModel from './colModel'
+import Modal from "../../base/Modal"
+import GenEditForm from './edit'
 
 class GenTable extends BaseComponent{
 
     constructor(props){
         super(props);
-        let $t = this;
+        let $t = this,u= $t.u;
 
         $t.extend("List");
         $t.baseUrl    = '/api/gen/'  ;
         $t.titlePrefix = "代码生成";
         $t.moduleName = 'sysGen';
-        $t.editForm = GenTableEdit;
         $t.setGridInitParam({
             url:$t.getBaseUrl('findPage'),
             gridName:this.moduleName,
@@ -40,12 +40,20 @@ class GenTable extends BaseComponent{
             reload:true,
             right:{
                 items :[
-                    {name: '添加',icon: 'plus',   },
+                    {name: '新建',icon: 'plus',   },
                     {name: '删除',con:  'delete', },
                     {name: '修改',icon: 'edit',   },
                 ]
             }
         };
+
+        $t.regEvent("didMount",()=>{
+            $t.dialog("新建",()=>{
+                u.get($t.getBaseUrl('getTableList'),(bean)=>{
+                    Modal.open(<GenEditForm tableList={bean.data} parentGrid={this.grid}/>)
+                })
+            });
+        });
     }
 
     render() {

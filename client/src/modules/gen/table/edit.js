@@ -3,10 +3,8 @@ import {connect}        from 'react-redux'
 import {Form, Modal}    from 'antd';
 import JqgridWrapper    from '../../grid/index'
 import BaseComponent    from "../../base/BaseComponent";
-import u                from '../../../utils'
 import colModel         from './colModel'
 import tableColModel    from './tableColModel'
-import {List}           from 'immutable'
 
 class GenEditForm extends BaseComponent {
     constructor(props) {
@@ -16,7 +14,7 @@ class GenEditForm extends BaseComponent {
         $t.extend("List", "Form");
         $t.baseUrl = '/api/gen/';
         $t.moduleName = '业务表';
-        $t.state.colModel = List(colModel).toJS();
+        $t.state.colModel = colModel;
 
         $t.setGridInitParam({
             url: $t.getBaseUrl('findTableColumn'),
@@ -32,7 +30,7 @@ class GenEditForm extends BaseComponent {
         $t.saveData = () => {
             let list;
             $t.saveEditList();
-            list = $t.getGrid().getRowData(null, true);
+            list = $t.grid.getRowData(null, true);
             $t.defaultSaveData('saveBatch', 'post', data => ({data, list}), () => {
                 let {grid} = $t.props.location;
                 if (grid) {
@@ -47,7 +45,7 @@ class GenEditForm extends BaseComponent {
             let {getFieldValue} = $t.props.form;
             let name = getFieldValue('name');
             name =name?name:$t.state.editData.name;
-            $t.getGrid().setGridParam({postData: {genTableId:$t.state.editData.id,tableName:name}});
+            // $t.grid.setGridParam({postData: {genTableId:$t.state.editData.id,tableName:name}});
         };
 
 
@@ -59,31 +57,27 @@ class GenEditForm extends BaseComponent {
         };
 
         $t.loadTableInfo = (tableName) => {
-            let grid = $t.getGrid();
+            let grid = $t.grid;
             grid.setGridParam({postData: {tableName}});
             grid.trigger('reloadGrid');
         };
 
+        $t.regEvent("willMount",()=>{
+            let value = [],column = colModel[0];
+
+            $t.props.tableList.forEach(op => {
+                value.push({value: op, label: op});
+            });
+
+            if (!column.editoptions) {
+                column.editoptions = {};
+            }
+
+            column.editoptions.value = value;
+        });
+
         $t.regEvent('didMount', () => {
             $t.register($t.props.form);
-            u.get($t.getBaseUrl('getTableList'), (bean) => {
-                if (bean.success()) {
-                    let column = _.find(colModel, col => col.name === 'name');
-                    if (column) {
-                        let value = [];
-                        bean.data.forEach(op => {
-                            value.push({value: op, label: op});
-                        });
-
-                        if (!column.editoptions) {
-                            column.editoptions = {};
-                        }
-
-                        column.editoptions.value = value;
-                        $t.setState({colModel: List(colModel).toJS()});
-                    }
-                }
-            });
         })
     }
 
